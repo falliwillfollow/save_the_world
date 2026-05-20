@@ -153,6 +153,8 @@ The current viewer also loads the generated optimizer artifacts when available. 
 
 The Cycle panel demonstrates the intended usability loop: run one simulated year in about 20 seconds, review the recommended change, submit it, and run the next cycle. If `examples/generated/micro_commons_cycle_iteration.json` exists, the next cycle switches to the applied runtime bundle from that report.
 
+The Involuntary Labor panel shows the current optimization direction: reduce mandatory commons upkeep after food, water, shelter, sanitation, and critical energy dignity floors are protected. The remaining capacity is not total free time, because the simulator intentionally does not yet model food preparation choices, sleep quality, self-education, outside work, private household labor, or voluntary social contribution.
+
 ## Common Commands
 
 Validate a file or directory:
@@ -180,6 +182,30 @@ py -3.10 -m ciac module-compatibility examples/generated/micro_commons_plan.json
 ```
 
 The registry describes the default posture for water, food, energy, and sanitation, then lists the interfaces a research module must satisfy to become drag-and-drop. AI tooling can later use the registry's research queries to scan recent papers, extract performance statistics, and draft candidate modules without weakening the default dignity floor.
+
+Generate evidence-search briefs from model bottlenecks:
+
+```powershell
+py -3.10 -m ciac research-needs examples/generated/micro_commons_plan.json examples/generated/micro_commons_simulation.json --module-registry module_registries/micro_commons_default_v0.yaml --output examples/generated/micro_commons_research_needs.json
+```
+
+The first generated brief is `food_local_production_gap_v0`: the greenhouse produces food, but not enough to prevent annual staple-reserve drawdown. The output is meant to become the prompt/input for AI-assisted literature discovery.
+
+Draft a provisional technology module from that brief with OpenAI:
+
+```powershell
+py -3.10 -m ciac draft-research-module examples/generated/micro_commons_research_needs.json --output examples/generated/food_local_production_gap_draft_module.json
+```
+
+This command reads `OPENAI_API_KEY` from the environment and uses the Responses API. It defaults to `gpt-5.5`, can be overridden with `--model` or `CIAC_OPENAI_MODEL`, and may use web search unless `--no-web-search` is passed. Drafted modules are still provisional and must pass validation and scalability gates before they can affect optimization.
+
+Evaluate whether a discovered module can scale inside CIaC:
+
+```powershell
+py -3.10 -m ciac scalability-gate examples/generated/micro_commons_plan.json tech_modules/agrivoltaic_shade_pasture_water_efficiency.yaml --module-registry module_registries/micro_commons_default_v0.yaml --output examples/generated/agrivoltaic_shade_pasture_water_efficiency_scalability_gate.json
+```
+
+The agrivoltaics seed has published evidence and preserves dignity floors, but currently fails scalability because CIaC lacks edible-serving, labor, and crop-specific adapter interfaces for it. That is intentional: research can suggest modules, but modules must pass gates before optimization can use them.
 
 Evaluate subsystem plans:
 

@@ -342,3 +342,11 @@ This makes optimizer scoring inspectable and challengeable. It does not make the
 The first weight governance profile mirrors the current `minimum_dignity_v0` objective weights, but marks them as draft. The generated report is `not_ratified`, with promotion blocked, because resident consent and professional review have not started. That is intentional: CIaC can now represent governance approval without pretending it has happened.
 
 This completes the optimizer control loop as a software/data contract: search, rank, calibrate, and then block unratified recommendations. It does not make the current demo weights approved.
+
+## Sprint 50 OpenAI Research Drafting Hook
+
+`ciac draft-research-module` turns a generated `ResearchNeedReport` into a provisional `TechnologyModule` draft using the OpenAI Responses API.
+
+The command reads `OPENAI_API_KEY` from the environment, keeps the call explicit, and can use web search to gather evidence for source fields and performance statistics. The output must still validate as a `TechnologyModule`, and scalability gates remain the stop condition before any AI-drafted module can affect optimization.
+
+This is an evidence-gathering assist, not an authority path. AI drafts do not replace citations, source review, resident consent, professional review, or CIaC's dignity-floor constraints.

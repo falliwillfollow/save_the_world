@@ -122,6 +122,7 @@ def _timeline(simulation_run: dict[str, Any]) -> dict[str, Any]:
         "scenario_context": simulation_run.get("scenario_context", {}),
         "resource_balance": simulation_run["resource_balance"],
         "storage": simulation_run.get("storage", {}),
+        "labor": simulation_run.get("labor", {}),
         "event_timeline": simulation_run.get("timeline", []),
         "daily_states": [_daily_state_for_viewer(state) for state in simulation_run.get("daily_states", [])],
         "provisional": True,
@@ -147,6 +148,7 @@ def _daily_state_for_viewer(state: dict[str, Any]) -> dict[str, Any]:
             "backlog_count": state["maintenance_state"]["backlog_count"],
             "status": state["maintenance_state"]["status"],
         },
+        "labor": state.get("labor", {}),
         "scenario_events": state.get("scenario_events", []),
         "storage": {
             resource: {

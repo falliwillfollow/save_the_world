@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from .audit import evaluate_audit
+from .ai_research import OpenAIConfigurationError, OpenAIResponseError, draft_technology_module
 from .candidates import generate_candidate_matrix
 from .compare import compare_audits
 from .compiler import CompileError, compile_plan, load_patterns
@@ -21,6 +22,7 @@ from .objective_calibration import evaluate_objective_calibration
 from .optimization import evaluate_optimization_readiness
 from .optimizer import optimize_candidates
 from .redesign import generate_redesign
+from .research import evaluate_scalability_gate, generate_research_needs
 from .replay_matrix import build_replay_matrix
 from .review import evaluate_review_status
 from .roles import evaluate_roles
@@ -237,6 +239,25 @@ def main(argv: list[str] | None = None) -> int:
     module_parser.add_argument("--technology-module", action="append", default=[])
     module_parser.add_argument("--output", "-o")
 
+    research_parser = subparsers.add_parser("research-needs", help="Emit research briefs for bottlenecks that need evidence-backed modules")
+    research_parser.add_argument("compiled_plan")
+    research_parser.add_argument("simulation")
+    research_parser.add_argument("--module-registry")
+    research_parser.add_argument("--output", "-o")
+
+    scalability_parser = subparsers.add_parser("scalability-gate", help="Evaluate whether a technology module is ready to scale in simulation")
+    scalability_parser.add_argument("compiled_plan")
+    scalability_parser.add_argument("technology_module")
+    scalability_parser.add_argument("--module-registry")
+    scalability_parser.add_argument("--output", "-o")
+
+    draft_module_parser = subparsers.add_parser("draft-research-module", help="Use OpenAI to draft a provisional TechnologyModule from a research brief")
+    draft_module_parser.add_argument("research_need_report")
+    draft_module_parser.add_argument("--need-id")
+    draft_module_parser.add_argument("--model")
+    draft_module_parser.add_argument("--no-web-search", action="store_true")
+    draft_module_parser.add_argument("--output", "-o")
+
     args = parser.parse_args(argv)
     if args.command == "validate":
         return _validate(args.path)
@@ -300,6 +321,12 @@ def main(argv: list[str] | None = None) -> int:
         return _technology_pressure_test(args.compiled_plan, args.technology_module, args.output)
     if args.command == "module-compatibility":
         return _module_compatibility(args.compiled_plan, args.module_registry, args.technology_module, args.output)
+    if args.command == "research-needs":
+        return _research_needs(args.compiled_plan, args.simulation, args.module_registry, args.output)
+    if args.command == "scalability-gate":
+        return _scalability_gate(args.compiled_plan, args.technology_module, args.module_registry, args.output)
+    if args.command == "draft-research-module":
+        return _draft_research_module(args)
     return 2
 
 
@@ -836,4 +863,86 @@ def _module_compatibility(
         print(f"Wrote {Path(output)}")
     else:
         print(dump_json(report), end="")
+    return 0
+
+
+def _research_needs(
+    compiled_plan_path: str,
+    simulation_path: str,
+    module_registry_path: str | None,
+    output: str | None,
+) -> int:
+    registry = load_data(module_registry_path) if module_registry_path else None
+    if registry is not None:
+        registry_report = validate_data(registry, module_registry_path or "<module-registry>")
+        if not registry_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+            print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+            return 2
+    report = generate_research_needs(load_data(compiled_plan_path), load_data(simulation_path), registry)
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 0
+
+
+def _scalability_gate(
+    compiled_plan_path: str,
+    technology_module_path: str,
+    module_registry_path: str | None,
+    output: str | None,
+) -> int:
+    module = load_data(technology_module_path)
+    module_report = validate_data(module, technology_module_path)
+    if not module_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in module_report.issues)
+        print(f"ERROR: Invalid technology module: {details}", file=sys.stderr)
+        return 2
+    registry = load_data(module_registry_path) if module_registry_path else None
+    if registry is not None:
+        registry_report = validate_data(registry, module_registry_path or "<module-registry>")
+        if not registry_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+            print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+            return 2
+    report = evaluate_scalability_gate(load_data(compiled_plan_path), module, registry)
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "fail" else 0
+
+
+def _draft_research_module(args: argparse.Namespace) -> int:
+    report = load_data(args.research_need_report)
+    report_validation = validate_data(report, args.research_need_report)
+    if not report_validation.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in report_validation.issues)
+        print(f"ERROR: Invalid research need report: {details}", file=sys.stderr)
+        return 2
+    try:
+        module = draft_technology_module(
+            report,
+            need_id=args.need_id,
+            model=args.model,
+            include_web_search=not args.no_web_search,
+        )
+    except (OpenAIConfigurationError, OpenAIResponseError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+
+    module_validation = validate_data(module, "drafted-technology-module")
+    if not module_validation.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in module_validation.issues)
+        print(f"ERROR: Drafted technology module failed validation: {details}", file=sys.stderr)
+        return 2
+
+    if args.output:
+        write_json(args.output, module)
+        print(f"Wrote {Path(args.output)}")
+    else:
+        print(dump_json(module), end="")
     return 0

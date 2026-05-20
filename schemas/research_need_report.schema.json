@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/research_need_report.schema.json",
+  "title": "ResearchNeedReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "compiled_plan",
+    "simulation_run",
+    "needs",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ResearchNeedReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["no_research_needed", "needs_research", "blocked_by_model_gap"] },
+    "compiled_plan": { "type": "string" },
+    "simulation_run": { "type": "string" },
+    "needs": { "type": "array", "items": { "type": "object" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

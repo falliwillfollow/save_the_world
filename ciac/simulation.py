@@ -969,6 +969,11 @@ def _labor_summary(compiled_plan: dict[str, Any], maintenance: dict[str, Any], d
     average_available_daily = sum(float(state["labor"]["available_commons_hours"]) for state in daily_states) / days if days else 0.0
     available_weekly = average_available_daily * 7
     utilization = weekly_hours / available_weekly if available_weekly else 999.0
+    remaining_weekly = max(0.0, available_weekly - weekly_hours)
+    remaining_per_resident_weekly = remaining_weekly / population if population else remaining_weekly
+    available_per_resident_daily = (available_weekly / population / 7) if population else available_weekly / 7
+    pursuit_hours_per_resident_daily = remaining_per_resident_weekly / 7
+    required_minutes_per_resident_daily = (per_resident / 7) * 60
     status = "pass"
     if per_resident > 12 or utilization > 1:
         status = "fail"
@@ -988,6 +993,20 @@ def _labor_summary(compiled_plan: dict[str, Any], maintenance: dict[str, Any], d
         "care_hours_per_week": population_context["care_hours_per_week"],
         "protected_labor_hours_per_week": population_context["protected_labor_hours_per_week"],
         "estimated_hours_per_resident_per_week": round(per_resident, 3),
+        "labor_objective": "minimize_involuntary_commons_labor_after_dignity_floors",
+        "modeled_involuntary_labor_minutes_per_resident_per_day": round(required_minutes_per_resident_daily, 3),
+        "modeled_discretionary_commons_capacity_hours_per_resident_per_day": round(pursuit_hours_per_resident_daily, 3),
+        "modeled_discretionary_commons_capacity_hours_per_resident_per_week": round(remaining_per_resident_weekly, 3),
+        "modeled_discretionary_commons_capacity_hours_total_per_week": round(remaining_weekly, 3),
+        "modeled_required_commons_minutes_per_resident_per_day": round(required_minutes_per_resident_daily, 3),
+        "modeled_available_commons_hours_per_resident_per_day": round(available_per_resident_daily, 3),
+        "modeled_personal_pursuit_hours_per_resident_per_day": round(pursuit_hours_per_resident_daily, 3),
+        "modeled_personal_pursuit_hours_per_resident_per_week": round(remaining_per_resident_weekly, 3),
+        "modeled_personal_pursuit_hours_total_per_week": round(remaining_weekly, 3),
+        "modern_workday_reference_hours_per_day": 8,
+        "modeled_required_commons_vs_modern_workday_ratio": round((required_minutes_per_resident_daily / 60) / 8, 3),
+        "personal_pursuit_time_basis": "Remaining declared commons-labor capacity after modeled infrastructure maintenance, recovery, emergency, and runtime-failure response work. This is not total free time.",
+        "involuntary_labor_basis": "Modeled infrastructure upkeep required to keep dignity-floor systems operating. Food preparation, sleep, education, outside work, private household labor, and voluntary social contribution are intentionally unstated.",
         "status": status,
         "thresholds": {
             "warn_above_hours_per_resident_per_week": 8,

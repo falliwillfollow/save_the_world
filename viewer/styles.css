@@ -33,11 +33,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 16px 22px;
+  gap: 18px;
+  padding: 12px 18px;
   background: #17212f;
   color: #ffffff;
-  border-bottom: 4px solid #d69a2d;
+  border-bottom: 3px solid #d69a2d;
 }
 
 h1,
@@ -47,7 +47,7 @@ p {
 }
 
 h1 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -65,7 +65,9 @@ h2 {
 .actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 button,
@@ -79,9 +81,9 @@ select {
 
 button,
 .file-button {
-  height: 36px;
+  height: 32px;
   min-width: 44px;
-  padding: 0 14px;
+  padding: 0 12px;
   cursor: pointer;
 }
 
@@ -106,10 +108,10 @@ button:disabled {
 
 .shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 390px;
-  gap: 16px;
-  padding: 16px;
-  height: calc(100vh - 73px);
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 12px;
+  padding: 12px;
+  height: calc(100vh - 61px);
 }
 
 .map-panel,
@@ -121,7 +123,7 @@ button:disabled {
 .map-panel {
   min-height: 0;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
 }
 
 .panel-heading {
@@ -129,7 +131,7 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -193,6 +195,38 @@ button:disabled {
   background-size: 36px 36px;
 }
 
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: #fbfcfe;
+}
+
+.kpi {
+  min-height: 52px;
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  background: #ffffff;
+  padding: 8px 10px;
+}
+
+.kpi span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.kpi strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
 .route-layer {
   position: absolute;
   inset: 0;
@@ -210,13 +244,13 @@ button:disabled {
 
 .zone {
   position: absolute;
-  width: 190px;
+  width: 176px;
   min-height: 98px;
   transform: translate(-50%, -50%);
   border: 2px solid #9fb2c8;
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 12px 24px rgba(23, 33, 47, 0.12);
-  padding: 10px;
+  padding: 9px;
 }
 
 .zone h3 {
@@ -265,16 +299,18 @@ button:disabled {
   min-height: 0;
   overflow: auto;
   display: grid;
-  gap: 12px;
+  gap: 10px;
   align-content: start;
+  padding-right: 2px;
 }
 
-.inspector section {
-  padding: 12px;
+.inspector section,
+.diagnostics {
+  padding: 10px;
 }
 
 .inspector h2 {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 #daySlider {
@@ -283,21 +319,21 @@ button:disabled {
 
 .step-buttons {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .cycle-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .progress-track {
   height: 10px;
-  margin-top: 10px;
+  margin-top: 8px;
   background: #dce4ee;
   overflow: hidden;
 }
@@ -319,6 +355,11 @@ button:disabled {
 
 .metric-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compact-metrics {
+  gap: 6px;
+  margin-top: 8px;
 }
 
 .family-grid {
@@ -347,8 +388,43 @@ button:disabled {
 .event-row,
 .metric {
   border: 1px solid var(--line);
-  padding: 8px;
+  padding: 7px;
   background: #fbfcfe;
+}
+
+.compact-list {
+  gap: 6px;
+}
+
+.compact-list .resource-row {
+  padding: 7px;
+}
+
+.primary-card {
+  border-left: 3px solid #b5c2d1;
+}
+
+.diagnostics {
+  background: transparent;
+  border: 1px dashed #b5c2d1;
+}
+
+.diagnostics summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  list-style-position: inside;
+}
+
+.diagnostics section {
+  margin-top: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.metric-wide {
+  grid-column: 1 / -1;
 }
 
 .foundation-check {
@@ -373,8 +449,8 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 5px;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -405,7 +481,8 @@ button:disabled {
 
 .small {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 select {
@@ -423,6 +500,10 @@ select {
 
   .map-stage {
     min-height: 620px;
+  }
+
+  .kpi-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .topbar {

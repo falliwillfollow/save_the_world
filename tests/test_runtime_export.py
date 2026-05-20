@@ -64,6 +64,10 @@ class RuntimeExportTests(unittest.TestCase):
         self.assertEqual(first_day["day"], 1)
         self.assertIn("water_liters", first_day["resources"])
         self.assertIn("deferred_count", first_day["maintenance"])
+        self.assertIn("labor", bundle["timeline"])
+        self.assertIn("modeled_involuntary_labor_minutes_per_resident_per_day", bundle["timeline"]["labor"])
+        self.assertIn("modeled_personal_pursuit_hours_per_resident_per_day", bundle["timeline"]["labor"])
+        self.assertIn("hours_per_resident", first_day["labor"])
         self.assertIn("scenario_events", first_day)
         self.assertNotIn("maintenance_events", first_day)
 

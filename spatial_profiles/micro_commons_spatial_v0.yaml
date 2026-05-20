@@ -10,10 +10,15 @@ zones:
     access: [emergency_vehicle, delivery, accessible_path]
     notes: Provisional route zone, not a surveyed driveway or fire access plan.
   - id: commons_core
-    purpose: Shared kitchen, bathhouse, gathering, and daily commons activity.
-    hazards: [crowding, food_safety, hygiene]
+    purpose: Shared kitchen, staple reserve, gathering, and daily commons activity.
+    hazards: [crowding, food_safety]
     access: [accessible_path, daily_resident_access]
-    notes: Should remain easy to reach from dwellings and service access.
+    notes: Food-facing commons functions remain easy to reach from dwellings and service access while hygiene functions are separated.
+  - id: hygiene_core
+    purpose: Shared bathhouse, handwashing, and hygiene support separated from food storage and preparation.
+    hazards: [wet_floor, hygiene, public_health]
+    access: [accessible_path, daily_resident_access, service_path]
+    notes: Provisional split from commons core to reduce food/hygiene conflict; public-health and accessibility review still required.
   - id: residential_edge
     purpose: Starter dwellings and protected private household space.
     hazards: [privacy_conflict, moisture, egress]
@@ -49,7 +54,7 @@ placements:
     hazard_flags: [privacy, egress, moisture]
     notes: Aggregate footprint placeholder for five starter dwelling units.
   - pattern_id: shared_bathhouse
-    zone_id: commons_core
+    zone_id: hygiene_core
     footprint_m2: 45
     access_needs: [accessible_path, daily_resident_access, service_path]
     adjacent_to: [starter_dwelling, composting_system, well_house]
@@ -153,6 +158,14 @@ routes:
     accessible: true
     emergency_access: true
     notes: Provisional accessible spine to shared facilities.
+  - id: access_to_hygiene
+    from_zone: access_lane
+    to_zone: hygiene_core
+    route_type: hygiene_access
+    distance_m: 50
+    accessible: true
+    emergency_access: true
+    notes: Provisional accessible route to shared bathhouse and hygiene support.
   - id: access_to_residential
     from_zone: access_lane
     to_zone: residential_edge
@@ -169,6 +182,22 @@ routes:
     accessible: true
     emergency_access: true
     notes: Water testing and maintenance route.
+  - id: hygiene_to_water
+    from_zone: hygiene_core
+    to_zone: water_yard
+    route_type: service_path
+    distance_m: 30
+    accessible: true
+    emergency_access: true
+    notes: Provisional service route between bathhouse and water testing/service area.
+  - id: hygiene_to_sanitation
+    from_zone: hygiene_core
+    to_zone: sanitation_service
+    route_type: restricted_service_path
+    distance_m: 65
+    accessible: false
+    emergency_access: false
+    notes: Provisional sanitation service path; not a verified setback or code route.
   - id: commons_to_food
     from_zone: commons_core
     to_zone: food_garden

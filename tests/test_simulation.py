@@ -161,6 +161,13 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(first_day["resources"]["food_servings"]["consumption"], 36)
         self.assertEqual(first_day["resources"]["water_liters"]["consumption"], 1149.5)
         self.assertEqual(run["labor"]["care_hours_per_week"], 41)
+        self.assertEqual(run["labor"]["modeled_available_commons_hours_per_resident_per_day"], 1)
+        self.assertEqual(run["labor"]["labor_objective"], "minimize_involuntary_commons_labor_after_dignity_floors")
+        self.assertGreater(run["labor"]["modeled_involuntary_labor_minutes_per_resident_per_day"], 0)
+        self.assertIn("intentionally unstated", run["labor"]["involuntary_labor_basis"])
+        self.assertGreater(run["labor"]["modeled_personal_pursuit_hours_per_resident_per_day"], 0)
+        self.assertGreater(run["labor"]["modeled_required_commons_minutes_per_resident_per_day"], 0)
+        self.assertIn("not total free time", run["labor"]["personal_pursuit_time_basis"])
 
     def test_scenario_failures_reduce_runtime_resource_output(self) -> None:
         plan = compile_plan(self.site, self.patterns)

@@ -9,6 +9,7 @@ const zonePositions = {
   access_lane: { x: 10, y: 48 },
   residential_edge: { x: 31, y: 23 },
   commons_core: { x: 50, y: 43 },
+  hygiene_core: { x: 57, y: 27 },
   water_yard: { x: 73, y: 37 },
   sanitation_service: { x: 86, y: 66 },
   energy_workshop_yard: { x: 27, y: 72 },
@@ -24,18 +25,19 @@ const state = {
   cycleReport: null,
   day: 1,
   selectedSystem: "",
-  selectedScenarioIndex: 0,
-  playing: false,
-  playTimer: null,
+  selectedScenarioIndex: -1,
   cycle: {
     number: 1,
     running: false,
+    paused: false,
     completed: false,
     reviewOpen: false,
     submitted: false,
     appliedCandidate: "",
     startMs: 0,
+    elapsedBeforePauseMs: 0,
     durationMs: 20000,
+    timer: null,
   },
 };
 
@@ -60,19 +62,21 @@ const elements = {
   submitChange: document.querySelector("#submitChange"),
   nextCycle: document.querySelector("#nextCycle"),
   layoutStatus: document.querySelector("#layoutStatus"),
+  runtimeKpis: document.querySelector("#runtimeKpis"),
   mapStage: document.querySelector("#mapStage"),
   routeLayer: document.querySelector("#routeLayer"),
   zoneLayer: document.querySelector("#zoneLayer"),
   dayOutput: document.querySelector("#dayOutput"),
   daySlider: document.querySelector("#daySlider"),
   prevDay: document.querySelector("#prevDay"),
-  playDays: document.querySelector("#playDays"),
   nextDay: document.querySelector("#nextDay"),
+  snapshotSummary: document.querySelector("#snapshotSummary"),
   systemDetails: document.querySelector("#systemDetails"),
   failureReasons: document.querySelector("#failureReasons"),
   resourceList: document.querySelector("#resourceList"),
   storageList: document.querySelector("#storageList"),
   maintenanceSummary: document.querySelector("#maintenanceSummary"),
+  pursuitSummary: document.querySelector("#pursuitSummary"),
   failureList: document.querySelector("#failureList"),
   scenarioSelect: document.querySelector("#scenarioSelect"),
   scenarioSummary: document.querySelector("#scenarioSummary"),
@@ -91,7 +95,6 @@ elements.daySlider.addEventListener("input", event => {
   renderDay();
 });
 elements.prevDay.addEventListener("click", () => setDay(state.day - 1));
-elements.playDays.addEventListener("click", togglePlayback);
 elements.nextDay.addEventListener("click", () => setDay(state.day + 1));
 elements.runCycle.addEventListener("click", runYearCycle);
 elements.reviewChange.addEventListener("click", reviewCycleChange);
@@ -230,8 +233,8 @@ function setBundle(bundle) {
   state.bundle = bundle;
   state.day = 1;
   state.selectedSystem = "";
-  state.selectedScenarioIndex = 0;
-  stopPlayback();
+  state.selectedScenarioIndex = -1;
+  stopCycleTimer();
   resetCycleState();
   const days = bundle.timeline?.days || bundle.timeline?.daily_states?.length || 1;
   elements.daySlider.max = String(days);
@@ -250,6 +253,7 @@ function renderAll() {
   renderFoundation();
   renderOptimization();
   renderCycle();
+  renderRuntimeKpis();
   renderLayout();
   renderDay();
   renderScenarios();
@@ -258,50 +262,87 @@ function renderAll() {
 }
 
 function resetCycleState() {
+  stopCycleTimer();
   state.cycle.number = 1;
   state.cycle.running = false;
+  state.cycle.paused = false;
   state.cycle.completed = false;
   state.cycle.reviewOpen = false;
   state.cycle.submitted = false;
   state.cycle.appliedCandidate = "";
   state.cycle.startMs = 0;
+  state.cycle.elapsedBeforePauseMs = 0;
 }
 
 function runYearCycle() {
   if (!state.bundle) return;
-  stopPlayback();
+  if (state.cycle.running) {
+    pauseCycle();
+    return;
+  }
   const max = state.bundle.timeline?.daily_states?.length || 1;
-  const intervalMs = Math.max(20, Math.floor(state.cycle.durationMs / max));
+  if (state.cycle.paused && !state.cycle.completed) {
+    resumeCycle(max);
+    return;
+  }
+  startCycle(max);
+}
+
+function startCycle(max) {
+  stopCycleTimer();
   state.cycle.running = true;
+  state.cycle.paused = false;
   state.cycle.completed = false;
   state.cycle.reviewOpen = false;
   state.cycle.submitted = false;
   state.cycle.startMs = Date.now();
+  state.cycle.elapsedBeforePauseMs = 0;
   setDay(1);
-  state.playing = true;
-  elements.playDays.textContent = "Pause";
   elements.reviewChange.disabled = true;
   elements.submitChange.disabled = true;
   elements.nextCycle.disabled = true;
-  state.playTimer = window.setInterval(() => {
-    const elapsedMs = Date.now() - state.cycle.startMs;
+  startCycleTimer(max);
+  renderCycle();
+}
+
+function resumeCycle(max) {
+  state.cycle.running = true;
+  state.cycle.paused = false;
+  state.cycle.startMs = Date.now();
+  startCycleTimer(max);
+  renderCycle();
+}
+
+function pauseCycle() {
+  state.cycle.elapsedBeforePauseMs += Date.now() - state.cycle.startMs;
+  state.cycle.running = false;
+  state.cycle.paused = true;
+  stopCycleTimer();
+  renderCycle();
+}
+
+function startCycleTimer(max) {
+  const intervalMs = Math.max(20, Math.floor(state.cycle.durationMs / max));
+  state.cycle.timer = window.setInterval(() => {
+    const elapsedMs = state.cycle.elapsedBeforePauseMs + Date.now() - state.cycle.startMs;
     const progress = Math.min(1, elapsedMs / state.cycle.durationMs);
     const day = Math.max(1, Math.ceil(progress * max));
     setDay(day);
     if (progress >= 1 || day >= max) completeCycle();
   }, intervalMs);
-  renderCycle();
 }
 
 function completeCycle() {
   if (!state.bundle) return;
   const max = state.bundle.timeline?.daily_states?.length || 1;
+  stopCycleTimer();
   state.cycle.running = false;
+  state.cycle.paused = false;
   state.cycle.completed = true;
   state.cycle.reviewOpen = false;
   state.cycle.submitted = false;
+  state.cycle.elapsedBeforePauseMs = 0;
   setDay(max);
-  stopPlayback();
   renderCycle();
 }
 
@@ -356,12 +397,14 @@ function renderCycle() {
   elements.reviewChange.disabled = !state.cycle.completed;
   elements.submitChange.disabled = !state.cycle.completed || !state.cycle.reviewOpen || !operatorSubmitAllowed();
   elements.nextCycle.disabled = !state.cycle.submitted;
-  elements.runCycle.disabled = state.cycle.running;
+  elements.runCycle.disabled = false;
+  elements.runCycle.textContent = state.cycle.running ? "Pause" : state.cycle.paused ? "Resume" : "Run Year";
   elements.cycleSummary.innerHTML = cycleSummaryMarkup(selected, max);
 }
 
 function cycleStatus() {
   if (state.cycle.running) return "running";
+  if (state.cycle.paused) return "paused";
   if (state.cycle.submitted) return "change_staged";
   if (state.cycle.reviewOpen) return "reviewing";
   if (state.cycle.completed) return "recommendation_ready";
@@ -375,6 +418,14 @@ function cycleSummaryMarkup(selected, max) {
       <div class="event-row status-border-warn">
         <div class="event-title"><span>${cycleLabel}</span><span>${state.day} / ${max}</span></div>
         <div class="small">Accelerated playback target: one simulated year in about ${Math.round(state.cycle.durationMs / 1000)} seconds.</div>
+      </div>
+    `;
+  }
+  if (state.cycle.paused) {
+    return `
+      <div class="event-row status-border-warn">
+        <div class="event-title"><span>${cycleLabel}</span><span>${state.day} / ${max}</span></div>
+        <div class="small">The simulated year is paused. Resume continues from the current day.</div>
       </div>
     `;
   }
@@ -515,6 +566,7 @@ function renderOptimization() {
   const statusClass = optimizationStatusClass(status);
   elements.optimizationStatus.textContent = label(status);
   elements.optimizationStatus.className = `status-chip status-${statusClass}`;
+  const changed = (selected?.parameter_deltas || []).filter(delta => Number(delta.delta || 0) !== 0);
   elements.optimizationSummary.innerHTML = `
     <div class="event-row status-border-${statusClass}">
       <div class="event-title">
@@ -523,16 +575,15 @@ function renderOptimization() {
       </div>
       <div class="small">${selected?.selection_rationale || "No selected candidate available."}</div>
     </div>
-    <div class="metric-grid">
+    <div class="metric-grid compact-metrics">
       ${metric("searched", search.candidate_count)}
       ${metric("viable", search.viable_candidate_count)}
-      ${metric("rejected", search.rejected_candidate_count)}
       ${metric("score", selected?.aggregate_score)}
+      ${metric("changes", changed.length)}
     </div>
-    ${selected ? optimizationFamilyLevels(selected) : ""}
     ${current ? optimizationComparison(selected, current) : ""}
-    ${calibration ? calibrationSummary(calibration) : detailRow("calibration", "Objective calibration report not loaded.")}
-    ${governance ? governanceSummary(governance) : detailRow("governance", "Weight governance report not loaded.")}
+    ${calibration ? detailRow("calibration", `${label(calibration.status)} | ${calibration.uncalibrated_score_count || 0} uncalibrated`) : detailRow("calibration", "not loaded")}
+    ${governance ? detailRow("governance", `${label(governance.status)} | promotion ${String(governance.promotion_allowed)}`) : detailRow("governance", "not loaded")}
     ${bindingConstraintRows(search)}
   `;
 }
@@ -647,6 +698,7 @@ function renderFoundation() {
   elements.foundationStatus.textContent = label(report.status);
   elements.foundationStatus.className = `status-chip status-${statusClass}`;
   const checks = report.checks || [];
+  const priorityChecks = checks.filter(check => check.status !== "pass");
   const summary = report.artifact_summary || {};
   elements.foundationSummary.innerHTML = `
     <div class="event-row">
@@ -654,9 +706,9 @@ function renderFoundation() {
         <span>${report.ready_for_visual_buildout ? "visual buildout gate" : "hold visual buildout"}</span>
         <span class="status-chip status-${statusClass}">${label(report.status)}</span>
       </div>
-      <div class="small">baseline ${summary.baseline_days || 0} days | matrix ${label(summary.replay_matrix_status)} | scenarios ${summary.runtime_scenario_count || 0}</div>
+      <div class="small">baseline ${summary.baseline_days || 0} days | scenarios ${summary.runtime_scenario_count || 0} | ${priorityChecks.length} warning item(s)</div>
     </div>
-    ${checks.map(check => `
+    ${priorityChecks.slice(0, 4).map(check => `
       <div class="event-row foundation-check status-border-${check.status}">
         <div class="event-title">
           <span>${label(check.id)}</span>
@@ -664,7 +716,7 @@ function renderFoundation() {
         </div>
         <div class="small">${check.evidence}</div>
       </div>
-    `).join("")}
+    `).join("") || `<div class="event-row small">No foundation warnings are active.</div>`}
     <div class="event-row small">This gate is not safety, permit, public-health, engineering, or consent approval.</div>
   `;
 }
@@ -686,26 +738,9 @@ function setDay(day) {
   renderDay();
 }
 
-function togglePlayback() {
-  if (state.playing) {
-    stopPlayback();
-    return;
-  }
-  state.playing = true;
-  elements.playDays.textContent = "Pause";
-  state.playTimer = window.setInterval(() => {
-    const max = state.bundle?.timeline?.daily_states?.length || 1;
-    setDay(state.day >= max ? 1 : state.day + 1);
-  }, 450);
-}
-
-function stopPlayback() {
-  if (state.playTimer) window.clearInterval(state.playTimer);
-  state.playTimer = null;
-  state.playing = false;
-  if (state.cycle.running) state.cycle.running = false;
-  elements.playDays.textContent = "Play";
-  renderCycle();
+function stopCycleTimer() {
+  if (state.cycle.timer) window.clearInterval(state.cycle.timer);
+  state.cycle.timer = null;
 }
 
 function renderLayout() {
@@ -784,17 +819,54 @@ function renderDay() {
   if (!day) return;
 
   elements.dayOutput.textContent = `${day.day} / ${bundle.timeline.days}`;
+  renderRuntimeKpis(day);
+  renderSnapshot(day);
   renderResources(day);
   renderStorage(day);
   renderMaintenance(day);
+  renderPursuit(day);
   renderFailures(day);
   renderSystemDetails();
   renderFailureReasons();
   renderCycle();
 }
 
+function renderRuntimeKpis(day = null) {
+  const bundle = state.bundle;
+  if (!bundle) {
+    elements.runtimeKpis.innerHTML = "";
+    return;
+  }
+  const currentDay = day || bundle.timeline.daily_states[state.day - 1] || {};
+  const labor = bundle.timeline?.labor || {};
+  const resources = currentDay.resources || {};
+  const status = bundle.manifest?.status?.simulation || bundle.timeline?.simulation_status || "provisional";
+  elements.runtimeKpis.innerHTML = [
+    kpi("status", label(status), status),
+    kpi("day", `${currentDay.day || state.day}/${bundle.timeline?.days || 1}`, "info"),
+    kpi("water", resourceKpi(resources.water_liters), resources.water_liters?.status),
+    kpi("food", resourceKpi(resources.food_servings), resources.food_servings?.status),
+    kpi("energy", resourceKpi(resources.energy_kwh), resources.energy_kwh?.status),
+    kpi("labor", `${formatNumber(labor.modeled_involuntary_labor_minutes_per_resident_per_day)} min/day`, labor.status),
+  ].join("");
+}
+
+function renderSnapshot(day) {
+  const maintenance = day.maintenance || {};
+  const failures = (day.active_failures || []).length + selectedScenarioFailuresForDay(day.day).length;
+  elements.snapshotSummary.innerHTML = [
+    metric("maint h", maintenance.required_hours),
+    metric("backlog", maintenance.backlog_count),
+    metric("failures", failures),
+    metric("unmet", (day.unmet_needs || []).length),
+  ].join("");
+}
+
 function renderResources(day) {
-  const resources = Object.entries(day.resources || {});
+  const priority = ["water_liters", "food_servings", "energy_kwh", "labor_hours"];
+  const resources = priority
+    .filter(name => day.resources?.[name])
+    .map(name => [name, day.resources[name]]);
   elements.resourceList.innerHTML = resources.map(([name, summary]) => {
     const magnitude = Math.min(100, Math.abs(Number(summary.net || 0)));
     return `
@@ -846,6 +918,24 @@ function renderMaintenance(day) {
     metric("deferred", maintenance.deferred_count),
     metric("backlog", maintenance.backlog_count),
     metric("status", maintenance.status),
+  ].join("");
+}
+
+function renderPursuit(day) {
+  const labor = state.bundle?.timeline?.labor || {};
+  const dailyLabor = day.labor || {};
+  const involuntaryMinutes = labor.modeled_involuntary_labor_minutes_per_resident_per_day
+    ?? labor.modeled_required_commons_minutes_per_resident_per_day;
+  const discretionaryHours = labor.modeled_discretionary_commons_capacity_hours_per_resident_per_day
+    ?? labor.modeled_personal_pursuit_hours_per_resident_per_day;
+  const discretionaryWeekly = labor.modeled_discretionary_commons_capacity_hours_per_resident_per_week
+    ?? labor.modeled_personal_pursuit_hours_per_resident_per_week;
+  elements.pursuitSummary.innerHTML = [
+    metric("required min/day", involuntaryMinutes),
+    metric("capacity h/day", discretionaryHours),
+    metric("capacity h/week", discretionaryWeekly),
+    metric("today h/person", dailyLabor.hours_per_resident),
+    `<div class="metric metric-wide"><div class="small">Mandatory upkeep only. Food preparation, sleep, education, and voluntary work stay outside this model.</div></div>`,
   ].join("");
 }
 
@@ -913,17 +1003,31 @@ function renderSystemDetails() {
 
 function renderScenarios() {
   const scenarios = state.bundle?.scenarios || [];
-  elements.scenarioSelect.innerHTML = scenarios.map((scenario, index) => (
-    `<option value="${index}">${label(scenario.scenario)} | ${scenario.status}</option>`
-  )).join("");
+  elements.scenarioSelect.innerHTML = [
+    `<option value="-1">Baseline | normal year</option>`,
+    ...scenarios.map((scenario, index) => (
+      `<option value="${index}">${label(scenario.scenario)} | ${scenario.status}</option>`
+    )),
+  ].join("");
+  elements.scenarioSelect.value = String(state.selectedScenarioIndex);
   renderScenario();
 }
 
 function renderScenario() {
   const scenarios = state.bundle?.scenarios || [];
-  const scenario = scenarios[Number(elements.scenarioSelect.value || 0)];
+  const selectedIndex = Number(elements.scenarioSelect.value ?? -1);
+  const scenario = selectedIndex >= 0 ? scenarios[selectedIndex] : null;
   if (!scenario) {
-    elements.scenarioSummary.innerHTML = `<div class="event-row small">No scenario runs bundled.</div>`;
+    const status = state.bundle?.timeline?.simulation_status || state.bundle?.manifest?.status?.simulation || "provisional";
+    elements.scenarioSummary.innerHTML = `
+      <div class="event-row status-border-${statusClass(status)}">
+        <div class="event-title">
+          <span>baseline normal year</span>
+          <span class="status-chip status-${statusClass(status)}">${label(status)}</span>
+        </div>
+        <div class="small">Scenario overlays are off. Map colors show baseline system warnings only.</div>
+      </div>
+    `;
     return;
   }
   const failures = scenario.runtime_failures || [];
@@ -986,6 +1090,21 @@ function metric(name, value) {
       <div class="event-title"><span>${label(name)}</span><span>${formatNumber(value)}</span></div>
     </div>
   `;
+}
+
+function kpi(name, value, status = "provisional") {
+  return `
+    <div class="kpi status-border-${statusClass(status)}">
+      <span>${label(name)}</span>
+      <strong>${value}</strong>
+    </div>
+  `;
+}
+
+function resourceKpi(resource) {
+  if (!resource) return "n/a";
+  if (Number(resource.unmet_demand || 0) > 0) return `${formatNumber(resource.unmet_demand)} unmet`;
+  return formatNumber(resource.ending_balance);
 }
 
 function detailRow(name, value) {
@@ -1070,6 +1189,13 @@ function optimizationStatusClass(status) {
 
 function cycleStatusClass(status) {
   if (status === "change_staged") return "pass";
-  if (["recommendation_ready", "reviewing", "running"].includes(status)) return "warn";
+  if (["recommendation_ready", "reviewing", "running", "paused"].includes(status)) return "warn";
+  return "provisional";
+}
+
+function statusClass(status) {
+  if (["pass", "ready", "ratified"].includes(status)) return "pass";
+  if (["warn", "warning", "ready_with_warnings", "running", "paused", "reviewing", "recommendation_ready"].includes(status)) return "warn";
+  if (["fail", "error", "failure", "not_ratified", "blocked"].includes(status)) return "fail";
   return "provisional";
 }
