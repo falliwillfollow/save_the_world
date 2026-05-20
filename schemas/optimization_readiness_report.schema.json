@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/optimization_readiness_report.schema.json",
+  "title": "OptimizationReadinessReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "pattern_count",
+    "tunable_pattern_count",
+    "objective_count",
+    "constraint_count",
+    "pattern_readiness",
+    "locked_parameters",
+    "readiness_gaps",
+    "metric_updates",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "OptimizationReadinessReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["not_ready", "ready_with_warnings", "ready"] },
+    "pattern_count": { "type": "integer", "minimum": 0 },
+    "tunable_pattern_count": { "type": "integer", "minimum": 0 },
+    "objective_count": { "type": "integer", "minimum": 0 },
+    "constraint_count": { "type": "integer", "minimum": 0 },
+    "pattern_readiness": { "type": "array", "items": { "type": "object" } },
+    "locked_parameters": { "type": "array", "items": { "type": "object" } },
+    "readiness_gaps": { "type": "array", "items": { "type": "string" } },
+    "metric_updates": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

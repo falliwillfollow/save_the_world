@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/household_profile.schema.json",
+  "title": "HouseholdProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "site_profile_id",
+    "generated_by",
+    "provisional",
+    "households",
+    "daily_resource_demand_adjustments",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "HouseholdProfile" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "site_profile_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "households": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "adults",
+          "children",
+          "elders",
+          "disabled_residents",
+          "available_commons_labor_hours_per_week",
+          "protected_labor_hours_per_week",
+          "care_hours_per_week",
+          "skill_tags",
+          "notes"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "adults": { "type": "integer", "minimum": 0 },
+          "children": { "type": "integer", "minimum": 0 },
+          "elders": { "type": "integer", "minimum": 0 },
+          "disabled_residents": { "type": "integer", "minimum": 0 },
+          "available_commons_labor_hours_per_week": { "type": "number", "minimum": 0 },
+          "protected_labor_hours_per_week": { "type": "number", "minimum": 0 },
+          "care_hours_per_week": { "type": "number", "minimum": 0 },
+          "skill_tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "daily_resource_demand_adjustments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["water_liters", "energy_kwh", "food_servings"],
+      "properties": {
+        "water_liters": { "type": "number", "minimum": 0 },
+        "energy_kwh": { "type": "number", "minimum": 0 },
+        "food_servings": { "type": "number", "minimum": 0 }
+      }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

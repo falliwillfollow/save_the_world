@@ -1,0 +1,73 @@
+kind: CivicPattern
+id: greenhouse
+type: FoodSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, structural, water, ecology, cost, labor]
+purpose: Extend food production seasons and create a visible food-learning commons.
+scale: cluster
+mdl_categories: [food, contribution, commons]
+inputs: [seeds, soil_or_media, irrigation_water, tools, grower_labor]
+outputs: [fresh_produce, seedling_starts, food_learning_space]
+dependencies:
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: Food production needs a reliable irrigation source.
+  - id: tool_library
+    kind: pattern
+    critical: false
+    rationale: Shared tools reduce duplicate purchases and maintenance confusion.
+constraints:
+  physical: [wind load review, ventilation, thermal management]
+  ecological: [soil health, water budgeting, pest management without high-toxicity defaults]
+  legal: [structure and agricultural use rules vary by jurisdiction]
+  social: [fair harvest allocation and learning access]
+  safety: [heat stress prevention, safe tool storage, structural anchoring]
+build_phase: 3
+lifecycle:
+  build_sequence: [choose sun exposure, prepare base, assemble frame, install covering, set irrigation, start production logs]
+  inspection_points: [anchoring, glazing or covering, ventilation, irrigation, path clearance]
+  maintenance:
+    - id: greenhouse_round
+      description: Check watering, ventilation, pests, and crop condition.
+      interval: daily
+      role: food_steward
+      estimated_hours: 0.75
+      provisional: true
+  expected_lifespan: 5-20 years depending on covering and frame
+  repair_procedure: [stabilize frame, patch covering, protect crops, record crop loss risk]
+  end_of_life_path: [reuse frame, recycle or dispose covering responsibly, restore soil]
+failure_modes:
+  - mode: crop_failure
+    likelihood: medium
+    severity: medium
+    detection_method: crop logs and visual inspection
+    mitigation: diagnose water, pest, heat, and soil issues; replant or substitute crops
+governance:
+  owner: commons
+  access_rule: shared food production under transparent harvest and work logs
+  stewardship_role: food_steward
+  backup_role: education_steward
+  audit_frequency: weekly
+  capture_risk: food production control could privilege skilled growers without shared records
+metrics:
+  cost: 12000
+  build_labor_hours: 100
+  recurring_labor_hours_per_week: 5.25
+  energy_use: 1
+  water_use: 300
+  embodied_carbon: 1
+  maintenance_burden: 6
+  dignity_score: 8
+  autonomy_score: 7
+  resilience_score: 6
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -300
+    energy_kwh_per_day: -1
+    food_servings_per_day: 12
+  critical_resources: [water, food, maintenance]
+  notes: Provisional partial food contribution, not a complete nutrition model.
+  provisional: true

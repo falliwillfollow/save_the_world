@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/matrix_redesign_report.schema.json",
+  "title": "MatrixRedesignReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "compiled_plan",
+    "replay_matrix",
+    "generated_by",
+    "provisional",
+    "status",
+    "top_stressor",
+    "redesign_candidates",
+    "priority_order",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "MatrixRedesignReport" },
+    "id": { "type": "string" },
+    "compiled_plan": { "type": "string" },
+    "replay_matrix": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["draft", "ready_for_iteration"] },
+    "top_stressor": { "type": "object" },
+    "redesign_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "subsystem",
+          "priority",
+          "target_scenarios",
+          "target_metric",
+          "proposal",
+          "minimum_viable_change",
+          "expected_effect",
+          "tradeoffs",
+          "files_to_edit",
+          "acceptance_criteria",
+          "evidence"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "subsystem": { "type": "string" },
+          "priority": { "type": "integer", "minimum": 1 },
+          "target_scenarios": { "type": "array", "items": { "type": "string" } },
+          "target_metric": { "type": "string" },
+          "proposal": { "type": "string" },
+          "minimum_viable_change": { "type": "array", "items": { "type": "string" } },
+          "expected_effect": { "type": "array", "items": { "type": "string" } },
+          "tradeoffs": { "type": "array", "items": { "type": "string" } },
+          "files_to_edit": { "type": "array", "items": { "type": "string" } },
+          "acceptance_criteria": { "type": "array", "items": { "type": "string" } },
+          "evidence": {}
+        }
+      }
+    },
+    "priority_order": { "type": "array", "items": { "type": "string" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

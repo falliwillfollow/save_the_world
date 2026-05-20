@@ -1,0 +1,51 @@
+kind: OptimizationProfile
+id: minimum_dignity_v0
+provisional: true
+objectives:
+  - id: maximize_resilience
+    direction: maximize
+    weight: 0.3
+    metric: resilience_score
+    description: Prefer configurations that preserve minimum function under stress replays.
+  - id: preserve_dignity
+    direction: maximize
+    weight: 0.25
+    metric: dignity_score
+    description: Prefer configurations that support minimum dignified daily life.
+  - id: reduce_recurring_labor
+    direction: minimize
+    weight: 0.2
+    metric: recurring_labor_hours_per_week
+    description: Avoid designs that survive only by hiding recurring labor burden.
+  - id: reduce_cost
+    direction: minimize
+    weight: 0.15
+    metric: cost
+    description: Keep minimum viable infrastructure repeatable and financially plain.
+  - id: reduce_review_burden
+    direction: minimize
+    weight: 0.1
+    metric: review_burden
+    description: Prefer options with fewer unresolved professional or legal review blockers when other goals are equal.
+constraints:
+  - id: no_unmet_survival_demand
+    severity: hard
+    expression: replay_matrix.total_unmet_delta == 0
+    description: Candidate configurations must not create unmet tracked survival demand in required stress replays.
+  - id: preserve_review_locks
+    severity: hard
+    expression: locked_parameters.review_dependency remains explicit
+    description: Optimization must not remove public-health, electrical, food-safety, legal, engineering, or consent review locks.
+  - id: visible_labor_burden
+    severity: hard
+    expression: labor_hours and maintenance burden remain modeled
+    description: Candidate configurations must keep build, recurring, emergency, and recovery labor visible.
+  - id: minimum_repeatable_patterns
+    severity: soft
+    expression: selected patterns favor boring repeatable infrastructure
+    description: Prefer simple reserves and shared systems before complex best-fit technology.
+scale_targets: [5, 10, 25, 50]
+unknowns:
+  - Optimization weights are provisional planning values, not resident consent or policy.
+  - Objective scoring is not yet a solver; this profile prepares the data contract for one.
+  - Any real-world optimized output still requires engineering, legal, health, governance, and resident review.

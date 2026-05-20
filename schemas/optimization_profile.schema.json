@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/optimization_profile.schema.json",
+  "title": "OptimizationProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "id", "provisional", "objectives", "constraints", "scale_targets", "unknowns"],
+  "properties": {
+    "kind": { "const": "OptimizationProfile" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "provisional": { "type": "boolean" },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "direction", "weight", "metric", "description"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "direction": { "type": "string", "enum": ["minimize", "maximize"] },
+          "weight": { "type": "number", "minimum": 0 },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "dignity_score",
+              "resilience_score",
+              "autonomy_score",
+              "cost",
+              "build_labor_hours",
+              "recurring_labor_hours_per_week",
+              "external_dependency_score",
+              "review_burden"
+            ]
+          },
+          "description": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "expression", "description"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "severity": { "type": "string", "enum": ["hard", "soft"] },
+          "expression": { "type": "string", "minLength": 3 },
+          "description": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "scale_targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 1 },
+      "uniqueItems": true
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

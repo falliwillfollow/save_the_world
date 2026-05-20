@@ -1,0 +1,53 @@
+kind: WaterPlan
+id: micro_commons_basic
+name: Micro-Commons Basic Water Plan
+description: Provisional potable and nonpotable water model for the five-household micro-commons.
+population: 12
+days: 365
+provisional: true
+targets:
+  emergency_reserve_days: 14
+  contamination_fallback_days: 7
+  drought_days: 90
+storage:
+  potable_liters: 3500
+  nonpotable_liters: 5000
+demand:
+  potable_liters_per_person_per_day: 12
+  nonpotable_liters_per_person_per_day: 55
+sources:
+  - id: well
+    name: Protected well
+    kind: well
+    potable: true
+    normal_yield_liters_per_day: 1100
+    drought_yield_multiplier: 0.45
+    contamination_available: false
+    provisional: true
+  - id: rainwater
+    name: Rainwater catchment and storage
+    kind: rainwater
+    potable: false
+    normal_yield_liters_per_day: 180
+    drought_yield_multiplier: 0.2
+    contamination_available: true
+    provisional: true
+treatment_methods:
+  - sediment filtration
+  - lab-confirmed potability testing
+  - emergency boiling or certified filtration
+testing:
+  cadence_days: 30
+  responsible_role: water_steward
+  requires_lab_confirmation: true
+contamination_response:
+  isolate_primary_source: true
+  backup_sources: [rainwater]
+  boil_or_treat_notice: true
+  minimum_retest_count: 2
+drought_assumptions:
+  demand_reduction_percent: 15
+  rainwater_yield_multiplier: 0.2
+  well_yield_multiplier: 0.45
+notes: Provisional water model for software validation; not hydrology, engineering, health, or legal advice.
+

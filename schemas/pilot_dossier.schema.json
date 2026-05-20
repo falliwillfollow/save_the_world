@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/pilot_dossier.schema.json",
+  "title": "PilotDossier",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "compiled_plan",
+    "audit_report",
+    "generated_by",
+    "provisional",
+    "current_promotion_decision",
+    "readiness_status",
+    "unresolved_warnings_by_subsystem",
+    "required_professional_reviews",
+    "legal_jurisdictional_unknowns",
+    "evidence_gaps",
+    "resident_governance_questions",
+    "documents_needed_before_pilot",
+    "go_no_go_checklist",
+    "must_never_be_inferred",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "PilotDossier" },
+    "id": { "type": "string" },
+    "compiled_plan": { "type": "string" },
+    "audit_report": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "current_promotion_decision": { "type": "string" },
+    "readiness_status": { "type": "string", "enum": ["not_ready", "review_package_needed", "candidate_for_external_review"] },
+    "unresolved_warnings_by_subsystem": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "required_professional_reviews": { "type": "array", "items": { "type": "object" } },
+    "legal_jurisdictional_unknowns": { "type": "array", "items": { "type": "string" } },
+    "evidence_gaps": { "type": "array", "items": { "type": "string" } },
+    "resident_governance_questions": { "type": "array", "items": { "type": "string" } },
+    "documents_needed_before_pilot": { "type": "array", "items": { "type": "string" } },
+    "go_no_go_checklist": { "type": "array", "items": { "type": "object" } },
+    "must_never_be_inferred": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,31 @@
+kind: ScaleProfile
+id: micro_commons_scale_targets_v0
+provisional: true
+base_households: 5
+targets:
+  - households: 5
+    label: Base micro-commons
+    notes: Current recommended minimum-dignity proof-of-concept scale.
+  - households: 10
+    label: Two-cluster commons
+    notes: Tests whether reserve logic can repeat without changing topology too much.
+  - households: 25
+    label: Small village commons
+    notes: Tests shared-system scaling pressure before mature site topology exists.
+  - households: 50
+    label: Village network
+    notes: Tests whether repeating the pattern family exposes topology, governance, or review limits.
+assumptions:
+  - id: proportional_population
+    description: Population scales proportionally from the 5-household baseline until a richer household generator exists.
+    provisional: true
+  - id: shared_reserve_scaling
+    description: Shared reserve capacities scale with household count unless a pattern declares step scaling.
+    provisional: true
+  - id: review_locks_persist
+    description: Health, food-safety, electrical, legal, engineering, and consent locks do not disappear when scaled.
+    provisional: true
+unknowns:
+  - Scaling targets are topology probes, not site plans or community design.
+  - Real scaling may require multiple clusters, new access routes, legal structures, and qualified review.
+  - Costs, labor, and reserve footprints are provisional pressure signals only.

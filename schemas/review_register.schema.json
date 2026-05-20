@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/review_register.schema.json",
+  "title": "ReviewRegister",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "id", "name", "description", "provisional", "reviews", "notes"],
+  "properties": {
+    "kind": { "const": "ReviewRegister" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string", "minLength": 3 },
+    "description": { "type": "string", "minLength": 10 },
+    "provisional": { "type": "boolean" },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "domain",
+          "reviewer_name",
+          "reviewer_org",
+          "credential_type",
+          "artifact_reference",
+          "status",
+          "expiration_date",
+          "notes",
+          "unresolved_issues"
+        ],
+        "properties": {
+          "domain": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "reviewer_name": { "type": "string" },
+          "reviewer_org": { "type": "string" },
+          "credential_type": { "type": "string" },
+          "artifact_reference": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["missing", "planned", "submitted", "reviewed", "accepted", "rejected"]
+          },
+          "expiration_date": { "type": "string" },
+          "notes": { "type": "string" },
+          "unresolved_issues": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "notes": { "type": "string", "minLength": 5 }
+  }
+}

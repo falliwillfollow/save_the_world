@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/scenario.schema.json",
+  "title": "Scenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "name",
+    "description",
+    "days",
+    "provisional",
+    "resource_multipliers",
+    "resource_deltas",
+    "labor_capacity_multiplier",
+    "emergency_tasks",
+    "triggered_risk_modes",
+    "notes"
+  ],
+  "properties": {
+    "kind": { "const": "Scenario" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string", "minLength": 3 },
+    "description": { "type": "string", "minLength": 10 },
+    "days": { "type": "integer", "minimum": 1 },
+    "provisional": { "type": "boolean" },
+    "resource_multipliers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["water_liters", "energy_kwh", "food_servings"],
+      "properties": {
+        "water_liters": { "type": "number", "minimum": 0 },
+        "energy_kwh": { "type": "number", "minimum": 0 },
+        "food_servings": { "type": "number", "minimum": 0 }
+      }
+    },
+    "resource_deltas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["water_liters", "energy_kwh", "food_servings"],
+      "properties": {
+        "water_liters": { "type": "number" },
+        "energy_kwh": { "type": "number" },
+        "food_servings": { "type": "number" }
+      }
+    },
+    "labor_capacity_multiplier": { "type": "number", "minimum": 0 },
+    "emergency_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "role", "total_hours", "day"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "description": { "type": "string", "minLength": 5 },
+          "role": { "type": "string", "minLength": 3 },
+          "total_hours": { "type": "number", "minimum": 0 },
+          "day": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "labor_support": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "source", "hours_per_day", "start_day", "duration_days", "notes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "source": { "type": "string", "minLength": 3 },
+          "hours_per_day": { "type": "number", "minimum": 0 },
+          "start_day": { "type": "integer", "minimum": 1 },
+          "duration_days": { "type": "integer", "minimum": 1 },
+          "notes": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "triggered_risk_modes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "runtime_failure_overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mode", "start_day", "duration_days", "response_hours_per_day", "notes"],
+        "properties": {
+          "mode": { "type": "string", "minLength": 3 },
+          "start_day": { "type": "integer", "minimum": 1 },
+          "duration_days": { "type": "integer", "minimum": 1 },
+          "response_hours_per_day": { "type": "number", "minimum": 0 },
+          "notes": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "review_context_overrides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["domain", "status", "effect", "day", "notes"],
+        "properties": {
+          "domain": { "type": "string", "minLength": 3 },
+          "status": {
+            "type": "string",
+            "enum": ["unavailable", "failed_retest", "contested", "emergency_waiver", "mutual_aid_review"]
+          },
+          "effect": {
+            "type": "string",
+            "enum": ["blocks_recovery", "requires_external_review", "allows_temporary_recovery"]
+          },
+          "day": { "type": "integer", "minimum": 1 },
+          "notes": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "notes": { "type": "string", "minLength": 5 }
+  }
+}

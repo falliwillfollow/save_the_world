@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/review_status_report.schema.json",
+  "title": "ReviewStatusReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "dossier",
+    "review_register",
+    "generated_by",
+    "provisional",
+    "status",
+    "required_reviews_covered",
+    "required_reviews_missing",
+    "review_status_by_domain",
+    "expired_or_rejected_evidence",
+    "unresolved_issues_by_domain",
+    "go_no_go_updates",
+    "readiness_delta",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ReviewStatusReport" },
+    "id": { "type": "string" },
+    "dossier": { "type": "string" },
+    "review_register": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["missing_evidence", "in_progress", "ready_for_review_update"] },
+    "required_reviews_covered": { "type": "array", "items": { "type": "string" } },
+    "required_reviews_missing": { "type": "array", "items": { "type": "string" } },
+    "review_status_by_domain": { "type": "object" },
+    "expired_or_rejected_evidence": { "type": "array", "items": { "type": "string" } },
+    "unresolved_issues_by_domain": { "type": "object" },
+    "go_no_go_updates": { "type": "array", "items": { "type": "object" } },
+    "readiness_delta": { "type": "object" },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

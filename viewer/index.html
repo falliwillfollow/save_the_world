@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CIaC Runtime Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>CIaC Runtime Viewer</h1>
+        <p id="bundleMeta">Runtime bundle not loaded</p>
+      </div>
+      <div class="actions">
+        <button id="loadDefault" type="button" title="Load generated bundle">Load</button>
+        <label class="file-button" title="Open bundle JSON">
+          Bundle
+          <input id="bundleFile" type="file" accept="application/json,.json">
+        </label>
+        <label class="file-button" title="Open foundation gate JSON">
+          Gate
+          <input id="gateFile" type="file" accept="application/json,.json">
+        </label>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="map-panel" aria-label="Layout graph">
+        <div class="panel-heading">
+          <h2>Layout</h2>
+          <span id="layoutStatus" class="status-chip status-provisional">provisional</span>
+        </div>
+        <div id="mapStage" class="map-stage">
+          <svg id="routeLayer" class="route-layer" aria-hidden="true"></svg>
+          <div id="zoneLayer"></div>
+        </div>
+      </section>
+
+      <aside class="inspector" aria-label="Runtime inspector">
+        <section>
+          <div class="panel-heading compact-heading">
+            <h2>Foundation</h2>
+            <span id="foundationStatus" class="status-chip status-provisional">not loaded</span>
+          </div>
+          <div id="foundationSummary" class="event-list"></div>
+        </section>
+
+        <section>
+          <div class="panel-heading">
+            <h2>Day</h2>
+            <output id="dayOutput">1</output>
+          </div>
+          <input id="daySlider" type="range" min="1" max="1" value="1">
+          <div class="step-buttons">
+            <button id="prevDay" type="button" title="Previous day">&lt;</button>
+            <button id="playDays" type="button" title="Play timeline">Play</button>
+            <button id="nextDay" type="button" title="Next day">&gt;</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>Selected System</h2>
+          <div id="systemDetails" class="event-list"></div>
+        </section>
+
+        <section>
+          <h2>Why Failing</h2>
+          <div id="failureReasons" class="event-list"></div>
+        </section>
+
+        <section>
+          <h2>Resources</h2>
+          <div id="resourceList" class="resource-list"></div>
+        </section>
+
+        <section>
+          <h2>Storage</h2>
+          <div id="storageList" class="resource-list"></div>
+        </section>
+
+        <section>
+          <h2>Maintenance</h2>
+          <div id="maintenanceSummary" class="metric-grid"></div>
+        </section>
+
+        <section>
+          <h2>Failures</h2>
+          <div id="failureList" class="event-list"></div>
+        </section>
+
+        <section>
+          <h2>Scenario</h2>
+          <select id="scenarioSelect"></select>
+          <div id="scenarioSummary" class="event-list"></div>
+        </section>
+
+        <section>
+          <h2>Warnings</h2>
+          <div id="warningList" class="event-list"></div>
+        </section>
+      </aside>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

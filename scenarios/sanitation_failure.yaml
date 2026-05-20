@@ -1,0 +1,41 @@
+kind: Scenario
+id: sanitation_failure
+name: Sanitation Failure
+description: Bathhouse or composting process is unsafe until containment and cleanup are complete.
+days: 21
+provisional: true
+resource_multipliers:
+  water_liters: 0.9
+  energy_kwh: 1
+  food_servings: 1
+resource_deltas:
+  water_liters: -40
+  energy_kwh: 0
+  food_servings: 0
+labor_capacity_multiplier: 0.95
+emergency_tasks:
+  - id: sanitation_containment
+    description: Close unsafe fixture, contain waste stream, protect potable floor, pause noncritical work, disinfect, and document retest.
+    role: sanitation_steward
+    total_hours: 24
+    day: 1
+triggered_risk_modes: [pathogen_exposure, pathogen_persistence]
+labor_support:
+  - id: sanitation_cleanup_mutual_aid
+    source: neighboring sanitation support
+    hours_per_day: 25
+    start_day: 1
+    duration_days: 3
+    notes: Provisional low-risk cleanup and logistics support during sanitation containment; not public-health clearance.
+runtime_failure_overrides:
+  - mode: pathogen_exposure
+    start_day: 1
+    duration_days: 7
+    response_hours_per_day: 1
+    notes: Containment protocol bounds acute exposure response while keeping public-health review unresolved.
+  - mode: pathogen_persistence
+    start_day: 1
+    duration_days: 14
+    response_hours_per_day: 0.75
+    notes: Cleaning and monitoring continue for two weeks without implying safety clearance.
+notes: Provisional sanitation failure scenario does not model pathogen survival or medical outcomes.

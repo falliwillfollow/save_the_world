@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/spatial_profile.schema.json",
+  "title": "SpatialProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "id", "site_profile_id", "generated_by", "provisional", "zones", "placements", "routes", "unknowns"],
+  "properties": {
+    "kind": { "const": "SpatialProfile" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "site_profile_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "zones": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "purpose", "hazards", "access", "notes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "purpose": { "type": "string", "minLength": 3 },
+          "hazards": { "type": "array", "items": { "type": "string" } },
+          "access": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "placements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pattern_id",
+          "zone_id",
+          "footprint_m2",
+          "access_needs",
+          "adjacent_to",
+          "separate_from",
+          "hazard_flags",
+          "notes"
+        ],
+        "properties": {
+          "pattern_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "zone_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "footprint_m2": { "type": "number", "minimum": 0 },
+          "access_needs": { "type": "array", "items": { "type": "string" } },
+          "adjacent_to": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" } },
+          "separate_from": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" } },
+          "hazard_flags": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "from_zone", "to_zone", "route_type", "distance_m", "accessible", "emergency_access", "notes"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "from_zone": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "to_zone": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "route_type": { "type": "string" },
+          "distance_m": { "type": "number", "minimum": 0 },
+          "accessible": { "type": "boolean" },
+          "emergency_access": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

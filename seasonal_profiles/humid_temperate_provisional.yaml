@@ -1,0 +1,85 @@
+kind: SeasonalProfile
+id: humid_temperate_provisional
+climate_zone: humid_temperate_provisional
+generated_by: ciac.seasonal_profile.seed_v0
+provisional: true
+seasons:
+  - id: winter
+    start_day: 335
+    end_day: 365
+    resource_multipliers:
+      water_liters:
+        production: 0.75
+        consumption: 0.95
+      energy_kwh:
+        production: 0.65
+        consumption: 1.15
+      food_servings:
+        production: 0.35
+        consumption: 1.0
+    maintenance_labor_multiplier: 1.1
+    notes: Provisional winter assumptions; lower solar and food production, slightly lower water demand.
+  - id: winter
+    start_day: 1
+    end_day: 59
+    resource_multipliers:
+      water_liters:
+        production: 0.75
+        consumption: 0.95
+      energy_kwh:
+        production: 0.65
+        consumption: 1.15
+      food_servings:
+        production: 0.35
+        consumption: 1.0
+    maintenance_labor_multiplier: 1.1
+    notes: Provisional winter assumptions; split range wraps the calendar year.
+  - id: spring
+    start_day: 60
+    end_day: 151
+    resource_multipliers:
+      water_liters:
+        production: 1.2
+        consumption: 1.0
+      energy_kwh:
+        production: 1.05
+        consumption: 0.95
+      food_servings:
+        production: 0.9
+        consumption: 1.0
+    maintenance_labor_multiplier: 1.0
+    notes: Provisional spring assumptions; higher rainfall and improving solar/food output.
+  - id: summer
+    start_day: 152
+    end_day: 243
+    resource_multipliers:
+      water_liters:
+        production: 0.85
+        consumption: 1.25
+      energy_kwh:
+        production: 1.25
+        consumption: 1.05
+      food_servings:
+        production: 1.25
+        consumption: 1.0
+    maintenance_labor_multiplier: 1.15
+    notes: Provisional summer assumptions; higher water demand, stronger solar, and more food/maintenance activity.
+  - id: fall
+    start_day: 244
+    end_day: 334
+    resource_multipliers:
+      water_liters:
+        production: 1.0
+        consumption: 1.05
+      energy_kwh:
+        production: 0.95
+        consumption: 1.0
+      food_servings:
+        production: 1.1
+        consumption: 1.0
+    maintenance_labor_multiplier: 1.05
+    notes: Provisional fall assumptions; harvest and prep activity remain elevated.
+unknowns:
+  - Seasonal values are provisional planning multipliers, not weather data.
+  - No jurisdiction, microclimate, crop calendar, aquifer, or actual solar design has been verified.
+  - The profile is intended for simulation pressure testing only.

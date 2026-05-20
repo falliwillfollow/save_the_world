@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/replay_matrix_report.schema.json",
+  "title": "ReplayMatrixReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "comparison_count",
+    "entries",
+    "rankings",
+    "top_stressor",
+    "summary",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ReplayMatrixReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["stable", "stress_warn", "stress_failed"] },
+    "comparison_count": { "type": "integer", "minimum": 1 },
+    "entries": { "type": "array", "items": { "type": "object" } },
+    "rankings": { "type": "array", "items": { "type": "object" } },
+    "top_stressor": { "type": "object" },
+    "summary": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

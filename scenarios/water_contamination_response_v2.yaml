@@ -1,0 +1,52 @@
+kind: Scenario
+id: water_contamination_response_v2
+name: Water Contamination Response v2
+description: Water contamination scenario after adding stronger reserve, backup treatment, and response assumptions.
+days: 14
+provisional: true
+resource_multipliers:
+  water_liters: 0.9
+  energy_kwh: 1
+  food_servings: 1
+resource_deltas:
+  water_liters: 0
+  energy_kwh: 0
+  food_servings: 0
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: isolate_test_and_backup_water
+    description: Isolate primary source, protect potable reserve floor, pause noncritical work, activate backup treatment, distribute notices, and complete retesting.
+    role: water_steward
+    total_hours: 14
+    day: 1
+triggered_risk_modes: [contaminated_source, pathogen_exposure, stored_water_contamination]
+labor_support:
+  - id: contamination_notice_mutual_aid
+    source: neighboring water and health support
+    hours_per_day: 15
+    start_day: 1
+    duration_days: 3
+    notes: Provisional outside help for notices, pickup, and basic logistics while qualified review remains unresolved.
+runtime_failure_overrides:
+  - mode: contaminated_source
+    start_day: 1
+    duration_days: 14
+    response_hours_per_day: 1.5
+    notes: Primary source remains isolated through the replay; response burden is reduced by reserve floor and backup treatment protocol.
+  - mode: pathogen_exposure
+    start_day: 1
+    duration_days: 5
+    response_hours_per_day: 0.75
+    notes: Provisional containment workflow bounds acute hygiene and notice burden without declaring water safe.
+  - mode: stored_water_contamination
+    start_day: 1
+    duration_days: 3
+    response_hours_per_day: 0.75
+    notes: Provisional protected reserve isolation limits acute stored-water response while failed retest still blocks recovery.
+review_context_overrides:
+  - domain: water_public_health
+    status: failed_retest
+    effect: blocks_recovery
+    day: 2
+    notes: Provisional stress case where contamination retest fails and recovery cannot be treated as resolved.
+notes: Provisional v2 contamination scenario; represents response assumptions rather than proof of water safety.

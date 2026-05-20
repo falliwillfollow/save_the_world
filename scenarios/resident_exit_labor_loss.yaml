@@ -1,0 +1,36 @@
+kind: Scenario
+id: resident_exit_labor_loss
+name: Resident Exit Labor Loss
+description: Two residents leave or pause participation, reducing available role capacity.
+days: 60
+provisional: true
+resource_multipliers:
+  water_liters: 1
+  energy_kwh: 1
+  food_servings: 1
+resource_deltas:
+  water_liters: 0
+  energy_kwh: 0
+  food_servings: 0
+labor_capacity_multiplier: 0.8
+emergency_tasks:
+  - id: role_rotation_rebalance
+    description: Reassign backup stewards, pause noncritical work, activate mutual-aid support, and review burnout risk.
+    role: records_steward
+    total_hours: 12
+    day: 2
+triggered_risk_modes: [tool_capture]
+labor_support:
+  - id: mutual_aid_labor_buffer
+    source: neighboring mutual-aid volunteers
+    hours_per_day: 4
+    start_day: 1
+    duration_days: 60
+    notes: Provisional outside support for basic coverage while two residents pause participation; not a labor agreement or consent record.
+runtime_failure_overrides:
+  - mode: tool_capture
+    start_day: 1
+    duration_days: 21
+    response_hours_per_day: 0.5
+    notes: Role rebalance and tool checkout audit bound tool-capture response window without claiming governance conflict is solved.
+notes: Provisional social stress scenario models labor capacity only, not full conflict dynamics.

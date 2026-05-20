@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/redesign_report.schema.json",
+  "title": "RedesignReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "compiled_plan",
+    "audit_report",
+    "generated_by",
+    "provisional",
+    "status",
+    "blockers_by_subsystem",
+    "redesign_candidates",
+    "priority_order",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "RedesignReport" },
+    "id": { "type": "string" },
+    "compiled_plan": { "type": "string" },
+    "audit_report": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["draft", "ready_for_iteration"] },
+    "blockers_by_subsystem": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "redesign_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "subsystem",
+          "priority",
+          "title",
+          "proposal",
+          "expected_effect",
+          "tradeoffs",
+          "new_assumptions",
+          "files_to_edit",
+          "acceptance_criteria"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "subsystem": { "type": "string" },
+          "priority": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string" },
+          "proposal": { "type": "string" },
+          "expected_effect": { "type": "array", "items": { "type": "string" } },
+          "tradeoffs": { "type": "array", "items": { "type": "string" } },
+          "new_assumptions": { "type": "array", "items": { "type": "string" } },
+          "files_to_edit": { "type": "array", "items": { "type": "string" } },
+          "acceptance_criteria": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "priority_order": { "type": "array", "items": { "type": "string" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

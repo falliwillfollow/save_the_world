@@ -1,0 +1,90 @@
+kind: ReviewRegister
+id: micro_commons_placeholder
+name: Micro-Commons Placeholder Review Register
+description: Placeholder evidence register for the five-household micro-commons pilot dossier.
+provisional: true
+reviews:
+  - domain: water_public_health
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: planned
+    expiration_date: ""
+    notes: Water review must include source testing, treatment assumptions, storage, and contamination response.
+    unresolved_issues:
+      - lab water quality results are missing
+      - backup potable source is not verified
+  - domain: electrical
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: planned
+    expiration_date: ""
+    notes: Electrical review must verify solar, battery, inverter, load shedding, and backup energy assumptions.
+    unresolved_issues:
+      - qualified electrical load calculation is missing
+  - domain: structural_building
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: missing
+    expiration_date: ""
+    notes: No structure or building review artifact exists.
+    unresolved_issues:
+      - dwelling and shared facility drawings are missing
+  - domain: sanitation
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: submitted
+    expiration_date: ""
+    notes: Placeholder for sanitation concept review.
+    unresolved_issues:
+      - composting process and bathhouse code path are unresolved
+  - domain: food_safety
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: missing
+    expiration_date: ""
+    notes: No food safety artifact exists.
+    unresolved_issues:
+      - shared kitchen food safety review is missing
+  - domain: accessibility_care
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: planned
+    expiration_date: ""
+    notes: Accessibility and care review must include residents with reduced load and care obligations.
+    unresolved_issues:
+      - care plan and accessibility review are missing
+  - domain: governance_legal
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: missing
+    expiration_date: ""
+    notes: No governance/legal review artifact exists.
+    unresolved_issues:
+      - commons asset lock is not drafted
+      - exit-rights procedure is not reviewed
+  - domain: insurance_liability
+    reviewer_name: ""
+    reviewer_org: ""
+    credential_type: ""
+    artifact_reference: ""
+    status: rejected
+    expiration_date: ""
+    notes: Placeholder rejection to test workflow; actual insurance/liability evidence is absent.
+    unresolved_issues:
+      - insurer or counsel has not accepted the risk package
+notes: Placeholder register for workflow testing only; no entry is professional acceptance.
+

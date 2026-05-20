@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/runtime_bundle.schema.json",
+  "title": "RuntimeBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "manifest",
+    "site",
+    "systems",
+    "timeline",
+    "scenarios",
+    "viewer_hints",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "RuntimeBundle" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "manifest": { "type": "object" },
+    "site": { "type": "object" },
+    "systems": { "type": "array", "items": { "type": "object" } },
+    "timeline": { "type": "object" },
+    "scenarios": { "type": "array", "items": { "type": "object" } },
+    "viewer_hints": { "type": "object" },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

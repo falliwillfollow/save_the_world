@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/objective_calibration_report.schema.json",
+  "title": "ObjectiveCalibrationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "search_optimizer_report",
+    "calibration_profile",
+    "generated_by",
+    "provisional",
+    "status",
+    "selected_candidate",
+    "calibrated_objectives",
+    "missing_metrics",
+    "uncalibrated_score_count",
+    "governance_status",
+    "metric_updates",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ObjectiveCalibrationReport" },
+    "id": { "type": "string" },
+    "search_optimizer_report": { "type": "string" },
+    "calibration_profile": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["missing_calibration", "provisional_calibrated", "calibrated"] },
+    "selected_candidate": { "type": "string" },
+    "calibrated_objectives": { "type": "array", "items": { "type": "object" } },
+    "missing_metrics": { "type": "array", "items": { "type": "string" } },
+    "uncalibrated_score_count": { "type": "integer", "minimum": 0 },
+    "governance_status": { "type": "object" },
+    "metric_updates": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

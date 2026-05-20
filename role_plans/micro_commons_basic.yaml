@@ -1,0 +1,145 @@
+kind: RolePlan
+id: micro_commons_basic
+name: Micro-Commons Basic Role Plan
+description: Provisional role rotation and labor fairness model for the five-household micro-commons.
+weeks: 8
+provisional: true
+rotation_cadence_weeks: 2
+max_compulsory_hours_per_person_per_week: 6
+care_work_allowance_hours_per_week: 4
+backup_required: true
+participants:
+  - id: resident_01
+    name: Resident 01
+    availability_hours_per_week: 6
+    skills: [water_ops, maintenance_basic, records]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 1
+    eligible_roles: [water_steward, maintenance_steward, records_steward]
+  - id: resident_02
+    name: Resident 02
+    availability_hours_per_week: 5
+    skills: [sanitation_ops, care, mediation]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 2
+    eligible_roles: [sanitation_steward, care_steward]
+  - id: resident_03
+    name: Resident 03
+    availability_hours_per_week: 5
+    skills: [food_ops, kitchen_ops]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 1
+    eligible_roles: [food_steward, kitchen_steward]
+  - id: resident_04
+    name: Resident 04
+    availability_hours_per_week: 4
+    skills: [tool_ops, maintenance_basic, workshop_safety]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 0
+    eligible_roles: [tool_steward, maintenance_steward]
+  - id: resident_05
+    name: Resident 05
+    availability_hours_per_week: 3
+    skills: [energy_ops, electrical_awareness]
+    reduced_load: true
+    protected_notes: reduced load due to health or age constraint
+    care_hours_per_week: 1
+    eligible_roles: [energy_steward]
+  - id: resident_06
+    name: Resident 06
+    availability_hours_per_week: 4
+    skills: [water_ops, sanitation_ops]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 3
+    eligible_roles: [water_steward, sanitation_steward]
+  - id: resident_07
+    name: Resident 07
+    availability_hours_per_week: 4
+    skills: [food_ops, care]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 4
+    eligible_roles: [food_steward, care_steward]
+  - id: resident_08
+    name: Resident 08
+    availability_hours_per_week: 4
+    skills: [kitchen_ops, records]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 1
+    eligible_roles: [kitchen_steward, records_steward]
+  - id: resident_09
+    name: Resident 09
+    availability_hours_per_week: 4
+    skills: [tool_ops, workshop_safety]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 0
+    eligible_roles: [tool_steward]
+  - id: resident_10
+    name: Resident 10
+    availability_hours_per_week: 3
+    skills: [maintenance_basic, education]
+    reduced_load: true
+    protected_notes: reduced load due to caregiving or disability constraint
+    care_hours_per_week: 5
+    eligible_roles: [maintenance_steward]
+  - id: resident_11
+    name: Resident 11
+    availability_hours_per_week: 4
+    skills: [sanitation_ops, kitchen_ops]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 2
+    eligible_roles: [sanitation_steward, kitchen_steward]
+  - id: resident_12
+    name: Resident 12
+    availability_hours_per_week: 4
+    skills: [water_ops, tool_ops, records]
+    reduced_load: false
+    protected_notes: ""
+    care_hours_per_week: 0
+    eligible_roles: [water_steward, tool_steward, records_steward]
+role_requirements:
+  - role: water_steward
+    required_skills: [water_ops]
+    safety_critical: true
+    min_people: 2
+    training_path: water testing and source protection orientation
+  - role: energy_steward
+    required_skills: [energy_ops, electrical_awareness]
+    safety_critical: true
+    min_people: 2
+    training_path: electrical awareness and qualified-review escalation
+  - role: sanitation_steward
+    required_skills: [sanitation_ops]
+    safety_critical: true
+    min_people: 2
+    training_path: sanitation hygiene and pathogen response orientation
+  - role: food_steward
+    required_skills: [food_ops]
+    safety_critical: false
+    min_people: 2
+    training_path: crop log and food allocation orientation
+  - role: kitchen_steward
+    required_skills: [kitchen_ops]
+    safety_critical: true
+    min_people: 2
+    training_path: food safety and cleaning workflow orientation
+  - role: tool_steward
+    required_skills: [tool_ops, workshop_safety]
+    safety_critical: true
+    min_people: 2
+    training_path: tool checkout and workshop safety orientation
+  - role: maintenance_steward
+    required_skills: [maintenance_basic]
+    safety_critical: false
+    min_people: 2
+    training_path: inspection logging and repair escalation orientation
+notes: Provisional social operations model for software validation; not a labor agreement, HR policy, or governance charter.
+

@@ -1,0 +1,69 @@
+kind: CivicPattern
+id: solar_shed
+type: EnergySystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, electrical, structural, cost, labor]
+purpose: Provide a small commons-owned solar and battery shed for critical loads.
+scale: cluster
+mdl_categories: [energy, commons]
+inputs: [solar_panels, batteries, charge_controller, inverter, electrical_review]
+outputs: [critical_load_power, battery_storage, energy_monitoring_point]
+dependencies:
+  - id: licensed_electrical_review
+    kind: external
+    critical: true
+    rationale: Electrical systems need qualified design and inspection.
+constraints:
+  physical: [weatherproof equipment housing, battery ventilation, panel mounting]
+  ecological: [battery lifecycle plan, avoid unnecessary vegetation clearing]
+  legal: [requires electrical and possibly utility interconnection review]
+  social: [critical loads must be allocated transparently]
+  safety: [disconnects, overcurrent protection, fire separation]
+build_phase: 1
+lifecycle:
+  build_sequence: [define critical loads, size provisional system, install shed, mount panels, wire with licensed review, test shutoff]
+  inspection_points: [mounting, wiring, battery enclosure, disconnects, load test]
+  maintenance:
+    - id: energy_check
+      description: Inspect battery state, inverter alerts, and panel condition.
+      interval: weekly
+      role: energy_steward
+      estimated_hours: 0.5
+      provisional: true
+  expected_lifespan: 10-25 years depending on batteries and panels
+  repair_procedure: [isolate electrical fault, use qualified repair, document incident, retest before service]
+  end_of_life_path: [recycle batteries and panels through approved programs]
+failure_modes:
+  - mode: battery_fault
+    likelihood: low
+    severity: catastrophic
+    detection_method: battery management alerts and inspection
+    mitigation: isolate battery bank, use fire-safe protocol, escalate to qualified electrician
+governance:
+  owner: commons
+  access_rule: powers critical loads first with public allocation logs
+  stewardship_role: energy_steward
+  backup_role: maintenance_steward
+  audit_frequency: monthly
+  capture_risk: control over power allocation could privilege some residents without public load rules
+metrics:
+  cost: 30000
+  build_labor_hours: 120
+  recurring_labor_hours_per_week: 0.5
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 2
+  maintenance_burden: 3
+  dignity_score: 7
+  autonomy_score: 8
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 35
+    food_servings_per_day: 0
+  critical_resources: [energy, maintenance]
+  notes: Provisional average daily generation before seasonal and storage modeling.
+  provisional: true

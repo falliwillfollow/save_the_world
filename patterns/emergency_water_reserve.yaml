@@ -1,0 +1,134 @@
+kind: CivicPattern
+id: emergency_water_reserve
+type: WaterSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, cost, labor]
+purpose: Provide a boring protected potable-water reserve, release path, and refill protocol for minimum dignified continuity.
+scale: cluster
+mdl_categories: [water, health, commons]
+inputs: [potable_storage_containers, labels, refill_agreement, water_test_log, protected_reserve_floor]
+outputs: [potable_reserve_buffer, emergency_release_protocol, refill_protocol, scarcity_visibility]
+dependencies:
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: The reserve needs an identified primary water stewardship point.
+  - id: water_testing_available
+    kind: external
+    critical: true
+    rationale: Potable reserve handling needs testing and safety review before real-world use.
+constraints:
+  physical: [covered containers, shaded storage, accessible lifting limits]
+  ecological: [avoid disposable container dependency where feasible]
+  legal: [potable water storage and hauling rules vary by jurisdiction]
+  social: [scarcity allocation must be transparent and nonpunitive]
+  safety: [potable labeling, rotation, contamination isolation, public-health review]
+build_phase: 1
+lifecycle:
+  build_sequence: [choose containers, label potable status, define protected reserve floor, define refill route, assign rotation log, stage reserve]
+  inspection_points: [labels, seals, refill date, access clearance, protected floor, contamination signs]
+  maintenance:
+    - id: potable_reserve_rotation
+      description: Check labels, seals, access, protected floor, and rotation date for potable reserve.
+      interval: weekly
+      role: water_steward
+      estimated_hours: 0.5
+      provisional: true
+  expected_lifespan: 5-15 years depending on containers and storage conditions
+  repair_procedure: [isolate suspect container, replace seal or container, retest or discard water, update log]
+  end_of_life_path: [reuse containers where safe, recycle or dispose degraded containers responsibly]
+failure_modes:
+  - mode: reserve_contamination
+    likelihood: medium
+    severity: high
+    detection_method: rotation log, visual inspection, and water testing
+    mitigation: isolate reserve, switch to backup source, sanitize containers, retest before use
+governance:
+  owner: commons
+  access_rule: reserve is released through transparent water-scarcity protocol with household protections and a protected minimum floor
+  stewardship_role: water_steward
+  backup_role: health_steward
+  audit_frequency: weekly
+  capture_risk: potable reserve could be hoarded or used as leverage without public logs
+metrics:
+  cost: 2500
+  build_labor_hours: 24
+  recurring_labor_hours_per_week: 0.5
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 2
+  dignity_score: 8
+  autonomy_score: 6
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  storage:
+    - resource: water_liters
+      capacity: 60000
+      initial: 60000
+      reserve_floor: 12000
+      max_release_per_day: 1400
+      max_refill_per_day: 700
+      refill_mode: surplus_or_external
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 21
+        loss_per_day_after_unsafe: 0.25
+        risk: potable reserve may become unsafe if rotation, labels, seals, or testing are neglected
+        recovery_action: isolate suspect water, sanitize containers, replace reserve, and retest before use
+        recovery_role: water_steward
+        recovery_labor_hours: 6
+        recovery_duration_days: 2
+        review_dependency: water_public_health
+        provisional: true
+      access_rule: release under transparent scarcity protocol before households face unmet potable demand while preserving a protected planning floor
+      notes: Provisional stored potable reserve with higher emergency release path; capacity, refill logistics, and safety depend on later review.
+      provisional: true
+  critical_resources: [water, maintenance]
+  notes: Provisional stored reserve and release path; not a potable water safety claim or engineered tank design.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: potable_capacity
+      path: simulation.storage[0].capacity
+      label: Potable reserve capacity
+      unit: liters
+      min: 24000
+      max: 120000
+      step: 12000
+      default: 60000
+      affects: [water, resilience, cost, maintenance]
+      review_required: true
+      provisional: true
+    - id: emergency_release_rate
+      path: simulation.storage[0].max_release_per_day
+      label: Emergency release rate
+      unit: liters_per_day
+      min: 700
+      max: 2400
+      step: 100
+      default: 1400
+      affects: [water, resilience, governance]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: potable_safety_claim
+      path: simulation.storage[0].quality.review_dependency
+      reason: Potable safety cannot be optimized or relaxed by CIaC without public-health review evidence.
+      review_dependency: water_public_health
+      provisional: true
+  scaling:
+    mode: shared_capacity
+    household_range:
+      min: 3
+      max: 25
+    notes: Capacity may scale by household count, but storage footprint, hauling, and testing require review before real use.
+    provisional: true
+  objectives: [resilience, dignity, cost, labor, review_burden]
+  provisional: true

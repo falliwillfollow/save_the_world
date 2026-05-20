@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/weight_governance_report.schema.json",
+  "title": "WeightGovernanceReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "optimization_profile",
+    "objective_calibration_report",
+    "weight_governance_profile",
+    "generated_by",
+    "provisional",
+    "status",
+    "promotion_allowed",
+    "weight_checks",
+    "approval_gate_results",
+    "governance_summary",
+    "metric_updates",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "WeightGovernanceReport" },
+    "id": { "type": "string" },
+    "optimization_profile": { "type": "string" },
+    "objective_calibration_report": { "type": "string" },
+    "weight_governance_profile": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["not_ratified", "partially_ratified", "ratified"] },
+    "promotion_allowed": { "type": "boolean" },
+    "weight_checks": { "type": "array", "items": { "type": "object" } },
+    "approval_gate_results": { "type": "array", "items": { "type": "object" } },
+    "governance_summary": { "type": "object" },
+    "metric_updates": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

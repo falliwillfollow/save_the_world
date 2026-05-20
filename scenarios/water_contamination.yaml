@@ -1,0 +1,24 @@
+kind: Scenario
+id: water_contamination
+name: Water Contamination
+description: Primary water source is treated as unsafe until testing and backup supply are resolved.
+days: 14
+provisional: true
+resource_multipliers:
+  water_liters: 0.2
+  energy_kwh: 1
+  food_servings: 1
+resource_deltas:
+  water_liters: -300
+  energy_kwh: 0
+  food_servings: 0
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: boil_or_stop_use_notice
+    description: Notify residents, isolate source, arrange backup water, and retest.
+    role: water_steward
+    total_hours: 24
+    day: 1
+triggered_risk_modes: [contaminated_source, pathogen_exposure, stored_water_contamination]
+notes: Provisional contamination scenario does not model actual pathogen transport or dose.
+

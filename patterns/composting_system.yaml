@@ -1,0 +1,69 @@
+kind: CivicPattern
+id: composting_system
+type: SanitationSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, sanitation, ecology, cost, labor]
+purpose: Provide a managed composting path for appropriate organic and sanitation waste streams.
+scale: cluster
+mdl_categories: [sanitation, food, health]
+inputs: [carbon_material, organic_waste, trained_operator, monitoring_log]
+outputs: [waste_stabilization_process, compost_candidate_material, odor_control_workflow]
+dependencies:
+  - id: local_sanitation_code_review
+    kind: external
+    critical: true
+    rationale: Human-waste-adjacent composting requires local health and sanitation approval.
+constraints:
+  physical: [separation from water sources, pest exclusion, temperature and moisture management]
+  ecological: [prevent runoff, avoid pathogen spread, use finished material only where safe]
+  legal: [must follow local health and waste rules]
+  social: [clear training and participation boundaries]
+  safety: [personal protective equipment, handwashing, pathogen controls]
+build_phase: 1
+lifecycle:
+  build_sequence: [define accepted streams, build contained bins, stock carbon, train steward, begin logs]
+  inspection_points: [setback, containment, carbon stock, signage, hygiene station]
+  maintenance:
+    - id: compost_monitoring
+      description: Check cover material, odors, pests, and process logs.
+      interval: weekly
+      role: sanitation_steward
+      estimated_hours: 1
+      provisional: true
+  expected_lifespan: 5-15 years depending on bins and process design
+  repair_procedure: [pause inputs, add carbon or containment, correct moisture or pest issue, document restart]
+  end_of_life_path: [empty safely, sanitize reusable components, dispose contaminated materials through approved path]
+failure_modes:
+  - mode: pathogen_persistence
+    likelihood: medium
+    severity: high
+    detection_method: process logs and sanitation inspection
+    mitigation: extend processing time, restrict use, involve sanitation professional
+governance:
+  owner: commons
+  access_rule: managed by trained stewards with public process logs
+  stewardship_role: sanitation_steward
+  backup_role: maintenance_steward
+  audit_frequency: weekly
+  capture_risk: unpleasant sanitation labor could be unfairly assigned without rotation and audit
+metrics:
+  cost: 4000
+  build_labor_hours: 50
+  recurring_labor_hours_per_week: 1
+  energy_use: 0
+  water_use: 20
+  embodied_carbon: 0.5
+  maintenance_burden: 5
+  dignity_score: 7
+  autonomy_score: 7
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -20
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  critical_resources: [sanitation, maintenance]
+  notes: Provisional process water and labor-facing sanitation placeholder.
+  provisional: true

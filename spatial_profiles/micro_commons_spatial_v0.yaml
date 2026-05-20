@@ -1,0 +1,199 @@
+kind: SpatialProfile
+id: micro_commons_spatial_v0
+site_profile_id: micro_commons_5_households
+generated_by: ciac.spatial_profile.seed_v0
+provisional: true
+zones:
+  - id: access_lane
+    purpose: Emergency, delivery, and mobility access spine.
+    hazards: [vehicle_conflict, weather_access]
+    access: [emergency_vehicle, delivery, accessible_path]
+    notes: Provisional route zone, not a surveyed driveway or fire access plan.
+  - id: commons_core
+    purpose: Shared kitchen, bathhouse, gathering, and daily commons activity.
+    hazards: [crowding, food_safety, hygiene]
+    access: [accessible_path, daily_resident_access]
+    notes: Should remain easy to reach from dwellings and service access.
+  - id: residential_edge
+    purpose: Starter dwellings and protected private household space.
+    hazards: [privacy_conflict, moisture, egress]
+    access: [accessible_path, emergency_egress]
+    notes: Kept near commons but not inside noisy workshop or sanitation zones.
+  - id: water_yard
+    purpose: Well, rainwater storage, and water testing/service area.
+    hazards: [water_contamination, standing_water, service_vehicle]
+    access: [service_path, emergency_access]
+    notes: Requires public-health and site-specific setback review.
+  - id: energy_workshop_yard
+    purpose: Solar shed, workshop, and tool library service area.
+    hazards: [electrical, fire, tools, noise]
+    access: [service_path, emergency_access]
+    notes: Requires qualified electrical, fire, and workshop safety review.
+  - id: food_garden
+    purpose: Greenhouse, learning food production, and crop staging.
+    hazards: [heat_stress, irrigation, pests]
+    access: [garden_path, service_path]
+    notes: Placement assumes sun exposure but no surveyed solar/shade study.
+  - id: sanitation_service
+    purpose: Composting and sanitation service operations.
+    hazards: [pathogen, odor, vector, runoff]
+    access: [service_path, restricted_access]
+    notes: Requires sanitation/public-health review and jurisdictional setbacks.
+placements:
+  - pattern_id: starter_dwelling
+    zone_id: residential_edge
+    footprint_m2: 120
+    access_needs: [accessible_path, emergency_egress]
+    adjacent_to: [shared_bathhouse, community_kitchen]
+    separate_from: [composting_system, workshop]
+    hazard_flags: [privacy, egress, moisture]
+    notes: Aggregate footprint placeholder for five starter dwelling units.
+  - pattern_id: shared_bathhouse
+    zone_id: commons_core
+    footprint_m2: 45
+    access_needs: [accessible_path, daily_resident_access, service_path]
+    adjacent_to: [starter_dwelling, composting_system, well_house]
+    separate_from: [community_kitchen]
+    hazard_flags: [hygiene, wet_floor, public_health]
+    notes: Near dwellings but needs sanitation/code separation from food prep.
+  - pattern_id: community_kitchen
+    zone_id: commons_core
+    footprint_m2: 70
+    access_needs: [accessible_path, delivery, daily_resident_access]
+    adjacent_to: [starter_dwelling, greenhouse]
+    separate_from: [composting_system, shared_bathhouse]
+    hazard_flags: [food_safety, refrigeration, fire]
+    notes: Needs delivery access, food safety review, and separation from sanitation hazards.
+  - pattern_id: staple_food_reserve
+    zone_id: commons_core
+    footprint_m2: 22
+    access_needs: [daily_resident_access, delivery, accessible_path]
+    adjacent_to: [community_kitchen]
+    separate_from: [composting_system, shared_bathhouse]
+    hazard_flags: [food_safety, pests, pantry_capture]
+    notes: Boring staple storage near kitchen; not a full nutrition model or food-safety approval.
+  - pattern_id: solar_shed
+    zone_id: energy_workshop_yard
+    footprint_m2: 40
+    access_needs: [service_path, emergency_access]
+    adjacent_to: [workshop]
+    separate_from: [starter_dwelling, greenhouse]
+    hazard_flags: [electrical, battery_fire]
+    notes: Placeholder location only; actual solar access and fire separation require review.
+  - pattern_id: critical_load_reserve
+    zone_id: energy_workshop_yard
+    footprint_m2: 12
+    access_needs: [service_path, emergency_access]
+    adjacent_to: [solar_shed]
+    separate_from: [starter_dwelling]
+    hazard_flags: [electrical, battery_fire, priority_access]
+    notes: Modest reserve location near energy stewardship; requires electrical/fire review.
+  - pattern_id: well_house
+    zone_id: water_yard
+    footprint_m2: 25
+    access_needs: [service_path, testing_access, emergency_access]
+    adjacent_to: [rainwater_capture, shared_bathhouse]
+    separate_from: [composting_system, workshop]
+    hazard_flags: [water_safety, contamination_control]
+    notes: Needs setbacks, water testing path, and public-health review.
+  - pattern_id: emergency_water_reserve
+    zone_id: water_yard
+    footprint_m2: 18
+    access_needs: [service_path, testing_access, accessible_path]
+    adjacent_to: [well_house, rainwater_capture]
+    separate_from: [composting_system, workshop]
+    hazard_flags: [potable_labeling, contamination_control, scarcity_allocation]
+    notes: Small potable reserve staging area; public-health handling and refill path remain unresolved.
+  - pattern_id: rainwater_capture
+    zone_id: water_yard
+    footprint_m2: 50
+    access_needs: [service_path, testing_access]
+    adjacent_to: [well_house, greenhouse]
+    separate_from: [composting_system]
+    hazard_flags: [standing_water, nonpotable_labeling]
+    notes: Tank/catchment placement is provisional and unsized.
+  - pattern_id: composting_system
+    zone_id: sanitation_service
+    footprint_m2: 55
+    access_needs: [service_path, restricted_access]
+    adjacent_to: [shared_bathhouse]
+    separate_from: [well_house, rainwater_capture, community_kitchen, starter_dwelling]
+    hazard_flags: [pathogen, odor, vector, runoff]
+    notes: Needs jurisdictional sanitation review and setbacks.
+  - pattern_id: greenhouse
+    zone_id: food_garden
+    footprint_m2: 80
+    access_needs: [garden_path, irrigation_access, accessible_path]
+    adjacent_to: [community_kitchen, rainwater_capture]
+    separate_from: [solar_shed]
+    hazard_flags: [heat_stress, irrigation, pest_pressure]
+    notes: Sun, wind, drainage, and accessibility need site-specific review.
+  - pattern_id: workshop
+    zone_id: energy_workshop_yard
+    footprint_m2: 90
+    access_needs: [service_path, emergency_access, delivery]
+    adjacent_to: [tool_library, solar_shed]
+    separate_from: [starter_dwelling, well_house]
+    hazard_flags: [tool_injury, noise, dust, fire]
+    notes: Needs separation, ventilation, egress, and safety review.
+  - pattern_id: tool_library
+    zone_id: energy_workshop_yard
+    footprint_m2: 25
+    access_needs: [daily_resident_access, service_path]
+    adjacent_to: [workshop]
+    separate_from: []
+    hazard_flags: [tool_access_control]
+    notes: Located with workshop for checkout and maintenance.
+routes:
+  - id: access_to_commons
+    from_zone: access_lane
+    to_zone: commons_core
+    route_type: primary_access
+    distance_m: 45
+    accessible: true
+    emergency_access: true
+    notes: Provisional accessible spine to shared facilities.
+  - id: access_to_residential
+    from_zone: access_lane
+    to_zone: residential_edge
+    route_type: residential_access
+    distance_m: 55
+    accessible: true
+    emergency_access: true
+    notes: Emergency and mobility access placeholder.
+  - id: commons_to_water
+    from_zone: commons_core
+    to_zone: water_yard
+    route_type: service_path
+    distance_m: 35
+    accessible: true
+    emergency_access: true
+    notes: Water testing and maintenance route.
+  - id: commons_to_food
+    from_zone: commons_core
+    to_zone: food_garden
+    route_type: garden_path
+    distance_m: 40
+    accessible: true
+    emergency_access: false
+    notes: Daily food and learning access path.
+  - id: water_to_sanitation
+    from_zone: water_yard
+    to_zone: sanitation_service
+    route_type: restricted_service_path
+    distance_m: 70
+    accessible: false
+    emergency_access: false
+    notes: Distance is a placeholder and not a verified setback.
+  - id: access_to_workshop
+    from_zone: access_lane
+    to_zone: energy_workshop_yard
+    route_type: service_access
+    distance_m: 65
+    accessible: true
+    emergency_access: true
+    notes: Delivery, fire, electrical, and workshop service access placeholder.
+unknowns:
+  - Spatial data is not a survey, site plan, permit drawing, or accessibility review.
+  - Setbacks, slopes, drainage, flood risk, fire access, utilities, easements, and code paths are not verified.
+  - Later visual buildout must not infer real-world buildability from this layout graph.

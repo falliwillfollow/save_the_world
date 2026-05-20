@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/optimizer_report.schema.json",
+  "title": "OptimizerReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "candidate_matrix",
+    "optimization_profile",
+    "tradeoff_scale_report",
+    "generated_by",
+    "provisional",
+    "status",
+    "selected_candidate",
+    "rankings",
+    "constraint_explanations",
+    "sensitivity_checks",
+    "metric_updates",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "OptimizerReport" },
+    "id": { "type": "string" },
+    "candidate_matrix": { "type": "string" },
+    "optimization_profile": { "type": "string" },
+    "tradeoff_scale_report": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["not_ready", "ready_with_warnings", "ready"] },
+    "selected_candidate": { "type": "string" },
+    "rankings": { "type": "array", "items": { "type": "object" } },
+    "constraint_explanations": { "type": "array", "items": { "type": "object" } },
+    "sensitivity_checks": { "type": "array", "items": { "type": "object" } },
+    "metric_updates": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

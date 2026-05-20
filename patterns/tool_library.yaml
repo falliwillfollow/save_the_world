@@ -1,0 +1,69 @@
+kind: CivicPattern
+id: tool_library
+type: Tooling
+status: draft
+provisional: true
+provisional_for: [legal, cost, labor, governance]
+purpose: Provide shared inventory, checkout, maintenance, and audit rules for common tools.
+scale: cluster
+mdl_categories: [contribution, commons]
+inputs: [starter_tool_inventory, storage, checkout_log, maintenance_supplies]
+outputs: [tool_access, inventory_visibility, repair_readiness]
+dependencies:
+  - id: inventory_baseline
+    kind: external
+    critical: true
+    rationale: Tool sharing needs an initial inventory and accountability baseline.
+constraints:
+  physical: [dry secure storage, labeled locations]
+  ecological: [repair before replacement, responsible disposal of broken tools]
+  legal: [hazardous tool access may require training and liability review]
+  social: [fair checkout rules, no permanent private capture of shared tools]
+  safety: [training tags, damaged tool quarantine, protective equipment]
+build_phase: 1
+lifecycle:
+  build_sequence: [inventory starter tools, label storage, define checkout rules, train stewards, begin audit log]
+  inspection_points: [inventory completeness, damaged tool bin, safety equipment, checkout log]
+  maintenance:
+    - id: tool_audit
+      description: Reconcile checked-out tools, damage reports, and repair needs.
+      interval: weekly
+      role: tool_steward
+      estimated_hours: 0.75
+      provisional: true
+  expected_lifespan: ongoing with tool-by-tool replacement
+  repair_procedure: [tag damaged tool, remove from checkout, repair or replace, update inventory]
+  end_of_life_path: [salvage parts, recycle metal and batteries where allowed, dispose unsafe tools]
+failure_modes:
+  - mode: tool_capture
+    likelihood: medium
+    severity: medium
+    detection_method: inventory audit and checkout logs
+    mitigation: recover or replace tool, update access rules, rotate stewardship
+governance:
+  owner: commons
+  access_rule: tools are checked out under public inventory rules
+  stewardship_role: tool_steward
+  backup_role: records_steward
+  audit_frequency: weekly
+  capture_risk: tool access can create hidden power over maintenance and production
+metrics:
+  cost: 6000
+  build_labor_hours: 30
+  recurring_labor_hours_per_week: 0.75
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 0.5
+  maintenance_burden: 3
+  dignity_score: 6
+  autonomy_score: 8
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  critical_resources: [maintenance]
+  notes: Tool library affects maintenance capacity more than daily resource balance in Sprint 2.
+  provisional: true

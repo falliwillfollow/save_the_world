@@ -1,0 +1,94 @@
+kind: EnergyPlan
+id: micro_commons_basic
+name: Micro-Commons Basic Energy Plan
+description: Provisional solar, battery, critical-load, and outage model for the five-household micro-commons.
+days: 365
+provisional: true
+targets:
+  outage_target_hours: 72
+  critical_autonomy_target_hours: 48
+  reserve_percent: 20
+generation:
+  solar_kwh_per_day: 42
+  other_kwh_per_day: 0
+storage:
+  battery_usable_kwh: 24
+loads:
+  - id: water_pump
+    name: Water pump and controls
+    category: water
+    kwh_per_day: 4
+    critical: true
+    shed_priority: 5
+    refrigeration: false
+    provisional: true
+  - id: refrigeration
+    name: Food and medicine refrigeration
+    category: food
+    kwh_per_day: 7
+    critical: true
+    shed_priority: 6
+    refrigeration: true
+    provisional: true
+  - id: lighting_and_charging
+    name: Lighting, phones, and radios
+    category: communications
+    kwh_per_day: 5
+    critical: true
+    shed_priority: 7
+    refrigeration: false
+    provisional: true
+  - id: bathhouse_controls
+    name: Bathhouse ventilation and controls
+    category: sanitation
+    kwh_per_day: 3
+    critical: true
+    shed_priority: 4
+    refrigeration: false
+    provisional: true
+  - id: clinic_basic
+    name: Basic clinic device charging
+    category: clinic
+    kwh_per_day: 2
+    critical: true
+    shed_priority: 8
+    refrigeration: false
+    provisional: true
+  - id: workshop_tools
+    name: Workshop tools
+    category: workshop
+    kwh_per_day: 8
+    critical: false
+    shed_priority: 2
+    refrigeration: false
+    provisional: true
+  - id: comfort_and_misc
+    name: Comfort and miscellaneous loads
+    category: shelter
+    kwh_per_day: 10
+    critical: false
+    shed_priority: 1
+    refrigeration: false
+    provisional: true
+load_shedding_priority:
+  - comfort_and_misc
+  - workshop_tools
+  - bathhouse_controls
+  - water_pump
+  - refrigeration
+  - lighting_and_charging
+  - clinic_basic
+solar_reduction_scenario:
+  name: storm_cloud_cover
+  solar_multiplier: 0.25
+  days: 3
+backup:
+  available: false
+  kwh_per_day: 0
+  hours_to_activate: 0
+  notes: No backup generation or mutual-aid energy agreement is secured in this draft.
+maintenance:
+  test_cadence_days: 30
+  responsible_role: energy_steward
+  requires_qualified_review: true
+notes: Provisional energy model for software validation; not electrical design, engineering review, or code compliance.

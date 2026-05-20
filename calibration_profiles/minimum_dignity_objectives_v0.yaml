@@ -1,0 +1,85 @@
+kind: ObjectiveCalibrationProfile
+id: minimum_dignity_objectives_v0
+provisional: true
+metric_calibrations:
+  - metric: resilience_score
+    formula_id: reserve_intensity_survival_proxy_v0
+    direction: maximize
+    inputs: [parameter_values.normalized_position, scenario_results.total_unmet_delta, scenario_results.status]
+    score_interpretation: Higher scores mean more reserve intensity after hard survival-demand failures are excluded.
+    evidence_status: internal_model
+    review_required: true
+    risk_of_false_precision: Reserve intensity is not the same as engineered resilience, weather probability, or emergency reliability.
+    provisional: true
+  - metric: dignity_score
+    formula_id: minimum_dignity_floor_v0
+    direction: maximize
+    inputs: [hard_constraint_failures, selected_patterns, governance_fields]
+    score_interpretation: Current score preserves a minimum dignity floor when survival-critical constraints pass.
+    evidence_status: provisional_assumption
+    review_required: true
+    risk_of_false_precision: Dignity cannot be reduced to infrastructure availability without resident consent and lived-experience review.
+    provisional: true
+  - metric: recurring_labor_hours_per_week
+    formula_id: reserve_intensity_labor_proxy_v0
+    direction: minimize
+    inputs: [parameter_values.normalized_position, lifecycle.maintenance, simulation.labor]
+    score_interpretation: Higher normalized score means lower modeled recurring burden from reserve intensity.
+    evidence_status: internal_model
+    review_required: true
+    risk_of_false_precision: Maintenance burden is approximate and does not include all training, coordination, care, or burnout effects.
+    provisional: true
+  - metric: cost
+    formula_id: reserve_intensity_cost_proxy_v0
+    direction: minimize
+    inputs: [parameter_values.normalized_position, pattern.metrics.cost]
+    score_interpretation: Higher normalized score means lower provisional cost pressure from reserve intensity.
+    evidence_status: provisional_assumption
+    review_required: true
+    risk_of_false_precision: Current cost scoring is not a quote, bill of materials, lifecycle cost, procurement model, or inflation adjustment.
+    provisional: true
+  - metric: review_burden
+    formula_id: locked_assumption_count_proxy_v0
+    direction: minimize
+    inputs: [locked_assumptions.review_dependency]
+    score_interpretation: Higher normalized score means fewer review-locked assumptions per candidate family.
+    evidence_status: internal_model
+    review_required: true
+    risk_of_false_precision: Review burden depends on jurisdiction, professional availability, resident process, and evidence quality.
+    provisional: true
+  - metric: autonomy_score
+    formula_id: reserve_intensity_autonomy_proxy_v0
+    direction: maximize
+    inputs: [parameter_values.normalized_position, external_dependency_score]
+    score_interpretation: Higher scores suggest more provisional local continuity before external support is needed.
+    evidence_status: provisional_assumption
+    review_required: true
+    risk_of_false_precision: Autonomy can hide social, ecological, legal, and supply-chain dependencies if not reviewed.
+    provisional: true
+  - metric: external_dependency_score
+    formula_id: reserve_intensity_external_dependency_proxy_v0
+    direction: minimize
+    inputs: [parameter_values.normalized_position, refill_mode, procurement_refill_rate]
+    score_interpretation: Higher normalized score means lower modeled reliance on external refill or procurement assumptions.
+    evidence_status: provisional_assumption
+    review_required: true
+    risk_of_false_precision: External dependency cannot be proven without supplier, mutual-aid, transport, legal, and weather evidence.
+    provisional: true
+  - metric: build_labor_hours
+    formula_id: reserve_intensity_build_labor_proxy_v0
+    direction: minimize
+    inputs: [parameter_values.normalized_position, pattern.metrics.build_labor_hours]
+    score_interpretation: Higher normalized score means lower provisional build labor pressure.
+    evidence_status: provisional_assumption
+    review_required: true
+    risk_of_false_precision: Build labor does not include permitting, training, rework, site preparation, or professional labor.
+    provisional: true
+governance:
+  weight_authority: draft_project_profile_not_ratified
+  resident_consent_status: not_started
+  review_status: requires_resident_and_professional_review_before_real_use
+  provisional: true
+unknowns:
+  - Calibration formulas are explicit so they can be challenged, not because they are proven.
+  - No objective weights are resident-ratified or jurisdictionally reviewed.
+  - Scores remain planning signals until reviewed evidence replaces proxy formulas.

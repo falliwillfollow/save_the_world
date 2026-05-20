@@ -1,0 +1,41 @@
+kind: Scenario
+id: crop_failure
+name: Crop Failure
+description: Greenhouse food contribution collapses and fallback food procurement must be arranged.
+days: 120
+provisional: true
+resource_multipliers:
+  water_liters: 1
+  energy_kwh: 1
+  food_servings: 0.15
+resource_deltas:
+  water_liters: 0
+  energy_kwh: 0
+  food_servings: -10
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: fallback_food_procurement
+    description: Activate staple reserve drawdown, arrange external food procurement, pause noncritical work, replanting, and nutrition review.
+    role: food_steward
+    total_hours: 18
+    day: 1
+triggered_risk_modes: [crop_failure, foodborne_illness]
+labor_support:
+  - id: food_procurement_mutual_aid
+    source: neighboring food cooperative
+    hours_per_day: 18
+    start_day: 1
+    duration_days: 7
+    notes: Provisional pickup, sorting, and stocking support during crop-failure response; not a procurement contract.
+runtime_failure_overrides:
+  - mode: crop_failure
+    start_day: 1
+    duration_days: 30
+    response_hours_per_day: 0.75
+    notes: Provisional procurement floor turns crop loss into a 30-day acute response rather than a 120-day emergency labor state.
+  - mode: foodborne_illness
+    start_day: 1
+    duration_days: 7
+    response_hours_per_day: 1
+    notes: Provisional staple reserve isolation and food-safety check limit acute shared-kitchen illness response window.
+notes: Provisional crop failure scenario exposes that Sprint 2 servings are not a nutrition model.

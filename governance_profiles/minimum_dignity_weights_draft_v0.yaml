@@ -1,0 +1,54 @@
+kind: WeightGovernanceProfile
+id: minimum_dignity_weights_draft_v0
+provisional: true
+optimization_profile: minimum_dignity_v0
+authority:
+  weight_authority: draft_project_profile_not_ratified
+  resident_consent_status: not_started
+  professional_review_status: not_started
+  last_reviewed: none
+  next_review_due: before_any_real_world_use
+  provisional: true
+objective_weights:
+  - objective: maximize_resilience
+    weight: 0.3
+    status: draft
+    rationale: Resilience is weighted highest because stress replays must preserve tracked survival demand before comfort or cost preferences.
+    provisional: true
+  - objective: preserve_dignity
+    weight: 0.25
+    status: draft
+    rationale: Minimum dignity remains a core goal, but the current dignity score is still a proxy requiring resident review.
+    provisional: true
+  - objective: reduce_recurring_labor
+    weight: 0.2
+    status: draft
+    rationale: Labor burden is weighted strongly because fragile systems that survive by hidden work are not repeatable.
+    provisional: true
+  - objective: reduce_cost
+    weight: 0.15
+    status: draft
+    rationale: Cost matters for repeatability, but provisional cost proxies must not override survival demand or hidden labor.
+    provisional: true
+  - objective: reduce_review_burden
+    weight: 0.1
+    status: draft
+    rationale: Review burden matters as a planning signal, but review locks must remain visible rather than optimized away.
+    provisional: true
+approval_gates:
+  - id: resident_weight_ratification
+    required_status: ratified
+    description: Residents or their legitimate governance process must ratify objective weights before real-world recommendation.
+    provisional: true
+  - id: professional_review_acceptance
+    required_status: accepted
+    description: Relevant professional review must accept that objective formulas are appropriate for the stated use.
+    provisional: true
+  - id: no_rejected_weights
+    required_status: no_rejected
+    description: No active objective weight may be rejected or contested without an explicit override process.
+    provisional: true
+unknowns:
+  - Draft weights are software defaults, not resident consent.
+  - This profile blocks promotion while resident and professional review statuses remain unresolved.
+  - Ratification workflow details depend on the actual community governance process.

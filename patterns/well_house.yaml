@@ -1,0 +1,73 @@
+kind: CivicPattern
+id: well_house
+type: WaterSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, electrical, cost, labor]
+purpose: Provide protected groundwater access, testing point, and distribution control.
+scale: cluster
+mdl_categories: [water, health, commons]
+inputs: [well, pump, pressure_tank, filtration_allowance, testing_kit]
+outputs: [tested_water_source, protected_pump_equipment, distribution_point]
+dependencies:
+  - id: well_permit_path_planned
+    kind: external
+    critical: true
+    rationale: Groundwater use and well construction require local permitting review.
+  - id: water_testing_available
+    kind: external
+    critical: true
+    rationale: Potability cannot be assumed without water testing.
+constraints:
+  physical: [freeze protection, pump access, protected electrical supply]
+  ecological: [aquifer drawdown unknown until assessed, protect source from contamination]
+  legal: [requires well drilling, water rights, and health review]
+  social: [public water quality logs]
+  safety: [electrical safety, pressure tank safety, contamination response]
+build_phase: 1
+lifecycle:
+  build_sequence: [confirm well path, protect source area, install pump house, establish testing point, log baseline quality]
+  inspection_points: [source protection, pump installation, pressure system, water test baseline]
+  maintenance:
+    - id: water_quality_log
+      description: Record water quality test status and inspect pump house.
+      interval: weekly
+      role: water_steward
+      estimated_hours: 0.75
+      provisional: true
+  expected_lifespan: 15-30 years depending on pump and water chemistry
+  repair_procedure: [issue boil or stop-use notice, isolate system, repair pump or treatment component, retest before use]
+  end_of_life_path: [seal abandoned well according to local rules, salvage safe equipment]
+failure_modes:
+  - mode: contaminated_source
+    likelihood: medium
+    severity: catastrophic
+    detection_method: water testing and illness reports
+    mitigation: stop use, switch to backup, treat or remediate source, retest before reinstating
+governance:
+  owner: commons
+  access_rule: water access cannot be privately withheld from residents
+  stewardship_role: water_steward
+  backup_role: maintenance_steward
+  audit_frequency: weekly
+  capture_risk: control over water testing or shutoff authority could become coercive
+metrics:
+  cost: 18000
+  build_labor_hours: 80
+  recurring_labor_hours_per_week: 0.75
+  energy_use: 2
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 4
+  dignity_score: 10
+  autonomy_score: 8
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 1200
+    energy_kwh_per_day: -2
+    food_servings_per_day: 0
+  critical_resources: [water, energy, maintenance]
+  notes: Provisional permitted daily draw assumption for simulation only.
+  provisional: true

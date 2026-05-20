@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/audit_report.schema.json",
+  "title": "AuditReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "compiled_plan",
+    "generated_by",
+    "provisional",
+    "overall_status",
+    "promotion_decision",
+    "confidence",
+    "subsystem_statuses",
+    "survival_critical_blockers",
+    "noncritical_warnings",
+    "required_redesigns",
+    "top_risks",
+    "next_sprint_recommendations",
+    "inputs",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "AuditReport" },
+    "id": { "type": "string" },
+    "compiled_plan": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "overall_status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+    "promotion_decision": {
+      "type": "string",
+      "enum": ["candidate_for_review", "revise_before_pilot", "do_not_promote"]
+    },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "subsystem_statuses": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["kind", "status", "survival_critical"],
+        "properties": {
+          "kind": { "type": "string" },
+          "status": { "type": "string" },
+          "survival_critical": { "type": "boolean" }
+        }
+      }
+    },
+    "survival_critical_blockers": { "type": "array", "items": { "type": "string" } },
+    "noncritical_warnings": { "type": "array", "items": { "type": "string" } },
+    "required_redesigns": { "type": "array", "items": { "type": "string" } },
+    "top_risks": { "type": "array", "items": { "type": "string" } },
+    "next_sprint_recommendations": { "type": "array", "items": { "type": "string" } },
+    "inputs": { "type": "object" },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

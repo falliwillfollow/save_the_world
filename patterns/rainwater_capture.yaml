@@ -1,0 +1,69 @@
+kind: CivicPattern
+id: rainwater_capture
+type: WaterSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, structural, cost, labor]
+purpose: Provide supplemental rainwater collection and emergency storage for nonexclusive water resilience.
+scale: cluster
+mdl_categories: [water, commons]
+inputs: [roof_catchment, gutters, first_flush_diverter, storage_tanks, filtration_allowance]
+outputs: [backup_water_storage, stormwater_visibility, irrigation_buffer]
+dependencies:
+  - id: water_testing_available
+    kind: external
+    critical: true
+    rationale: Stored rainwater quality must be tested before potable use.
+constraints:
+  physical: [tank foundation, overflow routing, mosquito prevention]
+  ecological: [avoid downstream erosion, use overflow for infiltration where safe]
+  legal: [rainwater harvesting rules vary by jurisdiction]
+  social: [allocation rules during scarcity]
+  safety: [covered tanks, backflow prevention, potable/nonpotable labeling]
+build_phase: 1
+lifecycle:
+  build_sequence: [choose catchment surfaces, install gutters, place tanks, route overflow, label potable status, inspect]
+  inspection_points: [tank base, first flush, overflow, screens, labeling]
+  maintenance:
+    - id: tank_screen_check
+      description: Inspect screens, overflow, and visible tank condition.
+      interval: monthly
+      role: water_steward
+      estimated_hours: 0.5
+      provisional: true
+  expected_lifespan: 10-25 years depending on tank material and sun exposure
+  repair_procedure: [isolate leaking tank, redirect overflow, patch or replace component, retest before potable use]
+  end_of_life_path: [reuse or recycle tanks where allowed, dispose degraded plastics responsibly]
+failure_modes:
+  - mode: stored_water_contamination
+    likelihood: medium
+    severity: high
+    detection_method: water testing and tank inspection
+    mitigation: label nonpotable, flush or treat tank, correct catchment contamination source
+governance:
+  owner: commons
+  access_rule: backup water allocated through public scarcity protocol
+  stewardship_role: water_steward
+  backup_role: records_steward
+  audit_frequency: monthly
+  capture_risk: emergency storage could be hoarded without public inventory logs
+metrics:
+  cost: 7000
+  build_labor_hours: 60
+  recurring_labor_hours_per_week: 0.25
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 2
+  dignity_score: 7
+  autonomy_score: 7
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 180
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  critical_resources: [water, maintenance]
+  notes: Provisional annualized supplemental collection before rainfall modeling.
+  provisional: true

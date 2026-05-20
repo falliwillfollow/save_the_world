@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/simulation_run.schema.json",
+  "title": "SimulationRun",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "compiled_plan",
+    "generated_by",
+    "days",
+    "provisional",
+    "status",
+    "population",
+    "runtime_failures",
+    "review_context",
+    "scenario_context",
+    "daily_states",
+    "resource_ledger",
+    "timeline",
+    "resource_balance",
+    "storage",
+    "labor",
+    "maintenance",
+    "triggered_risks",
+    "bottlenecks",
+    "gate_recommendations",
+    "confidence",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "SimulationRun" },
+    "id": { "type": "string" },
+    "compiled_plan": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "days": { "type": "integer", "minimum": 1 },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+    "population": { "type": "object" },
+    "runtime_failures": { "type": "array", "items": { "type": "object" } },
+    "review_context": { "type": "object" },
+    "scenario_context": { "type": "object" },
+    "daily_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["day", "season", "population", "population_context", "resources", "storage_state", "maintenance_events", "maintenance_state", "active_failures", "labor", "system_degradation", "active_risks", "unmet_needs"],
+        "properties": {
+          "day": { "type": "integer", "minimum": 1 },
+          "season": { "type": "string" },
+          "population": { "type": "integer", "minimum": 0 },
+          "population_context": { "type": "object" },
+          "resources": { "type": "object" },
+          "storage_state": { "type": "object" },
+          "maintenance_events": { "type": "array", "items": { "type": "object" } },
+          "maintenance_state": { "type": "object" },
+          "active_failures": { "type": "array", "items": { "type": "object" } },
+          "labor": { "type": "object" },
+          "system_degradation": { "type": "object" },
+          "active_risks": { "type": "array", "items": { "type": "object" } },
+          "unmet_needs": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "resource_ledger": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["entries", "total_production", "total_consumption", "ending_balance", "minimum_balance", "total_unmet_demand", "status", "provisional"],
+        "properties": {
+          "entries": { "type": "array", "items": { "type": "object" } },
+          "total_production": { "type": "number" },
+          "total_consumption": { "type": "number" },
+          "ending_balance": { "type": "number" },
+          "minimum_balance": { "type": "number" },
+          "total_unmet_demand": { "type": "number" },
+          "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
+    "timeline": { "type": "array", "items": { "type": "object" } },
+    "resource_balance": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["net_per_day", "ending_balance", "minimum_balance", "status"],
+        "properties": {
+          "net_per_day": { "type": "number" },
+          "ending_balance": { "type": "number" },
+          "minimum_balance": { "type": "number" },
+          "status": { "type": "string", "enum": ["pass", "warn", "fail"] }
+        }
+      }
+    },
+    "storage": { "type": "object" },
+    "labor": { "type": "object" },
+    "maintenance": { "type": "object" },
+    "triggered_risks": { "type": "array", "items": { "type": "object" } },
+    "bottlenecks": { "type": "array", "items": { "type": "string" } },
+    "gate_recommendations": { "type": "array", "items": { "type": "string" } },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/visualization_bundle.schema.json",
+  "title": "VisualizationBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "schema_version",
+    "generated_by",
+    "provisional",
+    "status",
+    "selected_candidate",
+    "manifest",
+    "site",
+    "runtime",
+    "optimization",
+    "viewer_contract",
+    "metric_updates",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "VisualizationBundle" },
+    "id": { "type": "string" },
+    "schema_version": { "const": "visualization_bundle.v0" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["not_ready", "ready_with_warnings", "ready"] },
+    "selected_candidate": { "type": "string" },
+    "manifest": { "type": "object" },
+    "site": { "type": "object" },
+    "runtime": { "type": "object" },
+    "optimization": { "type": "object" },
+    "viewer_contract": { "type": "object" },
+    "metric_updates": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

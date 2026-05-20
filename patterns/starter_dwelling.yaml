@@ -1,0 +1,77 @@
+kind: CivicPattern
+id: starter_dwelling
+type: Structure
+status: draft
+provisional: true
+provisional_for: [engineering, legal, structural, electrical, cost, labor]
+purpose: Provide safe private shelter for one to two people in the micro-commons.
+scale: dwelling
+mdl_categories: [shelter, privacy, rest]
+inputs: [land_access, foundation_materials, wall_roof_materials, basic_power, sanitation_access]
+outputs: [private_sleeping_space, lockable_storage, thermal_refuge]
+dependencies:
+  - id: shared_bathhouse
+    kind: pattern
+    critical: true
+    rationale: Starter dwellings need a resolved sanitation path when private sanitation is not included.
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: Starter dwellings need basic electrical access for light and critical charging.
+  - id: legal_site_access
+    kind: external
+    critical: true
+    rationale: Shelter cannot be planned without lawful site access.
+constraints:
+  physical: [weatherproof envelope, stable foundation, climate-appropriate ventilation]
+  ecological: [minimize disturbed footprint, avoid drainage damage]
+  legal: [requires local building and occupancy review]
+  social: [must preserve privacy and quiet]
+  safety: [fire egress, structural inspection, electrical inspection]
+build_phase: 2
+lifecycle:
+  build_sequence: [confirm approved siting, prepare foundation, frame structure, close envelope, connect basic power, inspect before occupancy]
+  inspection_points: [foundation, framing, weatherproofing, electrical connection, occupancy readiness]
+  maintenance:
+    - id: envelope_check
+      description: Inspect roof, walls, windows, doors, and moisture signs.
+      interval: seasonal
+      role: maintenance_steward
+      estimated_hours: 0.5
+      provisional: true
+  expected_lifespan: 15-30 years depending on materials and maintenance
+  repair_procedure: [isolate unsafe area, document defect, assign repair role, inspect after repair]
+  end_of_life_path: [salvage reusable materials, recycle metal hardware, compost or dispose safe bio-based materials where allowed]
+failure_modes:
+  - mode: moisture_intrusion
+    likelihood: medium
+    severity: high
+    detection_method: seasonal envelope inspection
+    mitigation: repair flashing, drainage, and ventilation before occupancy damage spreads
+governance:
+  owner: household
+  access_rule: assigned private dwelling with commons safety obligations
+  stewardship_role: maintenance_steward
+  backup_role: records_steward
+  audit_frequency: annual
+  capture_risk: housing assignment could become coercive without transparent occupancy rules
+metrics:
+  cost: 25000
+  build_labor_hours: 240
+  recurring_labor_hours_per_week: 0.2
+  energy_use: 2
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 2
+  dignity_score: 8
+  autonomy_score: 7
+  resilience_score: 6
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -375
+    energy_kwh_per_day: -10
+    food_servings_per_day: 0
+  critical_resources: [water, energy, sanitation, maintenance]
+  notes: Provisional settlement-level demand estimate for five starter dwellings.
+  provisional: true

@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/energy_plan.schema.json",
+  "title": "EnergyPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "name",
+    "description",
+    "days",
+    "provisional",
+    "targets",
+    "generation",
+    "storage",
+    "loads",
+    "load_shedding_priority",
+    "solar_reduction_scenario",
+    "backup",
+    "maintenance",
+    "notes"
+  ],
+  "properties": {
+    "kind": { "const": "EnergyPlan" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string", "minLength": 3 },
+    "description": { "type": "string", "minLength": 10 },
+    "days": { "type": "integer", "minimum": 1 },
+    "provisional": { "type": "boolean" },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outage_target_hours", "critical_autonomy_target_hours", "reserve_percent"],
+      "properties": {
+        "outage_target_hours": { "type": "number", "minimum": 0 },
+        "critical_autonomy_target_hours": { "type": "number", "minimum": 0 },
+        "reserve_percent": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["solar_kwh_per_day", "other_kwh_per_day"],
+      "properties": {
+        "solar_kwh_per_day": { "type": "number", "minimum": 0 },
+        "other_kwh_per_day": { "type": "number", "minimum": 0 }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["battery_usable_kwh"],
+      "properties": {
+        "battery_usable_kwh": { "type": "number", "minimum": 0 }
+      }
+    },
+    "loads": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "category", "kwh_per_day", "critical", "shed_priority", "refrigeration", "provisional"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "name": { "type": "string", "minLength": 2 },
+          "category": { "type": "string", "enum": ["water", "sanitation", "food", "shelter", "clinic", "communications", "workshop", "other"] },
+          "kwh_per_day": { "type": "number", "minimum": 0 },
+          "critical": { "type": "boolean" },
+          "shed_priority": { "type": "integer", "minimum": 1 },
+          "refrigeration": { "type": "boolean" },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
+    "load_shedding_priority": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+      "uniqueItems": true
+    },
+    "solar_reduction_scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "solar_multiplier", "days"],
+      "properties": {
+        "name": { "type": "string", "minLength": 3 },
+        "solar_multiplier": { "type": "number", "minimum": 0 },
+        "days": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "backup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["available", "kwh_per_day", "hours_to_activate", "notes"],
+      "properties": {
+        "available": { "type": "boolean" },
+        "kwh_per_day": { "type": "number", "minimum": 0 },
+        "hours_to_activate": { "type": "number", "minimum": 0 },
+        "notes": { "type": "string" }
+      }
+    },
+    "maintenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["test_cadence_days", "responsible_role", "requires_qualified_review"],
+      "properties": {
+        "test_cadence_days": { "type": "number", "minimum": 1 },
+        "responsible_role": { "type": "string", "minLength": 3 },
+        "requires_qualified_review": { "type": "boolean" }
+      }
+    },
+    "notes": { "type": "string", "minLength": 5 }
+  }
+}

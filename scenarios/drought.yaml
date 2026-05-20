@@ -1,0 +1,24 @@
+kind: Scenario
+id: drought
+name: Drought
+description: Reduced water yield and added water stewardship work during a dry period.
+days: 90
+provisional: true
+resource_multipliers:
+  water_liters: 0.45
+  energy_kwh: 1
+  food_servings: 0.8
+resource_deltas:
+  water_liters: -150
+  energy_kwh: 0
+  food_servings: 0
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: water_rationing_protocol
+    description: Implement public water rationing, tank checks, and resident notices.
+    role: water_steward
+    total_hours: 36
+    day: 1
+triggered_risk_modes: [stored_water_contamination, crop_failure]
+notes: Provisional drought model reduces annualized water supply and food output without weather data.
+

@@ -1,0 +1,77 @@
+kind: CivicPattern
+id: workshop
+type: Workshop
+status: draft
+provisional: true
+provisional_for: [engineering, legal, structural, electrical, cost, labor]
+purpose: Provide shared repair, fabrication, and maintenance workspace for the commons.
+scale: cluster
+mdl_categories: [contribution, commons]
+inputs: [tools, workbenches, power, storage, safety_equipment]
+outputs: [repair_capacity, fabrication_capacity, training_space]
+dependencies:
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: Basic powered repair work needs a critical-load energy source.
+  - id: tool_library
+    kind: pattern
+    critical: true
+    rationale: Workshop function depends on shared tool inventory and checkout.
+  - id: workshop_safety_review
+    kind: external
+    critical: true
+    rationale: Tool, dust, fire, and electrical risks require safety review.
+constraints:
+  physical: [dry storage, dust control, ventilation, stable benches]
+  ecological: [safe disposal of oils, solvents, and scrap streams]
+  legal: [workshop occupancy, fire, and electrical rules vary by jurisdiction]
+  social: [training before hazardous tool use, transparent scheduling]
+  safety: [personal protective equipment, fire extinguisher, lockout for hazardous tools]
+build_phase: 2
+lifecycle:
+  build_sequence: [define safe tool list, prepare shell, install benches and storage, post safety rules, inspect before use]
+  inspection_points: [electrical, ventilation, fire safety, tool guarding, material storage]
+  maintenance:
+    - id: workshop_safety_round
+      description: Inspect tools, dust, exits, and hazardous material storage.
+      interval: weekly
+      role: tool_steward
+      estimated_hours: 1
+      provisional: true
+  expected_lifespan: 15-30 years depending on structure and tool use
+  repair_procedure: [tag unsafe tool or area, repair or remove from service, update safety log]
+  end_of_life_path: [salvage tools and benches, recycle metal, dispose hazardous materials through approved channels]
+failure_modes:
+  - mode: tool_injury
+    likelihood: medium
+    severity: high
+    detection_method: incident reports and safety audits
+    mitigation: stop tool use, provide care, retrain, repair guarding or workflow
+governance:
+  owner: commons
+  access_rule: available after safety orientation and transparent scheduling
+  stewardship_role: tool_steward
+  backup_role: maintenance_steward
+  audit_frequency: weekly
+  capture_risk: control over tools can become control over repair capacity and resident autonomy
+metrics:
+  cost: 20000
+  build_labor_hours: 150
+  recurring_labor_hours_per_week: 1
+  energy_use: 4
+  water_use: 20
+  embodied_carbon: 1
+  maintenance_burden: 4
+  dignity_score: 7
+  autonomy_score: 9
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -20
+    energy_kwh_per_day: -4
+    food_servings_per_day: 0
+  critical_resources: [energy, maintenance]
+  notes: Provisional light workshop utility demand for repair operations.
+  provisional: true

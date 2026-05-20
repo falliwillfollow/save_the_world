@@ -1,0 +1,41 @@
+kind: Scenario
+id: drought_reserve_v2
+name: Drought Reserve v2
+description: Drought scenario after adding stronger storage, conservation, and backup-water assumptions.
+days: 90
+provisional: true
+resource_multipliers:
+  water_liters: 0.85
+  energy_kwh: 1
+  food_servings: 0.8
+resource_deltas:
+  water_liters: -40
+  energy_kwh: 0
+  food_servings: 0
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: water_rationing_protocol
+    description: Implement public water rationing, protected reserve floor, pause noncritical work, tank checks, and resident notices.
+    role: water_steward
+    total_hours: 18
+    day: 1
+triggered_risk_modes: [stored_water_contamination, crop_failure]
+labor_support:
+  - id: drought_check_mutual_aid
+    source: neighboring water steward support
+    hours_per_day: 18
+    start_day: 1
+    duration_days: 7
+    notes: Provisional outside help for tank checks, notices, and low-skill water hauling during drought response.
+runtime_failure_overrides:
+  - mode: stored_water_contamination
+    start_day: 1
+    duration_days: 7
+    response_hours_per_day: 0.75
+    notes: Protected reserve checks bound acute stored-water response during drought.
+  - mode: crop_failure
+    start_day: 1
+    duration_days: 30
+    response_hours_per_day: 0.75
+    notes: Staple reserve and procurement floor bound drought-linked crop response.
+notes: Provisional v2 drought scenario; represents redesign assumptions rather than weather proof.

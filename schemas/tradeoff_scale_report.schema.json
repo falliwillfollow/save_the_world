@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/tradeoff_scale_report.schema.json",
+  "title": "TradeoffScaleReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "compiled_plan",
+    "candidate_matrix",
+    "scale_profile",
+    "generated_by",
+    "provisional",
+    "status",
+    "scale_targets",
+    "objective_leaders",
+    "candidate_scale_results",
+    "viewer_candidate_summary",
+    "metric_updates",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "TradeoffScaleReport" },
+    "id": { "type": "string" },
+    "compiled_plan": { "type": "string" },
+    "candidate_matrix": { "type": "string" },
+    "scale_profile": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["not_ready", "ready_with_warnings", "ready"] },
+    "scale_targets": { "type": "array", "items": { "type": "object" } },
+    "objective_leaders": { "type": "array", "items": { "type": "object" } },
+    "candidate_scale_results": { "type": "array", "items": { "type": "object" } },
+    "viewer_candidate_summary": { "type": "array", "items": { "type": "object" } },
+    "metric_updates": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

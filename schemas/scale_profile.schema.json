@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/scale_profile.schema.json",
+  "title": "ScaleProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "id", "provisional", "base_households", "targets", "assumptions", "unknowns"],
+  "properties": {
+    "kind": { "const": "ScaleProfile" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "provisional": { "type": "boolean" },
+    "base_households": { "type": "integer", "minimum": 1 },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["households", "label", "notes"],
+        "properties": {
+          "households": { "type": "integer", "minimum": 1 },
+          "label": { "type": "string", "minLength": 3 },
+          "notes": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "provisional"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "description": { "type": "string", "minLength": 5 },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

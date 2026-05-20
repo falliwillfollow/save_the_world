@@ -1,0 +1,64 @@
+kind: HouseholdProfile
+id: micro_commons_households_v0
+site_profile_id: micro_commons_5_households
+generated_by: ciac.household_profile.seed_v0
+provisional: true
+households:
+  - id: household_a
+    adults: 2
+    children: 0
+    elders: 0
+    disabled_residents: 0
+    available_commons_labor_hours_per_week: 18
+    protected_labor_hours_per_week: 4
+    care_hours_per_week: 2
+    skill_tags: [water, maintenance, workshop]
+    notes: Provisional adult household with moderate commons availability.
+  - id: household_b
+    adults: 2
+    children: 1
+    elders: 0
+    disabled_residents: 0
+    available_commons_labor_hours_per_week: 14
+    protected_labor_hours_per_week: 8
+    care_hours_per_week: 12
+    skill_tags: [food, kitchen, governance]
+    notes: Provisional household with child care load reducing commons availability.
+  - id: household_c
+    adults: 1
+    children: 0
+    elders: 1
+    disabled_residents: 0
+    available_commons_labor_hours_per_week: 12
+    protected_labor_hours_per_week: 10
+    care_hours_per_week: 8
+    skill_tags: [sanitation, records]
+    notes: Provisional elder-inclusive household with protected labor limits.
+  - id: household_d
+    adults: 3
+    children: 0
+    elders: 0
+    disabled_residents: 0
+    available_commons_labor_hours_per_week: 22
+    protected_labor_hours_per_week: 6
+    care_hours_per_week: 3
+    skill_tags: [energy, maintenance, governance]
+    notes: Provisional higher-availability household with energy skills.
+  - id: household_e
+    adults: 1
+    children: 1
+    elders: 0
+    disabled_residents: 1
+    available_commons_labor_hours_per_week: 18
+    protected_labor_hours_per_week: 12
+    care_hours_per_week: 16
+    skill_tags: [food, accessibility, care]
+    notes: Provisional household with disability and care constraints; no labor obligation should be inferred.
+daily_resource_demand_adjustments:
+  water_liters: 45
+  energy_kwh: 2
+  food_servings: 36
+unknowns:
+  - Household composition and labor availability are provisional examples, not resident commitments.
+  - Care work, disability, elder support, and child care require direct resident consent and review.
+  - Available commons labor is not an obligation; refusal and exit rights must remain protected.

@@ -1,0 +1,37 @@
+kind: SiteProfile
+id: micro_commons_5_households
+acres: 12
+site_type: peri_urban
+climate_zone: humid_temperate_provisional
+seasonal_profile_id: humid_temperate_provisional
+household_profile_id: micro_commons_households_v0
+spatial_profile_id: micro_commons_spatial_v0
+households: 5
+population_target: 12
+legal_compliance_assumption: Legal compliance is assumed as a constraint, but no jurisdiction-specific code path is validated in Sprint 1.
+water_sources: [well, rainwater]
+build_phasing: 3_years
+priorities: [water, sanitation, shelter, energy, food, workshop, governance]
+selected_patterns:
+  - tool_library
+  - solar_shed
+  - critical_load_reserve
+  - well_house
+  - rainwater_capture
+  - emergency_water_reserve
+  - composting_system
+  - shared_bathhouse
+  - starter_dwelling
+  - community_kitchen
+  - staple_food_reserve
+  - workshop
+  - greenhouse
+resolved_external_dependencies:
+  - legal_site_access
+  - local_sanitation_code_review
+  - licensed_electrical_review
+  - well_permit_path_planned
+  - water_testing_available
+  - food_safety_review
+  - workshop_safety_review
+  - inventory_baseline

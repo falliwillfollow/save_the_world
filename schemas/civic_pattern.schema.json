@@ -1,0 +1,330 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/civic_pattern.schema.json",
+  "title": "CivicPattern",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "type",
+    "status",
+    "provisional",
+    "provisional_for",
+    "purpose",
+    "scale",
+    "mdl_categories",
+    "inputs",
+    "outputs",
+    "dependencies",
+    "constraints",
+    "build_phase",
+    "lifecycle",
+    "failure_modes",
+    "governance",
+    "metrics",
+    "simulation"
+  ],
+  "properties": {
+    "kind": { "const": "CivicPattern" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Structure",
+        "WaterSystem",
+        "SanitationSystem",
+        "EnergySystem",
+        "FoodSystem",
+        "Workshop",
+        "Tooling",
+        "Storage",
+        "Commons"
+      ]
+    },
+    "status": { "type": "string", "enum": ["draft", "validated", "deprecated"] },
+    "provisional": { "type": "boolean" },
+    "provisional_for": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["engineering", "legal", "health", "water", "sanitation", "structural", "electrical", "cost", "labor", "ecology", "governance"]
+      },
+      "uniqueItems": true
+    },
+    "purpose": { "type": "string", "minLength": 10 },
+    "scale": {
+      "type": "string",
+      "enum": ["component", "room", "dwelling", "cluster", "village", "bioregion", "federation"]
+    },
+    "mdl_categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["water", "food", "shelter", "sanitation", "energy", "clothing", "health", "privacy", "commons", "communication", "contribution", "rest"]
+      },
+      "uniqueItems": true
+    },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "outputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "dependencies": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/dependency" }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["physical", "ecological", "legal", "social", "safety"],
+      "properties": {
+        "physical": { "type": "array", "items": { "type": "string" } },
+        "ecological": { "type": "array", "items": { "type": "string" } },
+        "legal": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "social": { "type": "array", "items": { "type": "string" } },
+        "safety": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "build_phase": { "type": "integer", "minimum": 0, "maximum": 5 },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["build_sequence", "inspection_points", "maintenance", "expected_lifespan", "repair_procedure", "end_of_life_path"],
+      "properties": {
+        "build_sequence": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "inspection_points": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "maintenance": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/maintenance_task" } },
+        "expected_lifespan": { "type": "string", "minLength": 3 },
+        "repair_procedure": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "end_of_life_path": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/failure_mode" }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "access_rule", "stewardship_role", "backup_role", "audit_frequency", "capture_risk"],
+      "properties": {
+        "owner": { "type": "string", "enum": ["commons", "household", "cooperative", "individual", "external"] },
+        "access_rule": { "type": "string", "minLength": 5 },
+        "stewardship_role": { "type": "string", "minLength": 3 },
+        "backup_role": { "type": "string", "minLength": 3 },
+        "audit_frequency": { "type": "string", "minLength": 3 },
+        "capture_risk": { "type": "string", "minLength": 5 }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cost",
+        "build_labor_hours",
+        "recurring_labor_hours_per_week",
+        "energy_use",
+        "water_use",
+        "embodied_carbon",
+        "maintenance_burden",
+        "dignity_score",
+        "autonomy_score",
+        "resilience_score",
+        "provisional"
+      ],
+      "properties": {
+        "cost": { "type": "number", "minimum": 0 },
+        "build_labor_hours": { "type": "number", "minimum": 0 },
+        "recurring_labor_hours_per_week": { "type": "number", "minimum": 0 },
+        "energy_use": { "type": "number", "minimum": 0 },
+        "water_use": { "type": "number", "minimum": 0 },
+        "embodied_carbon": { "type": "number", "minimum": 0 },
+        "maintenance_burden": { "type": "number", "minimum": 0 },
+        "dignity_score": { "type": "number", "minimum": 0, "maximum": 10 },
+        "autonomy_score": { "type": "number", "minimum": 0, "maximum": 10 },
+        "resilience_score": { "type": "number", "minimum": 0, "maximum": 10 },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "simulation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resource_effects", "critical_resources", "notes", "provisional"],
+      "properties": {
+        "resource_effects": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["water_liters_per_day", "energy_kwh_per_day", "food_servings_per_day"],
+          "properties": {
+            "water_liters_per_day": { "type": "number" },
+            "energy_kwh_per_day": { "type": "number" },
+            "food_servings_per_day": { "type": "number" }
+          }
+        },
+        "storage": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/storage_spec" }
+        },
+        "critical_resources": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["water", "energy", "food", "sanitation", "maintenance"] },
+          "uniqueItems": true
+        },
+        "notes": { "type": "string", "minLength": 5 },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "optimization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tunable_parameters", "locked_parameters", "scaling", "objectives", "provisional"],
+      "properties": {
+        "tunable_parameters": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/tunable_parameter" }
+        },
+        "locked_parameters": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/locked_parameter" }
+        },
+        "scaling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "household_range", "notes", "provisional"],
+          "properties": {
+            "mode": { "type": "string", "enum": ["linear", "step", "shared_capacity", "manual_review"] },
+            "household_range": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["min", "max"],
+              "properties": {
+                "min": { "type": "integer", "minimum": 1 },
+                "max": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "notes": { "type": "string", "minLength": 5 },
+            "provisional": { "type": "boolean" }
+          }
+        },
+        "objectives": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["dignity", "resilience", "autonomy", "cost", "labor", "external_dependency", "review_burden"]
+          },
+          "uniqueItems": true
+        },
+        "provisional": { "type": "boolean" }
+      }
+    }
+  },
+  "definitions": {
+    "tunable_parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "label", "unit", "min", "max", "step", "default", "affects", "review_required", "provisional"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "path": { "type": "string", "minLength": 3 },
+        "label": { "type": "string", "minLength": 3 },
+        "unit": { "type": "string", "minLength": 1 },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "step": { "type": "number", "exclusiveMinimum": 0 },
+        "default": { "type": "number" },
+        "affects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["water", "food", "energy", "sanitation", "labor", "cost", "resilience", "autonomy", "dignity", "maintenance", "external_dependency", "governance"]
+          }
+        },
+        "review_required": { "type": "boolean" },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "locked_parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "reason", "review_dependency", "provisional"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "path": { "type": "string", "minLength": 3 },
+        "reason": { "type": "string", "minLength": 5 },
+        "review_dependency": { "type": "string", "minLength": 3 },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "critical", "rationale"],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 },
+        "kind": { "type": "string", "enum": ["pattern", "external"] },
+        "critical": { "type": "boolean" },
+        "rationale": { "type": "string", "minLength": 5 }
+      }
+    },
+    "maintenance_task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "interval", "role", "estimated_hours", "provisional"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "description": { "type": "string", "minLength": 5 },
+        "interval": { "type": "string", "minLength": 3 },
+        "role": { "type": "string", "minLength": 3 },
+        "estimated_hours": { "type": "number", "minimum": 0 },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "failure_mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "likelihood", "severity", "detection_method", "mitigation"],
+      "properties": {
+        "mode": { "type": "string", "minLength": 3 },
+        "likelihood": { "type": "string", "enum": ["low", "medium", "high"] },
+        "severity": { "type": "string", "enum": ["low", "medium", "high", "catastrophic"] },
+        "detection_method": { "type": "string", "minLength": 5 },
+        "mitigation": { "type": "string", "minLength": 5 }
+      }
+    },
+    "storage_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resource", "capacity", "initial", "reserve_floor", "max_release_per_day", "max_refill_per_day", "refill_mode", "quality", "access_rule", "notes", "provisional"],
+      "properties": {
+        "resource": { "type": "string", "enum": ["water_liters", "energy_kwh", "food_servings"] },
+        "capacity": { "type": "number", "minimum": 0 },
+        "initial": { "type": "number", "minimum": 0 },
+        "reserve_floor": { "type": "number", "minimum": 0 },
+        "max_release_per_day": { "type": "number", "minimum": 0 },
+        "max_refill_per_day": { "type": "number", "minimum": 0 },
+        "refill_mode": { "type": "string", "enum": ["surplus_only", "surplus_or_external", "manual_procurement"] },
+        "quality": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["check_interval_days", "unsafe_after_days", "loss_per_day_after_unsafe", "risk", "recovery_action", "recovery_role", "recovery_labor_hours", "recovery_duration_days", "review_dependency", "provisional"],
+          "properties": {
+            "check_interval_days": { "type": "integer", "minimum": 1 },
+            "unsafe_after_days": { "type": "integer", "minimum": 1 },
+            "loss_per_day_after_unsafe": { "type": "number", "minimum": 0, "maximum": 1 },
+            "risk": { "type": "string", "minLength": 5 },
+            "recovery_action": { "type": "string", "minLength": 5 },
+            "recovery_role": { "type": "string", "minLength": 3 },
+            "recovery_labor_hours": { "type": "number", "minimum": 0 },
+            "recovery_duration_days": { "type": "integer", "minimum": 1 },
+            "review_dependency": { "type": "string", "minLength": 3 },
+            "provisional": { "type": "boolean" }
+          }
+        },
+        "access_rule": { "type": "string", "minLength": 5 },
+        "notes": { "type": "string", "minLength": 5 },
+        "provisional": { "type": "boolean" }
+      }
+    }
+  }
+}

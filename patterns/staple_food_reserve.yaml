@@ -1,0 +1,134 @@
+kind: CivicPattern
+id: staple_food_reserve
+type: FoodSystem
+status: draft
+provisional: true
+provisional_for: [health, legal, cost, labor, governance]
+purpose: Provide boring stored staple calories, protected drawdown, and procurement fallback before relying on greenhouse output.
+scale: cluster
+mdl_categories: [food, health, commons]
+inputs: [dry_storage, staple_food_inventory, pest_control, procurement_plan, procurement_floor]
+outputs: [stored_calorie_buffer, food_shortage_visibility, procurement_trigger, protected_staple_drawdown]
+dependencies:
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: Stored staples need shared preparation and food handling capacity.
+  - id: food_safety_review
+    kind: external
+    critical: true
+    rationale: Shared food storage needs food safety review before real-world use.
+constraints:
+  physical: [dry storage, pest exclusion, shelf rotation]
+  ecological: [avoid fragile single-source procurement assumptions]
+  legal: [food storage and shared kitchen rules vary by jurisdiction]
+  social: [dietary needs and culturally acceptable staples must be reviewed with residents]
+  safety: [allergens, spoilage, pests, food safety review]
+build_phase: 1
+lifecycle:
+  build_sequence: [choose storage, define staple list, label allergens, start inventory log, define reorder trigger]
+  inspection_points: [pest signs, moisture, expiration dates, allergen labels, inventory count]
+  maintenance:
+    - id: staple_inventory_check
+      description: Check staple inventory, moisture, pests, protected drawdown floor, and reorder trigger.
+      interval: weekly
+      role: kitchen_steward
+      estimated_hours: 1
+      provisional: true
+  expected_lifespan: ongoing with inventory rotation
+  repair_procedure: [isolate spoiled food, clean storage, replace stock, review procurement trigger]
+  end_of_life_path: [compost safe spoiled organics where appropriate, dispose unsafe stock safely]
+failure_modes:
+  - mode: staple_spoilage
+    likelihood: medium
+    severity: high
+    detection_method: inventory log and food storage inspection
+    mitigation: discard unsafe food, clean storage, replace staples, review moisture and pest controls
+governance:
+  owner: commons
+  access_rule: staples are allocated through transparent pantry rules with household dignity protections
+  stewardship_role: kitchen_steward
+  backup_role: food_steward
+  audit_frequency: weekly
+  capture_risk: pantry control could become coercive without clear access and replenishment rules
+metrics:
+  cost: 3500
+  build_labor_hours: 20
+  recurring_labor_hours_per_week: 0.75
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 2
+  dignity_score: 8
+  autonomy_score: 6
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  storage:
+    - resource: food_servings
+      capacity: 24000
+      initial: 22000
+      reserve_floor: 6000
+      max_release_per_day: 140
+      max_refill_per_day: 160
+      refill_mode: manual_procurement
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 60
+        loss_per_day_after_unsafe: 0.1
+        risk: staple stores may spoil or become pest-contaminated if inspection and rotation are neglected
+        recovery_action: discard unsafe stock, clean storage, replace staples, and review procurement trigger
+        recovery_role: kitchen_steward
+        recovery_labor_hours: 4
+        recovery_duration_days: 2
+        review_dependency: food_safety
+        provisional: true
+      access_rule: release through transparent pantry rules before households face unmet staple-food demand
+      notes: Provisional staple-serving inventory with procurement floor; not a complete nutrition, shelf-life, allergen, or food-safety model.
+      provisional: true
+  critical_resources: [food, maintenance]
+  notes: Provisional stored pantry reserve with a minimum procurement floor; not a complete nutrition, diet, procurement, or food-safety plan.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: staple_serving_capacity
+      path: simulation.storage[0].capacity
+      label: Staple reserve capacity
+      unit: servings
+      min: 12000
+      max: 72000
+      step: 6000
+      default: 24000
+      affects: [food, resilience, cost, maintenance]
+      review_required: true
+      provisional: true
+    - id: procurement_refill_rate
+      path: simulation.storage[0].max_refill_per_day
+      label: Procurement refill rate
+      unit: servings_per_day
+      min: 60
+      max: 400
+      step: 20
+      default: 160
+      affects: [food, resilience, external_dependency, labor]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: nutrition_completeness
+      path: simulation.notes
+      reason: Complete diet, allergen, food-safety, and cultural acceptability claims require review and resident input.
+      review_dependency: food_safety
+      provisional: true
+  scaling:
+    mode: shared_capacity
+    household_range:
+      min: 3
+      max: 50
+    notes: Staple reserve can scale by servings, but diet mix, rotation, pests, and procurement reliability remain review-bound.
+    provisional: true
+  objectives: [resilience, dignity, cost, labor, external_dependency, review_burden]
+  provisional: true

@@ -1,0 +1,134 @@
+kind: CivicPattern
+id: critical_load_reserve
+type: EnergySystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, electrical, cost, labor]
+purpose: Provide a modest critical-load reserve and charging fallback for minimum dignified continuity.
+scale: cluster
+mdl_categories: [energy, communication, health, commons]
+inputs: [portable_power_reserve, critical_load_list, charging_plan, electrical_review]
+outputs: [critical_load_buffer, communications_power, refrigeration_bridge]
+dependencies:
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: The reserve needs the primary commons energy stewardship and charging point.
+  - id: licensed_electrical_review
+    kind: external
+    critical: true
+    rationale: Critical-load reserve and charging rules need qualified electrical review.
+constraints:
+  physical: [ventilation, dry storage, clear access, charging location]
+  ecological: [battery lifecycle and recycling]
+  legal: [electrical storage and charging rules vary by jurisdiction]
+  social: [critical loads must prioritize health, communication, refrigeration, and water functions]
+  safety: [fire separation, charging supervision, overcurrent protection, electrical review]
+build_phase: 1
+lifecycle:
+  build_sequence: [define critical loads, choose reserve, label outlets, set charging schedule, test load transfer]
+  inspection_points: [charge state, cables, ventilation, label clarity, load test]
+  maintenance:
+    - id: critical_reserve_check
+      description: Check reserve charge state, cables, labels, and critical-load list.
+      interval: weekly
+      role: energy_steward
+      estimated_hours: 0.5
+      provisional: true
+  expected_lifespan: 5-12 years depending on battery chemistry and use
+  repair_procedure: [isolate suspect reserve, remove from service, qualified review, replace or recycle]
+  end_of_life_path: [recycle battery through approved program, update reserve plan]
+failure_modes:
+  - mode: reserve_battery_fault
+    likelihood: low
+    severity: high
+    detection_method: charge logs, device alerts, heat, swelling, or failed load test
+    mitigation: isolate reserve, stop charging, use backup communications plan, escalate to qualified reviewer
+governance:
+  owner: commons
+  access_rule: reserve powers critical health, communication, water, and refrigeration loads through public priority rules
+  stewardship_role: energy_steward
+  backup_role: maintenance_steward
+  audit_frequency: weekly
+  capture_risk: control over reserve charging could privilege some households without transparent priority rules
+metrics:
+  cost: 6000
+  build_labor_hours: 24
+  recurring_labor_hours_per_week: 0.5
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 2
+  dignity_score: 8
+  autonomy_score: 7
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  storage:
+    - resource: energy_kwh
+      capacity: 1000
+      initial: 1000
+      reserve_floor: 150
+      max_release_per_day: 22
+      max_refill_per_day: 22
+      refill_mode: surplus_or_external
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 90
+        loss_per_day_after_unsafe: 0.02
+        risk: critical-load reserve may lose usable charge or become unsafe if inspection and charge checks are neglected
+        recovery_action: remove suspect battery from service, recharge or replace reserve, and escalate to qualified review
+        recovery_role: energy_steward
+        recovery_labor_hours: 3
+        recovery_duration_days: 1
+        review_dependency: electrical
+        provisional: true
+      access_rule: release only for critical health, communication, water, and refrigeration loads
+      notes: Provisional critical-load store; not an electrical design, battery specification, or code claim.
+      provisional: true
+  critical_resources: [energy, maintenance]
+  notes: Provisional stored critical-load reserve; not an electrical design, battery sizing, or code claim.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: battery_capacity
+      path: simulation.storage[0].capacity
+      label: Critical-load reserve capacity
+      unit: kwh
+      min: 300
+      max: 3000
+      step: 100
+      default: 1000
+      affects: [energy, resilience, cost, maintenance]
+      review_required: true
+      provisional: true
+    - id: critical_release_rate
+      path: simulation.storage[0].max_release_per_day
+      label: Critical-load release rate
+      unit: kwh_per_day
+      min: 8
+      max: 60
+      step: 2
+      default: 22
+      affects: [energy, resilience, governance]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: electrical_safety_claim
+      path: simulation.storage[0].quality.review_dependency
+      reason: Electrical design, battery safety, fire separation, and code claims require qualified electrical review.
+      review_dependency: electrical
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 3
+      max: 25
+    notes: Reserve modules may scale in steps; charging, wiring, fire, and critical-load choices remain review-bound.
+    provisional: true
+  objectives: [resilience, autonomy, cost, labor, review_burden]
+  provisional: true

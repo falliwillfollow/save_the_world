@@ -1,0 +1,98 @@
+kind: FoodPlan
+id: micro_commons_basic
+name: Micro-Commons Basic Food Plan
+description: Provisional food and storage model for the five-household micro-commons.
+population: 12
+days: 365
+provisional: true
+targets:
+  calories_per_person_per_day: 2200
+  protein_grams_per_person_per_day: 55
+  storage_days_target: 30
+  local_food_percent_target: 35
+foods:
+  - id: greenhouse_greens
+    name: Greenhouse greens and herbs
+    source: local
+    calories_per_day: 1200
+    protein_grams_per_day: 70
+    servings_per_day: 24
+    season: year_round_provisional
+    storage_life_days: 5
+    stored_days: 2
+    preservation_method: fresh
+    water_sensitivity: high
+    external_dependency: seeds and amendments
+    provisional: true
+  - id: garden_roots
+    name: Garden roots and squash
+    source: local
+    calories_per_day: 6000
+    protein_grams_per_day: 120
+    servings_per_day: 30
+    season: warm_season_with_storage
+    storage_life_days: 120
+    stored_days: 20
+    preservation_method: root_cellar
+    water_sensitivity: medium
+    external_dependency: seeds and seasonal labor
+    provisional: true
+  - id: dry_beans
+    name: Dry beans
+    source: stored
+    calories_per_day: 7200
+    protein_grams_per_day: 480
+    servings_per_day: 24
+    season: stored_year_round
+    storage_life_days: 365
+    stored_days: 45
+    preservation_method: dry_storage
+    water_sensitivity: low
+    external_dependency: external staple purchase until local production exists
+    provisional: true
+  - id: grains
+    name: Oats, rice, and flour
+    source: external
+    calories_per_day: 9000
+    protein_grams_per_day: 270
+    servings_per_day: 36
+    season: procured_year_round
+    storage_life_days: 365
+    stored_days: 45
+    preservation_method: dry_storage
+    water_sensitivity: low
+    external_dependency: regional staple supplier
+    provisional: true
+  - id: fats_and_oils
+    name: Cooking fats and oils
+    source: external
+    calories_per_day: 3600
+    protein_grams_per_day: 0
+    servings_per_day: 12
+    season: procured_year_round
+    storage_life_days: 180
+    stored_days: 30
+    preservation_method: shelf_stable_storage
+    water_sensitivity: low
+    external_dependency: regional grocery or bulk supplier
+    provisional: true
+  - id: eggs_or_dairy
+    name: Eggs or dairy
+    source: external
+    calories_per_day: 2400
+    protein_grams_per_day: 180
+    servings_per_day: 12
+    season: procured_year_round
+    storage_life_days: 14
+    stored_days: 7
+    preservation_method: refrigeration
+    water_sensitivity: low
+    external_dependency: local farms or grocery supplier
+    provisional: true
+fallback_procurement:
+  available: true
+  calories_per_day: 12000
+  protein_grams_per_day: 420
+  lead_time_days: 2
+  notes: Fallback procurement floor is modeled as a minimum response assumption, not a secured contract.
+notes: Provisional nutrition model for software validation; fallback procurement floor is not medical, dietary, agricultural, or contract evidence.

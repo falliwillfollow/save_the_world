@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/objective_calibration_profile.schema.json",
+  "title": "ObjectiveCalibrationProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "id", "provisional", "metric_calibrations", "governance", "unknowns"],
+  "properties": {
+    "kind": { "const": "ObjectiveCalibrationProfile" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "provisional": { "type": "boolean" },
+    "metric_calibrations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "metric",
+          "formula_id",
+          "direction",
+          "inputs",
+          "score_interpretation",
+          "evidence_status",
+          "review_required",
+          "risk_of_false_precision",
+          "provisional"
+        ],
+        "properties": {
+          "metric": {
+            "type": "string",
+            "enum": [
+              "dignity_score",
+              "resilience_score",
+              "autonomy_score",
+              "cost",
+              "build_labor_hours",
+              "recurring_labor_hours_per_week",
+              "external_dependency_score",
+              "review_burden"
+            ]
+          },
+          "formula_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "direction": { "type": "string", "enum": ["minimize", "maximize"] },
+          "inputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "score_interpretation": { "type": "string", "minLength": 5 },
+          "evidence_status": {
+            "type": "string",
+            "enum": ["internal_model", "provisional_assumption", "review_required", "sourced"]
+          },
+          "review_required": { "type": "boolean" },
+          "risk_of_false_precision": { "type": "string", "minLength": 5 },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["weight_authority", "resident_consent_status", "review_status", "provisional"],
+      "properties": {
+        "weight_authority": { "type": "string" },
+        "resident_consent_status": { "type": "string" },
+        "review_status": { "type": "string" },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

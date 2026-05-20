@@ -1,0 +1,77 @@
+kind: CivicPattern
+id: community_kitchen
+type: FoodSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, electrical, cost, labor]
+purpose: Provide shared food preparation, preservation staging, and gathering capacity.
+scale: cluster
+mdl_categories: [food, commons, contribution]
+inputs: [safe_water, power, food_inventory, cookware, cleaning_supplies]
+outputs: [prepared_meals, shared_food_storage, food_safety_workflow]
+dependencies:
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: Kitchen sanitation requires tested potable water.
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: Refrigeration, lighting, and critical appliances need basic power.
+  - id: food_safety_review
+    kind: external
+    critical: true
+    rationale: Shared food preparation needs health and food safety review.
+constraints:
+  physical: [washable surfaces, pest-resistant storage, ventilation]
+  ecological: [separate compost, recycling, and landfill streams]
+  legal: [requires food safety and occupancy review when shared at scale]
+  social: [fair scheduling, allergen awareness, inclusive meal planning]
+  safety: [fire suppression, knife safety, refrigeration temperature checks]
+build_phase: 2
+lifecycle:
+  build_sequence: [confirm food safety rules, establish clean zones, install fixtures, stock basic tools, inspect before use]
+  inspection_points: [water access, cold storage, fire safety, pest control, cleaning workflow]
+  maintenance:
+    - id: kitchen_closeout
+      description: Clean preparation areas and verify food storage temperatures.
+      interval: daily
+      role: kitchen_steward
+      estimated_hours: 0.75
+      provisional: true
+  expected_lifespan: 10-20 years depending on appliances and use intensity
+  repair_procedure: [remove unsafe equipment from service, document fault, repair or replace, recheck food safety]
+  end_of_life_path: [salvage fixtures, recycle appliances through approved channels, compost safe organic residue]
+failure_modes:
+  - mode: foodborne_illness
+    likelihood: medium
+    severity: high
+    detection_method: temperature logs and resident health reports
+    mitigation: discard suspect food, sanitize, retrain kitchen role, escalate to health professional
+governance:
+  owner: commons
+  access_rule: available to residents through transparent scheduling and hygiene rules
+  stewardship_role: kitchen_steward
+  backup_role: food_steward
+  audit_frequency: weekly
+  capture_risk: food access can become coercive if inventory or scheduling records are opaque
+metrics:
+  cost: 22000
+  build_labor_hours: 160
+  recurring_labor_hours_per_week: 5.25
+  energy_use: 8
+  water_use: 250
+  embodied_carbon: 1
+  maintenance_burden: 6
+  dignity_score: 8
+  autonomy_score: 7
+  resilience_score: 7
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -150
+    energy_kwh_per_day: -8
+    food_servings_per_day: 0
+  critical_resources: [water, energy, food, maintenance]
+  notes: Provisional kitchen water and critical appliance demand.
+  provisional: true

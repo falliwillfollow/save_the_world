@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/water_plan.schema.json",
+  "title": "WaterPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "name",
+    "description",
+    "population",
+    "days",
+    "provisional",
+    "targets",
+    "storage",
+    "demand",
+    "sources",
+    "treatment_methods",
+    "testing",
+    "contamination_response",
+    "drought_assumptions",
+    "notes"
+  ],
+  "properties": {
+    "kind": { "const": "WaterPlan" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "name": { "type": "string", "minLength": 3 },
+    "description": { "type": "string", "minLength": 10 },
+    "population": { "type": "integer", "minimum": 1 },
+    "days": { "type": "integer", "minimum": 1 },
+    "provisional": { "type": "boolean" },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["emergency_reserve_days", "contamination_fallback_days", "drought_days"],
+      "properties": {
+        "emergency_reserve_days": { "type": "number", "minimum": 0 },
+        "contamination_fallback_days": { "type": "number", "minimum": 0 },
+        "drought_days": { "type": "number", "minimum": 1 }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["potable_liters", "nonpotable_liters"],
+      "properties": {
+        "potable_liters": { "type": "number", "minimum": 0 },
+        "nonpotable_liters": { "type": "number", "minimum": 0 }
+      }
+    },
+    "demand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["potable_liters_per_person_per_day", "nonpotable_liters_per_person_per_day"],
+      "properties": {
+        "potable_liters_per_person_per_day": { "type": "number", "minimum": 0 },
+        "nonpotable_liters_per_person_per_day": { "type": "number", "minimum": 0 }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "kind", "potable", "normal_yield_liters_per_day", "drought_yield_multiplier", "contamination_available", "provisional"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "name": { "type": "string", "minLength": 2 },
+          "kind": { "type": "string", "enum": ["well", "rainwater", "municipal", "hauled", "surface", "other"] },
+          "potable": { "type": "boolean" },
+          "normal_yield_liters_per_day": { "type": "number", "minimum": 0 },
+          "drought_yield_multiplier": { "type": "number", "minimum": 0 },
+          "contamination_available": { "type": "boolean" },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
+    "treatment_methods": { "type": "array", "items": { "type": "string" } },
+    "testing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cadence_days", "responsible_role", "requires_lab_confirmation"],
+      "properties": {
+        "cadence_days": { "type": "number", "minimum": 1 },
+        "responsible_role": { "type": "string", "minLength": 3 },
+        "requires_lab_confirmation": { "type": "boolean" }
+      }
+    },
+    "contamination_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["isolate_primary_source", "backup_sources", "boil_or_treat_notice", "minimum_retest_count"],
+      "properties": {
+        "isolate_primary_source": { "type": "boolean" },
+        "backup_sources": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "uniqueItems": true
+        },
+        "boil_or_treat_notice": { "type": "boolean" },
+        "minimum_retest_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "drought_assumptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["demand_reduction_percent", "rainwater_yield_multiplier", "well_yield_multiplier"],
+      "properties": {
+        "demand_reduction_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "rainwater_yield_multiplier": { "type": "number", "minimum": 0 },
+        "well_yield_multiplier": { "type": "number", "minimum": 0 }
+      }
+    },
+    "notes": { "type": "string", "minLength": 5 }
+  }
+}

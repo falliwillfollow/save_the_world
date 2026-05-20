@@ -1,0 +1,41 @@
+kind: Scenario
+id: energy_outage_reserve_v2
+name: Energy Outage Reserve v2
+description: Energy outage scenario after increasing battery reserve, lowering critical loads, and adding backup energy.
+days: 7
+provisional: true
+resource_multipliers:
+  water_liters: 0.95
+  energy_kwh: 0.65
+  food_servings: 1
+resource_deltas:
+  water_liters: 0
+  energy_kwh: 10
+  food_servings: 0
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: critical_load_shedding
+    description: Shed noncritical loads, pause noncritical work, activate backup energy, and preserve refrigeration.
+    role: energy_steward
+    total_hours: 12
+    day: 1
+triggered_risk_modes: [battery_fault, foodborne_illness]
+labor_support:
+  - id: outage_check_mutual_aid
+    source: neighboring energy support
+    hours_per_day: 12
+    start_day: 1
+    duration_days: 2
+    notes: Provisional outside help for low-risk monitoring and logistics during outage; not electrical review or qualified work.
+runtime_failure_overrides:
+  - mode: battery_fault
+    start_day: 1
+    duration_days: 7
+    response_hours_per_day: 1.25
+    notes: Load shedding and backup charging reduce daily energy-steward burden while electrical review remains required.
+  - mode: foodborne_illness
+    start_day: 1
+    duration_days: 3
+    response_hours_per_day: 0.75
+    notes: Refrigeration triage and food disposal checks bound acute kitchen response during outage.
+notes: Provisional v2 outage scenario; represents redesigned reserve and backup assumptions rather than electrical proof.

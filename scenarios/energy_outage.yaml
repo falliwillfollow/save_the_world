@@ -1,0 +1,24 @@
+kind: Scenario
+id: energy_outage
+name: Energy Outage
+description: Critical energy supply is sharply reduced while diagnostics and load shedding occur.
+days: 7
+provisional: true
+resource_multipliers:
+  water_liters: 0.9
+  energy_kwh: 0.1
+  food_servings: 1
+resource_deltas:
+  water_liters: 0
+  energy_kwh: -10
+  food_servings: 0
+labor_capacity_multiplier: 1
+emergency_tasks:
+  - id: critical_load_shedding
+    description: Shed noncritical loads, inspect electrical system, and preserve refrigeration.
+    role: energy_steward
+    total_hours: 18
+    day: 1
+triggered_risk_modes: [battery_fault, foodborne_illness]
+notes: Provisional outage scenario reduces energy balance but does not model battery state of charge.
+

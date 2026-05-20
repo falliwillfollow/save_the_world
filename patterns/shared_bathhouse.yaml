@@ -1,0 +1,77 @@
+kind: CivicPattern
+id: shared_bathhouse
+type: SanitationSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, sanitation, structural, cost, labor]
+purpose: Provide shared washing, toilet, and hygiene access for the five-household commons.
+scale: cluster
+mdl_categories: [sanitation, health, commons]
+inputs: [safe_water, drainage_plan, sanitation_module, cleaning_supplies]
+outputs: [hygiene_access, toilet_access, handwashing_access]
+dependencies:
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: Bathhouse operation needs tested water access.
+  - id: composting_system
+    kind: pattern
+    critical: true
+    rationale: Toilet waste requires a resolved treatment path.
+  - id: local_sanitation_code_review
+    kind: external
+    critical: true
+    rationale: Human waste systems require jurisdiction-specific review.
+constraints:
+  physical: [durable wet-room surfaces, freeze and moisture protection]
+  ecological: [prevent groundwater contamination, manage greywater safely]
+  legal: [requires plumbing, health, and sanitation review]
+  social: [privacy, accessibility, gender-neutral access options]
+  safety: [slip resistance, ventilation, hot water scald prevention]
+build_phase: 2
+lifecycle:
+  build_sequence: [confirm sanitation design, prepare drainage, build wet-room shell, install fixtures, test water and waste flows, inspect]
+  inspection_points: [drainage, plumbing, ventilation, sanitation separation, accessibility]
+  maintenance:
+    - id: hygiene_round
+      description: Clean surfaces, restock supplies, and inspect fixtures.
+      interval: daily
+      role: sanitation_steward
+      estimated_hours: 0.5
+      provisional: true
+  expected_lifespan: 15-25 years depending on fixtures and moisture detailing
+  repair_procedure: [close unsafe fixture, post notice, repair leak or surface defect, document sanitation inspection]
+  end_of_life_path: [salvage fixtures, dispose contaminated materials through approved channels]
+failure_modes:
+  - mode: pathogen_exposure
+    likelihood: medium
+    severity: catastrophic
+    detection_method: inspection logs and illness reports
+    mitigation: shut down affected fixture, disinfect, test water, escalate to health professional
+governance:
+  owner: commons
+  access_rule: available to all residents under hygiene and privacy rules
+  stewardship_role: sanitation_steward
+  backup_role: care_steward
+  audit_frequency: weekly
+  capture_risk: control over hygiene access could become coercive if scheduling or keys are restricted
+metrics:
+  cost: 18000
+  build_labor_hours: 180
+  recurring_labor_hours_per_week: 3.5
+  energy_use: 3
+  water_use: 400
+  embodied_carbon: 1
+  maintenance_burden: 5
+  dignity_score: 9
+  autonomy_score: 6
+  resilience_score: 7
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -300
+    energy_kwh_per_day: -4
+    food_servings_per_day: 0
+  critical_resources: [water, energy, sanitation, maintenance]
+  notes: Provisional shared hygiene demand for the micro-commons.
+  provisional: true
