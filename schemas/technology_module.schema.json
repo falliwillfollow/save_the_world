@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/technology_module.schema.json",
+  "title": "TechnologyModule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "name",
+    "domain",
+    "status",
+    "provisional",
+    "source_evidence",
+    "performance_statistics",
+    "applicability",
+    "modeled_impacts",
+    "integration_requirements",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "TechnologyModule" },
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "domain": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string", "enum": ["draft", "evidence_seed", "candidate", "validated"] },
+    "provisional": { "type": "boolean" },
+    "source_evidence": { "type": "array", "items": { "type": "object" } },
+    "performance_statistics": { "type": "array", "items": { "type": "object" } },
+    "applicability": { "type": "object" },
+    "modeled_impacts": { "type": "object" },
+    "integration_requirements": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

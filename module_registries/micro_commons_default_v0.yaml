@@ -1,0 +1,91 @@
+kind: ModuleRegistry
+id: micro_commons_default_v0
+status: active
+provisional: true
+default_posture: Use boring, inspectable minimum-dignity infrastructure as the baseline; research modules may only replace or augment slots when dignity floors remain protected.
+slots:
+  - id: potable_water_source
+    domain: water
+    role: primary potable water supply
+    default_patterns: [well_house, rainwater_capture, emergency_water_reserve]
+    dignity_floor_resources: [water_liters]
+    swap_policy: adapter_required
+    accepted_module_domains: [water, filtration, storage, testing]
+    required_interfaces:
+      - resource_effects.water_liters_per_day
+      - storage.water_liters
+      - quality.review_dependency
+    scaling_basis: people_and_households
+    research_queries:
+      - peer reviewed decentralized potable water treatment performance rural community
+      - rainwater harvesting potable treatment pathogen removal study household scale
+    provisional: true
+  - id: food_production
+    domain: food
+    role: additive food production beyond stored dignity floor
+    default_patterns: [greenhouse, staple_food_reserve, community_kitchen]
+    dignity_floor_resources: [food_servings]
+    swap_policy: additive_only
+    accepted_module_domains: [food, water, land_use, controlled_environment_agriculture]
+    required_interfaces:
+      - edible_servings_per_day
+      - water_liters_per_serving
+      - labor_hours_per_week
+      - crop_failure_sensitivity
+    scaling_basis: servings_people_climate
+    research_queries:
+      - peer reviewed agrivoltaics vegetable yield water use efficiency
+      - controlled environment agriculture water use yield meta analysis
+      - low energy greenhouse crop yield cold climate study
+    provisional: true
+  - id: critical_energy
+    domain: energy
+    role: critical load continuity
+    default_patterns: [solar_shed, critical_load_reserve]
+    dignity_floor_resources: [energy_kwh]
+    swap_policy: adapter_required
+    accepted_module_domains: [energy, storage, microgrid, demand_response]
+    required_interfaces:
+      - energy_kwh_per_day
+      - storage.energy_kwh
+      - critical_load_priority
+      - electrical.review_dependency
+    scaling_basis: critical_loads_households
+    research_queries:
+      - peer reviewed rural microgrid battery reliability critical loads
+      - low cost community microgrid resilience study
+    provisional: true
+  - id: sanitation
+    domain: sanitation
+    role: safe waste handling
+    default_patterns: [composting_system, shared_bathhouse]
+    dignity_floor_resources: [sanitation_capacity]
+    swap_policy: adapter_required
+    accepted_module_domains: [sanitation, composting, wastewater, public_health]
+    required_interfaces:
+      - sanitation_capacity_per_day
+      - pathogen_risk
+      - maintenance_labor_hours
+      - health.review_dependency
+    scaling_basis: people_and_fixture_load
+    research_queries:
+      - peer reviewed ecological sanitation pathogen reduction composting toilet study
+      - decentralized wastewater treatment performance small community study
+    provisional: true
+research_scan_policy:
+  recency_preference_years: 10
+  accepted_sources: [peer_reviewed_paper, systematic_review, meta_analysis, standards_body_report]
+  required_metadata: [title, authors, year, doi_or_url, study_context, sample_size_or_scale, performance_statistics, limitations]
+  ai_tooling_role: find candidate papers, extract claims, map statistics to module interfaces, preserve uncertainty and provenance
+  human_review_role: approve module promotion beyond evidence_seed
+  provisional: true
+scaling_policy:
+  required_targets: [5, 10, 25, 50]
+  preserve_dignity_floors: true
+  prefer_additive_research_modules: true
+  notes: Research modules should scale through explicit interfaces, not hidden reductions in consumption or comfort.
+  provisional: true
+unknowns:
+  - AI research scans can miss or misread papers; extracted claims must keep citations and uncertainty.
+  - Drag-and-drop compatibility means simulation compatibility, not legal, engineering, health, or construction approval.
+  - Many promising technologies need adapter models before they can affect CIaC resource flows.

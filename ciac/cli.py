@@ -8,6 +8,7 @@ from .audit import evaluate_audit
 from .candidates import generate_candidate_matrix
 from .compare import compare_audits
 from .compiler import CompileError, compile_plan, load_patterns
+from .cycle import materialize_search_candidate
 from .dossier import generate_dossier
 from .energy import evaluate_energy
 from .export_md import render_review_packet, write_review_packet
@@ -29,6 +30,7 @@ from .scenarios import run_scenario
 from .search_optimizer import optimize_search
 from .simulation import simulate
 from .simulation_compare import compare_simulations
+from .technology import evaluate_module_compatibility, pressure_test_technology_module
 from .validation import validate_data, validate_path
 from .visualization_bundle import build_visualization_bundle
 from .water import evaluate_water
@@ -209,6 +211,32 @@ def main(argv: list[str] | None = None) -> int:
     weight_parser.add_argument("weight_governance_profile")
     weight_parser.add_argument("--output", "-o")
 
+    apply_search_parser = subparsers.add_parser("apply-search-candidate", help="Materialize a search optimizer candidate into a next-cycle runtime bundle")
+    apply_search_parser.add_argument("compiled_plan")
+    apply_search_parser.add_argument("search_optimizer_report")
+    apply_search_parser.add_argument("--candidate")
+    apply_search_parser.add_argument("--scenario", action="append", default=[])
+    apply_search_parser.add_argument("--review-status")
+    apply_search_parser.add_argument("--days", type=int, default=365)
+    apply_search_parser.add_argument("--cycle-index", type=int, default=1)
+    apply_search_parser.add_argument("--playback-seconds", type=int, default=20)
+    apply_search_parser.add_argument("--authority-mode", choices=["operator_directed", "review_directed"], default="operator_directed")
+    apply_search_parser.add_argument("--pattern-dir")
+    apply_search_parser.add_argument("--optimization-profile")
+    apply_search_parser.add_argument("--top", type=int, default=10)
+    apply_search_parser.add_argument("--output", "-o")
+
+    tech_parser = subparsers.add_parser("technology-pressure-test", help="Pressure-test an evidence-backed sustainability technology module")
+    tech_parser.add_argument("compiled_plan")
+    tech_parser.add_argument("technology_module")
+    tech_parser.add_argument("--output", "-o")
+
+    module_parser = subparsers.add_parser("module-compatibility", help="Evaluate modular swap readiness against a module registry")
+    module_parser.add_argument("compiled_plan")
+    module_parser.add_argument("module_registry")
+    module_parser.add_argument("--technology-module", action="append", default=[])
+    module_parser.add_argument("--output", "-o")
+
     args = parser.parse_args(argv)
     if args.command == "validate":
         return _validate(args.path)
@@ -266,6 +294,12 @@ def main(argv: list[str] | None = None) -> int:
         return _objective_calibration(args.search_optimizer_report, args.calibration_profile, args.output)
     if args.command == "weight-governance":
         return _weight_governance(args.optimization_profile, args.objective_calibration_report, args.weight_governance_profile, args.output)
+    if args.command == "apply-search-candidate":
+        return _apply_search_candidate(args)
+    if args.command == "technology-pressure-test":
+        return _technology_pressure_test(args.compiled_plan, args.technology_module, args.output)
+    if args.command == "module-compatibility":
+        return _module_compatibility(args.compiled_plan, args.module_registry, args.technology_module, args.output)
     return 2
 
 
@@ -730,3 +764,76 @@ def _weight_governance(
     else:
         print(dump_json(report), end="")
     return 1 if report["status"] == "not_ratified" else 0
+
+
+def _apply_search_candidate(args: argparse.Namespace) -> int:
+    try:
+        report = materialize_search_candidate(
+            load_data(args.compiled_plan),
+            load_data(args.search_optimizer_report),
+            args.candidate,
+            load_data(args.review_status) if args.review_status else None,
+            [load_data(path) for path in args.scenario],
+            args.days,
+            args.cycle_index,
+            args.playback_seconds,
+            args.authority_mode,
+            load_patterns(args.pattern_dir) if args.pattern_dir else None,
+            load_data(args.optimization_profile) if args.optimization_profile else None,
+            args.top,
+        )
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    if args.output:
+        write_json(args.output, report)
+        print(f"Wrote {Path(args.output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "blocked" else 0
+
+
+def _technology_pressure_test(compiled_plan_path: str, technology_module_path: str, output: str | None) -> int:
+    module = load_data(technology_module_path)
+    module_report = validate_data(module, technology_module_path)
+    if not module_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in module_report.issues)
+        print(f"ERROR: Invalid technology module: {details}", file=sys.stderr)
+        return 2
+    report = pressure_test_technology_module(load_data(compiled_plan_path), module)
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "blocked" else 0
+
+
+def _module_compatibility(
+    compiled_plan_path: str,
+    module_registry_path: str,
+    technology_module_paths: list[str],
+    output: str | None,
+) -> int:
+    registry = load_data(module_registry_path)
+    registry_report = validate_data(registry, module_registry_path)
+    if not registry_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+        print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+        return 2
+    modules = []
+    for path in technology_module_paths:
+        module = load_data(path)
+        module_report = validate_data(module, path)
+        if not module_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in module_report.issues)
+            print(f"ERROR: Invalid technology module: {details}", file=sys.stderr)
+            return 2
+        modules.append(module)
+    report = evaluate_module_compatibility(load_data(compiled_plan_path), registry, modules)
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 0

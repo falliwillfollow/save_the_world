@@ -85,6 +85,11 @@ button,
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
 .file-button {
   display: inline-flex;
   align-items: center;
@@ -283,11 +288,59 @@ button,
   margin-top: 10px;
 }
 
+.cycle-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.progress-track {
+  height: 10px;
+  margin-top: 10px;
+  background: #dce4ee;
+  overflow: hidden;
+}
+
+.progress-track span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: var(--blue);
+  transition: width 120ms linear;
+}
+
 .resource-list,
 .event-list,
 .metric-grid {
   display: grid;
   gap: 8px;
+}
+
+.metric-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.family-grid {
+  display: grid;
+  gap: 6px;
+}
+
+.family-grid div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.family-grid span {
+  color: var(--blue);
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .resource-row,

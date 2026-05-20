@@ -1,0 +1,79 @@
+kind: TechnologyModule
+id: agrivoltaic_shade_pasture_water_efficiency
+name: Agrivoltaic shade for water-stressed biomass production
+domain: [food, water, energy, land_use]
+status: evidence_seed
+provisional: true
+source_evidence:
+  - title: Remarkable agrivoltaic influence on soil moisture, micrometeorology and water-use efficiency
+    authors: [Elnaz Hassanpour Adeh, John S. Selker, Chad W. Higgins]
+    year: 2018
+    venue: PLOS ONE
+    doi: 10.1371/journal.pone.0203256
+    url: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0203256
+    evidence_type: field_study
+    context: Unirrigated sheep pasture under photovoltaic panels in Oregon, May-August 2015.
+    provisional: false
+performance_statistics:
+  - id: late_season_biomass_gain_under_full_panel_shade
+    metric: dry_biomass
+    value: 90
+    unit: percent_more_than_control
+    comparator: fully shaded panel zone versus control pasture
+    evidence_status: published_field_measurement
+    ciac_use: evidence_only_until_crop_conversion_model_exists
+    provisional: false
+  - id: water_use_efficiency_gain_under_full_panel_shade
+    metric: water_use_efficiency
+    value: 328
+    unit: percent_more_efficient
+    comparator: fully shaded panel zone versus control pasture
+    evidence_status: published_field_measurement
+    ciac_use: candidate_modifier_for_water_limited_crop_or_forage_modules
+    provisional: false
+  - id: soil_moisture_persistence
+    metric: soil_moisture
+    value: higher_persistence
+    unit: qualitative
+    comparator: shaded treatment zones versus open/control zones
+    evidence_status: published_field_measurement
+    ciac_use: resilience_hypothesis_for_drought_replay
+    provisional: false
+applicability:
+  target_slots: [food_production]
+  target_patterns: [greenhouse, solar_shed]
+  climate_context: water_limited_or_seasonally_dry
+  land_context: co_located_crop_or_forage_area_with_pv_shade
+  minimum_scale: plot
+  excludes:
+    - direct substitution for stored staple-food reserve
+    - direct human nutrition claim without crop-specific yield and diet conversion
+    - electrical safety, structural, or permitting approval
+  provisional: true
+modeled_impacts:
+  direct_resource_effects:
+    food_servings_per_day: 0
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    rationale: Published evidence concerns biomass and water-use efficiency, not direct human food servings in the CIaC model.
+  candidate_modifiers:
+    crop_water_use_efficiency_multiplier:
+      value: 4.28
+      basis: 328 percent more water efficient means 4.28x the comparator water-use efficiency under the reported condition.
+      applies_to: future_crop_or_forage_module
+      provisional: true
+    late_season_biomass_multiplier:
+      value: 1.9
+      basis: 90 percent more biomass than control under the reported condition.
+      applies_to: future_crop_or_forage_module
+      provisional: true
+  dignity_floor_policy: additive_only
+  provisional: true
+integration_requirements:
+  - Add crop-specific conversion from biomass or yield into edible servings before affecting food_servings_per_day.
+  - Add PV layout, shade fraction, crop type, water-limited climate fit, and structural/electrical review before simulation use.
+  - Preserve existing food, water, and energy dignity floors; this module may only add resilience or productivity.
+unknowns:
+  - The cited field study measured pasture biomass, not vegetables, grains, or complete human diet.
+  - Performance may not transfer to other crops, climates, panel geometries, soil types, or management practices.
+  - Electrical, structural, legal, and resident land-use issues remain out of scope for this evidence seed.

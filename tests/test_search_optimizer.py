@@ -42,19 +42,24 @@ class SearchOptimizerTests(unittest.TestCase):
         report = optimize_search(self.plan, self.patterns, self.profile, self.scenarios, self.review_status, baseline_days=30)
 
         constraints = {constraint["constraint"]: constraint for constraint in report["binding_constraints"]}
-        self.assertIn("no_unmet_survival_demand", constraints)
+        self.assertNotIn("no_unmet_survival_demand", constraints)
         self.assertIn("minimum_repeatable_patterns", constraints)
         self.assertGreaterEqual(len(report["locked_assumptions"]), 3)
         self.assertEqual(report["metric_updates"]["faithful_pattern_optimization_engine"], "98%")
 
-    def test_search_optimizer_top_candidate_has_parameter_deltas(self) -> None:
+    def test_search_optimizer_protects_dignity_floor_from_negative_deltas(self) -> None:
         report = optimize_search(self.plan, self.patterns, self.profile, self.scenarios, self.review_status, baseline_days=30)
         selected = report["top_candidates"][0]
 
         self.assertEqual(selected["id"], report["selected_candidate"])
         self.assertIn("family_levels", selected)
         self.assertTrue(selected["parameter_deltas"])
-        self.assertTrue(any(delta["delta"] != 0 for delta in selected["parameter_deltas"]))
+        protected = [
+            delta
+            for delta in selected["parameter_deltas"]
+            if delta["pattern_id"] in {"emergency_water_reserve", "staple_food_reserve", "critical_load_reserve"}
+        ]
+        self.assertFalse([delta for delta in protected if delta["delta"] < 0])
 
     def test_cli_optimize_search_writes_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -130,11 +130,15 @@ def _search_candidate(
     candidate_id = f"search_{sequence:03d}"
     plan["id"] = f"{compiled_plan['id']}_{candidate_id}"
     parameter_values = []
+    effective_vector: dict[str, str] = {}
     for family, level in vector.items():
+        effective_levels = []
         for tunable in family_tunables[family]:
-            value = _level_value(plan, tunable, level)
+            value, effective_level = _level_value(plan, tunable, level)
             _apply_tunable(plan, tunable, value)
-            parameter_values.append(_parameter_value(tunable, value, level))
+            parameter_values.append(_parameter_value(tunable, value, effective_level))
+            effective_levels.append(effective_level)
+        effective_vector[family] = _family_effective_level(level, effective_levels)
 
     baseline = simulate(plan, days=baseline_days, review_status=review_status)
     scenario_results = [_scenario_result(plan, scenario, review_status) for scenario in scenarios]
@@ -145,10 +149,10 @@ def _search_candidate(
     status = "viable" if hard_failures == 0 else "rejected"
     return {
         "id": candidate_id,
-        "label": _label(vector),
+        "label": _label(effective_vector),
         "status": status,
         "candidate_plan_id": plan["id"],
-        "family_levels": vector,
+        "family_levels": effective_vector,
         "parameter_values": parameter_values,
         "parameter_deltas": _parameter_deltas(compiled_plan, parameter_values, family_tunables),
         "baseline_summary": _baseline_summary(baseline),
@@ -157,20 +161,34 @@ def _search_candidate(
         "hard_constraint_failures": hard_failures,
         "objective_scores": objective_scores,
         "aggregate_score": aggregate_score,
-        "selection_rationale": _selection_rationale(vector, aggregate_score, hard_failures),
+        "selection_rationale": _selection_rationale(effective_vector, aggregate_score, hard_failures),
         "tradeoffs": _tradeoffs(parameter_values, scenario_results, locked),
         "provisional": True,
     }
 
 
-def _level_value(plan: dict[str, Any], tunable: dict[str, Any], level: str) -> float:
+def _level_value(plan: dict[str, Any], tunable: dict[str, Any], level: str) -> tuple[float, str]:
     if level == "lean":
-        minimum = float(tunable["min"])
         current = float(_candidate_value(plan, tunable, "current"))
-        return min(current, minimum)
+        if _protects_dignity_floor(tunable):
+            return current, "current"
+        minimum = float(tunable["min"])
+        return min(current, minimum), "lean"
     if level in {"current", "balanced", "max"}:
-        return _candidate_value(plan, tunable, level)
+        return _candidate_value(plan, tunable, level), level
     raise ValueError(f"Unsupported search level: {level}")
+
+
+def _protects_dignity_floor(tunable: dict[str, Any]) -> bool:
+    affects = set(tunable.get("affects", []))
+    path = str(tunable.get("path", ""))
+    return bool({"food", "water", "energy"}.intersection(affects)) and path.startswith("simulation.storage")
+
+
+def _family_effective_level(requested_level: str, effective_levels: list[str]) -> str:
+    if requested_level == "lean" and effective_levels and all(level == "current" for level in effective_levels):
+        return "current"
+    return requested_level
 
 
 def _parameter_deltas(

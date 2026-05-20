@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/cycle_iteration_report.schema.json",
+  "title": "CycleIterationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "source_compiled_plan",
+    "search_optimizer_report",
+    "selected_candidate",
+    "authority",
+    "cycle",
+    "artifacts",
+    "change_summary",
+    "before_after",
+    "operator_acceptance",
+    "applied_scenarios",
+    "review_gates",
+    "applied_plan",
+    "applied_simulation",
+    "runtime_bundle",
+    "next_search_optimizer_report",
+    "viewer_next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "CycleIterationReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["materialized", "blocked"] },
+    "source_compiled_plan": { "type": "string" },
+    "search_optimizer_report": { "type": "string" },
+    "selected_candidate": { "type": "string" },
+    "authority": { "type": "object" },
+    "cycle": { "type": "object" },
+    "artifacts": { "type": "object" },
+    "change_summary": { "type": "object" },
+    "before_after": { "type": "object" },
+    "operator_acceptance": { "type": "object" },
+    "applied_scenarios": { "type": "array", "items": { "type": "object" } },
+    "review_gates": { "type": "object" },
+    "applied_plan": { "type": "object" },
+    "applied_simulation": { "type": "object" },
+    "runtime_bundle": { "type": "object" },
+    "next_search_optimizer_report": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "null" }
+      ]
+    },
+    "viewer_next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

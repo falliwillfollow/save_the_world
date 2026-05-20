@@ -1,5 +1,9 @@
 const DEFAULT_BUNDLE_PATH = "../examples/generated/micro_commons_runtime_bundle.json";
 const DEFAULT_FOUNDATION_GATE_PATH = "../examples/generated/micro_commons_foundation_gate.json";
+const DEFAULT_SEARCH_OPTIMIZER_PATH = "../examples/generated/micro_commons_search_optimizer_report.json";
+const DEFAULT_OBJECTIVE_CALIBRATION_PATH = "../examples/generated/micro_commons_objective_calibration.json";
+const DEFAULT_WEIGHT_GOVERNANCE_PATH = "../examples/generated/micro_commons_weight_governance.json";
+const DEFAULT_CYCLE_ITERATION_PATH = "../examples/generated/micro_commons_cycle_iteration.json";
 
 const zonePositions = {
   access_lane: { x: 10, y: 48 },
@@ -14,11 +18,25 @@ const zonePositions = {
 const state = {
   bundle: null,
   foundationGate: null,
+  searchOptimizer: null,
+  objectiveCalibration: null,
+  weightGovernance: null,
+  cycleReport: null,
   day: 1,
   selectedSystem: "",
   selectedScenarioIndex: 0,
   playing: false,
   playTimer: null,
+  cycle: {
+    number: 1,
+    running: false,
+    completed: false,
+    reviewOpen: false,
+    submitted: false,
+    appliedCandidate: "",
+    startMs: 0,
+    durationMs: 20000,
+  },
 };
 
 const elements = {
@@ -26,8 +44,21 @@ const elements = {
   loadDefault: document.querySelector("#loadDefault"),
   bundleFile: document.querySelector("#bundleFile"),
   gateFile: document.querySelector("#gateFile"),
+  searchFile: document.querySelector("#searchFile"),
+  calibrationFile: document.querySelector("#calibrationFile"),
+  weightFile: document.querySelector("#weightFile"),
+  cycleFile: document.querySelector("#cycleFile"),
   foundationStatus: document.querySelector("#foundationStatus"),
   foundationSummary: document.querySelector("#foundationSummary"),
+  optimizationStatus: document.querySelector("#optimizationStatus"),
+  optimizationSummary: document.querySelector("#optimizationSummary"),
+  cycleStatus: document.querySelector("#cycleStatus"),
+  cycleSummary: document.querySelector("#cycleSummary"),
+  cycleProgress: document.querySelector("#cycleProgress"),
+  runCycle: document.querySelector("#runCycle"),
+  reviewChange: document.querySelector("#reviewChange"),
+  submitChange: document.querySelector("#submitChange"),
+  nextCycle: document.querySelector("#nextCycle"),
   layoutStatus: document.querySelector("#layoutStatus"),
   mapStage: document.querySelector("#mapStage"),
   routeLayer: document.querySelector("#routeLayer"),
@@ -51,6 +82,10 @@ const elements = {
 elements.loadDefault.addEventListener("click", () => loadDefaultBundle());
 elements.bundleFile.addEventListener("change", event => loadFile(event.target.files[0]));
 elements.gateFile.addEventListener("change", event => loadGateFile(event.target.files[0]));
+elements.searchFile.addEventListener("change", event => loadOptimizationFile(event.target.files[0], "search"));
+elements.calibrationFile.addEventListener("change", event => loadOptimizationFile(event.target.files[0], "calibration"));
+elements.weightFile.addEventListener("change", event => loadOptimizationFile(event.target.files[0], "weight"));
+elements.cycleFile.addEventListener("change", event => loadCycleFile(event.target.files[0]));
 elements.daySlider.addEventListener("input", event => {
   state.day = Number(event.target.value);
   renderDay();
@@ -58,6 +93,10 @@ elements.daySlider.addEventListener("input", event => {
 elements.prevDay.addEventListener("click", () => setDay(state.day - 1));
 elements.playDays.addEventListener("click", togglePlayback);
 elements.nextDay.addEventListener("click", () => setDay(state.day + 1));
+elements.runCycle.addEventListener("click", runYearCycle);
+elements.reviewChange.addEventListener("click", reviewCycleChange);
+elements.submitChange.addEventListener("click", submitCycleChange);
+elements.nextCycle.addEventListener("click", runNextCycle);
 elements.scenarioSelect.addEventListener("change", event => {
   state.selectedScenarioIndex = Number(event.target.value || 0);
   renderLayout();
@@ -76,6 +115,8 @@ async function loadDefaultBundle() {
     elements.bundleMeta.textContent = `Open a RuntimeBundle JSON file`;
   }
   loadDefaultFoundationGate();
+  loadDefaultOptimizationReports();
+  loadDefaultCycleIteration();
 }
 
 async function loadDefaultFoundationGate() {
@@ -86,6 +127,24 @@ async function loadDefaultFoundationGate() {
   } catch (error) {
     renderFoundationLoadError(error);
   }
+}
+
+async function loadDefaultOptimizationReports() {
+  const paths = [
+    [DEFAULT_SEARCH_OPTIMIZER_PATH, "search"],
+    [DEFAULT_OBJECTIVE_CALIBRATION_PATH, "calibration"],
+    [DEFAULT_WEIGHT_GOVERNANCE_PATH, "weight"],
+  ];
+  for (const [path, kind] of paths) {
+    try {
+      const response = await fetch(noStorePath(path), { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      setOptimizationReport(await response.json(), kind);
+    } catch (error) {
+      renderOptimizationLoadError(error);
+    }
+  }
+  renderOptimization();
 }
 
 function loadFile(file) {
@@ -115,12 +174,65 @@ function loadGateFile(file) {
   reader.readAsText(file);
 }
 
+function loadOptimizationFile(file, kind) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      setOptimizationReport(JSON.parse(reader.result), kind);
+    } catch (error) {
+      elements.optimizationStatus.textContent = "invalid";
+      elements.optimizationStatus.className = "status-chip status-fail";
+    }
+  };
+  reader.readAsText(file);
+}
+
+async function loadDefaultCycleIteration() {
+  try {
+    const response = await fetch(noStorePath(DEFAULT_CYCLE_ITERATION_PATH), { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    setCycleReport(await response.json());
+  } catch (error) {
+    state.cycleReport = null;
+    renderCycle();
+  }
+}
+
+function loadCycleFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      setCycleReport(JSON.parse(reader.result));
+    } catch (error) {
+      elements.cycleStatus.textContent = "invalid";
+      elements.cycleStatus.className = "status-chip status-fail";
+    }
+  };
+  reader.readAsText(file);
+}
+
+function setCycleReport(report) {
+  state.cycleReport = report;
+  renderCycle();
+}
+
+function setOptimizationReport(report, kind) {
+  if (kind === "search") state.searchOptimizer = report;
+  if (kind === "calibration") state.objectiveCalibration = report;
+  if (kind === "weight") state.weightGovernance = report;
+  renderOptimization();
+  renderCycle();
+}
+
 function setBundle(bundle) {
   state.bundle = bundle;
   state.day = 1;
   state.selectedSystem = "";
   state.selectedScenarioIndex = 0;
   stopPlayback();
+  resetCycleState();
   const days = bundle.timeline?.days || bundle.timeline?.daily_states?.length || 1;
   elements.daySlider.max = String(days);
   elements.daySlider.value = "1";
@@ -136,11 +248,389 @@ function setFoundationGate(report) {
 
 function renderAll() {
   renderFoundation();
+  renderOptimization();
+  renderCycle();
   renderLayout();
   renderDay();
   renderScenarios();
   renderWarnings();
   renderFailureReasons();
+}
+
+function resetCycleState() {
+  state.cycle.number = 1;
+  state.cycle.running = false;
+  state.cycle.completed = false;
+  state.cycle.reviewOpen = false;
+  state.cycle.submitted = false;
+  state.cycle.appliedCandidate = "";
+  state.cycle.startMs = 0;
+}
+
+function runYearCycle() {
+  if (!state.bundle) return;
+  stopPlayback();
+  const max = state.bundle.timeline?.daily_states?.length || 1;
+  const intervalMs = Math.max(20, Math.floor(state.cycle.durationMs / max));
+  state.cycle.running = true;
+  state.cycle.completed = false;
+  state.cycle.reviewOpen = false;
+  state.cycle.submitted = false;
+  state.cycle.startMs = Date.now();
+  setDay(1);
+  state.playing = true;
+  elements.playDays.textContent = "Pause";
+  elements.reviewChange.disabled = true;
+  elements.submitChange.disabled = true;
+  elements.nextCycle.disabled = true;
+  state.playTimer = window.setInterval(() => {
+    const elapsedMs = Date.now() - state.cycle.startMs;
+    const progress = Math.min(1, elapsedMs / state.cycle.durationMs);
+    const day = Math.max(1, Math.ceil(progress * max));
+    setDay(day);
+    if (progress >= 1 || day >= max) completeCycle();
+  }, intervalMs);
+  renderCycle();
+}
+
+function completeCycle() {
+  if (!state.bundle) return;
+  const max = state.bundle.timeline?.daily_states?.length || 1;
+  state.cycle.running = false;
+  state.cycle.completed = true;
+  state.cycle.reviewOpen = false;
+  state.cycle.submitted = false;
+  setDay(max);
+  stopPlayback();
+  renderCycle();
+}
+
+function reviewCycleChange() {
+  if (!state.cycle.completed) return;
+  state.cycle.reviewOpen = true;
+  state.cycle.submitted = false;
+  renderCycle();
+}
+
+function submitCycleChange() {
+  if (!state.cycle.completed) return;
+  if (!operatorSubmitAllowed()) return;
+  const selected = selectedSearchCandidate();
+  state.cycle.reviewOpen = true;
+  state.cycle.submitted = true;
+  state.cycle.appliedCandidate = selected?.id || "";
+  renderCycle();
+}
+
+function runNextCycle() {
+  if (!state.cycle.submitted) return;
+  const nextCycle = state.cycle.number + 1;
+  const report = state.cycleReport;
+  if (report?.runtime_bundle && report.selected_candidate === state.cycle.appliedCandidate) {
+    setBundle(report.runtime_bundle);
+    if (report.next_search_optimizer_report) state.searchOptimizer = report.next_search_optimizer_report;
+    state.cycle.number = nextCycle;
+    renderOptimization();
+  } else {
+    state.cycle.number = nextCycle;
+  }
+  runYearCycle();
+}
+
+function renderCycle() {
+  if (!state.bundle) {
+    elements.cycleStatus.textContent = "not loaded";
+    elements.cycleStatus.className = "status-chip status-provisional";
+    elements.cycleSummary.innerHTML = `<div class="event-row small">Load a runtime bundle to run a simulation cycle.</div>`;
+    elements.cycleProgress.style.width = "0%";
+    return;
+  }
+  const max = state.bundle.timeline?.daily_states?.length || 1;
+  const progress = state.cycle.completed || state.cycle.submitted ? 100 : Math.round((state.day / max) * 100);
+  const status = cycleStatus();
+  const statusClass = cycleStatusClass(status);
+  const selected = selectedSearchCandidate();
+  elements.cycleStatus.textContent = label(status);
+  elements.cycleStatus.className = `status-chip status-${statusClass}`;
+  elements.cycleProgress.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+  elements.reviewChange.disabled = !state.cycle.completed;
+  elements.submitChange.disabled = !state.cycle.completed || !state.cycle.reviewOpen || !operatorSubmitAllowed();
+  elements.nextCycle.disabled = !state.cycle.submitted;
+  elements.runCycle.disabled = state.cycle.running;
+  elements.cycleSummary.innerHTML = cycleSummaryMarkup(selected, max);
+}
+
+function cycleStatus() {
+  if (state.cycle.running) return "running";
+  if (state.cycle.submitted) return "change_staged";
+  if (state.cycle.reviewOpen) return "reviewing";
+  if (state.cycle.completed) return "recommendation_ready";
+  return "ready";
+}
+
+function cycleSummaryMarkup(selected, max) {
+  const cycleLabel = `cycle ${state.cycle.number}`;
+  if (state.cycle.running) {
+    return `
+      <div class="event-row status-border-warn">
+        <div class="event-title"><span>${cycleLabel}</span><span>${state.day} / ${max}</span></div>
+        <div class="small">Accelerated playback target: one simulated year in about ${Math.round(state.cycle.durationMs / 1000)} seconds.</div>
+      </div>
+    `;
+  }
+  if (state.cycle.submitted) {
+    const hasAppliedRuntime = state.cycleReport?.runtime_bundle && state.cycleReport.selected_candidate === state.cycle.appliedCandidate;
+    const hasNextSearch = Boolean(state.cycleReport?.next_search_optimizer_report);
+    return `
+      <div class="event-row status-border-pass">
+        <div class="event-title"><span>change staged</span><span>${label(state.cycle.appliedCandidate || "candidate")}</span></div>
+        <div class="small">${hasAppliedRuntime ? "A generated cycle report is loaded; Next Cycle will switch to its applied runtime bundle." : "The viewer has staged this optimization, but no matching generated cycle report is loaded yet."}</div>
+        <div class="small">${hasNextSearch ? "A next search report is available, so the following cycle can recommend from the applied plan." : "No next search report is loaded; recommendations will not compound yet."}</div>
+      </div>
+      ${cycleAuthoritySummary()}
+      ${selected ? cycleChangeReview(selected) : ""}
+    `;
+  }
+  if (state.cycle.reviewOpen) {
+    return selected ? `${cycleAcceptanceSummary()}${cycleChangeReview(selected)}` : `
+      <div class="event-row small">No optimizer recommendation is loaded for review.</div>
+    `;
+  }
+  if (state.cycle.completed) {
+    const hasCycleReport = state.cycleReport?.runtime_bundle && state.cycleReport.selected_candidate === selected?.id;
+    const hasNextSearch = Boolean(state.cycleReport?.next_search_optimizer_report);
+    const acceptance = state.cycleReport?.operator_acceptance;
+    return `
+      <div class="event-row status-border-warn">
+        <div class="event-title"><span>recommended change</span><span>${label(selected?.id || "none")}</span></div>
+        <div class="small">${selected?.selection_rationale || "The cycle completed, but no selected optimizer candidate is loaded."}</div>
+      </div>
+      <div class="event-row small">${hasCycleReport ? "Generated applied runtime is ready for this candidate." : "Generate or load a matching CycleIterationReport before expecting Next Cycle to change the underlying runtime."}</div>
+      <div class="event-row small">${hasNextSearch ? "Next-cycle optimizer search is ready from the applied plan." : "Next-cycle optimizer search is not loaded yet."}</div>
+      <div class="event-row small">${acceptance ? `operator acceptance: ${label(acceptance.status)} | submit allowed: ${String(acceptance.simulation_submit_allowed)}` : "Operator acceptance is not loaded yet."}</div>
+      <div class="event-row small">Review the particulars before submitting the change into the next cycle.</div>
+    `;
+  }
+  return `
+    <div class="event-row">
+      <div class="event-title"><span>${cycleLabel}</span><span>${max} days</span></div>
+      <div class="small">Run a one-year cycle, inspect one recommended infrastructure change, submit it, then run the next cycle.</div>
+    </div>
+  `;
+}
+
+function cycleChangeReview(candidate) {
+  const changed = (candidate.parameter_deltas || []).filter(delta => Number(delta.delta || 0) !== 0);
+  return `
+    <div class="event-row status-border-warn">
+      <div class="event-title">
+        <span>${label(candidate.id)}</span>
+        <span>${formatNumber(candidate.aggregate_score)}</span>
+      </div>
+      <div class="small">${candidate.selection_rationale || "Selected by current optimizer report."}</div>
+    </div>
+    ${optimizationFamilyLevels(candidate)}
+    <div class="event-row">
+      <div class="event-title"><span>parameter changes</span><span>${changed.length}</span></div>
+      ${changed.slice(0, 8).map(delta => `
+        <div class="small">${label(delta.pattern_id)} ${label(delta.parameter_id)}: ${formatNumber(delta.from_value)} -> ${formatNumber(delta.to_value)} ${delta.unit}</div>
+      `).join("") || `<div class="small">No parameter changes are present in the selected candidate.</div>`}
+    </div>
+    ${cycleAppliedScenarioRows()}
+    ${governanceSummary(state.weightGovernance || {})}
+    ${bindingConstraintRows(state.searchOptimizer || {})}
+  `;
+}
+
+function operatorSubmitAllowed() {
+  const selected = selectedSearchCandidate();
+  if (!selected) return false;
+  const report = state.cycleReport;
+  if (!report || report.selected_candidate !== selected.id) return false;
+  const acceptance = report.operator_acceptance;
+  if (!acceptance) return true;
+  return Boolean(acceptance.simulation_submit_allowed);
+}
+
+function cycleAcceptanceSummary() {
+  const acceptance = state.cycleReport?.operator_acceptance;
+  if (!acceptance) return "";
+  const statusClass = acceptance.status === "improved" || acceptance.status === "converged" ? "pass" : "fail";
+  return `
+    <div class="event-row status-border-${statusClass}">
+      <div class="event-title">
+        <span>operator acceptance</span>
+        <span class="status-chip status-${statusClass}">${label(acceptance.status)}</span>
+      </div>
+      <div class="small">${acceptance.rationale}</div>
+      ${(acceptance.objective_regressions || []).slice(0, 5).map(item => `<div class="small">regression: ${item}</div>`).join("")}
+      ${(acceptance.objective_improvements || []).slice(0, 5).map(item => `<div class="small">improvement: ${item}</div>`).join("")}
+    </div>
+  `;
+}
+
+function cycleAuthoritySummary() {
+  const authority = state.cycleReport?.authority;
+  if (!authority) return "";
+  return `
+    <div class="event-row status-border-warn">
+      <div class="event-title">
+        <span>${label(authority.mode)}</span>
+        <span>${authority.simulation_submit_allowed ? "simulation ok" : "blocked"}</span>
+      </div>
+      <div class="small">${authority.oversight_policy}</div>
+      <div class="small">real-world promotion allowed: ${String(authority.promotion_allowed)}</div>
+    </div>
+  `;
+}
+
+function cycleAppliedScenarioRows() {
+  const scenarios = state.cycleReport?.applied_scenarios || [];
+  if (!scenarios.length) return "";
+  return `
+    <div class="event-row">
+      <div class="event-title"><span>applied scenario checks</span><span>${scenarios.length}</span></div>
+      ${scenarios.slice(0, 4).map(scenario => `
+        <div class="small">${label(scenario.scenario)}: ${label(scenario.status)}${scenario.survival_critical_gate_failures?.length ? ` | gates ${scenario.survival_critical_gate_failures.join(", ")}` : ""}</div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderOptimization() {
+  const search = state.searchOptimizer;
+  if (!search) {
+    elements.optimizationStatus.textContent = "not loaded";
+    elements.optimizationStatus.className = "status-chip status-provisional";
+    elements.optimizationSummary.innerHTML = `
+      <div class="event-row small">Load a SearchOptimizerReport to see the selected infrastructure optimization.</div>
+    `;
+    return;
+  }
+  const selected = selectedSearchCandidate();
+  const current = currentSearchCandidate();
+  const governance = state.weightGovernance;
+  const calibration = state.objectiveCalibration;
+  const status = governance?.status || search.status || "provisional";
+  const statusClass = optimizationStatusClass(status);
+  elements.optimizationStatus.textContent = label(status);
+  elements.optimizationStatus.className = `status-chip status-${statusClass}`;
+  elements.optimizationSummary.innerHTML = `
+    <div class="event-row status-border-${statusClass}">
+      <div class="event-title">
+        <span>${label(search.selected_candidate || "no selection")}</span>
+        <span class="status-chip status-${statusClass}">${label(status)}</span>
+      </div>
+      <div class="small">${selected?.selection_rationale || "No selected candidate available."}</div>
+    </div>
+    <div class="metric-grid">
+      ${metric("searched", search.candidate_count)}
+      ${metric("viable", search.viable_candidate_count)}
+      ${metric("rejected", search.rejected_candidate_count)}
+      ${metric("score", selected?.aggregate_score)}
+    </div>
+    ${selected ? optimizationFamilyLevels(selected) : ""}
+    ${current ? optimizationComparison(selected, current) : ""}
+    ${calibration ? calibrationSummary(calibration) : detailRow("calibration", "Objective calibration report not loaded.")}
+    ${governance ? governanceSummary(governance) : detailRow("governance", "Weight governance report not loaded.")}
+    ${bindingConstraintRows(search)}
+  `;
+}
+
+function renderOptimizationLoadError(error) {
+  if (!state.searchOptimizer) {
+    elements.optimizationStatus.textContent = "not loaded";
+    elements.optimizationStatus.className = "status-chip status-provisional";
+    elements.optimizationSummary.innerHTML = `
+      <div class="event-row small">Default optimization report did not load: ${String(error.message || error)}.</div>
+      <div class="event-row small">Use the Search, Calib, and Weights controls to load generated optimizer reports.</div>
+    `;
+  }
+}
+
+function selectedSearchCandidate() {
+  const search = state.searchOptimizer;
+  if (!search) return null;
+  return (search.top_candidates || []).find(candidate => candidate.id === search.selected_candidate) || search.top_candidates?.[0] || null;
+}
+
+function currentSearchCandidate() {
+  const candidates = state.searchOptimizer?.top_candidates || [];
+  return candidates.find(candidate => {
+    const levels = Object.values(candidate.family_levels || {});
+    return levels.length && levels.every(level => level === "current");
+  }) || null;
+}
+
+function optimizationFamilyLevels(candidate) {
+  return `
+    <div class="event-row">
+      <div class="event-title"><span>Selected family levels</span></div>
+      <div class="family-grid">
+        ${Object.entries(candidate.family_levels || {}).map(([family, level]) => `
+          <div><strong>${label(family)}</strong><span>${label(level)}</span></div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function optimizationComparison(selected, current) {
+  if (!selected || !current) return "";
+  const scoreDelta = Number(selected.aggregate_score || 0) - Number(current.aggregate_score || 0);
+  const changed = (selected.parameter_deltas || []).filter(delta => Number(delta.delta || 0) !== 0);
+  return `
+    <div class="event-row">
+      <div class="event-title">
+        <span>Compared with all-current plan</span>
+        <span>${scoreDelta >= 0 ? "+" : ""}${scoreDelta.toFixed(3)}</span>
+      </div>
+      ${changed.slice(0, 6).map(delta => `
+        <div class="small">${label(delta.pattern_id)} ${label(delta.parameter_id)}: ${formatNumber(delta.from_value)} -> ${formatNumber(delta.to_value)} ${delta.unit}</div>
+      `).join("") || `<div class="small">No parameter changes from current search levels.</div>`}
+    </div>
+  `;
+}
+
+function calibrationSummary(report) {
+  return `
+    <div class="event-row">
+      <div class="event-title">
+        <span>Objective calibration</span>
+        <span class="status-chip status-${optimizationStatusClass(report.status)}">${label(report.status)}</span>
+      </div>
+      <div class="small">${report.uncalibrated_score_count || 0} uncalibrated selected score(s)</div>
+      ${(report.calibrated_objectives || []).slice(0, 4).map(item => `
+        <div class="small">${label(item.metric)}: ${label(item.formula_id)} | ${label(item.evidence_status)}</div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function governanceSummary(report) {
+  const summary = report.governance_summary || {};
+  return `
+    <div class="event-row">
+      <div class="event-title">
+        <span>Weight governance</span>
+        <span class="status-chip status-${optimizationStatusClass(report.status)}">${label(report.status)}</span>
+      </div>
+      <div class="small">promotion allowed: ${String(report.promotion_allowed)}</div>
+      <div class="small">resident consent: ${label(summary.resident_consent_status)} | professional review: ${label(summary.professional_review_status)}</div>
+    </div>
+  `;
+}
+
+function bindingConstraintRows(search) {
+  return (search.binding_constraints || []).slice(0, 3).map(constraint => `
+    <div class="event-row">
+      <div class="event-title">
+        <span>${label(constraint.constraint)}</span>
+        <span class="status-chip status-${constraint.severity === "hard" ? "fail" : "warn"}">${constraint.candidate_count}</span>
+      </div>
+      <div class="small">${constraint.description}</div>
+    </div>
+  `).join("");
 }
 
 function renderFoundation() {
@@ -213,7 +703,9 @@ function stopPlayback() {
   if (state.playTimer) window.clearInterval(state.playTimer);
   state.playTimer = null;
   state.playing = false;
+  if (state.cycle.running) state.cycle.running = false;
   elements.playDays.textContent = "Play";
+  renderCycle();
 }
 
 function renderLayout() {
@@ -258,7 +750,7 @@ function systemButton(system) {
 }
 
 function effectiveSystemStatus(system) {
-  const scenarioFailures = selectedScenarioFailures().filter(failure => failure.pattern_id === system.pattern_id);
+  const scenarioFailures = selectedScenarioFailuresForDay(state.day).filter(failure => failure.pattern_id === system.pattern_id);
   if (scenarioFailures.some(failure => failure.severity === "catastrophic")) return "failure";
   if (scenarioFailures.length) return "risk";
   if (systemWarnings(system.pattern_id).length) return "warn";
@@ -298,6 +790,7 @@ function renderDay() {
   renderFailures(day);
   renderSystemDetails();
   renderFailureReasons();
+  renderCycle();
 }
 
 function renderResources(day) {
@@ -357,11 +850,13 @@ function renderMaintenance(day) {
 }
 
 function renderFailures(day) {
-  const failures = [...(day.active_failures || []), ...selectedScenarioFailures()];
+  const failures = day.active_failures || [];
+  const scenarioFailures = selectedScenarioFailuresForDay(day.day);
   const scenarioEvents = day.scenario_events || [];
   const selected = state.selectedSystem;
   const visible = selected ? failures.filter(failure => failure.pattern_id === selected) : failures;
-  if (!visible.length && !scenarioEvents.length) {
+  const visibleScenario = selected ? scenarioFailures.filter(failure => failure.pattern_id === selected) : scenarioFailures;
+  if (!visible.length && !visibleScenario.length && !scenarioEvents.length) {
     elements.failureList.innerHTML = `<div class="event-row small">No active runtime failures on this day.</div>`;
     return;
   }
@@ -381,6 +876,14 @@ function renderFailures(day) {
       </div>
       <div class="small">${label(failure.pattern_id)}</div>
     </div>
+  `).join("") + visibleScenario.map(failure => `
+    <div class="event-row">
+      <div class="event-title">
+        <span>scenario replay: ${label(failure.mode)}</span>
+        <span class="status-chip status-${failure.severity === "catastrophic" ? "error" : "warning"}">${failure.severity}</span>
+      </div>
+      <div class="small">${label(failure.pattern_id)} | day ${failure.start_day} to ${scenarioFailureEndDay(failure)}</div>
+    </div>
   `).join("");
 }
 
@@ -391,7 +894,7 @@ function renderSystemDetails() {
     return;
   }
   const warnings = systemWarnings(system.pattern_id);
-  const scenarioFailures = selectedScenarioFailures().filter(failure => failure.pattern_id === system.pattern_id);
+  const scenarioFailures = selectedScenarioFailuresForDay(state.day).filter(failure => failure.pattern_id === system.pattern_id);
   elements.systemDetails.innerHTML = `
     <div class="event-row">
       <div class="event-title">
@@ -403,7 +906,7 @@ function renderSystemDetails() {
     ${detailRow("critical", (system.critical_resources || []).join(", ") || "none")}
     ${detailRow("hazards", (system.hazard_flags || []).join(", ") || "none")}
     ${detailRow("access", (system.access_needs || []).join(", ") || "none")}
-    ${scenarioFailures.map(failure => detailRow(`failure ${label(failure.mode)}`, failure.unresolved_review_dependency)).join("")}
+    ${scenarioFailures.map(failure => detailRow(`scenario replay ${label(failure.mode)}`, `${failure.unresolved_review_dependency || "no review dependency"} | day ${failure.start_day} to ${scenarioFailureEndDay(failure)}`)).join("")}
     ${warnings.slice(0, 4).map(warning => detailRow("warning", warning)).join("")}
   `;
 }
@@ -507,6 +1010,21 @@ function selectedScenarioFailures() {
   return selectedScenario()?.runtime_failures || [];
 }
 
+function selectedScenarioFailuresForDay(day) {
+  return selectedScenarioFailures().filter(failure => scenarioFailureActiveOnDay(failure, day));
+}
+
+function scenarioFailureActiveOnDay(failure, day) {
+  const start = Number(failure.start_day || 1);
+  const duration = Math.max(1, Number(failure.duration_days || 1));
+  const current = Number(day || 1);
+  return current >= start && current <= start + duration - 1;
+}
+
+function scenarioFailureEndDay(failure) {
+  return Number(failure.start_day || 1) + Math.max(1, Number(failure.duration_days || 1)) - 1;
+}
+
 function systemWarnings(patternId) {
   const warnings = state.bundle?.manifest?.warnings || [];
   const tokens = [patternId, label(patternId)];
@@ -542,4 +1060,16 @@ function foundationStatusClass(status) {
   if (status === "ready") return "pass";
   if (status === "ready_with_warnings") return "warn";
   return "fail";
+}
+
+function optimizationStatusClass(status) {
+  if (["ratified", "calibrated", "ready"].includes(status)) return "pass";
+  if (["not_ratified", "missing_calibration", "not_ready", "rejected"].includes(status)) return "fail";
+  return "warn";
+}
+
+function cycleStatusClass(status) {
+  if (status === "change_staged") return "pass";
+  if (["recommendation_ready", "reviewing", "running"].includes(status)) return "warn";
+  return "provisional";
 }

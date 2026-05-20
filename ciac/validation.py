@@ -52,6 +52,11 @@ SCHEMA_BY_KIND = {
     "ObjectiveCalibrationReport": "objective_calibration_report.schema.json",
     "WeightGovernanceProfile": "weight_governance_profile.schema.json",
     "WeightGovernanceReport": "weight_governance_report.schema.json",
+    "CycleIterationReport": "cycle_iteration_report.schema.json",
+    "TechnologyModule": "technology_module.schema.json",
+    "TechnologyPressureTestReport": "technology_pressure_test_report.schema.json",
+    "ModuleRegistry": "module_registry.schema.json",
+    "ModuleCompatibilityReport": "module_compatibility_report.schema.json",
 }
 
 

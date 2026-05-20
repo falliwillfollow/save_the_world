@@ -97,6 +97,8 @@ py -3.10 -m ciac compare-simulations examples/generated/baseline_14d_simulation.
 
 The optimizer is intentionally transparent and bounded. It does not invent technology choices; it searches declared provisional tunables and preserves hard constraints, review locks, and governance status.
 
+Food, water, and critical energy are treated as dignity floors, not quality-of-life knobs to turn down. The bounded search will not recommend lowering authored survival reserves to make cost, labor, or simplicity scores look better. Efficiency work should come from better production, storage health, distribution, transport, replenishment, repair, and reliability patterns.
+
 Generate a candidate matrix:
 
 ```powershell
@@ -123,6 +125,14 @@ py -3.10 -m ciac weight-governance optimization_profiles/minimum_dignity_v0.yaml
 
 The final command currently exits with `1` because the demo weights are not ratified. That is expected and healthy.
 
+Materialize the selected search candidate into a next-cycle runtime bundle:
+
+```powershell
+py -3.10 -m ciac apply-search-candidate examples/generated/micro_commons_plan.json examples/generated/micro_commons_search_optimizer_report.json --review-status examples/generated/micro_commons_review_status.json --scenario scenarios/water_contamination_response_v2.yaml --scenario scenarios/crop_failure.yaml --scenario scenarios/energy_outage_reserve_v2.yaml --pattern-dir patterns --optimization-profile optimization_profiles/minimum_dignity_v0.yaml --days 365 --output examples/generated/micro_commons_cycle_iteration.json
+```
+
+This produces a `CycleIterationReport` with the applied plan, fresh simulation, re-run stress scenarios, an applied runtime bundle, and a next search report nested inside it. The default authority mode is `operator_directed`: a single user may iterate provisional model changes for objective improvement inside the simulator, while real-world promotion remains blocked until review, consent, and safety duties are satisfied.
+
 ## Viewer
 
 The static viewer consumes generated runtime artifacts. After producing the runtime bundle, serve the repository root:
@@ -139,6 +149,10 @@ http://localhost:8765/viewer/
 
 The viewer is an inspection surface for JSON outputs. It is not a site plan, safety claim, permit artifact, or approval workflow.
 
+The current viewer also loads the generated optimizer artifacts when available. The Optimization panel shows the selected search candidate, how it differs from the all-current plan, the objective calibration status, and the weight-governance blocker that prevents draft weights from being treated as approved recommendations.
+
+The Cycle panel demonstrates the intended usability loop: run one simulated year in about 20 seconds, review the recommended change, submit it, and run the next cycle. If `examples/generated/micro_commons_cycle_iteration.json` exists, the next cycle switches to the applied runtime bundle from that report.
+
 ## Common Commands
 
 Validate a file or directory:
@@ -148,7 +162,24 @@ py -3.10 -m ciac validate patterns
 py -3.10 -m ciac validate optimization_profiles
 py -3.10 -m ciac validate calibration_profiles
 py -3.10 -m ciac validate governance_profiles
+py -3.10 -m ciac validate tech_modules
 ```
+
+Pressure-test an evidence-backed sustainability technology module:
+
+```powershell
+py -3.10 -m ciac technology-pressure-test examples/generated/micro_commons_plan.json tech_modules/agrivoltaic_shade_pasture_water_efficiency.yaml --output examples/generated/agrivoltaic_shade_pasture_water_efficiency_pressure_test.json
+```
+
+Technology modules are how CIaC will ingest published sustainability methods. A module must preserve dignity floors first; then it can expose evidence-backed performance statistics and modeled impacts for later multivariate simulation. The first seed module uses published agrivoltaics field data as evidence, but does not count pasture biomass as human food until a crop/nutrition conversion model exists.
+
+Evaluate which infrastructure slots are modular and ready for research-backed swaps:
+
+```powershell
+py -3.10 -m ciac module-compatibility examples/generated/micro_commons_plan.json module_registries/micro_commons_default_v0.yaml --technology-module tech_modules/agrivoltaic_shade_pasture_water_efficiency.yaml --output examples/generated/micro_commons_module_compatibility.json
+```
+
+The registry describes the default posture for water, food, energy, and sanitation, then lists the interfaces a research module must satisfy to become drag-and-drop. AI tooling can later use the registry's research queries to scan recent papers, extract performance statistics, and draft candidate modules without weakening the default dignity floor.
 
 Evaluate subsystem plans:
 

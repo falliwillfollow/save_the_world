@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/technology_pressure_test_report.schema.json",
+  "title": "TechnologyPressureTestReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "compiled_plan",
+    "technology_module",
+    "operator_summary",
+    "dignity_floor_effect",
+    "evidence_summary",
+    "modeled_impacts",
+    "integration_gaps",
+    "coexistence_checks",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "TechnologyPressureTestReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["not_applicable", "needs_modeling", "candidate_for_simulation", "blocked"] },
+    "compiled_plan": { "type": "string" },
+    "technology_module": { "type": "string" },
+    "operator_summary": { "type": "string" },
+    "dignity_floor_effect": { "type": "object" },
+    "evidence_summary": { "type": "array", "items": { "type": "object" } },
+    "modeled_impacts": { "type": "object" },
+    "integration_gaps": { "type": "array", "items": { "type": "string" } },
+    "coexistence_checks": { "type": "array", "items": { "type": "object" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

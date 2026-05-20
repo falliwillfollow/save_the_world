@@ -22,6 +22,22 @@
           Gate
           <input id="gateFile" type="file" accept="application/json,.json">
         </label>
+        <label class="file-button" title="Open search optimizer JSON">
+          Search
+          <input id="searchFile" type="file" accept="application/json,.json">
+        </label>
+        <label class="file-button" title="Open objective calibration JSON">
+          Calib
+          <input id="calibrationFile" type="file" accept="application/json,.json">
+        </label>
+        <label class="file-button" title="Open weight governance JSON">
+          Weights
+          <input id="weightFile" type="file" accept="application/json,.json">
+        </label>
+        <label class="file-button" title="Open cycle iteration JSON">
+          Cycle
+          <input id="cycleFile" type="file" accept="application/json,.json">
+        </label>
       </div>
     </header>
 
@@ -44,6 +60,31 @@
             <span id="foundationStatus" class="status-chip status-provisional">not loaded</span>
           </div>
           <div id="foundationSummary" class="event-list"></div>
+        </section>
+
+        <section>
+          <div class="panel-heading compact-heading">
+            <h2>Optimization</h2>
+            <span id="optimizationStatus" class="status-chip status-provisional">not loaded</span>
+          </div>
+          <div id="optimizationSummary" class="event-list"></div>
+        </section>
+
+        <section>
+          <div class="panel-heading compact-heading">
+            <h2>Cycle</h2>
+            <span id="cycleStatus" class="status-chip status-provisional">ready</span>
+          </div>
+          <div id="cycleSummary" class="event-list"></div>
+          <div class="progress-track" aria-label="Simulation cycle progress">
+            <span id="cycleProgress"></span>
+          </div>
+          <div class="cycle-actions">
+            <button id="runCycle" type="button" title="Run one simulated year">Run Year</button>
+            <button id="reviewChange" type="button" title="Review the recommended change" disabled>Review</button>
+            <button id="submitChange" type="button" title="Stage the recommended change" disabled>Submit</button>
+            <button id="nextCycle" type="button" title="Run another cycle from the staged state" disabled>Next Cycle</button>
+          </div>
         </section>
 
         <section>
