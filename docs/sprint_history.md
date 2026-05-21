@@ -299,7 +299,7 @@ This is still not a full optimizer. It is the first generated candidate comparis
 
 `ciac tradeoff-scale` explains candidate tradeoffs across declared scale targets.
 
-The first scale profile tests 5, 10, 25, and 50 households. The generated report identifies objective leaders, reserve scaling requirements, review-required parameters, and viewer-ready candidate summaries. Under the current provisional objective weights, the current plan leads cost and recurring-labor objectives, while the high-resilience reserve candidate leads resilience-oriented objectives.
+The first scale profile originally tested 5, 10, 25, and 50 households. It now targets explicit population levels: the 12-person baseline, 150 people, and 1500 people. The generated report identifies objective leaders, reserve scaling requirements, review-required parameters, and viewer-ready candidate summaries. Under the current provisional objective weights, the current plan leads cost and recurring-labor objectives, while the high-resilience reserve candidate leads resilience-oriented objectives.
 
 This report still scales declared provisional parameters only. It is not a site topology, cost estimate, engineering design, or governance approval.
 
@@ -343,10 +343,16 @@ The first weight governance profile mirrors the current `minimum_dignity_v0` obj
 
 This completes the optimizer control loop as a software/data contract: search, rank, calibrate, and then block unratified recommendations. It does not make the current demo weights approved.
 
-## Sprint 50 OpenAI Research Drafting Hook
+## Sprint 50 Module Implementation Gate
 
-`ciac draft-research-module` turns a generated `ResearchNeedReport` into a provisional `TechnologyModule` draft using the OpenAI Responses API.
+`ciac implement-module` gates a preauthored `TechnologyModule` and, only if it passes, materializes it as an additive module pattern inside an adjusted compiled plan.
 
-The command reads `OPENAI_API_KEY` from the environment, keeps the call explicit, and can use web search to gather evidence for source fields and performance statistics. The output must still validate as a `TechnologyModule`, and scalability gates remain the stop condition before any AI-drafted module can affect optimization.
+The command reruns the normal-year simulation and emits a `ModuleImplementationReport` with the scalability gate, applied direct resource effects, adjusted plan, baseline simulation, implemented simulation, and comparison report. Modules that lack explicit simulator effects, labor/resource interfaces, evidence traceability, or dignity-floor protection are blocked without changing the plan.
 
-This is an evidence-gathering assist, not an authority path. AI drafts do not replace citations, source review, resident consent, professional review, or CIaC's dignity-floor constraints.
+This keeps module research in the planning phase. The application can test preauthored modules, but it does not search the web, draft modules, or request new research as part of a yearly runtime loop.
+
+## Sprint 51 People-Scale Probe
+
+The scale profile now targets explicit population levels: the 12-person baseline, a 150-person commons, and a 1500-person commons.
+
+`ciac tradeoff-scale` keeps household estimates for existing reserve math, but scale factors are now derived from target people when provided. This reframes the next proof obligation away from literature discovery and toward whether minimum-dignity water, food, energy, labor, review, and governance assumptions survive orders-of-magnitude growth.

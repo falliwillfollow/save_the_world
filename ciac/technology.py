@@ -88,7 +88,7 @@ def evaluate_module_compatibility(
         "next_actions": _compatibility_next_actions(drag_and_drop, adapter_required, research_backlog),
         "unknowns": [
             "Module compatibility is simulation-interface compatibility only.",
-            "AI tooling may propose modules, but source extraction, performance mapping, and uncertainty must remain visible.",
+            "Source extraction, performance mapping, and uncertainty must remain visible for every module.",
             "Scaling requires explicit module interfaces at each household target.",
         ],
     }
@@ -188,7 +188,7 @@ def _compatibility_next_actions(
     if adapter_required:
         actions.append("Build adapter models for promising modules before letting them affect resource flows.")
     if research_backlog:
-        actions.append("Use AI-assisted literature scans for slots without drag-and-drop candidates.")
+        actions.append("Use planning-phase evidence review for slots without drag-and-drop candidates.")
     return actions or ["Define module slots before attempting research-backed swapping."]
 
 

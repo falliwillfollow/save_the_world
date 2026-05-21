@@ -42,13 +42,15 @@ def generate_tradeoff_scale_report(
 
 
 def _scale_target(target: dict[str, Any], base_households: int, base_population: int) -> dict[str, Any]:
-    households = int(target["households"])
-    factor = households / max(1, base_households)
+    people = int(target.get("people") or round(base_population * (int(target["households"]) / max(1, base_households))))
+    factor = people / max(1, base_population)
+    households = int(target.get("households") or round(base_households * factor))
     return {
         "households": households,
+        "people": people,
         "label": target["label"],
         "scale_factor": round(factor, 3),
-        "estimated_population": int(round(base_population * factor)),
+        "estimated_population": people,
         "notes": target["notes"],
         "provisional": True,
     }
@@ -221,4 +223,3 @@ def _next_actions(status: str) -> list[str]:
         "Expose viewer_candidate_summary in the visualization layer before freezing the contract.",
         "Keep scale outputs provisional until topology, cost, engineering, and governance review exist.",
     ]
-

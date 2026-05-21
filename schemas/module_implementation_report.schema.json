@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/module_implementation_report.schema.json",
+  "title": "ModuleImplementationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "compiled_plan",
+    "technology_module",
+    "module_registry",
+    "days",
+    "scalability_gate",
+    "applied_effects",
+    "implemented_plan",
+    "baseline_simulation",
+    "implemented_simulation",
+    "comparison_report",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ModuleImplementationReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "blocked_by_scalability_gate",
+        "blocked_by_effects",
+        "implemented",
+        "implemented_with_warnings",
+        "implemented_with_regression"
+      ]
+    },
+    "compiled_plan": { "type": "string" },
+    "technology_module": { "type": "string" },
+    "module_registry": { "type": "string" },
+    "days": { "type": "integer" },
+    "scalability_gate": { "type": "object" },
+    "applied_effects": { "type": "object" },
+    "implemented_plan": { "type": ["object", "null"] },
+    "baseline_simulation": { "type": ["object", "null"] },
+    "implemented_simulation": { "type": ["object", "null"] },
+    "comparison_report": { "type": ["object", "null"] },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

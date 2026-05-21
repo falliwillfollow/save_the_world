@@ -30,7 +30,7 @@ class TradeoffScaleTests(unittest.TestCase):
 
         self.assertEqual(report["kind"], "TradeoffScaleReport")
         self.assertEqual(report["status"], "ready_with_warnings")
-        self.assertEqual([target["households"] for target in report["scale_targets"]], [5, 10, 25, 50])
+        self.assertEqual([target["people"] for target in report["scale_targets"]], [12, 150, 1500])
         self.assertTrue(report["objective_leaders"])
         self.assertEqual(report["metric_updates"]["faithful_pattern_optimization_engine"], "80%")
         self.assertTrue(validate_data(report, "tradeoff-scale").ok)
@@ -41,7 +41,7 @@ class TradeoffScaleTests(unittest.TestCase):
         water_capacity = next(item for item in current["scale_parameters"] if item["parameter_id"] == "potable_capacity")
 
         self.assertEqual(water_capacity["values"][0]["scaled_value"], 60000)
-        self.assertEqual(water_capacity["values"][-1]["scaled_value"], 600000)
+        self.assertEqual(water_capacity["values"][-1]["scaled_value"], 7500000)
 
     def test_cli_tradeoff_scale_writes_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

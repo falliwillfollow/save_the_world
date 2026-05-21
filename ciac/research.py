@@ -34,8 +34,8 @@ def generate_research_needs(
         "next_actions": _research_next_actions(needs),
         "unknowns": [
             "Research needs are search briefs for evidence gathering, not endorsements of any technology.",
-            "AI-assisted discovery must preserve citations, study context, performance statistics, limitations, and uncertainty.",
-            "Modules found through research must pass scalability gates before they can affect optimization.",
+            "Planning-phase evidence review must preserve citations, study context, performance statistics, limitations, and uncertainty.",
+            "Preauthored or researched modules must pass scalability gates before they can affect optimization.",
         ],
     }
 
@@ -161,7 +161,7 @@ def _research_next_actions(needs: list[dict[str, Any]]) -> list[str]:
     if not needs:
         return ["No research need was generated from the current plan and simulation."]
     return [
-        "Use the highest-priority ResearchNeed as the search brief for AI-assisted literature discovery.",
+        "Use the highest-priority ResearchNeed as a planning-phase evidence and module-interface brief.",
         "Convert promising papers into TechnologyModule drafts with citations, performance statistics, limitations, and uncertainty.",
         "Run scalability gates before allowing any discovered module to affect optimization.",
     ]

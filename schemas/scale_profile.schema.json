@@ -16,12 +16,17 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["households", "label", "notes"],
+        "required": ["label", "notes"],
         "properties": {
           "households": { "type": "integer", "minimum": 1 },
+          "people": { "type": "integer", "minimum": 1 },
           "label": { "type": "string", "minLength": 3 },
           "notes": { "type": "string", "minLength": 5 }
-        }
+        },
+        "anyOf": [
+          { "required": ["households"] },
+          { "required": ["people"] }
+        ]
       }
     },
     "assumptions": {

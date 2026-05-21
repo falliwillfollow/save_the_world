@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 from .audit import evaluate_audit
-from .ai_research import OpenAIConfigurationError, OpenAIResponseError, draft_technology_module
 from .candidates import generate_candidate_matrix
 from .compare import compare_audits
 from .compiler import CompileError, compile_plan, load_patterns
@@ -17,6 +16,7 @@ from .foundation import evaluate_foundation_gate
 from .gates import evaluate_gates
 from .io import dump_json, load_data, write_json
 from .matrix_redesign import generate_matrix_redesign
+from .module_implementation import implement_technology_module
 from .nutrition import evaluate_nutrition
 from .objective_calibration import evaluate_objective_calibration
 from .optimization import evaluate_optimization_readiness
@@ -251,12 +251,13 @@ def main(argv: list[str] | None = None) -> int:
     scalability_parser.add_argument("--module-registry")
     scalability_parser.add_argument("--output", "-o")
 
-    draft_module_parser = subparsers.add_parser("draft-research-module", help="Use OpenAI to draft a provisional TechnologyModule from a research brief")
-    draft_module_parser.add_argument("research_need_report")
-    draft_module_parser.add_argument("--need-id")
-    draft_module_parser.add_argument("--model")
-    draft_module_parser.add_argument("--no-web-search", action="store_true")
-    draft_module_parser.add_argument("--output", "-o")
+    implement_module_parser = subparsers.add_parser("implement-module", help="Gate and materialize a preauthored TechnologyModule into an adjusted simulation plan")
+    implement_module_parser.add_argument("compiled_plan")
+    implement_module_parser.add_argument("technology_module")
+    implement_module_parser.add_argument("--module-registry")
+    implement_module_parser.add_argument("--review-status")
+    implement_module_parser.add_argument("--days", type=int, default=365)
+    implement_module_parser.add_argument("--output", "-o")
 
     args = parser.parse_args(argv)
     if args.command == "validate":
@@ -325,8 +326,8 @@ def main(argv: list[str] | None = None) -> int:
         return _research_needs(args.compiled_plan, args.simulation, args.module_registry, args.output)
     if args.command == "scalability-gate":
         return _scalability_gate(args.compiled_plan, args.technology_module, args.module_registry, args.output)
-    if args.command == "draft-research-module":
-        return _draft_research_module(args)
+    if args.command == "implement-module":
+        return _implement_module(args)
     return 2
 
 
@@ -916,33 +917,30 @@ def _scalability_gate(
     return 1 if report["status"] == "fail" else 0
 
 
-def _draft_research_module(args: argparse.Namespace) -> int:
-    report = load_data(args.research_need_report)
-    report_validation = validate_data(report, args.research_need_report)
-    if not report_validation.ok:
-        details = "; ".join(f"{issue.path}: {issue.message}" for issue in report_validation.issues)
-        print(f"ERROR: Invalid research need report: {details}", file=sys.stderr)
+def _implement_module(args: argparse.Namespace) -> int:
+    module = load_data(args.technology_module)
+    module_report = validate_data(module, args.technology_module)
+    if not module_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in module_report.issues)
+        print(f"ERROR: Invalid technology module: {details}", file=sys.stderr)
         return 2
-    try:
-        module = draft_technology_module(
-            report,
-            need_id=args.need_id,
-            model=args.model,
-            include_web_search=not args.no_web_search,
-        )
-    except (OpenAIConfigurationError, OpenAIResponseError) as exc:
-        print(f"ERROR: {exc}", file=sys.stderr)
-        return 2
-
-    module_validation = validate_data(module, "drafted-technology-module")
-    if not module_validation.ok:
-        details = "; ".join(f"{issue.path}: {issue.message}" for issue in module_validation.issues)
-        print(f"ERROR: Drafted technology module failed validation: {details}", file=sys.stderr)
-        return 2
-
+    registry = load_data(args.module_registry) if args.module_registry else None
+    if registry is not None:
+        registry_report = validate_data(registry, args.module_registry or "<module-registry>")
+        if not registry_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+            print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+            return 2
+    report = implement_technology_module(
+        load_data(args.compiled_plan),
+        module,
+        registry,
+        days=args.days,
+        review_status=load_data(args.review_status) if args.review_status else None,
+    )
     if args.output:
-        write_json(args.output, module)
+        write_json(args.output, report)
         print(f"Wrote {Path(args.output)}")
     else:
-        print(dump_json(module), end="")
-    return 0
+        print(dump_json(report), end="")
+    return 1 if report["status"].startswith("blocked") or report["status"] == "implemented_with_regression" else 0

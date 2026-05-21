@@ -14,6 +14,7 @@ It is deliberately cautious. CIaC is not a building manual, legal guide, enginee
 - Replay stress scenarios such as drought, contamination, energy outage, crop failure, sanitation failure, and labor loss.
 - Evaluate water, food, energy, labor, governance, review, and foundation readiness reports.
 - Generate candidate infrastructure configurations and run bounded optimizer search.
+- Probe whether the same minimum-dignity model scales to 150 and 1500 people.
 - Calibrate optimizer objectives and block unratified weight profiles.
 - Export runtime and visualization bundles for a future web/game/Unreal-style viewer.
 
@@ -111,6 +112,12 @@ Run bounded search:
 py -3.10 -m ciac optimize-search examples/generated/micro_commons_plan.json patterns optimization_profiles/minimum_dignity_v0.yaml --scenario scenarios/water_contamination_response_v2.yaml --scenario scenarios/crop_failure.yaml --scenario scenarios/energy_outage_reserve_v2.yaml --days 365 --output examples/generated/micro_commons_search_optimizer_report.json
 ```
 
+Probe scale pressure at 12, 150, and 1500 people:
+
+```powershell
+py -3.10 -m ciac tradeoff-scale examples/generated/micro_commons_plan.json examples/generated/micro_commons_candidate_matrix.json patterns scale_profiles/micro_commons_scale_targets_v0.yaml --output examples/generated/micro_commons_tradeoff_scale.json
+```
+
 Make objective scoring inspectable:
 
 ```powershell
@@ -181,7 +188,7 @@ Evaluate which infrastructure slots are modular and ready for research-backed sw
 py -3.10 -m ciac module-compatibility examples/generated/micro_commons_plan.json module_registries/micro_commons_default_v0.yaml --technology-module tech_modules/agrivoltaic_shade_pasture_water_efficiency.yaml --output examples/generated/micro_commons_module_compatibility.json
 ```
 
-The registry describes the default posture for water, food, energy, and sanitation, then lists the interfaces a research module must satisfy to become drag-and-drop. AI tooling can later use the registry's research queries to scan recent papers, extract performance statistics, and draft candidate modules without weakening the default dignity floor.
+The registry describes the default posture for water, food, energy, and sanitation, then lists the interfaces a preauthored module must satisfy to become drag-and-drop. Planning-phase research can use the registry's interface requirements without making research discovery part of the yearly application loop.
 
 Generate evidence-search briefs from model bottlenecks:
 
@@ -189,15 +196,7 @@ Generate evidence-search briefs from model bottlenecks:
 py -3.10 -m ciac research-needs examples/generated/micro_commons_plan.json examples/generated/micro_commons_simulation.json --module-registry module_registries/micro_commons_default_v0.yaml --output examples/generated/micro_commons_research_needs.json
 ```
 
-The first generated brief is `food_local_production_gap_v0`: the greenhouse produces food, but not enough to prevent annual staple-reserve drawdown. The output is meant to become the prompt/input for AI-assisted literature discovery.
-
-Draft a provisional technology module from that brief with OpenAI:
-
-```powershell
-py -3.10 -m ciac draft-research-module examples/generated/micro_commons_research_needs.json --output examples/generated/food_local_production_gap_draft_module.json
-```
-
-This command reads `OPENAI_API_KEY` from the environment and uses the Responses API. It defaults to `gpt-5.5`, can be overridden with `--model` or `CIAC_OPENAI_MODEL`, and may use web search unless `--no-web-search` is passed. Drafted modules are still provisional and must pass validation and scalability gates before they can affect optimization.
+The first generated brief is `food_local_production_gap_v0`: the greenhouse produces food, but not enough to prevent annual staple-reserve drawdown. Treat this as planning-phase evidence work, not an automatic request from the application to search the web or rewrite the plan.
 
 Evaluate whether a discovered module can scale inside CIaC:
 
@@ -205,7 +204,15 @@ Evaluate whether a discovered module can scale inside CIaC:
 py -3.10 -m ciac scalability-gate examples/generated/micro_commons_plan.json tech_modules/agrivoltaic_shade_pasture_water_efficiency.yaml --module-registry module_registries/micro_commons_default_v0.yaml --output examples/generated/agrivoltaic_shade_pasture_water_efficiency_scalability_gate.json
 ```
 
-The agrivoltaics seed has published evidence and preserves dignity floors, but currently fails scalability because CIaC lacks edible-serving, labor, and crop-specific adapter interfaces for it. That is intentional: research can suggest modules, but modules must pass gates before optimization can use them.
+The agrivoltaics seed has published evidence and preserves dignity floors, but currently fails scalability because CIaC lacks edible-serving, labor, and crop-specific adapter interfaces for it. That is intentional: modules must pass gates before optimization can use them.
+
+Materialize a module into a provisional implemented simulation candidate:
+
+```powershell
+py -3.10 -m ciac implement-module examples/generated/micro_commons_plan.json tech_modules/agrivoltaic_shade_pasture_water_efficiency.yaml --module-registry module_registries/micro_commons_default_v0.yaml --days 365 --output examples/generated/agrivoltaic_module_implementation.json
+```
+
+This command refuses to alter the plan unless a preauthored module passes the scalability gate and declares explicit direct simulator effects such as `food_servings_per_day`, `water_liters_per_day`, and `energy_kwh_per_day`. A blocked report is a successful safety outcome: it means CIaC preserved the boundary between planning evidence and executable infrastructure assumptions.
 
 Evaluate subsystem plans:
 

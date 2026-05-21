@@ -59,6 +59,7 @@ SCHEMA_BY_KIND = {
     "ModuleCompatibilityReport": "module_compatibility_report.schema.json",
     "ResearchNeedReport": "research_need_report.schema.json",
     "ScalabilityGateReport": "scalability_gate_report.schema.json",
+    "ModuleImplementationReport": "module_implementation_report.schema.json",
 }
 
 
