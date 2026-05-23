@@ -364,6 +364,10 @@ function setViewerRunReport(report, status) {
   state.viewerRunReport = report;
   state.runLogStatus = status;
   state.runLogMessage = runLogMessage(status);
+  syncPopulationFromViewerRunReport();
+  syncBundleToLoadedCycleReport();
+  renderNodeScaling();
+  renderLayout();
   renderCycle();
 }
 
@@ -378,7 +382,41 @@ function defaultPopulationFromTargets(targets, maxTarget) {
 
 function setCycleReport(report) {
   state.cycleReport = report;
+  syncBundleToLoadedCycleReport();
   renderCycle();
+}
+
+function syncPopulationFromViewerRunReport() {
+  const active = Number(state.viewerRunReport?.active_population || 0);
+  if (!active || state.populationTouched) return;
+  state.population = active;
+  elements.populationSlider.value = String(active);
+}
+
+function syncBundleToLoadedCycleReport() {
+  const report = state.cycleReport;
+  const activePopulation = Number(state.viewerRunReport?.active_population || 0);
+  const reportPopulation = Number(report?.viewer_population_context?.population || 0);
+  if (!report?.runtime_bundle || !activePopulation || activePopulation !== reportPopulation) return;
+  if (state.cycle.running || state.cycle.paused || state.cycle.completed || state.cycle.submitted) return;
+  if (state.bundle?.id === report.runtime_bundle.id) return;
+  if (!cycleReportRuntimeAdoptable(report)) {
+    state.runLogMessage = `${state.runLogMessage || runLogMessage(state.runLogStatus)} Loaded cycle bundle was not adopted because the generated cycle is blocked or failed; run a fresh year from the baseline after correcting the model constraints.`;
+    return;
+  }
+  setBundle(report.runtime_bundle);
+  state.cycle.number = Number(report.cycle?.index || 0) + 1;
+  renderCycle();
+}
+
+function cycleReportRuntimeAdoptable(report) {
+  if (report.status === "blocked") return false;
+  if (report.applied_simulation?.status === "fail") return false;
+  const acceptance = report.operator_acceptance;
+  if (acceptance && acceptance.simulation_submit_allowed === false) return false;
+  const authority = report.authority;
+  if (authority && authority.simulation_submit_allowed === false) return false;
+  return true;
 }
 
 function setOptimizationReport(report, kind) {
@@ -627,6 +665,7 @@ function applyViewerRunPipelineResponse(payload) {
   if (payload.complexity) state.complexityReport = payload.complexity;
   if (payload.topology_recommendation) state.topologyRecommendation = payload.topology_recommendation;
   if (payload.cycle_iteration) state.cycleReport = payload.cycle_iteration;
+  syncBundleToLoadedCycleReport();
   if (payload.artifact_cohesion) state.artifactCohesion = payload.artifact_cohesion;
   renderNodeScaling();
   renderLayout();
@@ -1504,13 +1543,14 @@ function renderRuntimeKpis(day = null) {
   const currentDay = day || bundle.timeline.daily_states[state.day - 1] || {};
   const labor = bundle.timeline?.labor || {};
   const resources = currentDay.resources || {};
+  const storage = currentDay.storage || {};
   const status = bundle.manifest?.status?.simulation || bundle.timeline?.simulation_status || "provisional";
   elements.runtimeKpis.innerHTML = [
     kpi("status", label(status), status),
     kpi("day", `${currentDay.day || state.day}/${bundle.timeline?.days || 1}`, "info"),
-    kpi("water", resourceKpi(resources.water_liters), resources.water_liters?.status),
-    kpi("food", resourceKpi(resources.food_servings), resources.food_servings?.status),
-    kpi("energy", resourceKpi(resources.energy_kwh), resources.energy_kwh?.status),
+    kpi("water reserve", resourceKpi("water_liters", resources.water_liters, storage.water_liters, "L"), resources.water_liters?.status),
+    kpi("food reserve", resourceKpi("food_servings", resources.food_servings, storage.food_servings, "serv"), resources.food_servings?.status),
+    kpi("energy reserve", resourceKpi("energy_kwh", resources.energy_kwh, storage.energy_kwh, "kWh"), resources.energy_kwh?.status),
     kpi("labor", `${formatNumber(labor.modeled_involuntary_labor_minutes_per_resident_per_day)} min/day`, labor.status),
   ].join("");
 }
@@ -1540,7 +1580,8 @@ function renderResources(day) {
           <span class="status-chip status-${summary.status}">${summary.status}</span>
         </div>
         <div class="meter"><span style="width:${Math.max(4, magnitude)}%"></span></div>
-        <div class="small">net ${formatNumber(summary.net)} | balance ${formatNumber(summary.ending_balance)} | unmet ${formatNumber(summary.unmet_demand)}</div>
+        <div class="small">${resourceRateLine(summary, resourceUnit(name))}</div>
+        <div class="small">${resourceReserveLine(summary, day.storage?.[name], resourceUnit(name))}</div>
       </div>
     `;
   }).join("");
@@ -1564,7 +1605,7 @@ function renderStorage(day) {
           <span class="status-chip status-${summary.status}">${summary.status}</span>
         </div>
         <div class="meter"><span style="width:${percent}%"></span></div>
-        <div class="small">stored ${formatNumber(summary.ending_total)} / ${formatNumber(summary.capacity)} | floor ${formatNumber(summary.reserve_floor)} | quality ${summary.quality_status || "pass"}</div>
+        <div class="small">${storageLevelLine(summary, resourceUnit(name))} | quality ${summary.quality_status || "pass"}</div>
       </div>
     `;
   }).join("") + recoveryTasks.map(task => `
@@ -1765,10 +1806,101 @@ function kpi(name, value, status = "provisional") {
   `;
 }
 
-function resourceKpi(resource) {
+function resourceKpi(resourceName, resource, storage = null, unit = "") {
   if (!resource) return "n/a";
-  if (Number(resource.unmet_demand || 0) > 0) return `${formatNumber(resource.unmet_demand)} unmet`;
-  return formatNumber(resource.ending_balance);
+  const population = Math.max(1, Number(state.population || state.viewerRunReport?.active_population || 1));
+  const unmet = Number(resource.unmet_demand || 0);
+  const stored = Number(storage?.ending_total ?? resource.ending_balance ?? 0);
+  const capacity = Number(storage?.capacity || 0);
+  const value = unmet > 0 ? unmet : stored;
+  const suffix = unit ? ` ${unit}` : "";
+  const perResident = `${formatNumber(value / population)}${suffix}/res`;
+  const stats = resourceTimelineStats(resourceName, unit);
+  const flow = resourceFlowLine(resource, unit);
+  const level = capacity ? `${formatNumber(stored)} / ${formatNumber(capacity)}${suffix}` : `${formatNumber(value)}${suffix}`;
+  const main = unmet > 0 ? `${formatNumber(unmet)}${suffix} unmet` : level;
+  const percent = capacity ? `<small>${formatNumber((stored / capacity) * 100)}% full | ${perResident}</small>` : `<small>${perResident}</small>`;
+  return `${main}${percent}${stats}${flow}`;
+}
+
+function resourceTimelineStats(resourceName, unit = "") {
+  const series = (state.bundle?.timeline?.daily_states || [])
+    .map(day => Number(day.resources?.[resourceName]?.ending_balance))
+    .filter(value => Number.isFinite(value));
+  if (!series.length) return "";
+  const min = Math.min(...series);
+  const max = Math.max(...series);
+  const suffix = unit ? ` ${unit}` : "";
+  const unique = new Set(series.map(value => value.toFixed(3))).size;
+  const movement = unique > 1 ? `range ${formatNumber(min)}-${formatNumber(max)}${suffix}` : `flat ${formatNumber(max)}${suffix}`;
+  return `<small>${movement}</small>${resourceSparkline(series)}`;
+}
+
+function resourceSparkline(series) {
+  const width = 28;
+  const min = Math.min(...series);
+  const max = Math.max(...series);
+  const span = max - min;
+  const bars = Array.from({ length: width }, (_, index) => {
+    const sourceIndex = Math.min(series.length - 1, Math.floor((index / Math.max(1, width - 1)) * (series.length - 1)));
+    const value = series[sourceIndex];
+    const height = span > 0 ? 20 + ((value - min) / span) * 80 : 100;
+    return `<i style="height:${height.toFixed(1)}%"></i>`;
+  }).join("");
+  return `<span class="kpi-spark" aria-hidden="true">${bars}</span>`;
+}
+
+function resourceFlowLine(resource, unit = "") {
+  const suffix = unit ? ` ${unit}` : "";
+  const rawNet = Number(resource.raw_net || 0);
+  const released = Number(resource.storage_release || 0);
+  const refilled = Number(resource.storage_refill || 0);
+  const curtailed = Number(resource.curtailment || 0);
+  const parts = [
+    `source ${formatNumber(resource.production)}${suffix}/day`,
+    `use ${formatNumber(resource.consumption)}${suffix}/day`,
+    `net ${formatNumber(rawNet)}${suffix}/day`,
+  ];
+  if (released > 0) parts.push(`reserve release ${formatNumber(released)}${suffix}/day`);
+  if (refilled > 0) parts.push(`reserve refill ${formatNumber(refilled)}${suffix}/day`);
+  if (curtailed > 0) parts.push(`surplus curtailed ${formatNumber(curtailed)}${suffix}/day`);
+  return `<small>${parts.join(" | ")}</small>`;
+}
+
+function resourceRateLine(summary, unit = "") {
+  const suffix = unit ? ` ${unit}` : "";
+  return [
+    `source ${formatNumber(summary.production)}${suffix}/day`,
+    `use ${formatNumber(summary.consumption)}${suffix}/day`,
+    `net ${formatNumber(summary.raw_net)}${suffix}/day`,
+  ].join(" | ");
+}
+
+function resourceReserveLine(summary, storage, unit = "") {
+  const suffix = unit ? ` ${unit}` : "";
+  const stored = Number(storage?.ending_total ?? summary.ending_balance ?? 0);
+  const capacity = Number(storage?.capacity || 0);
+  const level = capacity ? `stored ${formatNumber(stored)} / ${formatNumber(capacity)}${suffix}` : `balance ${formatNumber(stored)}${suffix}`;
+  const actions = [];
+  if (Number(summary.storage_release || 0) > 0) actions.push(`release ${formatNumber(summary.storage_release)}${suffix}/day`);
+  if (Number(summary.storage_refill || 0) > 0) actions.push(`restore ${formatNumber(summary.storage_refill)}${suffix}/day`);
+  if (Number(summary.curtailment || 0) > 0) actions.push(`surplus curtailed ${formatNumber(summary.curtailment)}${suffix}/day`);
+  if (Number(summary.unmet_demand || 0) > 0) actions.push(`unmet ${formatNumber(summary.unmet_demand)}${suffix}/day`);
+  return [level, ...actions].join(" | ");
+}
+
+function storageLevelLine(summary, unit = "") {
+  const suffix = unit ? ` ${unit}` : "";
+  const percent = Number(summary.percent_full || 0);
+  return `stored ${formatNumber(summary.ending_total)} / ${formatNumber(summary.capacity)}${suffix} | ${formatNumber(percent)}% full | floor ${formatNumber(summary.reserve_floor)}${suffix}`;
+}
+
+function resourceUnit(name) {
+  if (name === "water_liters") return "L";
+  if (name === "food_servings") return "serv";
+  if (name === "energy_kwh") return "kWh";
+  if (name === "labor_hours") return "h";
+  return "";
 }
 
 function detailRow(name, value) {

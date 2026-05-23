@@ -15,6 +15,7 @@ COMPILED_PLAN_PATH = GENERATED_DIR / "micro_commons_plan.json"
 SEARCH_OPTIMIZER_PATH = GENERATED_DIR / "micro_commons_search_optimizer_report.json"
 REVIEW_STATUS_PATH = GENERATED_DIR / "micro_commons_review_status.json"
 CYCLE_ITERATION_PATH = GENERATED_DIR / "micro_commons_cycle_iteration.json"
+RUNTIME_BUNDLE_PATH = GENERATED_DIR / "micro_commons_runtime_bundle.json"
 OPTIMIZATION_PROFILE_PATH = Path("optimization_profiles/minimum_dignity_v0.yaml")
 DEFAULT_SCENARIO_PATHS = [
     Path("scenarios/water_contamination_response_v2.yaml"),
@@ -38,18 +39,23 @@ def regenerate_viewer_cycle_reports(
     generated_dir = root / GENERATED_DIR
     base_plan = load_data(root / COMPILED_PLAN_PATH)
     module_registry = load_data(root / MODULE_REGISTRY_PATH)
-    search = load_data(root / SEARCH_OPTIMIZER_PATH)
     patterns = load_patterns(root / "patterns")
-    plan = adapt_compiled_plan_for_population(base_plan, int(population), node_scaling_report, module_registry, patterns)
+    search = load_data(root / SEARCH_OPTIMIZER_PATH)
+    plan, search, search_needs_scaling = _cycle_source_plan_and_search(root, base_plan, search, int(population), int(cycle_index))
+    if search_needs_scaling:
+        plan = adapt_compiled_plan_for_population(base_plan, int(population), node_scaling_report, module_registry, patterns)
+        viewer_context = plan.get("metadata", {}).get("viewer_run_context", {})
+        search = adapt_search_report_for_population(
+            search,
+            float(viewer_context.get("capacity_multiplier", 1.0)),
+            pattern_multipliers=viewer_context.get("pattern_node_multipliers", {}),
+            node_scaled_patterns=_node_scaled_pattern_ids(module_registry),
+        )
     search_patterns = {
         pattern_id: patterns[pattern_id]
         for pattern_id in base_plan.get("selected_patterns", [])
         if pattern_id in patterns
     }
-    search = adapt_search_report_for_population(
-        search,
-        float(plan.get("metadata", {}).get("viewer_run_context", {}).get("capacity_multiplier", 1.0)),
-    )
     review_status = load_data(root / REVIEW_STATUS_PATH) if (root / REVIEW_STATUS_PATH).exists() else None
     scenarios = [load_data(root / path) for path in DEFAULT_SCENARIO_PATHS if (root / path).exists()]
     optimization_profile = load_data(root / OPTIMIZATION_PROFILE_PATH)
@@ -68,16 +74,63 @@ def regenerate_viewer_cycle_reports(
         optimization_profile=optimization_profile,
     )
     write_json(generated_dir / CYCLE_ITERATION_PATH.name, cycle_report)
+    write_json(generated_dir / RUNTIME_BUNDLE_PATH.name, cycle_report["runtime_bundle"])
     return {
         "status": "regenerated",
         "population": int(population),
         "artifacts": {
             "cycle_iteration": str(GENERATED_DIR / CYCLE_ITERATION_PATH.name),
+            "runtime_bundle": str(GENERATED_DIR / RUNTIME_BUNDLE_PATH.name),
         },
         "cycle_iteration": cycle_report,
         "runtime_bundle": cycle_report["runtime_bundle"],
         "search_optimizer": cycle_report.get("next_search_optimizer_report"),
     }
+
+
+def _cycle_source_plan_and_search(
+    root: Path,
+    base_plan: dict[str, Any],
+    base_search: dict[str, Any],
+    population: int,
+    cycle_index: int,
+) -> tuple[dict[str, Any], dict[str, Any], bool]:
+    if cycle_index <= 1:
+        return base_plan, base_search, True
+    previous_path = root / CYCLE_ITERATION_PATH
+    if not previous_path.exists():
+        return base_plan, base_search, True
+    previous = load_data(previous_path)
+    previous_population = int(previous.get("viewer_population_context", {}).get("population", 0))
+    previous_cycle_index = int(previous.get("cycle", {}).get("index", 0))
+    previous_plan = previous.get("applied_plan")
+    previous_search = previous.get("next_search_optimizer_report")
+    if previous_population != int(population) or previous_cycle_index != cycle_index - 1 or not previous_plan or not previous_search:
+        return base_plan, base_search, True
+    plan = copy.deepcopy(previous_plan)
+    _carry_forward_storage_initials(plan, previous.get("applied_simulation", {}))
+    return plan, copy.deepcopy(previous_search), False
+
+
+def _carry_forward_storage_initials(plan: dict[str, Any], previous_simulation: dict[str, Any]) -> None:
+    daily_states = previous_simulation.get("daily_states", [])
+    if not daily_states:
+        return
+    final_storage = daily_states[-1].get("storage_state", {}).get("resources", {})
+    ending_by_storage_id: dict[str, float] = {}
+    for resource_state in final_storage.values():
+        for store in resource_state.get("stores", []):
+            storage_id = str(store.get("storage_id", ""))
+            if storage_id:
+                ending_by_storage_id[storage_id] = float(store.get("ending_balance", 0.0))
+    if not ending_by_storage_id:
+        return
+    storage_by_pattern = plan.get("simulation_inputs", {}).get("storage_by_pattern", {})
+    for pattern_id, specs in storage_by_pattern.items():
+        for index, spec in enumerate(specs):
+            storage_id = f"{pattern_id}:{spec.get('resource')}:{index + 1}"
+            if storage_id in ending_by_storage_id:
+                spec["initial"] = round(min(float(spec.get("capacity", 0.0)), ending_by_storage_id[storage_id]), 6)
 
 
 def adapt_compiled_plan_for_population(
@@ -110,7 +163,8 @@ def adapt_compiled_plan_for_population(
         _materialize_active_patterns(plan, active_patterns, patterns_by_id)
     multipliers = _pattern_multipliers(plan, population, node_scaling_report, module_registry)
     capacity_multiplier = max(1.0, population / base_population)
-    _apply_pattern_multipliers(plan, multipliers, capacity_multiplier, set(active_patterns))
+    node_scaled_patterns = _node_scaled_pattern_ids(module_registry)
+    _apply_pattern_multipliers(plan, multipliers, capacity_multiplier, node_scaled_patterns)
     plan["metadata"]["viewer_run_context"]["pattern_node_multipliers"] = multipliers
     plan["metadata"]["viewer_run_context"]["capacity_multiplier"] = round(capacity_multiplier, 6)
     plan["metadata"]["viewer_run_context"]["active_node_patterns"] = active_patterns
@@ -201,30 +255,53 @@ def _materialize_active_patterns(plan: dict[str, Any], active_patterns: list[str
     plan["role_burden"]["total_recurring_hours_per_week"] = round(sum(role_hours.values()), 6)
 
 
-def adapt_search_report_for_population(search_report: dict[str, Any], capacity_multiplier: float) -> dict[str, Any]:
+def adapt_search_report_for_population(
+    search_report: dict[str, Any],
+    capacity_multiplier: float,
+    *,
+    pattern_multipliers: dict[str, int] | None = None,
+    node_scaled_patterns: set[str] | None = None,
+) -> dict[str, Any]:
     report = copy.deepcopy(search_report)
     if capacity_multiplier <= 1:
         return report
+    pattern_multipliers = pattern_multipliers or {}
+    node_scaled_patterns = node_scaled_patterns or set()
     report.setdefault("viewer_population_context", {})
     report["viewer_population_context"] = {
         "storage_parameter_multiplier": round(capacity_multiplier, 6),
+        "pattern_node_multipliers": dict(pattern_multipliers),
         "source": "webapp_population_context",
         "provisional": True,
     }
     for candidate in report.get("top_candidates", []):
         for parameter in candidate.get("parameter_values", []):
             if _is_storage_parameter(parameter):
-                parameter["value"] = round(float(parameter["value"]) * capacity_multiplier, 6)
+                multiplier = _storage_parameter_multiplier(parameter, capacity_multiplier, pattern_multipliers, node_scaled_patterns)
+                parameter["value"] = round(float(parameter["value"]) * multiplier, 6)
         for delta in candidate.get("parameter_deltas", []):
             if _is_storage_parameter(delta):
+                multiplier = _storage_parameter_multiplier(delta, capacity_multiplier, pattern_multipliers, node_scaled_patterns)
                 for key in ["from_value", "to_value", "delta"]:
                     if key in delta and isinstance(delta[key], (int, float)):
-                        delta[key] = round(float(delta[key]) * capacity_multiplier, 6)
+                        delta[key] = round(float(delta[key]) * multiplier, 6)
     return report
 
 
 def _is_storage_parameter(parameter: dict[str, Any]) -> bool:
     return "storage[" in str(parameter.get("path", ""))
+
+
+def _storage_parameter_multiplier(
+    parameter: dict[str, Any],
+    capacity_multiplier: float,
+    pattern_multipliers: dict[str, int],
+    node_scaled_patterns: set[str],
+) -> float:
+    pattern_id = str(parameter.get("pattern_id", ""))
+    if pattern_id in node_scaled_patterns:
+        return float(pattern_multipliers.get(pattern_id, 1))
+    return float(capacity_multiplier)
 
 
 def _pattern_multipliers(
@@ -253,17 +330,29 @@ def _pattern_multipliers(
     return multipliers
 
 
+def _node_scaled_pattern_ids(module_registry: dict[str, Any] | None) -> set[str]:
+    if not module_registry:
+        return set()
+    pattern_ids: set[str] = set()
+    for slot in module_registry.get("slots", []):
+        if not slot.get("node_policy"):
+            continue
+        pattern_ids.update(str(pattern_id) for pattern_id in slot.get("default_patterns", []))
+        pattern_ids.update(str(pattern_id) for pattern_id in slot.get("accepted_patterns", []))
+    return pattern_ids
+
+
 def _apply_pattern_multipliers(
     plan: dict[str, Any],
     multipliers: dict[str, int],
     capacity_multiplier: float,
-    active_patterns: set[str] | None = None,
+    node_scaled_patterns: set[str] | None = None,
 ) -> None:
     resource_effects = plan.get("simulation_inputs", {}).get("resource_effects_by_pattern", {})
     storage_by_pattern = plan.get("simulation_inputs", {}).get("storage_by_pattern", {})
-    active_patterns = active_patterns or set()
+    node_scaled_patterns = node_scaled_patterns or set()
     for pattern_id, multiplier in multipliers.items():
-        pattern_capacity_multiplier = float(multiplier if pattern_id in active_patterns else capacity_multiplier)
+        pattern_capacity_multiplier = float(multiplier if pattern_id in node_scaled_patterns else capacity_multiplier)
         if multiplier <= 1 and pattern_capacity_multiplier <= 1:
             continue
         if pattern_id in resource_effects:

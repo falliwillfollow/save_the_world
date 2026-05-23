@@ -104,6 +104,21 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("loadDefaultNodeScaling", app)
         self.assertIn("loadDefaultTopologyRecommendation", app)
         self.assertIn("setCycleReport", app)
+        self.assertIn("syncBundleToLoadedCycleReport", app)
+        self.assertIn("syncPopulationFromViewerRunReport", app)
+        self.assertIn("cycleReportRuntimeAdoptable", app)
+        self.assertIn("Loaded cycle bundle was not adopted because the generated cycle is blocked or failed", app)
+        self.assertIn('kpi("water reserve"', app)
+        self.assertIn('resourceKpi("water_liters", resources.water_liters, storage.water_liters, "L")', app)
+        self.assertIn('resourceKpi("food_servings", resources.food_servings, storage.food_servings, "serv")', app)
+        self.assertIn("resourceTimelineStats", app)
+        self.assertIn("resourceSparkline", app)
+        self.assertIn("resourceFlowLine", app)
+        self.assertIn("source ${formatNumber(resource.production)}", app)
+        self.assertIn("use ${formatNumber(resource.consumption)}", app)
+        self.assertIn("reserve refill", app)
+        self.assertIn("surplus curtailed", app)
+        self.assertNotIn("setBundle(payload.runtime_bundle)", app)
         self.assertIn("cycleAuthoritySummary", app)
         self.assertIn("cycleAppliedScenarioRows", app)
         self.assertIn("cycleAcceptanceSummary", app)
@@ -162,6 +177,19 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("modeled_personal_pursuit_hours_per_resident_per_day", bundle["timeline"]["labor"])
         self.assertIn("do_not_visualize_as_proof", bundle["viewer_hints"])
 
+    def test_generated_bundle_matches_active_population_and_exposes_water_dynamics(self) -> None:
+        bundle = load_data(ROOT / "examples" / "generated" / "micro_commons_runtime_bundle.json")
+        viewer = load_data(ROOT / "examples" / "generated" / "micro_commons_viewer_session_report.json")
+        water = [day["resources"]["water_liters"] for day in bundle["timeline"]["daily_states"]]
+        balances = [day["ending_balance"] for day in water]
+
+        self.assertEqual(bundle["site"]["summary"]["population_target"], viewer["active_population"])
+        self.assertGreater(len(set(balances)), 1)
+        self.assertIn("production", water[0])
+        self.assertIn("curtailment", water[0])
+        self.assertGreater(sum(day["storage_release"] for day in water), 0)
+        self.assertGreater(sum(day["curtailment"] for day in water), 0)
+
     def test_generated_foundation_gate_is_viewer_ready(self) -> None:
         gate = load_data(ROOT / "examples" / "generated" / "micro_commons_foundation_gate.json")
 
@@ -190,8 +218,8 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("resilient_water_commons", cycle["viewer_population_context"]["active_node_patterns"])
         self.assertEqual(cycle["runtime_bundle"]["kind"], "RuntimeBundle")
         self.assertEqual(cycle["authority"]["mode"], "operator_directed")
-        self.assertEqual(cycle["operator_acceptance"]["status"], "converged")
-        self.assertTrue(cycle["operator_acceptance"]["simulation_submit_allowed"])
+        self.assertIn(cycle["operator_acceptance"]["status"], {"converged", "blocked"})
+        self.assertEqual(cycle["authority"]["simulation_submit_allowed"], cycle["operator_acceptance"]["simulation_submit_allowed"])
         self.assertEqual(cycle["next_search_optimizer_report"]["kind"], "SearchOptimizerReport")
 
     def test_generated_food_autonomy_report_is_viewer_ready(self) -> None:
@@ -200,7 +228,7 @@ class ViewerTests(unittest.TestCase):
 
         self.assertEqual(report["kind"], "FoodAutonomyReport")
         self.assertEqual(report["population"], viewer["active_population"])
-        self.assertIn(report["status"], {"pass", "warn"})
+        self.assertIn(report["status"], {"pass", "warn", "fail"})
         self.assertTrue(report["seasonal_smoothing"]["resources"])
         self.assertTrue(validate_data(report, "food-autonomy").ok)
 

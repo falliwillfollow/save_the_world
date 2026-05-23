@@ -205,7 +205,7 @@ button:disabled {
 }
 
 .kpi {
-  min-height: 52px;
+  min-height: 118px;
   border: 1px solid var(--line);
   border-left-width: 4px;
   background: #ffffff;
@@ -223,8 +223,32 @@ button:disabled {
 .kpi strong {
   display: block;
   margin-top: 4px;
-  font-size: 16px;
-  line-height: 1.1;
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.kpi strong small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: normal;
+}
+
+.kpi-spark {
+  display: grid;
+  grid-template-columns: repeat(28, minmax(0, 1fr));
+  align-items: end;
+  gap: 1px;
+  height: 16px;
+  margin-top: 5px;
+}
+
+.kpi-spark i {
+  display: block;
+  min-height: 2px;
+  background: #6b879f;
 }
 
 .route-layer {

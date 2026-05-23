@@ -49,7 +49,11 @@ class NodeScalingTests(unittest.TestCase):
         food_1500 = next(slot for slot in targets[1500]["slot_results"] if slot["slot"] == "food_production")
         self.assertEqual(food_1500["mode"], "replicated_nodes")
         self.assertEqual(food_1500["desired_nodes"], 19)
-        self.assertEqual(targets[1500]["tier_node_counts"]["floor_systems"], 59)
+        water_1500 = next(slot for slot in targets[1500]["slot_results"] if slot["slot"] == "potable_water_source")
+        energy_1500 = next(slot for slot in targets[1500]["slot_results"] if slot["slot"] == "critical_energy")
+        self.assertEqual(water_1500["desired_nodes"], 15)
+        self.assertEqual(energy_1500["desired_nodes"], 15)
+        self.assertEqual(targets[1500]["tier_node_counts"]["floor_systems"], 69)
         self.assertTrue(validate_data(report, "node-scaling").ok)
 
     def test_node_scaling_report_accepts_ad_hoc_people_target(self) -> None:
@@ -58,7 +62,7 @@ class NodeScalingTests(unittest.TestCase):
 
         self.assertIn(978, targets)
         self.assertEqual(targets[978]["replicated_slot_count"], 14)
-        self.assertEqual(targets[978]["total_desired_nodes"], 104)
+        self.assertEqual(targets[978]["total_desired_nodes"], 110)
         food_978 = next(slot for slot in targets[978]["slot_results"] if slot["slot"] == "food_production")
         self.assertEqual(food_978["desired_nodes"], 13)
         self.assertEqual(food_978["action"], "scale_up")

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import tempfile
 import unittest
 from pathlib import Path
@@ -62,6 +63,19 @@ class CycleIterationTests(unittest.TestCase):
             self.assertIn(float(parameter["value"]), applied_values)
         self.assertNotEqual(report["applied_plan"]["id"], self.plan["id"])
         self.assertEqual(report["artifacts"]["runtime_bundle_id"], report["runtime_bundle"]["id"])
+
+    def test_failed_applied_simulation_blocks_operator_submit(self) -> None:
+        plan = copy.deepcopy(self.plan)
+        plan["simulation_inputs"]["resource_effects_by_pattern"]["community_kitchen"]["water_liters_per_day"] = -100000
+
+        report = materialize_search_candidate(plan, self.search, review_status=self.review_status, days=30)
+
+        self.assertEqual(report["applied_simulation"]["status"], "fail")
+        self.assertEqual(report["status"], "blocked")
+        self.assertEqual(report["operator_acceptance"]["status"], "blocked")
+        self.assertFalse(report["operator_acceptance"]["simulation_submit_allowed"])
+        self.assertFalse(report["authority"]["simulation_submit_allowed"])
+        self.assertIn("Applied simulation status is fail.", report["operator_acceptance"]["blockers"])
 
     def test_cli_apply_search_candidate_writes_cycle_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

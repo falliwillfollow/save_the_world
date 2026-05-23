@@ -26,7 +26,9 @@ class FoodAutonomyTests(unittest.TestCase):
         self.assertEqual(report["population"], self.cycle["viewer_population_context"]["population"])
         self.assertEqual(report["status"], "warn")
         self.assertGreater(report["food_autonomy"]["reserve_release_ratio"], 0.1)
-        self.assertIn("food_procurement_dependency", {hotspot["kind"] for hotspot in report["hotspots"]})
+        hotspots = {(hotspot["kind"], hotspot["severity"], hotspot["subject"]) for hotspot in report["hotspots"]}
+        self.assertIn(("food_procurement_dependency", "warn", "food_servings"), hotspots)
+        self.assertIn(("multi_season_deficit", "warn", "food_servings"), hotspots)
         self.assertTrue(report["seasonal_smoothing"]["resources"])
         self.assertIn("battery_fire_or_fault", report["risk_scenario_coverage"]["uncovered_risk_modes"])
         self.assertTrue(validate_data(report, "food-autonomy").ok)

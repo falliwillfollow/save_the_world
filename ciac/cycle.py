@@ -66,7 +66,7 @@ def materialize_search_candidate(
         "id": f"{compiled_plan['id']}_{candidate['id']}_cycle_{cycle_index:03d}",
         "generated_by": "ciac.cycle.v0",
         "provisional": True,
-        "status": "materialized" if candidate.get("status") == "viable" else "blocked",
+        "status": _cycle_status(candidate, operator_acceptance),
         "source_compiled_plan": compiled_plan["id"],
         "search_optimizer_report": search_optimizer_report["id"],
         "selected_candidate": candidate["id"],
@@ -225,6 +225,12 @@ def _change_summary(candidate: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _cycle_status(candidate: dict[str, Any], operator_acceptance: dict[str, Any]) -> str:
+    if candidate.get("status") != "viable" or not operator_acceptance.get("simulation_submit_allowed"):
+        return "blocked"
+    return "materialized"
+
+
 def _before_after(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
     return {
         "baseline_status": before["status"],
@@ -243,6 +249,8 @@ def _operator_acceptance(candidate: dict[str, Any], before_after: dict[str, Any]
     regressions: list[str] = []
     if candidate.get("status") != "viable" or int(candidate.get("hard_constraint_failures", 0)) > 0:
         blockers.append("Candidate has hard constraint failures.")
+    if before_after.get("applied_status") == "fail":
+        blockers.append("Applied simulation status is fail.")
 
     for row in before_after.get("resource_delta", []):
         before_rank = _status_rank(row.get("before_status", "missing"))
@@ -297,7 +305,7 @@ def _status_rank(status: str) -> int:
 
 def _operator_acceptance_rationale(status: str) -> str:
     if status == "blocked":
-        return "Operator-directed simulation blocks candidates with hard constraint failures."
+        return "Operator-directed simulation blocks candidates with hard constraint failures or failed applied simulations."
     if status == "regressed":
         return "Operator-directed simulation blocks objective regressions even when review oversight is reduced."
     if status == "improved":

@@ -32,7 +32,7 @@ class TopologyOptimizerTests(unittest.TestCase):
         self.assertEqual(report["status"], "action_recommended")
         self.assertEqual(report["selected_action"]["id"], "replicate_village_node_pools")
         self.assertIn("food_production", report["selected_action"]["affected_slots"])
-        self.assertEqual(report["node_summary"]["replicated_slot_count"], 1)
+        self.assertEqual(report["node_summary"]["replicated_slot_count"], 3)
         self.assertTrue(validate_data(report, "topology-recommendation").ok)
 
     def test_topology_recommendation_scales_up_at_1500_people(self) -> None:
@@ -49,7 +49,7 @@ class TopologyOptimizerTests(unittest.TestCase):
 
         self.assertEqual(report["population"], 978)
         self.assertEqual(report["selected_action"]["id"], "replicate_village_node_pools")
-        self.assertEqual(report["node_summary"]["total_desired_nodes"], 104)
+        self.assertEqual(report["node_summary"]["total_desired_nodes"], 110)
         action_ids = {action["id"] for action in report["candidate_actions"]}
         self.assertIn("add_town_city_capability_layer", action_ids)
         self.assertIn("federate_cross_node_control_plane", action_ids)

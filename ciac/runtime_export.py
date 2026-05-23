@@ -135,6 +135,13 @@ def _daily_state_for_viewer(state: dict[str, Any]) -> dict[str, Any]:
         "season": state["season"],
         "resources": {
             resource: {
+                "opening_balance": summary.get("opening_balance", summary["ending_balance"]),
+                "production": summary.get("production", 0),
+                "consumption": summary.get("consumption", 0),
+                "raw_net": summary.get("raw_net", summary["net"]),
+                "storage_release": summary.get("storage_release", 0),
+                "storage_refill": summary.get("storage_refill", 0),
+                "curtailment": summary.get("curtailment", 0),
                 "ending_balance": summary["ending_balance"],
                 "net": summary["net"],
                 "status": summary["status"],
@@ -152,9 +159,16 @@ def _daily_state_for_viewer(state: dict[str, Any]) -> dict[str, Any]:
         "scenario_events": state.get("scenario_events", []),
         "storage": {
             resource: {
+                "opening_total": summary.get("opening_total", summary["ending_total"]),
+                "released": summary.get("released", 0),
+                "refilled": summary.get("refilled", 0),
+                "curtailed": summary.get("curtailed", 0),
+                "quality_loss": summary.get("quality_loss", 0),
                 "ending_total": summary["ending_total"],
                 "capacity": summary["capacity"],
                 "reserve_floor": summary["reserve_floor"],
+                "percent_full": summary.get("percent_full", 0),
+                "quantity_status": summary.get("quantity_status", summary["status"]),
                 "quality_status": summary.get("quality_status", "pass"),
                 "status": summary["status"],
             }

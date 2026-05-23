@@ -32,6 +32,9 @@ class ArtifactCohesionTests(unittest.TestCase):
         assert_no_failures_and_only_allowed_warnings(self, report)
         check_ids = {check["id"] for check in report["relationship_checks"]}
         self.assertIn("cycle_selected_candidate_matches_search", check_ids)
+        self.assertIn("runtime_bundle_matches_cycle_runtime", check_ids)
+        self.assertIn("runtime_water_flow_fields_visible", check_ids)
+        self.assertIn("runtime_water_balance_has_temporal_movement", check_ids)
         self.assertIn("food_labor_has_active_population_row", check_ids)
         self.assertIn("topology_population_has_node_target", check_ids)
         self.assertIn("topology_total_nodes_match_node_scaling", check_ids)

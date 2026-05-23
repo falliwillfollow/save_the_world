@@ -135,9 +135,9 @@ slots:
       scale_unit: residents
       minimum_population_per_node: 5
       preferred_population_per_node: 80
-      maximum_population_per_node: 150
+      maximum_population_per_node: 100
       scale_down_strategy: use well house, rainwater capture, and emergency reserve seed patterns
-      scale_up_strategy: replicate water commons nodes with reviewed source, storage, testing, and drought operations
+      scale_up_strategy: replicate water commons nodes before they become centralized utilities, with reviewed source, storage, testing, and drought operations
       stateful: true
       provisional: true
     research_queries:
@@ -233,9 +233,9 @@ slots:
       scale_unit: residents
       minimum_population_per_node: 5
       preferred_population_per_node: 80
-      maximum_population_per_node: 150
+      maximum_population_per_node: 100
       scale_down_strategy: use solar shed and critical-load reserve seed patterns before full energy commons
-      scale_up_strategy: replicate critical-load energy nodes with local dashboards, storage, and manual override
+      scale_up_strategy: replicate critical-load energy nodes before they become centralized utilities, with local dashboards, storage, and manual override
       stateful: true
       provisional: true
     research_queries:

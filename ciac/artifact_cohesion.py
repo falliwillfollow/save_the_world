@@ -60,6 +60,7 @@ def evaluate_artifact_cohesion(generated_dir: str | Path) -> dict[str, Any]:
         )
 
     relationship_checks.extend(_optimizer_cycle_checks(loaded))
+    relationship_checks.extend(_runtime_cycle_checks(loaded))
     relationship_checks.extend(_food_autonomy_checks(loaded))
     relationship_checks.extend(_node_topology_checks(loaded))
     relationship_checks.extend(_viewer_run_checks(loaded))
@@ -161,6 +162,73 @@ def _optimizer_cycle_checks(loaded: dict[str, dict[str, Any]]) -> list[dict[str,
                 "pass" if weights.get("optimization_profile") == search.get("optimization_profile") else "fail",
                 f"Weight governance profile {weights.get('optimization_profile')} matches search profile {search.get('optimization_profile')}.",
                 ["micro_commons_weight_governance.json", "micro_commons_search_optimizer_report.json"],
+            )
+        )
+    return checks
+
+
+def _runtime_cycle_checks(loaded: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    checks = []
+    runtime = loaded.get("runtime_bundle")
+    cycle = loaded.get("cycle_iteration")
+    viewer = loaded.get("viewer_run")
+    if not runtime:
+        return checks
+    active_population = int(viewer.get("active_population", 0)) if viewer else _active_population(loaded)
+    runtime_population = int(runtime.get("site", {}).get("summary", {}).get("population_target", 0))
+    topology_population = int(loaded.get("topology_recommendation", {}).get("population", 0))
+    population_mismatch_status = "pass" if not active_population or runtime_population == active_population else (
+        "warn" if topology_population and topology_population != active_population else "fail"
+    )
+    checks.append(
+        _check(
+            "runtime_population_matches_active_population",
+            population_mismatch_status,
+            f"Runtime population {runtime_population} matches active viewer population {active_population}.",
+            ["micro_commons_runtime_bundle.json", "micro_commons_viewer_session_report.json"],
+        )
+    )
+    if cycle:
+        cycle_runtime = cycle.get("runtime_bundle", {})
+        checks.append(
+            _check(
+                "runtime_bundle_matches_cycle_runtime",
+                "pass"
+                if runtime.get("id") == cycle_runtime.get("id")
+                and runtime.get("manifest", {}).get("simulation_run") == cycle_runtime.get("manifest", {}).get("simulation_run")
+                else "fail",
+                f"Canonical runtime {runtime.get('id')} / {runtime.get('manifest', {}).get('simulation_run')} matches cycle runtime {cycle_runtime.get('id')} / {cycle_runtime.get('manifest', {}).get('simulation_run')}.",
+                ["micro_commons_runtime_bundle.json", "micro_commons_cycle_iteration.json"],
+            )
+        )
+        checks.append(
+            _check(
+                "runtime_population_matches_cycle_population",
+                "pass" if runtime_population == int(cycle.get("viewer_population_context", {}).get("population", -1)) else "fail",
+                f"Runtime population {runtime_population} matches cycle population {cycle.get('viewer_population_context', {}).get('population')}.",
+                ["micro_commons_runtime_bundle.json", "micro_commons_cycle_iteration.json"],
+            )
+        )
+    days = runtime.get("timeline", {}).get("daily_states", [])
+    water = [day.get("resources", {}).get("water_liters", {}) for day in days if day.get("resources", {}).get("water_liters")]
+    required_flow_fields = {"production", "consumption", "raw_net", "storage_release", "storage_refill", "curtailment", "ending_balance"}
+    first_water = water[0] if water else {}
+    checks.append(
+        _check(
+            "runtime_water_flow_fields_visible",
+            "pass" if required_flow_fields.issubset(first_water) else "fail",
+            "Runtime water daily state exposes source, use, reserve release, reserve refill, curtailment, and balance fields.",
+            ["micro_commons_runtime_bundle.json"],
+        )
+    )
+    if water:
+        balances = {float(day.get("ending_balance", 0.0)) for day in water}
+        checks.append(
+            _check(
+                "runtime_water_balance_has_temporal_movement",
+                "pass" if len(balances) > 1 else "warn",
+                f"Runtime water reserve has {len(balances)} distinct daily balance value(s).",
+                ["micro_commons_runtime_bundle.json"],
             )
         )
     return checks

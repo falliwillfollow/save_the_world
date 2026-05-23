@@ -7,7 +7,7 @@ from ciac.artifact_cohesion import evaluate_artifact_cohesion
 from ciac.compiler import load_patterns
 from ciac.io import load_data
 from ciac.node_scaling import generate_node_scaling_report
-from ciac.viewer_cycle_pipeline import adapt_compiled_plan_for_population
+from ciac.viewer_cycle_pipeline import adapt_compiled_plan_for_population, adapt_search_report_for_population, regenerate_viewer_cycle_reports
 from ciac.viewer_pipeline import regenerate_viewer_population_reports
 from ciac.viewer_session import append_viewer_run_event, append_viewer_run_event_to_path, empty_viewer_run_report
 from ciac.validation import validate_data
@@ -103,7 +103,7 @@ class ViewerSessionTests(unittest.TestCase):
             shutil.copytree(GENERATED, root / "examples" / "generated")
             append_viewer_run_event_to_path(
                 root / "examples" / "generated" / "micro_commons_viewer_session_report.json",
-                {"population": 594, "total_nodes": 60, "replicated_slots": 14, "days": 365},
+                {"population": 594, "total_nodes": 64, "replicated_slots": 14, "days": 365},
             )
 
             payload = regenerate_viewer_population_reports(root, 594)
@@ -115,7 +115,7 @@ class ViewerSessionTests(unittest.TestCase):
             self.assertEqual(payload["topology_recommendation"]["population"], 594)
             self.assertEqual(payload["topology_recommendation"]["source_reports"]["food_labor"], payload["food_labor"]["id"])
             self.assertEqual(payload["topology_recommendation"]["source_reports"]["complexity"], payload["complexity"]["id"])
-            self.assertEqual(payload["topology_recommendation"]["node_summary"]["total_desired_nodes"], 60)
+            self.assertEqual(payload["topology_recommendation"]["node_summary"]["total_desired_nodes"], 64)
             self.assertEqual(payload["food_autonomy"]["kind"], "FoodAutonomyReport")
             self.assertEqual(payload["food_autonomy"]["population"], 594)
             self.assertEqual(payload["artifact_cohesion"]["status"], "coherent")
@@ -132,7 +132,7 @@ class ViewerSessionTests(unittest.TestCase):
             shutil.copytree(GENERATED, root / "examples" / "generated")
             event = {
                 "population": 756,
-                "total_nodes": 88,
+                "total_nodes": 92,
                 "replicated_slots": 14,
                 "days": 7,
                 "cycle_number": 3,
@@ -154,10 +154,77 @@ class ViewerSessionTests(unittest.TestCase):
             self.assertIn("protein_commons_supplement", payload["cycle_iteration"]["applied_plan"]["selected_patterns"])
             self.assertNotIn("food model is partial: greenhouse output is not a complete nutrition plan", payload["cycle_iteration"]["applied_simulation"]["bottlenecks"])
             self.assertEqual(payload["runtime_bundle"]["kind"], "RuntimeBundle")
+            self.assertEqual(load_data(root / "examples" / "generated" / "micro_commons_runtime_bundle.json")["site"]["summary"]["population_target"], 756)
             self.assertEqual(payload["food_autonomy"]["population"], 756)
             self.assertIn("food_autonomy", payload["artifacts"])
             self.assertIn("cycle_iteration", payload["artifacts"])
+            self.assertIn("runtime_bundle", payload["artifacts"])
             self.assertEqual(payload["artifact_cohesion"]["status"], "coherent")
+
+    def test_viewer_cycle_two_continues_from_previous_applied_plan(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            shutil.copytree(ROOT / "module_registries", root / "module_registries")
+            shutil.copytree(ROOT / "scale_profiles", root / "scale_profiles")
+            shutil.copytree(ROOT / "patterns", root / "patterns")
+            shutil.copytree(ROOT / "optimization_profiles", root / "optimization_profiles")
+            shutil.copytree(ROOT / "scenarios", root / "scenarios")
+            shutil.copytree(GENERATED, root / "examples" / "generated")
+            registry = load_data(root / "module_registries" / "micro_commons_default_v0.yaml")
+            scale_profile = load_data(root / "scale_profiles" / "micro_commons_scale_targets_v0.yaml")
+            node_report = generate_node_scaling_report(registry, scale_profile, [730])
+
+            first = regenerate_viewer_cycle_reports(root, 730, days=7, cycle_index=1, candidate_id="search_001", node_scaling_report=node_report)
+            second = regenerate_viewer_cycle_reports(root, 730, days=7, cycle_index=2, candidate_id="search_001", node_scaling_report=node_report)
+
+            self.assertEqual(second["cycle_iteration"]["cycle"]["index"], 2)
+            self.assertEqual(second["cycle_iteration"]["source_compiled_plan"], first["cycle_iteration"]["applied_plan"]["id"])
+            self.assertNotEqual(second["cycle_iteration"]["source_compiled_plan"], "micro_commons_5_households_compiled_v0_p730")
+            storage_delta = {
+                row["resource"]: row
+                for row in second["cycle_iteration"]["before_after"]["storage_delta"]
+                if row["resource"] in {"food_servings", "water_liters"}
+            }
+            self.assertEqual(storage_delta["food_servings"]["before_capacity"], storage_delta["food_servings"]["after_capacity"])
+            self.assertEqual(storage_delta["water_liters"]["before_capacity"], storage_delta["water_liters"]["after_capacity"])
+            first_final = first["cycle_iteration"]["applied_simulation"]["daily_states"][-1]["storage_state"]["resources"]
+            second_initials = second["cycle_iteration"]["applied_plan"]["simulation_inputs"]["storage_by_pattern"]
+            self.assertEqual(
+                sum(spec["initial"] for spec in second_initials["emergency_water_reserve"] + second_initials["resilient_water_commons"]),
+                first_final["water_liters"]["ending_total"],
+            )
+            self.assertEqual(
+                sum(
+                    spec["initial"]
+                    for spec in (
+                        second_initials["hybrid_food_commons"]
+                        + second_initials["protein_commons_supplement"]
+                        + second_initials["seasonal_food_smoothing_commons"]
+                        + second_initials["staple_food_reserve"]
+                    )
+                ),
+                first_final["food_servings"]["ending_total"],
+            )
+
+    def test_cycle_regeneration_does_not_use_same_cycle_as_predecessor(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            shutil.copytree(ROOT / "module_registries", root / "module_registries")
+            shutil.copytree(ROOT / "scale_profiles", root / "scale_profiles")
+            shutil.copytree(ROOT / "patterns", root / "patterns")
+            shutil.copytree(ROOT / "optimization_profiles", root / "optimization_profiles")
+            shutil.copytree(ROOT / "scenarios", root / "scenarios")
+            shutil.copytree(GENERATED, root / "examples" / "generated")
+            registry = load_data(root / "module_registries" / "micro_commons_default_v0.yaml")
+            scale_profile = load_data(root / "scale_profiles" / "micro_commons_scale_targets_v0.yaml")
+            node_report = generate_node_scaling_report(registry, scale_profile, [730])
+
+            regenerate_viewer_cycle_reports(root, 730, days=7, cycle_index=1, candidate_id="search_001", node_scaling_report=node_report)
+            regenerate_viewer_cycle_reports(root, 730, days=7, cycle_index=2, candidate_id="search_001", node_scaling_report=node_report)
+            repeated = regenerate_viewer_cycle_reports(root, 730, days=7, cycle_index=2, candidate_id="search_001", node_scaling_report=node_report)
+
+            self.assertEqual(repeated["cycle_iteration"]["cycle"]["index"], 2)
+            self.assertEqual(repeated["cycle_iteration"]["source_compiled_plan"], "micro_commons_5_households_compiled_v0_p730")
 
     def test_population_adaptation_does_not_mutate_pattern_catalog(self) -> None:
         registry = load_data(ROOT / "module_registries" / "micro_commons_default_v0.yaml")
@@ -171,7 +238,54 @@ class ViewerSessionTests(unittest.TestCase):
 
         self.assertEqual(patterns["resilient_water_commons"]["simulation"]["resource_effects"]["water_liters_per_day"], 2200)
         self.assertEqual(patterns["resilient_water_commons"]["simulation"]["storage"][0]["capacity"], 9085)
-        self.assertEqual(adapted["simulation_inputs"]["storage_by_pattern"]["resilient_water_commons"][0]["capacity"], 54510)
+        self.assertEqual(adapted["simulation_inputs"]["storage_by_pattern"]["resilient_water_commons"][0]["capacity"], 81765)
+
+    def test_population_adaptation_scales_seed_storage_by_node_count(self) -> None:
+        registry = load_data(ROOT / "module_registries" / "micro_commons_default_v0.yaml")
+        scale_profile = load_data(ROOT / "scale_profiles" / "micro_commons_scale_targets_v0.yaml")
+        patterns = load_patterns(ROOT / "patterns")
+        base_plan = load_data(GENERATED / "micro_commons_plan.json")
+        node_report = generate_node_scaling_report(registry, scale_profile, [730])
+
+        adapted = adapt_compiled_plan_for_population(base_plan, 730, node_report, registry, patterns)
+        storage = adapted["simulation_inputs"]["storage_by_pattern"]
+
+        self.assertEqual(adapted["metadata"]["viewer_run_context"]["capacity_multiplier"], 60.833333)
+        self.assertEqual(adapted["metadata"]["viewer_run_context"]["pattern_node_multipliers"]["emergency_water_reserve"], 8)
+        self.assertEqual(adapted["metadata"]["viewer_run_context"]["pattern_node_multipliers"]["staple_food_reserve"], 10)
+        self.assertEqual(storage["emergency_water_reserve"][0]["capacity"], 480000)
+        self.assertEqual(storage["emergency_water_reserve"][0]["reserve_floor"], 96000)
+        self.assertEqual(storage["staple_food_reserve"][0]["capacity"], 240000)
+        self.assertEqual(storage["staple_food_reserve"][0]["reserve_floor"], 60000)
+        self.assertEqual(storage["resilient_water_commons"][0]["capacity"], 72680)
+
+    def test_search_candidate_storage_scales_by_node_count(self) -> None:
+        registry = load_data(ROOT / "module_registries" / "micro_commons_default_v0.yaml")
+        scale_profile = load_data(ROOT / "scale_profiles" / "micro_commons_scale_targets_v0.yaml")
+        patterns = load_patterns(ROOT / "patterns")
+        base_plan = load_data(GENERATED / "micro_commons_plan.json")
+        search = load_data(GENERATED / "micro_commons_search_optimizer_report.json")
+        node_report = generate_node_scaling_report(registry, scale_profile, [730])
+        adapted = adapt_compiled_plan_for_population(base_plan, 730, node_report, registry, patterns)
+        viewer_context = adapted["metadata"]["viewer_run_context"]
+
+        adapted_search = adapt_search_report_for_population(
+            search,
+            viewer_context["capacity_multiplier"],
+            pattern_multipliers=viewer_context["pattern_node_multipliers"],
+            node_scaled_patterns={
+                pattern_id
+                for slot in registry["slots"]
+                for pattern_id in [*slot.get("default_patterns", []), *slot.get("accepted_patterns", [])]
+                if slot.get("node_policy")
+            },
+        )
+        candidate = next(item for item in adapted_search["top_candidates"] if item["id"] == adapted_search["selected_candidate"])
+        values = {(item["pattern_id"], item["path"]): item["value"] for item in candidate["parameter_values"]}
+
+        self.assertEqual(values[("emergency_water_reserve", "simulation.storage[0].capacity")], 480000)
+        self.assertEqual(values[("staple_food_reserve", "simulation.storage[0].capacity")], 240000)
+        self.assertEqual(values[("critical_load_reserve", "simulation.storage[0].capacity")], 8000)
 
 
 if __name__ == "__main__":
