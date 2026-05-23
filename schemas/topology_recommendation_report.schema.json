@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/topology_recommendation_report.schema.json",
+  "title": "TopologyRecommendationReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "population",
+    "module_registry",
+    "source_reports",
+    "orchestration_model",
+    "node_summary",
+    "selected_action",
+    "candidate_actions",
+    "decision_basis",
+    "next_actions",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "TopologyRecommendationReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["action_recommended", "monitor", "not_ready"] },
+    "population": { "type": "integer", "minimum": 1 },
+    "module_registry": { "type": "string" },
+    "source_reports": { "type": "object" },
+    "orchestration_model": { "type": "object" },
+    "node_summary": { "type": "object" },
+    "selected_action": { "type": "object" },
+    "candidate_actions": { "type": "array", "items": { "type": "object" } },
+    "decision_basis": { "type": "array", "items": { "type": "string" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

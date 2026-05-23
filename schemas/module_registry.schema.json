@@ -10,6 +10,9 @@
     "status",
     "provisional",
     "default_posture",
+    "flourishing_posture",
+    "interface_bundles",
+    "module_tiers",
     "slots",
     "research_scan_policy",
     "scaling_policy",
@@ -21,7 +24,93 @@
     "status": { "type": "string", "enum": ["draft", "active"] },
     "provisional": { "type": "boolean" },
     "default_posture": { "type": "string" },
-    "slots": { "type": "array", "items": { "type": "object" } },
+    "flourishing_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame", "principles", "boundary_services", "scope_rule", "provisional"],
+      "properties": {
+        "frame": { "type": "string", "minLength": 5 },
+        "principles": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "boundary_services": { "type": "array", "items": { "type": "string" } },
+        "scope_rule": { "type": "string", "minLength": 5 },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "interface_bundles": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["description", "interfaces"],
+        "properties": {
+          "description": { "type": "string" },
+          "interfaces": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+        }
+      }
+    },
+    "module_tiers": {
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "type": "string" } }
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id",
+          "domain",
+          "role",
+          "default_patterns",
+          "dignity_floor_resources",
+          "swap_policy",
+          "accepted_module_domains",
+          "required_interfaces",
+          "scaling_basis",
+          "research_queries",
+          "provisional"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "domain": { "type": "string" },
+          "role": { "type": "string" },
+          "default_patterns": { "type": "array", "items": { "type": "string" } },
+          "accepted_patterns": { "type": "array", "items": { "type": "string" } },
+          "dignity_floor_resources": { "type": "array", "items": { "type": "string" } },
+          "swap_policy": { "type": "string" },
+          "accepted_module_domains": { "type": "array", "items": { "type": "string" } },
+          "required_interface_bundles": { "type": "array", "items": { "type": "string" } },
+          "required_interfaces": { "type": "array", "items": { "type": "string" } },
+          "scaling_basis": { "type": "string" },
+          "node_policy": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scale_unit",
+              "minimum_population_per_node",
+              "preferred_population_per_node",
+              "maximum_population_per_node",
+              "scale_down_strategy",
+              "scale_up_strategy",
+              "stateful",
+              "provisional"
+            ],
+            "properties": {
+              "scale_unit": { "type": "string" },
+              "minimum_population_per_node": { "type": "integer", "minimum": 1 },
+              "preferred_population_per_node": { "type": "integer", "minimum": 1 },
+              "maximum_population_per_node": { "type": "integer", "minimum": 1 },
+              "scale_down_strategy": { "type": "string", "minLength": 5 },
+              "scale_up_strategy": { "type": "string", "minLength": 5 },
+              "stateful": { "type": "boolean" },
+              "provisional": { "type": "boolean" }
+            }
+          },
+          "research_queries": { "type": "array", "items": { "type": "string" } },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
     "research_scan_policy": { "type": "object" },
     "scaling_policy": { "type": "object" },
     "unknowns": { "type": "array", "items": { "type": "string" } }

@@ -70,6 +70,7 @@
         },
         "seasonal_profile": { "type": "object" },
         "household_profile": { "type": "object" },
+        "population_context": { "type": "object" },
         "provisional": { "type": "boolean" }
       }
     },

@@ -1,0 +1,250 @@
+kind: CivicPattern
+id: hygienic_circular_commons
+type: SanitationSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, sanitation, structural, electrical, cost, labor, ecology, governance]
+purpose: Provide a hygienic village-scale sanitation and waste commons that protects health, preserves privacy, separates waste streams, and makes circular recovery and dirty labor visible.
+scale: village
+mdl_categories: [sanitation, health, water, food, commons, contribution]
+inputs:
+  - approved_blackwater_path
+  - potable_handwashing_water
+  - shared_hygiene_facilities
+  - source_separated_organics
+  - waste_sorting_station
+  - ppe_and_training
+  - hauling_or_dropoff_plan
+outputs:
+  - dignified_toilet_and_bathing_access
+  - approved_blackwater_plan
+  - reviewed_greywater_boundary
+  - organics_collection_and_composting
+  - materials_reuse_repair_and_recycling
+  - hazardous_waste_separation
+  - cleaning_and_disinfection_schedule
+  - emergency_sanitation_fallback
+dependencies:
+  - id: shared_bathhouse
+    kind: pattern
+    critical: true
+    rationale: The sanitation commons needs resolved toilet, bathing, handwashing, privacy, and cleaning access.
+  - id: composting_system
+    kind: pattern
+    critical: true
+    rationale: Organics recovery depends on managed composting or an explicitly reviewed organics process.
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: Handwashing, bathing, cleaning, and hygiene response require tested water access.
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: Food scraps, cleaning waste, pest control, and high-strength kitchen wastewater must be modeled with the food commons.
+  - id: tool_library
+    kind: pattern
+    critical: true
+    rationale: Reuse, repair, and source reduction need shared tools and maintenance visibility.
+  - id: local_sanitation_code_review
+    kind: external
+    critical: true
+    rationale: Blackwater, greywater, toilets, bathing, compost, and waste handling need jurisdiction-specific sanitation review.
+  - id: wastewater_professional_review
+    kind: external
+    critical: true
+    rationale: Public sewer, septic, or decentralized wastewater assumptions require qualified design, capacity, and maintenance review.
+  - id: hazardous_waste_dropoff_plan
+    kind: external
+    critical: true
+    rationale: Batteries, e-waste, chemicals, paint, sharps, and medical waste need separated storage and a lawful pickup or dropoff path.
+  - id: worker_safety_training
+    kind: external
+    critical: true
+    rationale: Cleaning, sewage exposure, organics handling, and hazardous streams require PPE, training, and hygiene precautions.
+  - id: greywater_reuse_review
+    kind: external
+    critical: false
+    rationale: Greywater reuse is optional and must not be assumed without code, health, source-separation, and maintenance review.
+constraints:
+  physical:
+    - private or semi-private toilet access, bathing access, handwashing points, cleaning supply storage, PPE station, and emergency sanitation kit
+    - labeled waste sorting station, covered bins, pest-resistant organics collection, reuse and repair storage, recycling area, and hazardous-waste lockup
+    - blackwater, greywater, organics, landfill waste, recyclables, reusable materials, hazardous waste, and care-related waste must remain distinct streams
+    - sanitation facilities need accessible routes, service access, ventilation, odor control, durable cleanable surfaces, and lighting for safe maintenance
+    - waste sorting should be easier than undifferentiated disposal, with simple labels and collection points close to daily use
+  ecological:
+    - circularity begins with source reduction, repair, reuse, recycling, and food or yard organics before any human-waste nutrient recovery claim
+    - food scraps, yard waste, garden residue, leaves, and carbon materials are preferred organics streams
+    - prevent runoff, groundwater contamination, pest pressure, odor migration, and unsafe compost use
+    - greywater reuse, if enabled, must remain fit-for-purpose, reviewed, and separated from potable water and edible crop contact unless explicitly approved
+  legal:
+    - sewer, septic, decentralized wastewater, greywater, composting toilets, organics processing, hazardous waste, medical waste, and hauling rules vary by jurisdiction
+    - the pattern must not imply septic design, sewer capacity certification, composting toilet approval, medical waste compliance, or hazardous waste compliance
+  social:
+    - sanitation must feel normal, clean, private, accessible, and unremarkable for residents
+    - residents must not trade hygiene, privacy, or health for ecological virtue
+    - unpleasant cleaning, organics, waste, and exposure tasks must be logged, rotated, backed up, and made fair
+    - diaper, incontinence, menstrual hygiene, sharps, medication, illness-wave, and care-related waste need non-shaming support
+  safety:
+    - blackwater must use public sewer, permitted septic, or professionally designed decentralized wastewater by default
+    - DIY humanure, unreviewed composting toilets, blackwater reuse, and informal land application are not valid baselines
+    - human-waste or sewage exposure requires PPE, training, handwashing, role limits, incident logs, and professional review
+    - hazardous waste, batteries, e-waste, chemicals, sharps, and medical waste must not be mixed with ordinary trash
+build_phase: 2
+lifecycle:
+  build_sequence:
+    - define blackwater solution type, wastewater review path, toilet and bathing access, and emergency sanitation fallback
+    - map greywater defaults, optional reviewed reuse boundaries, illness bypass, and cross-connection prevention
+    - establish waste sorting station, organics collection points, compost or regional organics service, reuse storage, recycling, and hazardous-waste lockup
+    - create cleaning, disinfection, PPE, training, hauling, pickup, dropoff, compost, and incident schedules
+    - assign sanitation, wastewater, greywater, organics, materials, hazardous waste, cleaning, and emergency sanitation stewards with backups
+    - inspect privacy, accessibility, handwashing, odor, pest, role-burden, and professional-review gates before resident dependence
+  inspection_points:
+    - approved blackwater plan
+    - toilet privacy and accessibility
+    - handwashing and bathing access
+    - cleaning schedule and supply inventory
+    - PPE station and worker training
+    - organics pest and odor controls
+    - hazardous waste lockup and dropoff path
+    - greywater code review and illness bypass where reuse is enabled
+    - role backup and unpleasant labor concentration
+  maintenance:
+    - id: sanitation_hygiene_round
+      description: Inspect toilets, bathing areas, handwashing points, supplies, odors, privacy, accessibility, and emergency sanitation stock.
+      interval: daily
+      role: sanitation_steward
+      estimated_hours: 1.5
+      provisional: true
+    - id: waste_stream_round
+      description: Check landfill, recycling, reuse, repair, food scraps, yard waste, batteries, e-waste, chemicals, sharps, and hauling queues.
+      interval: weekly
+      role: materials_steward
+      estimated_hours: 2.5
+      provisional: true
+    - id: organics_process_round
+      description: Check accepted organics, carbon cover, moisture, odor, pests, contamination, compost use plan, and overflow hauling needs.
+      interval: weekly
+      role: organics_steward
+      estimated_hours: 2
+      provisional: true
+    - id: cleaning_labor_review
+      description: Review bathroom, waste station, illness-wave, care-related, organics, and hazardous-waste labor for fairness, backup, and exposure controls.
+      interval: monthly
+      role: cleaning_steward
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: ongoing operations with replaceable fixtures, bins, signs, PPE, compost equipment, storage, contracts, and reviewed wastewater components
+  repair_procedure:
+    - isolate unsafe fixture, waste stream, compost batch, greywater path, hazardous container, or wastewater component
+    - provide alternate toilet, handwashing, bathing, and waste storage access while the issue is corrected
+    - document exposure risk, notify affected residents without stigma, and use PPE and trained response roles
+    - escalate wastewater, pathogen, hazardous, medical, or code issues to qualified review
+    - clean, disinfect, retest or reinspect where needed, and update operating rules before reopening
+  end_of_life_path:
+    - close and clean waste stations, organics areas, and fixtures before decommissioning
+    - transfer hazardous, medical, e-waste, battery, chemical, and contaminated materials through approved channels
+    - salvage cleanable bins, fixtures, tools, shelving, signs, and storage components
+    - preserve sanitation logs, wastewater records, exposure incidents, and hauling records for review
+failure_modes:
+  - mode: blackwater_plan_failure
+    likelihood: medium
+    severity: catastrophic
+    detection_method: wastewater review, fixture backups, odor, surfacing sewage, maintenance logs, or capacity warnings
+    mitigation: stop affected fixtures, activate emergency toilets, call professional service, isolate exposure, disinfect, and revise capacity assumptions
+  - mode: pathogen_exposure_labor
+    likelihood: medium
+    severity: high
+    detection_method: incident logs, missing PPE, training gaps, illness reports, and steward audits
+    mitigation: pause exposure tasks, provide PPE and training, add handwashing, redistribute labor, and escalate to public-health review
+  - mode: organics_pest_or_odor_failure
+    likelihood: medium
+    severity: medium
+    detection_method: odor reports, pest sightings, moisture checks, contamination screens, and compost logs
+    mitigation: add carbon, exclude unsuitable streams, improve containment, haul overflow, clean area, and revise accepted materials
+  - mode: hazardous_waste_mixing
+    likelihood: medium
+    severity: high
+    detection_method: sorting audit, container inspection, battery or chemical reports, sharps findings, and pickup rejection
+    mitigation: isolate mixed waste, retrain residents and stewards, improve labels and lockup, and use approved disposal route
+  - mode: invisible_dirty_labor_burden
+    likelihood: medium
+    severity: high
+    detection_method: labor logs, role rotation records, complaints, missed cleaning, and imbalance review
+    mitigation: reduce complexity, pay or credit unpleasant work, add backups, simplify streams, schedule rotations, and pause circularity features that overload people
+governance:
+  owner: commons
+  access_rule: sanitation, hygiene, emergency toilets, and waste services are governed as nonpunitive dignity floors while circular streams remain optional when safety or labor capacity is insufficient.
+  stewardship_role: sanitation_steward
+  backup_role: cleaning_steward
+  audit_frequency: weekly
+  capture_risk: control over toilets, bathing, cleaning assignments, hazardous lockups, waste records, or dirty labor can become coercive without transparent logs, backups, and resident appeals
+metrics:
+  cost: 420000
+  build_labor_hours: 1400
+  recurring_labor_hours_per_week: 32
+  energy_use: 6
+  water_use: 1200
+  embodied_carbon: 3
+  maintenance_burden: 8
+  dignity_score: 9
+  autonomy_score: 7
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -1200
+    energy_kwh_per_day: -6
+    food_servings_per_day: 0
+  critical_resources: [water, energy, sanitation, maintenance]
+  notes: Provisional 80-resident sanitation and waste operations layer. Sanitation capacity, wastewater approval, hazardous waste compliance, and pathogen safety require separate review and richer simulator support.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: sanitation_waste_labor
+      path: metrics.recurring_labor_hours_per_week
+      label: Sanitation and waste labor
+      unit: hours_per_week
+      min: 16
+      max: 80
+      step: 4
+      default: 32
+      affects: [sanitation, labor, dignity, maintenance, governance]
+      review_required: true
+      provisional: true
+    - id: process_water_demand
+      path: simulation.resource_effects.water_liters_per_day
+      label: Cleaning and sanitation water demand
+      unit: liters_per_day
+      min: -2400
+      max: -400
+      step: 100
+      default: -1200
+      affects: [water, sanitation, dignity, resilience]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: blackwater_professional_review
+      path: dependencies
+      reason: Blackwater handling must remain public sewer, permitted septic, or professionally reviewed decentralized wastewater by default.
+      review_dependency: wastewater_professional_review
+      provisional: true
+    - id: circularity_after_safety
+      path: constraints.safety
+      reason: Circular recovery cannot override pathogen control, resident dignity, PPE, training, or legal review.
+      review_dependency: local_sanitation_code_review
+      provisional: true
+    - id: human_waste_not_default_compost
+      path: constraints.safety
+      reason: Composting toilets and human-waste-derived materials are optional reviewed subsystems, not the baseline organics strategy.
+      review_dependency: public_health_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A sanitation and waste node should serve roughly 50-150 residents; above that, replicate village-block cells or professionalize sanitation operations.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

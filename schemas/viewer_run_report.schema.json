@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/viewer_run_report.schema.json",
+  "title": "ViewerRunReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "active_population",
+    "run_count",
+    "runs",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ViewerRunReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["no_runs", "runs_recorded"] },
+    "active_population": { "type": "integer", "minimum": 0 },
+    "run_count": { "type": "integer", "minimum": 0 },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "run_index",
+          "event_type",
+          "completed_at",
+          "cycle_number",
+          "population",
+          "days",
+          "bundle_id",
+          "selected_candidate",
+          "topology_action",
+          "topology_status",
+          "total_nodes",
+          "replicated_slots",
+          "scaled_down_slots",
+          "near_capacity_slots",
+          "tier_node_counts",
+          "provisional"
+        ],
+        "properties": {
+          "run_index": { "type": "integer", "minimum": 1 },
+          "event_type": { "type": "string" },
+          "completed_at": { "type": "string" },
+          "cycle_number": { "type": "integer", "minimum": 1 },
+          "population": { "type": "integer", "minimum": 0 },
+          "days": { "type": "integer", "minimum": 0 },
+          "bundle_id": { "type": "string" },
+          "selected_candidate": { "type": "string" },
+          "topology_action": { "type": "string" },
+          "topology_status": { "type": "string" },
+          "total_nodes": { "type": "integer", "minimum": 0 },
+          "replicated_slots": { "type": "integer", "minimum": 0 },
+          "scaled_down_slots": { "type": "integer", "minimum": 0 },
+          "near_capacity_slots": { "type": "integer", "minimum": 0 },
+          "tier_node_counts": { "type": "object" },
+          "provisional": { "type": "boolean" }
+        }
+      }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

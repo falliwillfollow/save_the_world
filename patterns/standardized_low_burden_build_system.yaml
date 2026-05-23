@@ -1,0 +1,254 @@
+kind: CivicPattern
+id: standardized_low_burden_build_system
+type: Commons
+status: draft
+provisional: true
+provisional_for: [engineering, legal, structural, electrical, cost, labor, ecology]
+purpose: Provide a standardized, low-burden materials and fabrication system for repeatable village-block construction using reviewable assemblies, open metadata, honest cost/labor accounting, and design-for-maintenance.
+scale: village
+mdl_categories: [commons, shelter, energy, health, contribution]
+inputs:
+  - construction_system_profile
+  - structural_grid
+  - material_palette
+  - panel_library
+  - connection_library
+  - prefab_ready_BOM
+  - fabrication_plan
+  - embodied_carbon_baseline
+  - professional_review_gate_map
+outputs:
+  - materials_system_summary
+  - construction_system_comparison
+  - recommended_material_palette
+  - code_path_and_professional_review_report
+  - structural_grid_and_module_report
+  - panelization_report
+  - wet_core_service_spine_report
+  - BOM_and_procurement_report
+  - fabrication_sequence_report
+  - maintainability_report
+dependencies:
+  - id: maintainable_commons_spine
+    kind: pattern
+    critical: true
+    rationale: Materials and fabrication choices must seed asset records, replacement paths, service access, spares, maintenance intervals, and reserve planning.
+  - id: anti_speculative_civic_floor
+    kind: pattern
+    critical: true
+    rationale: The build system must remain financeable, insurable, reviewable, reserve-funded, and protected from cost assumptions that recreate extraction.
+  - id: structural_engineering_review
+    kind: external
+    critical: true
+    rationale: Structural grids, panel systems, mass timber, connections, foundations, wind, seismic, snow, and load paths require engineering review.
+  - id: building_code_fire_review
+    kind: external
+    critical: true
+    rationale: Fire ratings, egress, occupancy, offsite inspection, assemblies, permits, and authority acceptance require code and fire review.
+  - id: envelope_moisture_review
+    kind: external
+    critical: true
+    rationale: Airtightness, vapor control, water control, thermal bridges, drying paths, ventilation, mold risk, and passive-envelope claims require review.
+  - id: fabrication_vendor_review
+    kind: external
+    critical: true
+    rationale: Offsite fabrication, panel tolerances, cut sheets, transport, staging, inspection points, quality control, and fallback paths need fabricator review.
+  - id: material_health_review
+    kind: external
+    critical: true
+    rationale: Low-VOC finishes, toxicity, care-space materials, indoor air quality, pest treatments, adhesives, and substitutions need health review.
+  - id: embodied_carbon_review
+    kind: external
+    critical: false
+    rationale: Embodied-carbon estimates, EPD coverage, high-impact materials, transport impacts, and substitutions should be reviewed before low-carbon claims.
+constraints:
+  physical:
+    - structural grid, unit module library, panel library, connection library, wet-core stacking, service spine, BOM, fabrication plan, transport plan, staging plan, and assembly sequence must be documented before build-readiness claims
+    - material metadata should support open BIM, IFC-style interchange, asset registry seeding, cost estimates, procurement, visualization, and maintenance handoff
+    - service points, shutoffs, inspection panels, replacement paths, maintenance clearances, and wet-core access must be visible in drawings and resident-facing maintenance views
+    - envelope assemblies must include continuous air, water, vapor, insulation, thermal bridge, ventilation, and commissioning strategies appropriate to climate
+  ecological:
+    - material selection should prioritize safety, durability, affordability, automation fit, embodied impact, livability, and circularity in that order
+    - low embodied carbon cannot override structural safety, fire safety, moisture safety, health, code acceptance, repairability, or affordability
+    - construction waste, offcuts, salvage, reuse, deconstruction, and landfill fraction must be tracked rather than treated as aesthetic afterthoughts
+    - repeated panels, standard dimensions, standard fasteners, and repairable components are preferred over bespoke details that increase waste and lifecycle burden
+  legal:
+    - the pattern models system families, BOMs, review gates, cost ranges, carbon estimates, fabrication handoffs, and maintainability; it is not architectural or engineering documentation
+    - final structural engineering, fire-rated assemblies, foundation design, permits, code official approval, shop drawings, warranties, and contractor means and methods require qualified professionals
+    - offsite construction must be treated as regulated work with inspection and compliance gates, not informal kit assembly
+  social:
+    - construction labor savings must come from repeatability, standard trades compatibility, offsite quality control, clear sequencing, and better handoff rather than required unpaid resident labor
+    - standardization should reduce cost and maintenance burden without making private units feel disposable, toxic, noisy, or institutional
+    - customization should be bounded so resident dignity and beauty do not destroy panelization, cost control, service access, or repairability
+    - no structural, fire, moisture, or life-safety material substitution may occur without documented review
+  safety:
+    - structural, fire, moisture, indoor air, acoustic, pest, foundation, weather exposure, transport, staging, tool, and resident participation risks must be explicitly reviewed
+    - high-risk materials, experimental structural systems, complex custom joints, shipping-container gimmicks, proprietary lock-in, and code-uncertain assemblies are not default civic-floor assumptions
+    - resident participation must be restricted to reviewed task classes with PPE, training, supervision, stop-work authority, and professional boundaries
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - select baseline construction family, structural grid, module library, wet-core strategy, service spine, envelope targets, and material hierarchy
+    - define panel library, connection library, standard fasteners, reusable details, fabrication tolerances, quality control checklists, and inspection points
+    - build prefab-ready BOM, cost and lifecycle model, embodied-carbon estimate, procurement plan, transport plan, staging plan, and assembly sequence
+    - run structural, fire, code, envelope, moisture, health, fabricator, insurance, lender, and professional review gates before build-readiness claims
+    - seed asset registry, maintenance intervals, replacement paths, spare parts, warranties, material metadata, and deconstruction tags from the BIM/BOM workflow
+    - train materials, fabrication, BIM data, embodied carbon, constructability, code review, salvage reuse, and maintenance design roles with backups
+  inspection_points:
+    - code path and professional review status
+    - structural grid, unit type count, panelization ratio, and custom detail ratio
+    - wet-core stacking, service spine, service access, and maintenance clearance
+    - BOM availability, cut sheets, fabrication plan, transport plan, staging plan, and quality control checklists
+    - envelope air, water, vapor, thermal bridge, ventilation, moisture, and commissioning strategy
+    - embodied carbon estimate, EPD coverage, high-impact materials, and substitution risks
+    - low-VOC policy, acoustic privacy, fire strategy, pest strategy, durability, and replacement plan
+    - construction waste estimate, offcut reuse, salvage plan, deconstruction plan, and landfill fraction
+  maintenance:
+    - id: material_palette_round
+      description: Review material substitutions, product availability, code path, warranty status, health flags, cost changes, and local trade compatibility.
+      interval: monthly
+      role: materials_steward
+      estimated_hours: 3
+      provisional: true
+    - id: fabrication_readiness_round
+      description: Review panel schedule, cut sheets, BOM completeness, transport, staging, quality control, inspection points, and fabricator fallback.
+      interval: monthly
+      role: fabrication_steward
+      estimated_hours: 4
+      provisional: true
+    - id: embodied_carbon_waste_round
+      description: Review EPD coverage, high-impact materials, low-carbon substitutions, offcut reuse, salvage streams, waste estimates, and transport impact.
+      interval: quarterly
+      role: embodied_carbon_steward
+      estimated_hours: 3
+      provisional: true
+    - id: maintainability_design_round
+      description: Review service access, replacement paths, inspection panels, maintenance clearances, standard parts, warranties, and asset-registry metadata.
+      interval: quarterly
+      role: maintenance_design_liaison
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: village-block build-system protocol with recurring professional review, material substitutions, maintenance updates, and block replication learning
+  repair_procedure:
+    - classify the issue as structural, fire, moisture, health, cost, fabrication, supply, maintenance, carbon, code, or resident labor risk
+    - pause substitutions or fabrication steps that affect safety, review status, service access, or affordability
+    - trigger the relevant professional review and update BOM, panel schedule, cost model, assembly sequence, and asset registry
+    - choose standard substitutions before custom details where safety, dignity, and lifecycle burden remain protected
+    - document the decision, review dependency, affected panels, changed parts, cost/labor/carbon impact, and future maintenance effects
+  end_of_life_path:
+    - follow deconstruction plan, salvage classification, hazardous material handling, reuse, recycling, landfill, warranty, and data-retention procedures
+    - preserve material metadata, panel records, connection details, maintenance history, and lessons learned for the next replicated block
+    - route reusable components into maintenance, repair, future construction, or approved donation streams before disposal
+failure_modes:
+  - mode: experimental_build_system_overreach
+    likelihood: medium
+    severity: catastrophic
+    detection_method: no code path, unfamiliar trades, unreviewed structural system, proprietary dependency, lender or insurer rejection, or missing professional review
+    mitigation: revert to panelized light wood or reviewed hybrid baseline, require engineering and code review, and preserve standard trade compatibility
+  - mode: false_savings_from_hidden_labor
+    likelihood: medium
+    severity: high
+    detection_method: schedule depends on unpaid resident labor, missing safety training, high assembly complexity, or unmodeled weather protection and rework
+    mitigation: rebuild labor model, restrict resident task classes, add professional crew capacity, simplify assemblies, and update life-burden assumptions
+  - mode: moisture_or_envelope_failure
+    likelihood: medium
+    severity: catastrophic
+    detection_method: missing drying path, unreviewed vapor strategy, failed blower-door target, construction wetting, mold indicators, or inaccessible envelope damage
+    mitigation: pause enclosure, dry and inspect assemblies, revise details, add weather protection, and require envelope and moisture review
+  - mode: custom_detail_complexity_sprawl
+    likelihood: medium
+    severity: high
+    detection_method: unit type count, custom panel ratio, one-off connections, manual takeoffs, and shop drawing conflicts exceed thresholds
+    mitigation: consolidate unit types, standardize panels, reduce custom joints, update parametric layout, and rerun BOM and fabrication plan
+  - mode: material_substitution_breaks_review
+    likelihood: medium
+    severity: high
+    detection_method: unavailable product, undocumented alternate, fire/acoustic/moisture rating mismatch, warranty loss, or cost-driven substitution
+    mitigation: require substitution log, review ratings, update assemblies, preserve warranty path, and reject substitutions that degrade safety or maintainability
+governance:
+  owner: commons
+  access_rule: build-system metadata, BOM status, review gates, cost/labor/carbon summaries, substitution logs, and maintainability reports are member-visible while vendor bids, resident payment details, and protected legal records remain privacy-limited.
+  stewardship_role: materials_steward
+  backup_role: fabrication_steward
+  audit_frequency: monthly
+  capture_risk: control over material substitutions, fabrication files, cost estimates, proprietary vendors, review gates, or construction schedule can become a gatekeeping lever if not transparent
+metrics:
+  cost: 250000
+  build_labor_hours: 1200
+  recurring_labor_hours_per_week: 6
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 2
+  maintenance_burden: 3
+  dignity_score: 8
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -15
+    food_servings_per_day: 0
+  critical_resources: [maintenance, energy]
+  notes: Provisional materials and fabrication build-system layer. The current simulator can count energy and labor proxies, but does not yet model code path, BIM/IFC metadata, panelization, embodied carbon, construction schedule, fabrication risk, indoor air quality, or maintenance access as first-class dynamics.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: panelization_ratio_target
+      path: metrics.build_labor_hours
+      label: Panelization-driven build labor proxy
+      unit: hours
+      min: 600
+      max: 4000
+      step: 100
+      default: 1200
+      affects: [labor, cost, maintenance, resilience]
+      review_required: true
+      provisional: true
+    - id: envelope_performance_allowance
+      path: simulation.resource_effects.energy_kwh_per_day
+      label: Passive-envelope energy demand reduction proxy
+      unit: kwh_per_day
+      min: -60
+      max: 0
+      step: 5
+      default: -15
+      affects: [energy, cost, resilience, dignity]
+      review_required: true
+      provisional: true
+    - id: build_system_startup_allowance
+      path: metrics.cost
+      label: BOM, BIM, fabrication, review, and standardization setup allowance
+      unit: dollars
+      min: 50000
+      max: 1000000
+      step: 25000
+      default: 250000
+      affects: [cost, labor, maintenance, resilience, external_dependency]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: professional_review_required
+      path: constraints.legal
+      reason: The app cannot approve structural, fire, foundation, code, shop drawing, or permit claims.
+      review_dependency: structural_engineering_review
+      provisional: true
+    - id: no_unreviewed_substitution
+      path: constraints.social
+      reason: Structural, fire, moisture, life-safety, health, and envelope substitutions must remain reviewed and documented.
+      review_dependency: building_code_fire_review
+      provisional: true
+    - id: no_heroic_resident_labor
+      path: constraints.social
+      reason: The construction system must reduce life burden through repeatability and standard trades, not required unpaid resident labor.
+      review_dependency: fabrication_vendor_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A standardized build system is intended for roughly 50-150 residents through repeated pods, panels, wet cores, and service spines; above that, replicate tested village blocks or professionalize campus-scale construction management.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

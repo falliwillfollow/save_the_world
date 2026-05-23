@@ -38,6 +38,14 @@
           Cycle
           <input id="cycleFile" type="file" accept="application/json,.json">
         </label>
+        <label class="file-button" title="Open infrastructure node scaling JSON">
+          Nodes
+          <input id="nodeFile" type="file" accept="application/json,.json">
+        </label>
+        <label class="file-button" title="Open topology recommendation JSON">
+          Topo
+          <input id="topologyFile" type="file" accept="application/json,.json">
+        </label>
       </div>
     </header>
 
@@ -94,6 +102,18 @@
         <section class="primary-card">
           <h2>Involuntary Labor</h2>
           <div id="pursuitSummary" class="metric-grid compact-metrics"></div>
+        </section>
+
+        <section class="primary-card">
+          <div class="panel-heading compact-heading">
+            <h2>Scalability</h2>
+            <span id="nodeScalingStatus" class="status-chip status-provisional">not loaded</span>
+          </div>
+          <div class="slider-row">
+            <input id="populationSlider" type="range" min="1" max="1500" value="150">
+            <output id="populationOutput">150 people</output>
+          </div>
+          <div id="nodeScalingSummary" class="event-list"></div>
         </section>
 
         <section class="primary-card">

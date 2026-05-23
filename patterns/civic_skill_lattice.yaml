@@ -1,0 +1,239 @@
+kind: CivicPattern
+id: civic_skill_lattice
+type: Commons
+status: draft
+provisional: true
+provisional_for: [legal, health, labor, governance, cost]
+purpose: Provide a role-based civic learning system with onboarding, skill graphs, safety gates, apprenticeships, knowledge capture, backup-role training, and protected passion learning.
+scale: village
+mdl_categories: [commons, contribution, health, rest, privacy]
+inputs:
+  - role_task_skill_map
+  - resident_onboarding_plan
+  - safety_training_gate_map
+  - knowledge_base
+  - practice_logs
+  - backup_role_tracker
+  - credential_boundary_map
+  - learning_burden_budget
+  - passion_learning_calendar
+outputs:
+  - education_skill_summary
+  - skill_graph_report
+  - onboarding_report
+  - critical_skill_coverage_report
+  - safety_training_gate_report
+  - apprenticeship_pipeline_report
+  - backup_role_report
+  - knowledge_base_status_report
+  - learning_labor_burden_report
+  - expert_dependency_report
+dependencies:
+  - id: commons_stewardship_protocol
+    kind: pattern
+    critical: true
+    rationale: Skill gates, role authority, onboarding, records, conflict processes, and expert-capture controls need transparent governance and due process.
+  - id: life_burden_ledger
+    kind: pattern
+    critical: true
+    rationale: Required training, mentor time, apprenticeship, refreshers, and documentation must be counted so learning does not become hidden labor.
+  - id: maintainable_commons_spine
+    kind: pattern
+    critical: true
+    rationale: Tool safety, asset registry use, professional handoff, documentation, and maintenance role training depend on the maintenance spine.
+  - id: safety_training_review
+    kind: external
+    critical: true
+    rationale: Tool, PPE, emergency, food, sanitation, vehicle, construction, and safety-critical training need qualified review and understandable materials.
+  - id: credential_boundary_review
+    kind: external
+    critical: true
+    rationale: Licensed trades, clinical care, food safety, OSHA-like duties, legal, finance, and employment boundaries require professional review.
+  - id: learning_privacy_review
+    kind: external
+    critical: true
+    rationale: Training records, accommodations, denied gates, health-adjacent skills, resident names, and performance evidence need privacy and appeal review.
+  - id: accessibility_learning_review
+    kind: external
+    critical: true
+    rationale: Required learning must support disability, language, literacy, schedule, age, sensory, and multiple-format access needs.
+  - id: youth_education_legal_review
+    kind: external
+    critical: false
+    rationale: Children, youth, schooling, childcare, and minors' training participation require separate legal and safeguarding review.
+constraints:
+  physical:
+    - learning room, documentation station, skill dashboard, quiet study space, workshop training area, kitchen training area, garden training area, care training room, and offline knowledge-base access should be available at village-block scale
+    - training spaces must separate observation, supervised practice, hazardous tools, food safety, sanitation PPE, care privacy, and quiet learning needs
+    - knowledge base, practice logs, role guides, checklists, asset manuals, professional contacts, emergency cards, and plain-language explainers must be searchable, backed up, exportable, and available offline
+  ecological:
+    - skill coverage should reduce waste, prevent avoidable failures, improve repair, support food and water safety, and preserve institutional memory without multiplying required meetings
+    - practical learning should support maintenance, reuse, gardens, food preservation, energy literacy, sanitation hygiene, and safe material handling while preserving professional boundaries
+  legal:
+    - the pattern models roles, tasks, knowledge, skills, safety gates, coverage, documentation, and professional boundaries; it is not accreditation, licensing, OSHA compliance certification, school compliance, medical training, legal training, or trade certification
+    - safety-critical, licensed, clinical, childcare, employment, food-safety, legal, finance, and credential claims require qualified review
+  social:
+    - everyone should understand the dignity floor, but not everyone should be expected to learn everything or become responsible for repairing it
+    - learning must not become ideological schooling, status hierarchy, surveillance scoring, credentialism for basic participation, or unpaid apprenticeship-as-exploitation
+    - experts may teach and mentor, but must not hoard knowledge, block documentation, or convert credentials into unreviewable authority over the commons
+    - passion learning, art, music, craft, science, and curiosity should remain protected from compulsory operational labor
+  safety:
+    - safety-critical tasks require hazard briefing, demonstration, supervised practice, PPE, stop-work authority, incident reporting, refresh intervals, and professional boundary rules
+    - AI or software may support learning access and reminders, but must not certify competence for dangerous or credentialed tasks
+    - no apprentice, new resident, child, or enthusiastic volunteer may become sole operator for a safety-critical function
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - define orientation floor, participation competence, role competence, advanced competence, professional-boundary levels, and required learning paths for each module
+    - map roles to tasks, knowledge, skills, prerequisites, safety levels, practice requirements, assessment method, evidence, refresh interval, backup role, and documentation links
+    - establish resident onboarding, 30/60/90-day support, buddy or mentor process, emergency card, plain-language guides, and rights/responsibilities orientation
+    - create safety gates for tools, PPE, sanitation, food safety, water testing, energy outage, first aid/AED, emergency transport, care support, conflict safeguarding, and vehicle/cart operation
+    - implement skill graph, learning-management-lite, practice log, training gate engine, knowledge base, backup-role tracker, learning burden dashboard, and passion learning calendar
+    - train learning, skill graph, onboarding, safety training, apprenticeship, knowledge base, credential partnership, passion learning, and accessibility learning stewards with backups
+  inspection_points:
+    - resident orientation completion and first-90-day mentor capacity
+    - critical role primary and backup training coverage
+    - safety-critical tasks with active gates and current refreshers
+    - expired credentials, overdue training, and professional boundary flags
+    - single-point skill failures and apprentice pipeline status
+    - knowledge base completeness, plain-language quality, offline copy, asset manual links, and lessons learned
+    - required training hours, mentor burden, apprentice hours, unpaid learning labor, and burnout risk
+    - passion learning access and protection from compulsory operational labor
+  maintenance:
+    - id: skill_coverage_round
+      description: Review critical roles, primary and backup coverage, single-point skill failures, apprentices, expired credentials, and external mentor gaps.
+      interval: monthly
+      role: skill_graph_steward
+      estimated_hours: 4
+      provisional: true
+    - id: safety_training_round
+      description: Review safety gates, PPE training, stop-work authority, incident review training, refreshers, and professional boundaries.
+      interval: monthly
+      role: safety_training_steward
+      estimated_hours: 3
+      provisional: true
+    - id: knowledge_base_round
+      description: Review role docs, checklists, asset manuals, lessons learned, offline copy, plain-language gaps, versioning, and stale pages.
+      interval: monthly
+      role: knowledge_base_steward
+      estimated_hours: 3
+      provisional: true
+    - id: learning_burden_round
+      description: Review required learning hours, mentor load, apprentice load, training burnout, accommodations, and passion learning protection.
+      interval: monthly
+      role: learning_steward
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: ongoing civic learning lattice with recurring review of roles, safety gates, knowledge base, credential boundaries, and learning burden
+  repair_procedure:
+    - classify the issue as orientation, safety gate, credential boundary, knowledge capture, role backup, expert capture, privacy, accessibility, burden, or passion-learning risk
+    - pause unsafe task assignment when training evidence, PPE, stop-work authority, credential status, or professional boundary is missing
+    - add mentor support, backup-role training, paid training time, plain-language docs, accommodations, or external credential partnership as needed
+    - record lessons learned without exposing sensitive resident-level training, health, disability, income, conflict, or performance details
+    - update skill graph, knowledge base, practice logs, learning burden ledger, and governance decision records after resolution
+  end_of_life_path:
+    - export role curricula, skill graph, knowledge base, lessons learned, credential boundary map, and aggregate coverage history for future blocks
+    - archive or delete resident-level training and accommodation records according to privacy and retention rules
+    - preserve public documentation, checklists, and failure reviews needed for safe continuity
+failure_modes:
+  - mode: single_expert_dependency
+    likelihood: medium
+    severity: catastrophic
+    detection_method: critical role without backup, undocumented system knowledge, expert exit, inaccessible records, or residents deferring to one person by default
+    mitigation: document role, train backup, create apprenticeship path, add external mentor, rotate teach-back, and trigger expert-capture review
+  - mode: unsafe_amateurism
+    likelihood: medium
+    severity: catastrophic
+    detection_method: safety task assigned without training, missing PPE, credential boundary crossed, incident report, or enthusiasm substituted for competence
+    mitigation: stop work, require training gate, escalate to professional, refresh safety module, and update role eligibility
+  - mode: learning_burden_creep
+    likelihood: medium
+    severity: high
+    detection_method: required learning hours above threshold, mentor overload, apprentice labor replacing paid work, onboarding fatigue, or optional learning becoming social pressure
+    mitigation: reduce required modules, pay or credit high-burden training, add mentors, simplify role paths, and protect passion learning
+  - mode: knowledge_base_decay
+    likelihood: medium
+    severity: high
+    detection_method: stale docs, missing role guides, asset manuals unlinked, lessons not logged, online-only records, or residents relying on chat history
+    mitigation: assign knowledge-base steward, schedule reviews, write plain-language guides, create offline copy, and link docs to assets and roles
+  - mode: credential_hierarchy_capture
+    likelihood: medium
+    severity: high
+    detection_method: credentials used to override governance, gatekeeping without appeal, professional language obscuring power, or expert refusal to document boundaries
+    mitigation: define credential boundary, add appeals, separate professional authority from commons authority, require documentation, and review governance scope
+governance:
+  owner: commons
+  access_rule: Aggregate skill coverage, training gate, backup role, knowledge-base, and learning-burden status are member-visible while resident-level training records, accommodations, gate appeals, health, disability, conflict, and performance details remain privacy-limited.
+  stewardship_role: learning_steward
+  backup_role: skill_graph_steward
+  audit_frequency: monthly
+  capture_risk: learning records, credential gates, expert knowledge, training access, safety approvals, and role eligibility can become coercive if not documented, appealable, privacy-limited, and backed up
+metrics:
+  cost: 110000
+  build_labor_hours: 500
+  recurring_labor_hours_per_week: 12
+  energy_use: 1
+  water_use: 0
+  embodied_carbon: 0.3
+  maintenance_burden: 4
+  dignity_score: 9
+  autonomy_score: 9
+  resilience_score: 10
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -1
+    food_servings_per_day: 0
+  critical_resources: [maintenance]
+  notes: Provisional education and skill lattice. The current simulator tracks role labor and maintenance tasks, but not skill coverage, credentials, onboarding, knowledge base quality, apprenticeship, learning burden, or expert dependency as first-class dynamics.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: learning_operations_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Learning, safety gate, documentation, and backup-role coordination labor
+      unit: hours_per_week
+      min: 4
+      max: 50
+      step: 2
+      default: 12
+      affects: [labor, governance, maintenance, dignity, resilience]
+      review_required: true
+      provisional: true
+    - id: skill_lattice_startup_allowance
+      path: metrics.cost
+      label: Learning system, knowledge base, safety training, and credential partnership setup allowance
+      unit: dollars
+      min: 20000
+      max: 300000
+      step: 10000
+      default: 110000
+      affects: [cost, labor, governance, maintenance, resilience]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: safety_gates_required
+      path: constraints.safety
+      reason: Safety-critical tasks cannot be assigned without training gates, PPE, stop-work authority, incident reporting, and professional boundaries.
+      review_dependency: safety_training_review
+      provisional: true
+    - id: professional_boundaries_required
+      path: constraints.legal
+      reason: Credentials and training must not imply licensed trade, clinical, legal, finance, school, or compliance authority.
+      review_dependency: credential_boundary_review
+      provisional: true
+    - id: learning_not_hidden_labor
+      path: constraints.social
+      reason: Required learning, mentoring, apprenticeship, and documentation must be counted so education returns life rather than consuming it.
+      review_dependency: labor_fairness_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A civic skill lattice should serve roughly 50-150 residents through one learning node, core skill paths, and backup-role development; above that, federate learning networks and specialized credential partnerships.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

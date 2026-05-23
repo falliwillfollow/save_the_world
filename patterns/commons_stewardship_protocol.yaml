@@ -1,0 +1,231 @@
+kind: CivicPattern
+id: commons_stewardship_protocol
+type: Commons
+status: draft
+provisional: true
+provisional_for: [legal, governance, cost, labor, health]
+purpose: Provide a resident-governed anti-capture protocol that protects commons assets, defines membership rights, delegates operations, limits emergency power, and keeps authority visible.
+scale: village
+mdl_categories: [commons, privacy, health, contribution]
+inputs:
+  - commons_asset_lock
+  - membership_charter
+  - decision_domain_map
+  - role_registry
+  - policy_registry
+  - budget_transparency
+  - conflict_ladder
+  - legal_review_path
+outputs:
+  - protected_commons_assets
+  - resident_membership_rights
+  - delegated_operational_circles
+  - constitutional_decision_rules
+  - anti_capture_monitoring
+  - due_process_and_exit_rights
+  - emergency_authority_sunset
+  - governance_labor_visibility
+dependencies:
+  - id: maintainable_commons_spine
+    kind: pattern
+    critical: true
+    rationale: Governance needs visible asset records, maintenance backlog, reserves, and professional handoff to prevent drift and hidden capture.
+  - id: legal_governance_review
+    kind: external
+    critical: true
+    rationale: Asset locks, membership rights, occupancy, cooperative, nonprofit, lease, debt, privacy, and due-process structures require legal review.
+  - id: resident_membership_charter
+    kind: external
+    critical: true
+    rationale: Rights, obligations, entry, exit, voting, due process, and anti-discrimination rules must be written before governance claims are credible.
+  - id: finance_transparency_review
+    kind: external
+    critical: true
+    rationale: Budgets, reserves, debt thresholds, insider transactions, assessments, and audit thresholds need finance and governance review.
+  - id: conflict_safeguarding_review
+    kind: external
+    critical: true
+    rationale: Conflict, harm, harassment, retaliation, expulsion, and safeguarding processes need qualified review and external escalation paths.
+  - id: data_privacy_review
+    kind: external
+    critical: true
+    rationale: Governance records, conflict cases, health-adjacent data, financial hardship, audit logs, and access controls need privacy review.
+constraints:
+  physical:
+    - governance dashboard, decision log, policy registry, role registry, budget dashboard, records archive, and privacy-limited conflict tracker must be accessible to members
+    - records must distinguish public-to-members power data from protected personal, health, conflict, and financial-hardship data
+    - meeting spaces and decision access must support disabled residents, elders, caregivers, remote participation, and residents with limited time
+    - operational circle information should link to water, food, energy, sanitation, housing, maintenance, care, finance, and conflict domains
+  ecological:
+    - governance must protect land, reserves, water, sanitation, energy, food, maintenance spares, tool library, care spaces, and common assets from enclosure or speculative liquidation
+    - debt, sale, transfer, and dissolution rules must keep long-term affordability and commons purpose visible
+    - external partnerships may support resilience but cannot gain control over survival infrastructure
+  legal:
+    - final legal entity, tax, housing, cooperative, nonprofit, CLT, employment, eviction, privacy, securities, and anti-discrimination compliance are outside the pattern and require counsel
+    - the pattern must not imply legal formation, enforceable bylaws, lease validity, expulsion legality, or consent
+  social:
+    - governance should protect the floor without governing personal beliefs, relationships, diet, spirituality, politics, visitors, or private life beyond safety and shared-space externalities
+    - constitutional decisions must be slow, visible, reviewed, and difficult for a founder, investor, faction, administrator, or landowner to capture
+    - operational decisions should be delegated and light enough that residents are not trapped in meeting bureaucracy
+    - survival access cannot depend on popularity, ideological conformity, social obedience, or unreviewable role power
+  safety:
+    - emergency authority must be predefined, logged, limited in domain, sunset after the event, and reviewed afterward
+    - expulsion, loss of access, serious harm, abuse, harassment, retaliation, and safeguarding cannot be handled only through informal friendship processes
+    - no one person should control money, records, land, conflict process, emergency authority, or survival systems without backup and review
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - define governance scope, asset lock, membership rights, entry, exit, due process, anti-discrimination, and privacy rules
+    - map operational, policy, budget, constitutional, and emergency decision domains with authority limits and review thresholds
+    - establish resident membership body, coordination circle, operational circles, role registry, policy registry, decision log, and budget transparency process
+    - define conflict ladder, safeguarding process, external escalation, anti-retaliation protections, and privacy-limited case tracking
+    - set supermajority and legal-review triggers for land transfer, asset lock change, debt, dissolution, expulsion policy, and emergency power extension
+    - train membership, records, finance, asset-lock, anti-capture, conflict, safeguarding, emergency, and legal-review roles with backups
+  inspection_points:
+    - asset lock and legal review status
+    - written membership rights and exit rights
+    - decision domain map
+    - role backups and term review dates
+    - public-to-members budget and reserve status
+    - conflict ladder and safeguarding escalation
+    - data privacy and role-based access
+    - emergency authority sunset log
+    - governance burden and participation concentration
+  maintenance:
+    - id: governance_dashboard_round
+      description: Review open decisions, policy review dates, role terms, action items, budget status, gate status, and member-visible records.
+      interval: monthly
+      role: records_steward
+      estimated_hours: 3
+      provisional: true
+    - id: anti_capture_round
+      description: Check role concentration, conflicts of interest, reserve misuse, emergency power drift, insider transactions, and survival-system control risk.
+      interval: monthly
+      role: anti_capture_steward
+      estimated_hours: 3
+      provisional: true
+    - id: finance_reserve_round
+      description: Review operating budget, maintenance reserve, replacement reserve, emergency reserve, debt exposure, affordability drift, and assessment burden.
+      interval: monthly
+      role: finance_steward
+      estimated_hours: 3
+      provisional: true
+    - id: conflict_safeguarding_round
+      description: Review conflict process stages, due dates, retaliation risks, external referrals, safeguarding flags, and privacy boundaries without exposing case details.
+      interval: monthly
+      role: conflict_resolution_steward
+      estimated_hours: 2
+      provisional: true
+  expected_lifespan: ongoing governance protocol with periodic legal, financial, resident, conflict, privacy, and anti-capture review
+  repair_procedure:
+    - identify whether the issue is operational, policy, budget, constitutional, emergency, conflict, privacy, or safeguarding
+    - use the lightest valid process for the domain while preserving due process, records, and safety
+    - pause captured or conflicted authority, assign backup role, and bring in external review where required
+    - notify members through appropriate transparency channel while protecting sensitive personal data
+    - record decision, rationale, authority, review date, appeals path, and sunset if emergency authority was used
+  end_of_life_path:
+    - follow dissolution, transfer, asset-lock, resident notice, debt, reserve, data-retention, and legal-review rules
+    - preserve common records needed for resident rights, asset stewardship, audits, and legal accountability
+    - ensure core assets remain dedicated to commons or public purpose where legal structure allows
+failure_modes:
+  - mode: founder_or_role_capture
+    likelihood: medium
+    severity: catastrophic
+    detection_method: role concentration dashboard, veto pattern, unreviewed authority, budget control, and resident complaints
+    mitigation: trigger anti-capture review, enforce role limits, assign backups, require member review, and escalate to legal or external governance support
+  - mode: asset_lock_failure
+    likelihood: medium
+    severity: catastrophic
+    detection_method: transfer proposal, debt encumbrance, reserve misuse, sale pressure, missing legal review, or dissolution ambiguity
+    mitigation: pause transaction, require supermajority and legal review, publish risk report, protect residents, and preserve commons purpose
+  - mode: governance_bureaucracy_burden
+    likelihood: medium
+    severity: high
+    detection_method: governance hour logs, meeting load, resident disengagement, high-need exclusion, and delayed operational decisions
+    mitigation: delegate routine decisions, reduce meetings, rotate roles, pay or staff admin work where needed, and simplify policy process
+  - mode: conflict_due_process_failure
+    likelihood: medium
+    severity: high
+    detection_method: unresolved conflict, retaliation report, expulsion proposal, missing notice, biased reviewer, or serious harm handled only internally
+    mitigation: activate conflict ladder, separate safeguarding from mediation where needed, use external review, protect parties, and document due process
+  - mode: opaque_finance_capture
+    likelihood: medium
+    severity: high
+    detection_method: missing budget, inaccessible reserves report, insider contract, debt surprise, affordability drift, or unreviewed assessment increase
+    mitigation: publish member budget dashboard, pause insider transaction, trigger finance review, replenish reserves, and require member approval above thresholds
+governance:
+  owner: cooperative
+  access_rule: governance authority is limited to commons assets, survival infrastructure, budgets, safety, roles, membership, conflict process, and emergency response while private life remains outside ordinary governance.
+  stewardship_role: coordination_circle_facilitator
+  backup_role: records_steward
+  audit_frequency: monthly
+  capture_risk: governance itself can become coercive if records, money, conflict process, emergency authority, membership, or survival infrastructure are controlled by unreviewable people or factions
+metrics:
+  cost: 120000
+  build_labor_hours: 600
+  recurring_labor_hours_per_week: 12
+  energy_use: 1
+  water_use: 0
+  embodied_carbon: 0.5
+  maintenance_burden: 5
+  dignity_score: 9
+  autonomy_score: 9
+  resilience_score: 10
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -1
+    food_servings_per_day: 0
+  critical_resources: [maintenance]
+  notes: Provisional governance and anti-capture operations layer. The current simulator does not yet model legal enforceability, membership consent, conflict case flow, asset locks, or capture dynamics as first-class resources.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: governance_labor_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Governance labor capacity
+      unit: hours_per_week
+      min: 6
+      max: 50
+      step: 2
+      default: 12
+      affects: [governance, labor, dignity, autonomy, resilience]
+      review_required: true
+      provisional: true
+    - id: governance_startup_reserve
+      path: metrics.cost
+      label: Governance, legal, finance, and conflict-process startup allowance
+      unit: dollars
+      min: 25000
+      max: 300000
+      step: 25000
+      default: 120000
+      affects: [governance, cost, resilience, external_dependency]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: asset_lock_review_required
+      path: dependencies
+      reason: Land, common assets, survival systems, debt, transfer, dissolution, and resale rules require legal review and cannot be optimized away.
+      review_dependency: legal_governance_review
+      provisional: true
+    - id: due_process_required
+      path: constraints.safety
+      reason: Loss of membership, access, occupancy, conflict resolution, safeguarding, and expulsion require due process and external escalation paths.
+      review_dependency: conflict_safeguarding_review
+      provisional: true
+    - id: govern_floor_not_soul
+      path: constraints.social
+      reason: Governance scope is limited to the commons floor and must not become ideological, social, or personal-life control.
+      review_dependency: resident_membership_charter
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: Governance should serve roughly 50-150 residents through nested village-block circles; above that, replicate blocks and federate rather than centralizing into one opaque bureaucracy.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

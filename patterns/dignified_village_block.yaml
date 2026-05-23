@@ -1,0 +1,175 @@
+kind: CivicPattern
+id: dignified_village_block
+type: Structure
+status: draft
+provisional: true
+provisional_for: [engineering, legal, structural, electrical, health, sanitation, cost, labor, governance]
+purpose: Provide a repeatable village-block housing baseline with private dwellings, pod-scale neighborhoods, and shared daily-life infrastructure.
+scale: village
+mdl_categories: [shelter, privacy, commons, rest, health, contribution]
+inputs:
+  - legal_site_access
+  - residential_pod_layout
+  - panelized_building_system
+  - common_house_program
+  - shared_food_and_laundry_infrastructure
+  - pedestrian_first_site_layout
+outputs:
+  - private_lockable_dwellings
+  - residential_pods
+  - shared_common_house
+  - common_space_schedule
+  - pedestrian_first_village_block
+  - prefab_ready_housing_bom
+dependencies:
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: The village block relies on shared food and dining infrastructure to reduce duplicated private burden.
+  - id: shared_bathhouse
+    kind: pattern
+    critical: true
+    rationale: The current CIaC seed set still needs a resolved shared hygiene path before richer private wet-core modeling exists.
+  - id: workshop
+    kind: pattern
+    critical: true
+    rationale: Repeatable housing maintenance needs local repair and fabrication capacity.
+  - id: tool_library
+    kind: pattern
+    critical: true
+    rationale: Maintenance and resident autonomy depend on shared tool access.
+  - id: staple_food_reserve
+    kind: pattern
+    critical: true
+    rationale: Housing common areas include food storage and preservation, which must remain tied to the staple reserve model.
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: Common-house lighting, service spine, ventilation, and basic resident power require a resolved energy path.
+  - id: legal_site_access
+    kind: external
+    critical: true
+    rationale: Housing cannot be planned without lawful site access and occupancy authority.
+  - id: residential_building_code_review
+    kind: external
+    critical: true
+    rationale: Occupancy, fire, egress, accessibility, structure, plumbing, and energy rules require jurisdiction-specific review.
+  - id: accessibility_review
+    kind: external
+    critical: true
+    rationale: Private units, common spaces, routes, and bathrooms must be reviewed for resident access and dignity.
+  - id: fire_life_safety_review
+    kind: external
+    critical: true
+    rationale: Pod layout, common-house assembly spaces, egress, fire separation, and vehicle access require qualified review.
+constraints:
+  physical:
+    - clustered courtyard pods rather than long dormitory corridors
+    - private lockable units with daylight, ventilation, acoustic separation, and storage
+    - common space ratio target of 20 to 30 percent with warnings below 12 percent or above 35 percent
+    - structural grid, stacked wet cores, service spine, and repeated unit types
+    - perimeter vehicle access with pedestrian-first interior routes
+  ecological:
+    - shared infrastructure should reduce duplicated appliances, utility runs, and maintenance burden
+    - construction should favor panelized light wood, modular light wood, or reviewable mass-timber hybrids
+    - outdoor courtyards and gardens should provide shade, restoration, and food-adjacent commons without treating landscape as proof of production
+  legal:
+    - requires residential building, fire, accessibility, plumbing, electrical, health, food-service, and occupancy review
+    - must not generate permit documents or imply code compliance
+  social:
+    - community at the doorstep and privacy behind the door
+    - no resident should need to perform sociability to access sleep, hygiene, rest, or personal food autonomy
+    - family, elder-friendly, accessible, single-adult, and couple units must be represented in the unit mix
+    - assignment and access rules must protect withdrawal, refusal, and non-coercive housing rights
+  safety:
+    - fire egress, acoustic separation, sanitation access, night lighting, and accessible routes must be explicit gates
+    - common kitchens, laundry, workshops, care rooms, and guest spaces require maintenance and review responsibilities
+build_phase: 2
+lifecycle:
+  build_sequence:
+    - confirm resident mix, occupancy authority, and non-coercive housing governance
+    - define pod count, resident capacity, common space ratio, private unit mix, and required common spaces
+    - establish structural grid, repeated unit types, stacked wet cores, service spine, and prefab-ready bill of materials
+    - run accessibility, fire, structural, electrical, plumbing, sanitation, and food-service reviews before occupancy claims
+    - phase pod construction around pedestrian courtyards, common house access, and perimeter service access
+    - inspect privacy, daylight, acoustic, common-space, route, and maintenance gates before residents depend on the block
+  inspection_points:
+    - privacy and lockability
+    - daylight and ventilation
+    - acoustic separation near sleeping spaces
+    - accessible unit and route availability
+    - common space ratio and required common-space schedule
+    - stacked wet cores and service spine access
+    - fire egress and emergency access
+    - prefab bill of materials and maintenance zones
+  maintenance:
+    - id: privacy_commons_audit
+      description: Review lockability, retreat capacity, common-space access, quiet room function, guest/overflow capacity, and resident complaints.
+      interval: monthly
+      role: housing_steward
+      estimated_hours: 4
+      provisional: true
+    - id: service_spine_round
+      description: Inspect service spine access, wet-core leaks, ventilation paths, laundry/common-house wear, route lighting, and maintenance backlog.
+      interval: monthly
+      role: maintenance_steward
+      estimated_hours: 6
+      provisional: true
+  expected_lifespan: 50-100 years for reviewed structure, with replaceable wet cores, finishes, fixtures, and panelized components
+  repair_procedure:
+    - isolate unsafe unit, common room, or service spine segment
+    - preserve resident privacy and alternate hygiene/rest access during repair
+    - document defect, assign steward, and involve qualified professional where safety or code is implicated
+    - inspect repaired element before returning to occupancy or common use
+  end_of_life_path:
+    - salvage panelized components, fixtures, doors, hardware, and serviceable wet-core equipment
+    - recycle wood, metal, appliances, and wiring through approved channels
+    - preserve resident records, occupancy rights, and relocation plans before decommissioning any pod
+failure_modes:
+  - mode: privacy_failure
+    likelihood: medium
+    severity: high
+    detection_method: resident reports, occupancy audits, lockability checks, and noise complaints
+    mitigation: add lockable retreat capacity, improve acoustic separation, revise access rules, and pause occupancy expansion
+  - mode: institutional_dormitory_drift
+    likelihood: medium
+    severity: high
+    detection_method: common-space audits, corridor layout review, resident withdrawal reports, and governance complaints
+    mitigation: break long corridors into pods, add threshold spaces, improve private autonomy, and reduce mandatory social exposure
+  - mode: inaccessible_housing
+    likelihood: medium
+    severity: high
+    detection_method: accessibility review, resident mobility reports, and route inspection
+    mitigation: add accessible units, accessible routes, bathroom access, dropoff points, and professional accessibility review
+  - mode: service_spine_failure
+    likelihood: medium
+    severity: high
+    detection_method: leak, electrical, ventilation, or maintenance-access inspections
+    mitigation: isolate affected spine segment, provide alternate access, repair under qualified review, and update maintenance schedule
+governance:
+  owner: cooperative
+  access_rule: private units are assigned under transparent resident-governed occupancy rules while common spaces remain available through non-coercive stewardship.
+  stewardship_role: housing_steward
+  backup_role: maintenance_steward
+  audit_frequency: monthly
+  capture_risk: housing assignment, keys, common-space control, or maintenance priorities could become coercive without resident governance, appeals, and audit transparency
+metrics:
+  cost: 6800000
+  build_labor_hours: 24000
+  recurring_labor_hours_per_week: 10
+  energy_use: 90
+  water_use: 600
+  embodied_carbon: 6
+  maintenance_burden: 7
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 8
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -600
+    energy_kwh_per_day: -90
+    food_servings_per_day: 0
+  critical_resources: [water, energy, sanitation, maintenance]
+  notes: Provisional common-house, laundry, service-spine, and building-operations demand for an 80-resident village-block prototype; resident food and personal water demand still require household/population profiles.
+  provisional: true

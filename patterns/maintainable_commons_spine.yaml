@@ -1,0 +1,238 @@
+kind: CivicPattern
+id: maintainable_commons_spine
+type: Commons
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, sanitation, structural, electrical, cost, labor, governance]
+purpose: Provide a village-scale maintenance and repair spine with asset registry, work orders, spare parts, tool access, safety boundaries, professional handoff, budget reserves, and visible backlog.
+scale: village
+mdl_categories: [commons, contribution, health]
+inputs:
+  - asset_registry
+  - work_order_system
+  - tool_library
+  - workshop
+  - spare_parts_storage
+  - maintenance_budget
+  - safety_training
+  - contractor_contacts
+outputs:
+  - critical_asset_registry
+  - preventive_maintenance_calendar
+  - visible_work_order_backlog
+  - spare_parts_inventory
+  - professional_handoff_matrix
+  - safety_boundary_controls
+  - maintenance_labor_visibility
+  - lifecycle_budget_reserve
+dependencies:
+  - id: tool_library
+    kind: pattern
+    critical: true
+    rationale: Maintenance spine requires shared tool inventory, checkout, safety labels, and repair readiness.
+  - id: workshop
+    kind: pattern
+    critical: true
+    rationale: Repair, staging, quarantine, PPE, and documentation work need a dedicated maintenance workspace.
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: Maintenance dashboard, lighting, charging, and critical repair operations need basic energy continuity.
+  - id: inventory_baseline
+    kind: external
+    critical: true
+    rationale: Asset registry, spares inventory, and tool library cannot start without an initial inventory baseline.
+  - id: workshop_safety_review
+    kind: external
+    critical: true
+    rationale: Tools, dirty work, dust, fire, electrical, PPE, and hazardous materials require safety review.
+  - id: professional_service_matrix
+    kind: external
+    critical: true
+    rationale: Licensed or hazardous work must have contractor, permit, and qualified professional handoff rules before residents are assigned tasks.
+  - id: maintenance_budget_reserve_plan
+    kind: external
+    critical: true
+    rationale: Class A assets, emergency repairs, critical spares, and professional service costs need a funded reserve plan.
+constraints:
+  physical:
+    - maintenance room, repair bench, dirty work area, documentation station, PPE station, receiving and staging area, contractor access point, and lockable hazardous tool storage
+    - every Class A asset needs visible location, shutoff or isolation notes, service access, documentation, steward, backup steward, and failure response path
+    - spare parts storage needs min-max labels, shelf-life tracking, supplier links, compatible asset ids, and emergency stock flags
+    - tool checkout, broken-tool quarantine, consumables storage, PPE, and safety signage must be easy to find and audit
+    - service points must remain reachable without destructive access or resident privacy violations
+  ecological:
+    - repair and reuse should reduce replacement waste without keeping unsafe assets in service
+    - broken tools, batteries, filters, oils, solvents, electronics, and contaminated materials need responsible disposal paths
+    - moisture, leaks, mold risk, drainage, roof, envelope, and seasonal preparation are core maintenance concerns
+    - repeated failures should feed design changes rather than endless replacement
+  legal:
+    - licensed electrical, structural, septic, potable water, battery, generator, gas, refrigerant, mold, hazardous material, and medical equipment work cannot be assigned to unqualified residents
+    - the pattern must not imply trade licensing, permit compliance, contractor qualification, or repair procedure approval
+  social:
+    - maintenance must not live in one person's memory, private spreadsheet, vendor login, or informal favors
+    - visible backlog, task priority, labor hours, and budget status should be legible to governance without turning incident reporting into blame
+    - routine maintenance labor target is 1 to 3 hours per resident per month, with warnings above 5 and failure above 8 unless staffed or paid
+    - residents may build repair skill, but repair culture is not permission to exceed competence or hide needed paid work
+  safety:
+    - stop-work authority, PPE, incident reporting, hazardous energy boundaries, lockout or tagout procedures, and restricted task matrix are required
+    - residents must not be assigned licensed, hazardous, confined, high-voltage, pressure, structural, sewage, medical, or hazardous-material tasks
+    - P0 emergencies and P1 critical work orders need immediate ownership, mitigation, and professional escalation where required
+    - condition monitoring may support maintenance but cannot replace human inspection, training, or professional review
+build_phase: 1
+lifecycle:
+  build_sequence:
+    - inventory all critical assets, tools, spares, service points, shutoffs, warranties, manuals, and contractor contacts
+    - assign criticality classes, stewards, backup stewards, failure modes, maintenance modes, and professional handoff thresholds
+    - set up visible asset tags, work orders, preventive scheduler, spare parts min-max inventory, incident log, and critical asset dashboard
+    - establish maintenance room, repair bench, dirty work area, tool quarantine, PPE station, documentation station, and contractor access path
+    - approve maintenance budget, replacement reserve, emergency repair reserve, critical spares budget, and professional service budget
+    - train maintenance, asset registry, work order, tool library, spares inventory, safety, handoff, seasonal, and failure review stewards with backups
+  inspection_points:
+    - Class A asset documentation
+    - visible asset tags and locations
+    - open P0 and P1 work orders
+    - spare parts below minimum
+    - tool library and broken-tool quarantine
+    - PPE, stop-work authority, and restricted task matrix
+    - emergency repair reserve and replacement reserve
+    - professional service contacts and handoff records
+    - labor concentration and volunteer versus paid work
+  maintenance:
+    - id: asset_registry_round
+      description: Check Class A asset records, tags, locations, manuals, steward backups, service due dates, and replacement reserve fields.
+      interval: monthly
+      role: asset_registry_steward
+      estimated_hours: 4
+      provisional: true
+    - id: work_order_triage
+      description: Review P0 to P4 backlog, assign owners and backups, verify due dates, safety risks, professional handoff, labor, and completion notes.
+      interval: weekly
+      role: work_order_steward
+      estimated_hours: 3
+      provisional: true
+    - id: spares_inventory_round
+      description: Check min-max levels, below-min stock, shelf life, supplier records, substitute options, storage labels, and emergency consumables.
+      interval: monthly
+      role: spares_inventory_steward
+      estimated_hours: 3
+      provisional: true
+    - id: maintenance_safety_round
+      description: Review PPE, incident log, hazardous energy boundary, restricted task matrix, stop-work authority, and safety training completion.
+      interval: monthly
+      role: safety_steward
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: ongoing civic operations spine with replaceable tools, records, storage, dashboards, contractor relationships, budgets, and training paths
+  repair_procedure:
+    - capture issue as a work order rather than memory or chat
+    - rank priority, safety risk, criticality, resident impact, parts need, and professional handoff requirement
+    - isolate hazards, protect the civic floor, and assign owner plus backup
+    - complete work within competence boundaries or hand off to qualified professional
+    - verify completion, record labor and cost, update asset history, and revise preventive tasks after repeated failures
+  end_of_life_path:
+    - export asset registry, work order, incident, budget, and maintenance records before replacing any system
+    - salvage safe tools, spares, fixtures, and reusable materials
+    - dispose hazardous tools, batteries, electronics, filters, solvents, and contaminated materials through approved paths
+failure_modes:
+  - mode: hidden_critical_backlog
+    likelihood: medium
+    severity: high
+    detection_method: backlog review, missed task audit, P0 or P1 age, resident reports, and governance dashboard
+    mitigation: expose backlog, assign owner and backup, protect affected service, add labor or contractor capacity, and review budget blockage
+  - mode: single_person_maintenance_dependency
+    likelihood: medium
+    severity: high
+    detection_method: role backup audit, knowledge loss during absence, undocumented repair, and repeated direct requests to one resident
+    mitigation: document assets, train backups, rotate duties, hire or contract where needed, and block critical assets without backup steward
+  - mode: unsafe_resident_repair
+    likelihood: medium
+    severity: catastrophic
+    detection_method: work order safety review, incident reports, restricted task matrix violation, and tool access audit
+    mitigation: stop work, isolate hazard, require qualified professional, retrain stewards, and update handoff matrix
+  - mode: critical_spare_missing
+    likelihood: medium
+    severity: high
+    detection_method: min-max inventory, below-min report, failed repair due to missing part, supplier delay, and emergency stock audit
+    mitigation: reorder, identify substitute, borrow or contract service, revise emergency stock levels, and prioritize Class A spares
+  - mode: maintenance_budget_gap
+    likelihood: medium
+    severity: high
+    detection_method: reserve report, deferred work due to cost, contractor invoice trend, and unfunded replacement schedule
+    mitigation: pause noncritical improvements, replenish reserve, reforecast lifecycle costs, and escalate governance budget approval
+governance:
+  owner: commons
+  access_rule: maintenance records, backlog, safety boundaries, role assignments, professional handoffs, and reserve status are visible to governance while private-unit details and health-sensitive data are protected.
+  stewardship_role: maintenance_steward
+  backup_role: asset_registry_steward
+  audit_frequency: weekly
+  capture_risk: maintenance authority, tool access, contractor choice, budget priority, or backlog visibility could become coercive without transparent rules, appeals, and backup roles
+metrics:
+  cost: 180000
+  build_labor_hours: 800
+  recurring_labor_hours_per_week: 24
+  energy_use: 4
+  water_use: 40
+  embodied_carbon: 2
+  maintenance_burden: 6
+  dignity_score: 8
+  autonomy_score: 9
+  resilience_score: 10
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -40
+    energy_kwh_per_day: -4
+    food_servings_per_day: 0
+  critical_resources: [energy, maintenance]
+  notes: Provisional 80-resident maintenance and repair operations layer. It improves lifecycle readiness and backlog visibility, but the current simulator does not yet model asset registry state, spare parts, budget reserves, or work-order flow as resources.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: maintenance_labor_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Maintenance spine recurring labor
+      unit: hours_per_week
+      min: 12
+      max: 80
+      step: 4
+      default: 24
+      affects: [maintenance, labor, resilience, dignity, governance]
+      review_required: true
+      provisional: true
+    - id: maintenance_budget_reserve
+      path: metrics.cost
+      label: Maintenance startup and reserve allowance
+      unit: dollars
+      min: 50000
+      max: 500000
+      step: 25000
+      default: 180000
+      affects: [maintenance, cost, resilience, external_dependency]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: professional_handoff_required
+      path: dependencies
+      reason: Licensed, hazardous, structural, electrical, water, wastewater, battery, generator, gas, refrigerant, mold, hazardous-material, and medical equipment work must stay outside resident assignment unless qualified.
+      review_dependency: professional_service_matrix
+      provisional: true
+    - id: safety_boundary_required
+      path: constraints.safety
+      reason: Stop-work authority, PPE, incident reporting, hazardous energy boundaries, and restricted task matrix are not optimization knobs.
+      review_dependency: workshop_safety_review
+      provisional: true
+    - id: maintenance_not_heroic_diy
+      path: constraints.social
+      reason: The commons cannot depend on one handy resident, hidden memory, unpaid overload, or residents exceeding competence to keep the civic floor alive.
+      review_dependency: governance_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A maintenance spine should serve roughly 50-150 residents; above that, replicate village-block maintenance cells or formalize facilities staffing.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

@@ -118,6 +118,44 @@ Probe scale pressure at 12, 150, and 1500 people:
 py -3.10 -m ciac tradeoff-scale examples/generated/micro_commons_plan.json examples/generated/micro_commons_candidate_matrix.json patterns scale_profiles/micro_commons_scale_targets_v0.yaml --output examples/generated/micro_commons_tradeoff_scale.json
 ```
 
+Model infrastructure as node pools that can scale up or down:
+
+```powershell
+py -3.10 -m ciac node-scaling module_registries/micro_commons_default_v0.yaml --scale-profile scale_profiles/micro_commons_scale_targets_v0.yaml --output examples/generated/micro_commons_node_scaling.json
+```
+
+Add operator-selected populations to the report with `--people`:
+
+```powershell
+py -3.10 -m ciac node-scaling module_registries/micro_commons_default_v0.yaml --scale-profile scale_profiles/micro_commons_scale_targets_v0.yaml --people 978 --output examples/generated/micro_commons_node_scaling.json
+```
+
+The node scaling report treats each registry slot as a civic infrastructure node pool. At micro scale it prefers seed/default patterns; at village scale it activates one node; above node capacity it recommends replicated village nodes with narrow federation rather than one centralized megastructure.
+
+CIaC's scaling posture is abundance-first: local dignity floors should reduce routine scarcity conflict and dependence on adversarial services. Governance, legal, consent, and review systems are modeled as boundary infrastructure, while district, town, city, and regional layers should add shared capability without replacing resilient local basics.
+
+Recommend the next topology action for a population:
+
+```powershell
+py -3.10 -m ciac topology-recommend examples/generated/micro_commons_node_scaling.json --population 150 --food-labor examples/generated/micro_commons_food_labor_report.json --complexity examples/generated/micro_commons_complexity_report.json --output examples/generated/micro_commons_topology_recommendation.json
+```
+
+For a slider-selected population, pass the same number:
+
+```powershell
+py -3.10 -m ciac topology-recommend examples/generated/micro_commons_node_scaling.json --population 978 --food-labor examples/generated/micro_commons_food_labor_report.json --complexity examples/generated/micro_commons_complexity_report.json --output examples/generated/micro_commons_topology_recommendation_978.json
+```
+
+Topology recommendations are node-aware: they can choose scale-down seed mode, pre-plan a second village cell, replicate node pools, add district/town capability layers, federate a thin control plane, or reduce labor concentration.
+
+Check that the generated viewer artifacts are coherent as one flow:
+
+```powershell
+py -3.10 -m ciac artifact-cohesion examples/generated --output examples/generated/micro_commons_artifact_cohesion.json
+```
+
+This report verifies the default viewer files exist, validate, and agree across report boundaries: optimizer selection to cycle iteration, calibration to weights, node-scaling population to topology recommendation, and duplicate non-canonical topology artifacts.
+
 Make objective scoring inspectable:
 
 ```powershell
@@ -142,10 +180,10 @@ This produces a `CycleIterationReport` with the applied plan, fresh simulation, 
 
 ## Viewer
 
-The static viewer consumes generated runtime artifacts. After producing the runtime bundle, serve the repository root:
+The viewer consumes generated runtime artifacts. To inspect only, a plain static server works. To persist completed webapp year runs and regenerate population-specific backend reports from the webapp state, use the CIaC viewer server:
 
 ```powershell
-py -3.10 -m http.server 8765
+py -3.10 -m ciac viewer-server --port 8765
 ```
 
 Then open:
@@ -156,9 +194,15 @@ http://localhost:8765/viewer/
 
 The viewer is an inspection surface for JSON outputs. It is not a site plan, safety claim, permit artifact, or approval workflow.
 
+When served through `ciac viewer-server`, each completed webapp year writes `examples/generated/micro_commons_viewer_session_report.json`, runs the simulator from the webapp population context, materializes the selected search candidate into `examples/generated/micro_commons_cycle_iteration.json`, and regenerates food labor, complexity, node-scaling, topology recommendation, and artifact-cohesion reports for the active population. The browser slider and completed run are the configured state for those layers; terminal commands are still available for development, but are not required for the viewer testing loop.
+
 The current viewer also loads the generated optimizer artifacts when available. The Optimization panel shows the selected search candidate, how it differs from the all-current plan, the objective calibration status, and the weight-governance blocker that prevents draft weights from being treated as approved recommendations.
 
 The Cycle panel demonstrates the intended usability loop: run one simulated year in about 20 seconds, review the recommended change, submit it, and run the next cycle. If `examples/generated/micro_commons_cycle_iteration.json` exists, the next cycle switches to the applied runtime bundle from that report.
+
+Each completed webapp year writes a `ViewerRunReport` when served with `ciac viewer-server`. If the viewer is served with `python -m http.server`, runs are recorded in browser storage only and Codex cannot inspect them as generated artifacts.
+
+When served with `ciac viewer-server`, each completed webapp year also regenerates the population-dependent reports used by the Scalability panel: node scaling, topology recommendation, and artifact cohesion. This keeps browser runs and generated logs aligned without manually running terminal commands after each test.
 
 The Involuntary Labor panel shows the current optimization direction: reduce mandatory commons upkeep after food, water, shelter, sanitation, and critical energy dignity floors are protected. The remaining capacity is not total free time, because the simulator intentionally does not yet model food preparation choices, sleep quality, self-education, outside work, private household labor, or voluntary social contribution.
 
@@ -181,6 +225,34 @@ py -3.10 -m ciac technology-pressure-test examples/generated/micro_commons_plan.
 ```
 
 Technology modules are how CIaC will ingest published sustainability methods. A module must preserve dignity floors first; then it can expose evidence-backed performance statistics and modeled impacts for later multivariate simulation. The first seed module uses published agrivoltaics field data as evidence, but does not count pasture biomass as human food until a crop/nutrition conversion model exists.
+
+The first housing module spec lives at `docs/module_reports/ciac_housing_module_dignified_village_block.md`. Its current infrastructure implementation is the `dignified_village_block` civic pattern: a repeatable, pod-based housing block that preserves private lockable units while pooling common-house, food, laundry, workshop, care, and courtyard infrastructure. It is available for scale modeling, but the 5-household demo still uses `starter_dwelling` until a dedicated larger-site profile is authored.
+
+The first food module spec lives at `docs/module_reports/ciac_food_module_hybrid_food_commons.md`. Its current infrastructure implementation is the `hybrid_food_commons` civic pattern: a village-scale food hub that combines voluntary shared meals, regional staple procurement, onsite fresh production, pantry/cold/preserved storage, food-safety controls, and private food autonomy. It is available for 50-150 resident scale modeling, while the 5-household demo keeps the simpler kitchen, greenhouse, and staple-reserve pieces.
+
+The first water module spec lives at `docs/module_reports/ciac_water_module_resilient_water_commons.md`. Its current infrastructure implementation is the `resilient_water_commons` civic pattern: a conservative village-scale water commons that keeps potable water reviewed and boring, uses rainwater as a nonpotable resilience layer, tracks emergency storage, and makes metering, leak detection, drought response, testing, and backup power explicit interfaces. It is available for 50-150 resident scale modeling, while the 5-household demo keeps the smaller well, rainwater, and emergency-reserve pieces.
+
+The first sanitation and waste module spec lives at `docs/module_reports/ciac_sanitation_waste_module_hygienic_circular_commons.md`. Its current infrastructure implementation is the `hygienic_circular_commons` civic pattern: a village-scale sanitation and waste operations layer that keeps blackwater conservative and reviewed, supports dignified toilet and bathing access, separates organics and material streams, protects hazardous and medical waste paths, and makes cleaning, PPE, role backup, and unpleasant labor visible. It is available for 50-150 resident scale modeling, while the 5-household demo keeps the smaller shared bathhouse and composting pieces.
+
+The first energy module spec lives at `docs/module_reports/ciac_energy_module_critical_load_energy_commons.md`. Its current infrastructure implementation is the `critical_load_energy_commons` civic pattern: a village-scale energy commons that reduces demand first, uses grid and solar where viable, stores energy for critical loads, exposes outage runtime and load shedding, and keeps battery, fire, interconnection, thermal, and electrical review explicit. It is available for 50-150 resident scale modeling, while the 5-household demo keeps the smaller solar shed and critical-load reserve pieces.
+
+The first maintenance and repair module spec lives at `docs/module_reports/ciac_maintenance_repair_module_maintainable_commons_spine.md`. Its current infrastructure implementation is the `maintainable_commons_spine` civic pattern: a village-scale maintenance system that turns asset registry, work orders, spare parts, tool access, professional handoff, safety boundaries, backlog visibility, labor tracking, and budget reserves into first-class infrastructure. It is available for 50-150 resident scale modeling, while the 5-household demo keeps the smaller tool library and workshop pieces.
+
+The first governance and anti-capture module spec lives at `docs/module_reports/ciac_governance_anticapture_module_commons_stewardship_protocol.md`. Its current infrastructure implementation is the `commons_stewardship_protocol` civic pattern: a resident-governed commons protocol that protects core assets, defines membership and exit rights, separates decision domains, delegates operations to circles, requires finance transparency, limits emergency authority, and keeps conflict, privacy, and anti-capture safeguards explicit. It is available for 50-150 resident scale modeling; real-world legal form, consent, and governance ratification remain external review requirements.
+
+The first labor and time module spec lives at `docs/module_reports/ciac_labor_time_module_life_burden_ledger.md`. Its current infrastructure implementation is the `life_burden_ledger` civic pattern: a total-life-burden accounting layer that compares conventional and CIaC weeks, separates wage work from commons work, counts care, maintenance, governance, emergency, and private labor, protects free and passion time, and flags hidden labor, unfair concentration, burnout, and bad-week burden. It is available for 50-150 resident scale modeling; resident consent, privacy, accommodation, and labor fairness review remain external requirements.
+
+The first legal, land, and finance module spec lives at `docs/module_reports/ciac_legal_land_finance_module_anti_speculative_civic_floor.md`. Its current infrastructure implementation is the `anti_speculative_civic_floor` civic pattern: an anti-speculative stewardship layer that separates land control, resident tenure, operating commons, capital stack, reserves, debt risk, insurance, tax, securities review, and affordability drift so the civic floor cannot quietly become an extraction machine. It is available for 50-150 resident scale modeling; final entity selection, legal documents, financing, tax treatment, insurance, zoning, and fundraising compliance remain external professional review requirements.
+
+The first materials and fabrication module spec lives at `docs/module_reports/ciac_materials_fabrication_module_standardized_low_burden_build_system.md`. Its current infrastructure implementation is the `standardized_low_burden_build_system` civic pattern: a repeatable build-system layer for panelized or hybrid timber construction, structural grids, wet cores, service spines, prefab-ready BOMs, fabrication handoff, low-toxicity material palettes, embodied-carbon tracking, salvage planning, and maintenance-access metadata. It is available for 50-150 resident scale modeling; final structural engineering, fire/code approval, envelope/moisture design, fabrication shop drawings, permits, warranties, and contractor means and methods remain external professional responsibilities.
+
+The first mobility and access module spec lives at `docs/module_reports/ciac_mobility_access_module_pedestrian_first_access_commons.md`. Its current infrastructure implementation is the `pedestrian_first_access_commons` civic pattern: a car-light access layer that prioritizes walking, rolling, universal routes, short internal distances, perimeter vehicle access, shared carts/bikes/vehicles, delivery/service routes, emergency access, care trips, evacuation planning, and transportation cost visibility. It is available for 50-150 resident scale modeling; final civil engineering, fire apparatus access, accessibility compliance, insurance, parking code, transit/shuttle contracts, and public right-of-way approvals remain external professional responsibilities.
+
+The first education and skill module spec lives at `docs/module_reports/ciac_education_skill_module_civic_skill_lattice.md`. Its current infrastructure implementation is the `civic_skill_lattice` civic pattern: a role-based learning layer for resident onboarding, task/knowledge/skill mapping, safety training gates, apprenticeships, practice logs, backup-role development, knowledge-base continuity, external credential boundaries, and learning-burden visibility. It is available for 50-150 resident scale modeling; final schooling compliance, professional licensing, OSHA-like certification, food safety certification, medical training, employment credentialing, and child/youth education obligations remain external review requirements.
+
+The first social and cultural commons module spec lives at `docs/module_reports/ciac_social_cultural_commons_module_belonging_without_coercion.md`. Its current infrastructure implementation is the `belonging_without_coercion_commons` civic pattern: a low-coercion belonging layer for third places, optional common meals, quiet rooms, arts and making, resident-led events, cultural pluralism, hospitality, anti-clique access, opt-out protection, aggregate loneliness support, and social labor visibility. It is available for 50-150 resident scale modeling; friendship, religion, therapy, mental health diagnosis, abuse investigation, public-event permitting, and personal happiness remain outside app authority and require appropriate human or professional processes.
+
+The first risk and resilience module spec lives at `docs/module_reports/ciac_risk_resilience_module_graceful_degradation_engine.md`. Its current infrastructure implementation is the `graceful_degradation_engine` civic pattern: a whole-system resilience layer for hazard registers, critical function maps, dependency graphs, service levels, scenario libraries, buffers, early warnings, emergency modes, recovery playbooks, after-action learning, climate adaptation, high-need resident protection, and anti-capture checks under stress. It is available for 50-150 resident scale modeling; official emergency management certification, fire/public-health authority decisions, insurance underwriting, clinical triage, law enforcement, utility planning, and legal emergency powers remain outside app authority.
 
 Evaluate which infrastructure slots are modular and ready for research-backed swaps:
 
@@ -205,6 +277,22 @@ py -3.10 -m ciac scalability-gate examples/generated/micro_commons_plan.json tec
 ```
 
 The agrivoltaics seed has published evidence and preserves dignity floors, but currently fails scalability because CIaC lacks edible-serving, labor, and crop-specific adapter interfaces for it. That is intentional: modules must pass gates before optimization can use them.
+
+Evaluate module-contract complexity before scaling the village model:
+
+```powershell
+py -3.10 -m ciac complexity-report module_registries/micro_commons_default_v0.yaml patterns --output examples/generated/micro_commons_complexity_report.json
+```
+
+The complexity report uses the registry's reusable interface bundles and module tiers to show which slots have large contract surfaces, heavy dependency fan-out, high review burden, or recurring labor pressure. It is a scalability diagnostic, not a reason to delete dignity, safety, privacy, or review requirements.
+
+Evaluate whether the village food commons hides too much recurring labor:
+
+```powershell
+py -3.10 -m ciac food-labor module_registries/micro_commons_default_v0.yaml patterns --output examples/generated/micro_commons_food_labor_report.json
+```
+
+The food labor report decomposes `hybrid_food_commons` into procurement, storage, preservation, common meal, cleanup, garden coordination, safety, and scheduling work. It checks per-resident weekly burden and shows why food should replicate as village nodes above roughly 150 residents instead of becoming one centralized kitchen.
 
 Materialize a module into a provisional implemented simulation candidate:
 

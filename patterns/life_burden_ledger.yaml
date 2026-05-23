@@ -1,0 +1,230 @@
+kind: CivicPattern
+id: life_burden_ledger
+type: Commons
+status: draft
+provisional: true
+provisional_for: [legal, health, labor, governance, cost]
+purpose: Provide a total-life-burden ledger that compares conventional and CIaC weeks, exposes hidden labor, protects free time, and detects overload before the commons becomes extraction by another name.
+scale: village
+mdl_categories: [commons, contribution, health, rest, privacy]
+inputs:
+  - weekly_time_budget
+  - role_plan
+  - cashflow_baseline
+  - care_labor_records
+  - governance_labor_records
+  - maintenance_labor_records
+  - accommodation_policy
+  - privacy_limited_feedback
+outputs:
+  - life_burden_score
+  - conventional_baseline_comparison
+  - required_wage_hours_report
+  - commons_labor_report
+  - hidden_labor_report
+  - protected_time_report
+  - burnout_risk_report
+  - bad_week_labor_surge_report
+dependencies:
+  - id: commons_stewardship_protocol
+    kind: pattern
+    critical: true
+    rationale: Labor accounting needs due process, privacy, anti-capture, and governance limits before it can affect resident obligations.
+  - id: maintainable_commons_spine
+    kind: pattern
+    critical: true
+    rationale: Maintenance labor, backlog, work orders, and emergency repair burden must flow into the total life burden ledger.
+  - id: resident_time_use_baseline
+    kind: external
+    critical: true
+    rationale: Life-burden claims need a conventional baseline and resident-reviewed time-use assumptions.
+  - id: labor_privacy_review
+    kind: external
+    critical: true
+    rationale: Time, care, disability, illness, income, and accommodation data need privacy and anti-surveillance review.
+  - id: accommodation_policy_review
+    kind: external
+    critical: true
+    rationale: Disability, illness, caregiving, grief, age, hardship, and crisis accommodations require a reviewed process.
+  - id: labor_fairness_review
+    kind: external
+    critical: true
+    rationale: Contribution paths, internal paid roles, financial substitution, credits, and fairness rules need resident and governance review.
+constraints:
+  physical:
+    - time ledger, role scheduler, labor fairness dashboard, protected time dashboard, wage dependency calculator, bad-week simulator, and meeting limiter must be accessible without productivity surveillance
+    - dashboards must aggregate burden without exposing health status, disability status, personal finances, conflict details, or private household behavior by default
+    - labor views should separate wage labor, commons work, care work, private household labor, governance, maintenance, survival admin, commute, free time, recovery, and passion time
+    - protected time indicators must include sleep, recovery, unstructured free time, quiet hours, social time, nature time, learning time, and passion time
+  ecological:
+    - life-burden reductions should come from shared infrastructure, lower recurring costs, shorter trips, repairability, reduced duplication, and resilience buffers rather than hidden unpaid labor
+    - optional gardens, workshops, events, or cultural work must not be counted as operational capacity unless residents explicitly opt in
+  legal:
+    - employment law, wage and hour compliance, tax treatment, labor credits, disability accommodation, benefits, privacy, and HR obligations require qualified review
+    - the pattern must not imply labor contract validity, clinical burnout diagnosis, disability determination, employment classification, or resident consent
+  social:
+    - the commons must distinguish contribution, calling, paid work, and exploitation
+    - equal hours are not assumed fair; capacity, care load, disability, illness, age, skill, schedule, and dignity matter
+    - labor credits must not become social credit, public shaming, survival access control, or popularity ranking
+    - passion time, free time, and recovery time are protected outcomes rather than leftovers after infrastructure work
+  safety:
+    - burnout, repeated emergency labor, same-group dependency, care concentration, unfilled tasks, and protected-time deficits are treated as system signals
+    - accommodation and hardship processes must be privacy-limited and appealable
+    - AI or automation must not assign labor without appeal, infer disability or health status, shame residents, or optimize productivity over dignity
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - define conventional baseline, CIaC normal week, bad week, illness week, job-loss month, governance-conflict month, and growth labor scenarios
+    - map required wage labor, commons labor, care labor, private household labor, maintenance, governance, transport, survival admin, emergency labor, free time, and passion time categories
+    - establish privacy-limited labor ledger, role scheduler, fairness dashboard, protected time dashboard, wage dependency calculator, bad-week simulator, and meeting limiter
+    - define contribution types, optional contribution boundaries, paid internal work thresholds, substitution rules, and accommodation process
+    - set targets for required wage-hour reduction, commons labor, governance labor, maintenance labor, free time, passion time, burnout, and bad-week recovery
+    - train labor-time, fairness, scheduling, burnout, accommodation, wage dependency, and protected-time stewards with backups
+  inspection_points:
+    - weekly time budget completeness
+    - required wage-hour reduction
+    - commons labor per resident
+    - care labor visibility and concentration
+    - governance and meeting burden
+    - maintenance and emergency labor
+    - role backup and rotation status
+    - free time, recovery, and passion time protection
+    - accommodation process and privacy boundaries
+  maintenance:
+    - id: life_burden_round
+      description: Review weekly time budget, compulsory hours, free time, passion time, recovery deficit, wage dependency, and comparison to baseline.
+      interval: monthly
+      role: labor_time_steward
+      estimated_hours: 3
+      provisional: true
+    - id: fairness_burnout_round
+      description: Check labor concentration, care burden, dirty work, emergency labor, unfilled tasks, role backups, burnout risk, and accommodation needs.
+      interval: monthly
+      role: fairness_steward
+      estimated_hours: 3
+      provisional: true
+    - id: protected_time_round
+      description: Review meeting burden, quiet hours, sleep and recovery deficits, free time trend, passion time trend, and optional-project overreach.
+      interval: monthly
+      role: protected_time_steward
+      estimated_hours: 2
+      provisional: true
+    - id: bad_week_drill
+      description: Simulate illness, job loss, infrastructure failure, care surge, or governance conflict and check labor surge absorption and recovery period.
+      interval: quarterly
+      role: burnout_steward
+      estimated_hours: 4
+      provisional: true
+  expected_lifespan: ongoing social accounting protocol with periodic resident, privacy, labor, care, governance, and finance review
+  repair_procedure:
+    - identify which burden domain is rising or hidden
+    - pause optional work before reducing sleep, recovery, care, or dignity-floor operations
+    - add backup roles, accommodations, paid internal work, simplification, or professional support where needed
+    - protect privacy while reporting aggregate burden and governance implications
+    - revise module assumptions if CIaC life no longer beats the conventional baseline
+  end_of_life_path:
+    - export aggregate labor, burden, and fairness records needed for governance review
+    - archive or delete sensitive resident-level records according to privacy and retention policy
+    - preserve lessons about hidden labor, overload, and bad-week failures for future design
+failure_modes:
+  - mode: hidden_labor_relocation
+    likelihood: medium
+    severity: high
+    detection_method: untracked care, food, cleaning, maintenance, governance, scheduling, or emotional labor reports
+    mitigation: add ledger category, assign steward, reduce optional scope, pay or rotate work, and update module interface
+  - mode: burnout_concentration
+    likelihood: medium
+    severity: high
+    detection_method: labor concentration score, repeated emergency coverage, overload reports, declining participation, and protected-time deficit
+    mitigation: redistribute roles, add backups, pause optional projects, hire or compensate internal roles, and schedule recovery time
+  - mode: false_fairness_equal_hours
+    likelihood: medium
+    severity: high
+    detection_method: accommodation complaints, reduced-load residents overloaded, care concentration, disability burden, or role mismatch
+    mitigation: use capacity-aware fairness, privacy-limited accommodation, multiple contribution paths, and resident appeal process
+  - mode: meeting_bureaucracy_extraction
+    likelihood: medium
+    severity: medium
+    detection_method: governance hours above target, routine decisions in full meetings, policy backlog, conflict fatigue, or meeting avoidance
+    mitigation: delegate operational decisions, enforce meeting limiter, simplify policies, and protect free time
+  - mode: wage_dependency_not_reduced
+    likelihood: medium
+    severity: high
+    detection_method: cashflow comparison, required wage hours, assessment spikes, unpaid labor substitution, and bad-year reserve draw
+    mitigation: revisit cost assumptions, reduce cash obligations, protect reserves, stop unpaid substitution, and revise the design if life is not returned
+governance:
+  owner: commons
+  access_rule: aggregate burden, fairness, and protected-time signals are visible to governance while resident-level health, care, income, disability, conflict, and accommodation details remain privacy-limited.
+  stewardship_role: labor_time_steward
+  backup_role: fairness_steward
+  audit_frequency: monthly
+  capture_risk: labor data could become coercive if used for shame, surveillance, social credit, access control, disability inference, or productivity scoring
+metrics:
+  cost: 90000
+  build_labor_hours: 400
+  recurring_labor_hours_per_week: 10
+  energy_use: 1
+  water_use: 0
+  embodied_carbon: 0.2
+  maintenance_burden: 4
+  dignity_score: 9
+  autonomy_score: 9
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -1
+    food_servings_per_day: 0
+  critical_resources: [maintenance]
+  notes: Provisional labor and time accounting layer. The current simulator tracks infrastructure upkeep and role burden, but not total weekly life burden, wage dependency, private household labor, passion time, or resident consent.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: labor_ledger_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Labor and time ledger operating labor
+      unit: hours_per_week
+      min: 4
+      max: 40
+      step: 2
+      default: 10
+      affects: [labor, dignity, autonomy, governance, maintenance]
+      review_required: true
+      provisional: true
+    - id: ledger_startup_allowance
+      path: metrics.cost
+      label: Labor ledger, privacy, and scheduling setup allowance
+      unit: dollars
+      min: 15000
+      max: 200000
+      step: 5000
+      default: 90000
+      affects: [labor, cost, governance, resilience]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: no_social_credit
+      path: constraints.social
+      reason: Labor accounting must not become public shame, resident-worth scoring, or survival access control.
+      review_dependency: labor_privacy_review
+      provisional: true
+    - id: accommodations_required
+      path: constraints.safety
+      reason: Illness, disability, age, caregiving, grief, crisis, and hardship must have a privacy-limited accommodation process.
+      review_dependency: accommodation_policy_review
+      provisional: true
+    - id: return_life_or_reject
+      path: simulation.notes
+      reason: The design must reduce total life burden rather than relocate it into hidden commons labor.
+      review_dependency: labor_fairness_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A labor and time ledger should serve roughly 50-150 residents; above that, replicate village-block ledgers or formalize workforce, privacy, and HR-like systems.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

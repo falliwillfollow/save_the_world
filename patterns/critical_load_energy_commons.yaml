@@ -1,0 +1,282 @@
+kind: CivicPattern
+id: critical_load_energy_commons
+type: EnergySystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, electrical, structural, cost, labor, health, governance, ecology]
+purpose: Provide a village-scale critical load energy commons that reduces demand first, uses grid and solar where viable, stores energy for critical loads, and supports graceful outage degradation.
+scale: village
+mdl_categories: [energy, health, water, food, sanitation, communication, commons]
+inputs:
+  - grid_connection_or_interconnection_path
+  - solar_pv_array
+  - critical_load_panel
+  - battery_storage
+  - load_taxonomy
+  - energy_dashboard
+  - thermal_resilience_plan
+  - electrical_and_fire_review
+outputs:
+  - critical_load_power
+  - outage_runtime_visibility
+  - load_shedding_plan
+  - solar_generation
+  - battery_storage
+  - thermal_safe_room_support
+  - energy_maintenance_schedule
+  - professional_review_requirements
+dependencies:
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: The energy commons needs the existing solar stewardship, monitoring, and generation point.
+  - id: critical_load_reserve
+    kind: pattern
+    critical: true
+    rationale: Critical-load storage and release rules are the protected energy floor.
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: Water pumps, treatment, monitoring, and freeze protection must be on the critical-load map.
+  - id: shared_bathhouse
+    kind: pattern
+    critical: true
+    rationale: Sanitation pumps, ventilation, lighting, and hygiene support must be represented in outage modes.
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: Food cold storage, limited cooking, food-safety logs, and emergency meal power are critical loads.
+  - id: licensed_electrical_review
+    kind: external
+    critical: true
+    rationale: Electrical work, critical panels, interconnection, storage, and transfer equipment need qualified review.
+  - id: battery_fire_safety_review
+    kind: external
+    critical: true
+    rationale: Battery storage requires listed equipment, fire separation, emergency shutdown, signage, and authority review.
+  - id: utility_interconnection_review
+    kind: external
+    critical: true
+    rationale: Grid-connected solar, islanding, export, tariffs, and transfer behavior require utility and code review.
+  - id: thermal_resilience_review
+    kind: external
+    critical: true
+    rationale: Safe-room heating, cooling, ventilation, and passive survivability need climate and building review.
+  - id: generator_fuel_plan
+    kind: external
+    critical: false
+    rationale: Generator or fuel backup is optional and should only be credited when fuel, carbon monoxide, noise, maintenance, and transfer controls are reviewed.
+constraints:
+  physical:
+    - critical-load panel or equivalent separation of survival loads from normal and discretionary loads
+    - solar array, inverter, battery, disconnects, utility interconnection, safe-room load, water pump load, food cold storage, communications, and emergency lighting must be locatable
+    - battery room or enclosure requires listed equipment, ventilation or clearance as applicable, fire separation, emergency shutdown, signage, and maintenance access
+    - demand reduction should precede supply sizing through envelope quality, heat pumps, heat-pump water heating, LED lighting, efficient laundry, efficient refrigeration, and load scheduling
+    - discretionary loads such as EV charging, high-power shop tools, decorative lighting, and optional compute are shed before comfort or critical loads
+  ecological:
+    - grid and solar are preferred over fuel dependency where available and practical
+    - batteries and panels need lifecycle, recycling, and replacement planning
+    - generator use, if present, is a long-outage bridge rather than a primary daily energy source
+    - avoid oversized storage that compensates for weak envelopes or unmanaged demand
+  legal:
+    - electrical, structural, fire, battery, generator, utility interconnection, islanding, tariff, and mechanical rules vary by jurisdiction
+    - the pattern must not imply final electrical engineering, NEC compliance, battery placement approval, generator installation approval, or utility approval
+  social:
+    - residents should be able to see energy status, critical-load priorities, outage mode, battery state, and load-shed rules
+    - critical loads must prioritize water, food, sanitation, care, communications, lighting, refrigeration, and safe temperature
+    - no critical energy function may depend on one person, one vendor login, or hidden automation rules
+    - medically necessary loads must be protected without exposing private health details
+  safety:
+    - no uncertified batteries, informal electrical work, hidden battery rooms, unsafe generator operation, or resident access to hazardous equipment
+    - manual override, emergency shutdown, clear labels, and professional service path are required
+    - thermal safety plans must protect high-need residents during heat waves, cold snaps, and outages
+    - solar is not treated as backup unless islanding, storage, and load control are designed and reviewed
+build_phase: 1
+lifecycle:
+  build_sequence:
+    - define load taxonomy, critical-load list, safe-room loads, critical panel boundaries, and shed priorities
+    - model demand reduction before sizing solar, battery, generator, or import capacity
+    - confirm electrical, fire, structural, utility, battery, generator, and thermal review paths
+    - establish grid connection, solar, storage, critical-load panel, monitoring, submetering, manual override, and emergency shutdown assumptions
+    - define outage modes for 24 hours, 72 hours, 7 days, winter low solar, summer heat wave, and equipment failure
+    - train energy, critical-load, solar-storage, thermal, utility, and optional generator/fuel stewards with backups
+  inspection_points:
+    - critical-load list and panel labeling
+    - battery certification and fire-safety review
+    - utility interconnection and islanding assumptions
+    - energy dashboard, submetering, and runtime remaining
+    - load-shedding rules and manual override
+    - safe room and high-need resident energy plan
+    - solar maintenance access and inverter status
+    - generator carbon monoxide and fuel plan where present
+  maintenance:
+    - id: energy_dashboard_round
+      description: Review daily use, critical-load status, battery state of charge, solar generation, warnings, and outage-mode readiness.
+      interval: weekly
+      role: energy_steward
+      estimated_hours: 1
+      provisional: true
+    - id: critical_load_review
+      description: Check critical-load list, shed rules, labels, manual override, safe-room power, communications, water, food, and sanitation loads.
+      interval: monthly
+      role: critical_load_steward
+      estimated_hours: 2
+      provisional: true
+    - id: solar_storage_check
+      description: Inspect PV access, inverter alerts, battery health, emergency shutdown, ventilation or clearance, and maintenance records.
+      interval: monthly
+      role: solar_storage_steward
+      estimated_hours: 2
+      provisional: true
+    - id: thermal_resilience_review
+      description: Review safe-room operation, heat-wave and cold-snap plans, occupant comfort feedback, and high-need resident protections.
+      interval: seasonal
+      role: thermal_resilience_steward
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: 10-30 years with replaceable batteries, inverters, controls, sensors, panels, heat-pump components, and generator equipment where present
+  repair_procedure:
+    - isolate electrical, battery, inverter, generator, or critical-panel fault
+    - shift to protected outage mode and shed discretionary loads before critical loads
+    - protect water, food cold storage, care, communications, emergency lighting, sanitation controls, and safe-room loads
+    - use qualified service for electrical, fire, utility, generator, and battery issues
+    - document incident, retest load transfer, and update outage rules before returning to normal service
+  end_of_life_path:
+    - recycle batteries, panels, inverters, electronics, and generator components through approved programs
+    - preserve energy logs, safety reviews, interconnection records, outage incidents, and maintenance history
+    - decommission hazardous electrical equipment under qualified review
+failure_modes:
+  - mode: critical_load_runtime_shortfall
+    likelihood: medium
+    severity: high
+    detection_method: runtime forecast, battery state of charge, load audit, outage drill, and unmet critical-load report
+    mitigation: shed discretionary and comfort loads, reduce critical load, add recharge path, activate generator or mutual-aid charging, and revise battery sizing
+  - mode: battery_fire_or_fault
+    likelihood: low
+    severity: catastrophic
+    detection_method: battery management alerts, heat, smoke, swelling, fire alarm, inspection, and failed health check
+    mitigation: isolate storage, activate emergency shutdown, keep residents clear, call qualified responder, use alternate critical-load plan, and replace only after review
+  - mode: utility_or_islanding_failure
+    likelihood: medium
+    severity: high
+    detection_method: transfer test, interconnection review, outage behavior, inverter alarms, and failed islanding drill
+    mitigation: disable unsafe islanding, use approved backup path, review interconnection, and retest before crediting solar as outage backup
+  - mode: thermal_safety_failure
+    likelihood: medium
+    severity: high
+    detection_method: safe-room temperature monitoring, resident reports, heat-wave or cold-snap forecast, and high-need check-ins
+    mitigation: shift power to safe room, open warming or cooling protocol, use backup heating or cooling, relocate high-need residents, and revise envelope or HVAC plan
+  - mode: vendor_lockout_or_hidden_controls
+    likelihood: medium
+    severity: medium
+    detection_method: inaccessible dashboard, unavailable vendor login, unclear shed rule, missing export data, or unresolved alarm
+    mitigation: require shared credentials, local manual override, documented control rules, data export, and alternate service provider path
+governance:
+  owner: commons
+  access_rule: critical-load energy is allocated through visible priority rules that preserve water, food, sanitation, care, communications, lighting, refrigeration, and safe temperature before discretionary loads.
+  stewardship_role: energy_steward
+  backup_role: critical_load_steward
+  audit_frequency: weekly
+  capture_risk: control over critical-load priorities, dashboards, vendor accounts, storage access, or shed rules could become coercive without transparent logs, manual override, and backup stewards
+metrics:
+  cost: 900000
+  build_labor_hours: 1800
+  recurring_labor_hours_per_week: 8
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 5
+  maintenance_burden: 7
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 180
+    food_servings_per_day: 0
+  storage:
+    - resource: energy_kwh
+      capacity: 300
+      initial: 270
+      reserve_floor: 60
+      max_release_per_day: 120
+      max_refill_per_day: 160
+      refill_mode: surplus_or_external
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 60
+        loss_per_day_after_unsafe: 0.03
+        risk: critical-load battery storage may lose runtime or become unsafe if inspection, fire-safety controls, charge state, or alarms are neglected
+        recovery_action: isolate suspect storage, shed noncritical loads, use alternate charging or backup generation, and escalate to qualified electrical and fire review
+        recovery_role: energy_steward
+        recovery_labor_hours: 8
+        recovery_duration_days: 2
+        review_dependency: electrical
+        provisional: true
+      access_rule: release for critical water, food, sanitation, care, communication, lighting, device charging, and safe-room loads before comfort or discretionary loads
+      notes: Provisional 80-resident critical-load battery buffer sized as a planning layer, not a battery specification, electrical design, or fire-code approval.
+      provisional: true
+  critical_resources: [water, energy, food, sanitation, maintenance]
+  notes: Provisional village-scale energy commons for demand reduction, grid/solar/storage topology, critical-load runtime, and operations. It does not claim electrical, fire, utility, structural, or mechanical approval.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: critical_storage_capacity
+      path: simulation.storage[0].capacity
+      label: Critical-load storage capacity
+      unit: kwh
+      min: 120
+      max: 1200
+      step: 60
+      default: 300
+      affects: [energy, resilience, cost, maintenance]
+      review_required: true
+      provisional: true
+    - id: solar_daily_generation
+      path: simulation.resource_effects.energy_kwh_per_day
+      label: Average daily solar and shared energy contribution
+      unit: kwh_per_day
+      min: 60
+      max: 500
+      step: 20
+      default: 180
+      affects: [energy, resilience, cost, external_dependency]
+      review_required: true
+      provisional: true
+    - id: critical_release_rate
+      path: simulation.storage[0].max_release_per_day
+      label: Critical-load daily release limit
+      unit: kwh_per_day
+      min: 40
+      max: 240
+      step: 10
+      default: 120
+      affects: [energy, dignity, resilience, governance]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: electrical_safety_review
+      path: dependencies
+      reason: Critical panels, battery storage, generators, transfer equipment, and interconnection cannot be validated without qualified electrical review.
+      review_dependency: licensed_electrical_review
+      provisional: true
+    - id: battery_fire_review
+      path: simulation.storage[0].quality.review_dependency
+      reason: Batteries must remain listed, professionally installed, fire-safety reviewed, labeled, and maintainable.
+      review_dependency: battery_fire_safety_review
+      provisional: true
+    - id: no_total_off_grid_claim
+      path: constraints.social
+      reason: The default strategy rejects total off-grid claims and full-normal-life backup until load, seasonal, cost, operator, and safety models are richer.
+      review_dependency: utility_interconnection_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: An energy commons cell should serve roughly 50-150 residents; above that, replicate village-block energy cells or professionalize microgrid operations.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

@@ -1,0 +1,256 @@
+kind: CivicPattern
+id: pedestrian_first_access_commons
+type: Commons
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, structural, electrical, cost, labor, governance]
+purpose: Provide a pedestrian-first mobility and access commons that reduces private-car dependency while preserving universal access, service routes, emergency response, external connections, and transportation cost visibility.
+scale: village
+mdl_categories: [commons, health, contribution, privacy, shelter]
+inputs:
+  - internal_path_network
+  - accessible_route_map
+  - vehicle_edge_access_plan
+  - emergency_service_route_map
+  - shared_mobility_plan
+  - parking_strategy
+  - external_access_plan
+  - transportation_cost_baseline
+  - mobility_labor_plan
+outputs:
+  - mobility_access_summary
+  - internal_path_network_report
+  - accessible_route_report
+  - common_space_distance_report
+  - vehicle_edge_access_report
+  - emergency_access_report
+  - shared_vehicle_report
+  - grocery_pharmacy_clinic_access_report
+  - transportation_cost_report
+  - mobility_labor_burden_report
+dependencies:
+  - id: anti_speculative_civic_floor
+    kind: pattern
+    critical: true
+    rationale: Mobility affordability, easements, road access, parking requirements, insurance, liability, shuttle contracts, and shared vehicle reserves affect the legal-financial floor.
+  - id: life_burden_ledger
+    kind: pattern
+    critical: true
+    rationale: Commute time, errand time, driver labor, shuttle labor, care trips, path maintenance, and transport costs must flow into total life-burden accounting.
+  - id: maintainable_commons_spine
+    kind: pattern
+    critical: true
+    rationale: Paths, lighting, carts, bikes, vehicles, benches, wayfinding, snow/ice clearing, route blockage, and service access require visible maintenance responsibility.
+  - id: accessibility_mobility_review
+    kind: external
+    critical: true
+    rationale: Accessible routes, grades, surfaces, dropoffs, common-space access, evacuation, ADA/FHA/local requirements, and affected-resident needs require qualified review.
+  - id: emergency_access_fire_review
+    kind: external
+    critical: true
+    rationale: Fire apparatus access, EMS pickup, emergency routes, route clearance, evacuation, and high-need transport require fire, EMS, and emergency planning review.
+  - id: civil_site_access_review
+    kind: external
+    critical: true
+    rationale: Drive geometry, drainage, grades, road access, easements, parking, service routes, and public right-of-way interfaces require civil and site review.
+  - id: shared_vehicle_insurance_review
+    kind: external
+    critical: true
+    rationale: Shared vehicles, driver eligibility, liability, maintenance, cost allocation, accessible vehicles, and shuttle operations require insurance and risk review.
+  - id: external_access_transport_plan
+    kind: external
+    critical: true
+    rationale: Grocery, pharmacy, clinic, transit, shuttle, bike, employment, social, and evacuation access must be validated against the actual site context.
+  - id: mobility_privacy_review
+    kind: external
+    critical: true
+    rationale: Vehicle booking, high-need transport, care trips, route requests, and access data can expose health, disability, income, work, and personal status.
+constraints:
+  physical:
+    - internal circulation should prioritize walking, rolling, mobility devices, carts, cargo bikes, shaded paths, lighting, resting points, short distances, and legible routes to daily needs
+    - vehicle movement should be concentrated at edges except where emergency, service, delivery, accessible dropoff, maintenance, or high-need access requires entry
+    - accessible routes must connect homes, common house, food commons, care room, laundry, sanitation, workshop or equivalent access, waste sorting or assisted service, dropoffs, and emergency pickup
+    - shared vehicle node, bike storage, cargo bike storage, cart storage, charging, repair stand, package/dropoff zone, and service staging must be closer or easier than private car dependence where feasible
+  ecological:
+    - reduced parking, shorter trips, path-centered daily life, delivery consolidation, shared vehicles, bikes, carts, and shuttle coordination should reduce land waste, heat, fuel burden, and duplicated vehicles
+    - car-light design cannot become isolated-site denial; external access to care, food, medicine, work, culture, evacuation, and social life remains part of the dignity floor
+    - transportation cost must be counted with housing cost before claims of affordability or life-burden reduction
+  legal:
+    - the pattern models topology, access requirements, route categories, costs, labor, and review gates; it is not civil engineering, fire access approval, traffic certification, accessibility compliance, insurance underwriting, or public right-of-way permitting
+    - easements, fire apparatus access, parking code, ADA/FHA/local accessibility, shared vehicle insurance, shuttle contracts, driver rules, and public-road changes require qualified review
+  social:
+    - non-drivers, disabled residents, elders, children, caregivers, temporarily injured residents, and residents without vehicle wealth must be able to meet daily needs with dignity
+    - parking rules, shared vehicle priority, driver eligibility, trip pooling, delivery rules, and access accommodations must not become status battles or informal gatekeeping
+    - accessible routes should not be longer, uglier, more exposed, or less social than ordinary routes where the site can avoid it
+    - mobility data must not become resident tracking, social control, health disclosure, or automated denial of access without appeal
+  safety:
+    - EMS, fire, evacuation, high-need transport, service vehicle access, delivery routes, lighting, sightlines, severe weather clearance, and route blockage alerts must be assigned before mobility readiness claims
+    - internal vehicle geometry must physically enforce slow movement and pedestrian priority where vehicles enter social spaces
+    - emergency transport must not depend on one informal driver, one shared vehicle, one uncleared path, or one unreviewed route
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - map pedestrian core, accessible primary routes, secondary paths, service paths, perimeter parking, accessible dropoffs, emergency routes, delivery zones, shared vehicle node, bike/cart storage, and evacuation pickup points
+    - measure walking and rolling distances from homes to common house, food commons, care room, sanitation, laundry, workshop, dropoffs, transit or shuttle pickup, and emergency points
+    - define shared vehicle pool, cargo bike and cart fleet, charging, booking, maintenance, insurance, driver eligibility, cost allocation, and privacy-limited scheduling
+    - establish grocery, pharmacy, clinic, medication, employment, social, transit, shuttle, bike-route, ride support, and evacuation transport plans
+    - run accessibility, fire/EMS, civil/site, insurance, legal, privacy, and external access review gates before claiming a car-light design is viable
+    - train mobility, accessibility, shared vehicle, bike/cart, delivery/service, emergency access, external connection, and path maintenance roles with backups
+  inspection_points:
+    - accessible route coverage and route-quality parity
+    - maximum walking or rolling minutes to common house, food commons, care room, and accessible dropoff
+    - emergency route clearance, fire/EMS review, evacuation pickup points, high-need transport, and backup routes
+    - perimeter parking count, accessible parking, shared vehicle priority, delivery loading, and service vehicle staging
+    - shared vehicle, cart, cargo bike, mobility device charging, maintenance, booking, driver eligibility, and insurance status
+    - grocery, pharmacy, clinic, transit, shuttle, bike route, ride support, and evacuation access status
+    - transportation cost per resident, parking land area, driver labor, shuttle labor, path maintenance labor, and commute/errand time
+    - mobility privacy, high-need transport confidentiality, appeal paths, and anti-status-priority safeguards
+  maintenance:
+    - id: access_route_round
+      description: Inspect primary accessible routes, lighting, resting points, drainage, snow/ice/leaves/mud clearance, route blockages, and wayfinding.
+      interval: weekly
+      role: path_maintenance_steward
+      estimated_hours: 4
+      provisional: true
+    - id: shared_mobility_round
+      description: Review shared vehicles, cargo bikes, carts, chargers, booking status, maintenance needs, insurance flags, driver eligibility, and replacement reserves.
+      interval: weekly
+      role: shared_vehicle_steward
+      estimated_hours: 3
+      provisional: true
+    - id: external_access_round
+      description: Review grocery, pharmacy, clinic, transit, shuttle, ride support, care transport, social access, and recurring trip demand.
+      interval: monthly
+      role: external_connection_steward
+      estimated_hours: 3
+      provisional: true
+    - id: emergency_access_drill
+      description: Check EMS/fire access, route clearance, evacuation pickup points, high-need transport coverage, vehicle fuel or charge, and backup route readiness.
+      interval: quarterly
+      role: emergency_access_steward
+      estimated_hours: 4
+      provisional: true
+  expected_lifespan: ongoing mobility and access commons with recurring route audits, vehicle maintenance, external access updates, and emergency/accessibility review
+  repair_procedure:
+    - classify the issue as accessibility, emergency access, car dependency, service delivery, parking, shared vehicle, external access, labor, privacy, or path maintenance risk
+    - restore emergency and accessible routes before optional route improvements or convenience parking
+    - provide temporary high-need transport, meal delivery, medication pickup, or shuttle support while paths or vehicles are repaired
+    - update route map, mobility dashboard, labor ledger, cost model, privacy rules, and professional review status after resolution
+    - revise site or mobility assumptions if non-drivers cannot meet daily needs without private car dependence
+  end_of_life_path:
+    - archive access maps, route audits, maintenance history, shared vehicle records, transport agreements, privacy rules, and emergency plans
+    - salvage usable carts, bikes, chargers, benches, signs, lighting, and path materials where safe
+    - preserve lessons about non-driver access, parking pressure, route maintenance, and external connection failures for future block replication
+failure_modes:
+  - mode: hidden_car_dependency
+    likelihood: medium
+    severity: catastrophic
+    detection_method: non-drivers cannot reach groceries, pharmacy, clinic, work, care, social life, or emergency support without private car ownership
+    mitigation: add shared vehicle or shuttle capacity, revise site selection, consolidate trips, fund ride support, and mark affordability claims invalid until transport burden is counted
+  - mode: inaccessible_commons_routes
+    likelihood: medium
+    severity: catastrophic
+    detection_method: essential spaces lack accessible route, accessible path is much longer, surfaces fail, dropoffs missing, or mobility-device users report exclusion
+    mitigation: prioritize route repair or redesign, add dropoffs and resting points, provide assisted service during repair, and trigger accessibility review
+  - mode: emergency_access_failure
+    likelihood: medium
+    severity: catastrophic
+    detection_method: blocked EMS/fire route, no evacuation transport, no high-need pickup plan, service routes conflict, or route clearance unassigned
+    mitigation: clear route, assign emergency access steward, reroute service access, add pickup points, drill evacuation, and require fire/EMS review
+  - mode: shared_mobility_capture
+    likelihood: medium
+    severity: high
+    detection_method: high-status booking priority, informal driver bottleneck, unappealable denials, missing insurance, or access data used socially
+    mitigation: publish fair booking rules, add backups, protect privacy, fund paid options, audit denials, and rotate stewardship
+  - mode: path_maintenance_neglect
+    likelihood: medium
+    severity: high
+    detection_method: lighting outages, ice, mud, leaves, drainage failure, broken benches, unclear wayfinding, or repeated route blockage
+    mitigation: prioritize primary access routes, add maintenance labor, update work orders, stock path materials, and adjust design if maintenance burden is too high
+governance:
+  owner: commons
+  access_rule: Aggregate access, cost, route, fleet, labor, and emergency readiness data are member-visible while individual trip, health, disability, income, hardship, and high-need transport details remain privacy-limited.
+  stewardship_role: mobility_steward
+  backup_role: accessibility_steward
+  audit_frequency: monthly
+  capture_risk: mobility access can be captured through parking privileges, driver control, shared vehicle scheduling, route maintenance priorities, delivery access, or exposure of sensitive trip data
+metrics:
+  cost: 160000
+  build_labor_hours: 900
+  recurring_labor_hours_per_week: 12
+  energy_use: 4
+  water_use: 0
+  embodied_carbon: 8
+  maintenance_burden: 5
+  dignity_score: 9
+  autonomy_score: 9
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -4
+    food_servings_per_day: 0
+  critical_resources: [maintenance, energy]
+  notes: Provisional mobility and access layer. The current simulator does not yet model path topology, accessibility route quality, vehicle pools, parking land, transport cost, external access, evacuation capacity, or trip labor as first-class dynamics.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: mobility_operations_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Mobility, access, path, fleet, and shuttle coordination labor
+      unit: hours_per_week
+      min: 4
+      max: 50
+      step: 2
+      default: 12
+      affects: [labor, maintenance, dignity, autonomy, resilience]
+      review_required: true
+      provisional: true
+    - id: car_dependency_reduction_proxy
+      path: simulation.resource_effects.energy_kwh_per_day
+      label: Daily transport energy dependency reduction proxy
+      unit: kwh_per_day
+      min: -30
+      max: 0
+      step: 2
+      default: -4
+      affects: [energy, cost, labor, autonomy, resilience]
+      review_required: true
+      provisional: true
+    - id: mobility_access_startup_allowance
+      path: metrics.cost
+      label: Paths, lighting, dropoffs, shared mobility, scheduling, and access planning allowance
+      unit: dollars
+      min: 50000
+      max: 800000
+      step: 25000
+      default: 160000
+      affects: [cost, dignity, autonomy, resilience, maintenance]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: accessible_routes_required
+      path: constraints.physical
+      reason: Essential spaces, dropoffs, care access, and evacuation must be accessible before the commons can claim dignity.
+      review_dependency: accessibility_mobility_review
+      provisional: true
+    - id: emergency_access_required
+      path: constraints.safety
+      reason: Car-light planning cannot remove fire, EMS, evacuation, service, or high-need access.
+      review_dependency: emergency_access_fire_review
+      provisional: true
+    - id: non_driver_dignity_required
+      path: constraints.social
+      reason: The model fails if residents need private car ownership for daily food, care, medicine, safety, or basic participation.
+      review_dependency: external_access_transport_plan
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A mobility access commons should serve roughly 50-150 residents through one connected pedestrian-first network; above that, replicate village blocks and link them with transit, shuttle, greenway, or shared-mobility corridors.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

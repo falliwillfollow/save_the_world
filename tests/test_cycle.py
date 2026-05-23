@@ -43,6 +43,7 @@ class CycleIterationTests(unittest.TestCase):
         self.assertEqual(report["status"], "materialized")
         self.assertEqual(report["selected_candidate"], self.search["selected_candidate"])
         self.assertEqual(report["authority"]["mode"], "operator_directed")
+        self.assertEqual(report["viewer_population_context"]["population"], self.plan["site_summary"]["population_target"])
         self.assertIn(report["operator_acceptance"]["status"], {"improved", "converged"})
         self.assertTrue(report["operator_acceptance"]["simulation_submit_allowed"])
         self.assertTrue(report["authority"]["simulation_submit_allowed"])

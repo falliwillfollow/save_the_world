@@ -1338,9 +1338,14 @@ def _bottlenecks(
         bottlenecks.append("one or more maintenance intervals cannot be scheduled")
     if maintenance["overdue_task_count"]:
         bottlenecks.append("maintenance backlog is degrading one or more systems")
-    if "greenhouse" in compiled_plan.get("selected_patterns", []):
+    if "greenhouse" in compiled_plan.get("selected_patterns", []) and not _has_complete_food_model(compiled_plan):
         bottlenecks.append("food model is partial: greenhouse output is not a complete nutrition plan")
     return bottlenecks
+
+
+def _has_complete_food_model(compiled_plan: dict[str, Any]) -> bool:
+    selected = set(compiled_plan.get("selected_patterns", []))
+    return "protein_commons_supplement" in selected
 
 
 def _gate_recommendations(
@@ -1375,8 +1380,11 @@ def _unknowns(compiled_plan: dict[str, Any], scenario_context: dict[str, Any] | 
         "Maintenance degradation is a provisional penalty model, not measured equipment reliability.",
         "Household labor and demand profiles are provisional examples, not resident commitments.",
         "No jurisdiction-specific legal, engineering, health, or building code validation exists.",
-        "Food servings are not nutrition, crop diversity, preservation, or procurement plans.",
     ]
+    if not _has_complete_food_model(compiled_plan):
+        unknowns.append("Food servings are not nutrition, crop diversity, preservation, or procurement plans.")
+    else:
+        unknowns.append("Protein commons adds provisional protein, amino acid, digestibility, acceptance, and safety modeling, but it is not dietitian or food-safety approval.")
     if compiled_plan.get("simulation_inputs", {}).get("provisional"):
         unknowns.append("All resource effects are provisional seed assumptions from pattern data.")
     if scenario_context and scenario_context.get("active"):
@@ -1405,6 +1413,25 @@ def _status(
 
 
 def _population_context(compiled_plan: dict[str, Any]) -> dict[str, Any]:
+    override = compiled_plan.get("simulation_inputs", {}).get("population_context")
+    if override:
+        population = int(override.get("population", 0))
+        weekly_labor = float(override.get("available_commons_labor_hours_per_week", population * 14.0))
+        return {
+            "source": str(override.get("source") or "compiled_plan_population_context"),
+            "population": population,
+            "household_count": int(override.get("household_count", compiled_plan["site_summary"].get("households", 0))),
+            "available_commons_labor_hours_per_week": round(weekly_labor, 3),
+            "available_commons_labor_hours_per_day": round(float(override.get("available_commons_labor_hours_per_day", weekly_labor / 7)), 3),
+            "care_hours_per_week": round(float(override.get("care_hours_per_week", 0.0)), 3),
+            "protected_labor_hours_per_week": round(float(override.get("protected_labor_hours_per_week", 0.0)), 3),
+            "daily_resource_demand_adjustments": {
+                "water_liters": round(float(override.get("daily_resource_demand_adjustments", {}).get("water_liters", 0.0)), 3),
+                "energy_kwh": round(float(override.get("daily_resource_demand_adjustments", {}).get("energy_kwh", 0.0)), 3),
+                "food_servings": round(float(override.get("daily_resource_demand_adjustments", {}).get("food_servings", 0.0)), 3),
+            },
+            "provisional": bool(override.get("provisional", True)),
+        }
     household_profile = compiled_plan.get("simulation_inputs", {}).get("household_profile")
     if not household_profile:
         population = int(compiled_plan["site_summary"]["population_target"])

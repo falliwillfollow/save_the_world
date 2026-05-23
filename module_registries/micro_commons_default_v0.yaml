@@ -3,89 +3,1110 @@ id: micro_commons_default_v0
 status: active
 provisional: true
 default_posture: Use boring, inspectable minimum-dignity infrastructure as the baseline; research modules may only replace or augment slots when dignity floors remain protected.
+flourishing_posture:
+  frame: Abundance of basic living needs should reduce routine coercion, scarcity bargaining, and dependence on adversarial services.
+  principles:
+    - basic food, water, shelter, sanitation, critical energy, access, care-adjacent support, time, and belonging are treated as abundant civic floors before optimization
+    - governance and legal structure should be thin boundary infrastructure, not the operating center of daily life
+    - conflict services exist for edge cases, repair, and safety, but the primary design move is removing scarcity conditions that create avoidable conflict
+    - scaling should add capability and optionality without recreating opaque institutions, extraction, or dependency capture
+    - new problems should be discovered by the model rather than preloaded from assumptions about shared living as inherently adversarial
+  boundary_services: [legal_boundary, consent_boundary, safety_boundary, rights_boundary, external_review_boundary]
+  scope_rule: Apply abundance-first, low-coercion design at village, district, town, city, and regional scopes; centralize only capabilities that truly benefit from scale.
+  provisional: true
+interface_bundles:
+  review_gate:
+    description: Shared external review and stop-condition contract for legal, engineering, public-health, safety, and professional review boundaries.
+    interfaces:
+      - review_dependencies
+      - review_status_dashboard
+      - professional_escalation_path
+      - stop_condition_policy
+  labor_visibility:
+    description: Shared labor accounting contract for build, operations, maintenance, emergency, learning, and governance burden.
+    interfaces:
+      - labor_hours_per_week
+      - build_labor_hours
+      - recurring_labor_hours_per_week
+      - labor_burden_report
+  privacy_boundary:
+    description: Shared privacy contract for aggregate visibility without exposing resident-level health, conflict, disability, hardship, or participation details.
+    interfaces:
+      - privacy_policy
+      - sensitive_data_boundary
+      - aggregate_visibility
+      - resident_level_access_rule
+  role_backup_coverage:
+    description: Shared stewardship contract for named roles, backups, handoff records, rotation limits, and expert-capture prevention.
+    interfaces:
+      - stewardship_role
+      - backup_role
+      - role_rotation_policy
+      - handoff_record
+  dashboard_export:
+    description: Shared inspectability contract for member-visible dashboards, machine-readable exports, logs, and incident records.
+    interfaces:
+      - member_visible_dashboard
+      - machine_readable_export
+      - incident_log
+      - decision_log
+  scenario_resilience:
+    description: Shared resilience contract for service levels, emergency modes, scenario tests, recovery playbooks, and after-action learning.
+    interfaces:
+      - service_level_table
+      - scenario_library
+      - emergency_mode_defined
+      - recovery_playbook
+      - after_action_review
+  anti_capture_due_process:
+    description: Shared rights and anti-capture contract for appeals, anti-retaliation, external escalation, and bounded authority.
+    interfaces:
+      - appeal_process
+      - anti_retaliation_policy
+      - authority_limit
+      - external_escalation_path
+module_tiers:
+  floor_systems: [housing, potable_water_source, food_production, critical_energy, sanitation]
+  operating_systems: [maintenance_repair, governance_anticapture, labor_time, legal_land_finance]
+  capacity_systems: [materials_fabrication, mobility_access, education_skill, social_cultural_commons]
+  meta_systems: [risk_resilience]
 slots:
+  - id: housing
+    domain: shelter
+    role: private dwelling, pod, common-house, and service-spine baseline
+    default_patterns: [starter_dwelling]
+    accepted_patterns: [dignified_village_block]
+    dignity_floor_resources: [shelter, privacy]
+    swap_policy: adapter_required
+    accepted_module_domains: [housing, shelter, commons, construction, accessibility]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage]
+    required_interfaces:
+      - residents_per_block
+      - private_unit_mix
+      - common_space_ratio
+      - privacy_score
+      - accessibility.review_dependency
+      - structural.review_dependency
+      - labor_hours_per_week
+    scaling_basis: people_pods_and_blocks
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 5
+      preferred_population_per_node: 80
+      maximum_population_per_node: 150
+      scale_down_strategy: use dwelling and pod-scale starter housing before activating a full village block
+      scale_up_strategy: replicate village housing blocks with their own common-house and service spine
+      stateful: true
+      provisional: true
+    research_queries:
+      - cohousing clustered courtyard common house privacy design pattern
+      - panelized modular housing shared commons accessibility fire safety review
+      - pedestrian first village block service spine wet core housing design
+    provisional: true
   - id: potable_water_source
     domain: water
-    role: primary potable water supply
+    role: conservative potable water, emergency storage, reviewed nonpotable resilience, metering, testing, and drought operations
     default_patterns: [well_house, rainwater_capture, emergency_water_reserve]
+    accepted_patterns: [resilient_water_commons]
     dignity_floor_resources: [water_liters]
     swap_policy: adapter_required
-    accepted_module_domains: [water, filtration, storage, testing]
+    accepted_module_domains: [water, filtration, storage, testing, metering, conservation, reuse, public_health]
+    required_interface_bundles: [review_gate, labor_visibility, dashboard_export, scenario_resilience]
     required_interfaces:
       - resource_effects.water_liters_per_day
       - storage.water_liters
       - quality.review_dependency
+      - potable_primary_type
+      - potable_primary_status
+      - potable_backup_type
+      - emergency_buffer_days
+      - gallons_per_person_per_day_target
+      - cross_connection_prevention
+      - annual_testing_schedule
+      - contamination_response_plan
+      - submetering
+      - leak_detection
+      - dashboard_available
+      - drought_plan
+      - backup_power_for_pumps_hours
+      - high_need_residents_modeled
     scaling_basis: people_and_households
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 5
+      preferred_population_per_node: 80
+      maximum_population_per_node: 150
+      scale_down_strategy: use well house, rainwater capture, and emergency reserve seed patterns
+      scale_up_strategy: replicate water commons nodes with reviewed source, storage, testing, and drought operations
+      stateful: true
+      provisional: true
     research_queries:
-      - peer reviewed decentralized potable water treatment performance rural community
-      - rainwater harvesting potable treatment pathogen removal study household scale
+      - resilient water commons public water permitted well emergency storage nonpotable rainwater model
+      - decentralized potable water testing emergency storage drought response small community
+      - rainwater harvesting nonpotable reuse cross connection prevention small community
     provisional: true
   - id: food_production
     domain: food
-    role: additive food production beyond stored dignity floor
+    role: hybrid food commons, additive fresh production, storage, procurement, and meal operations beyond the stored dignity floor
     default_patterns: [greenhouse, staple_food_reserve, community_kitchen]
+    accepted_patterns: [hybrid_food_commons, protein_commons_supplement, seasonal_food_smoothing_commons]
     dignity_floor_resources: [food_servings]
     swap_policy: additive_only
-    accepted_module_domains: [food, water, land_use, controlled_environment_agriculture]
+    accepted_module_domains: [food, water, land_use, controlled_environment_agriculture, procurement, storage, preservation, nutrition]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, dashboard_export, scenario_resilience]
     required_interfaces:
       - edible_servings_per_day
       - water_liters_per_serving
       - labor_hours_per_week
+      - private_food_autonomy
+      - common_meals_per_week
+      - shelf_stable_buffer_days
+      - reserve_drawdown_reduction
+      - preservation_servings_per_year
+      - seasonal_labor_hours
+      - seasonal_menu_bridge
+      - supplier_count
+      - food_safety.review_dependency
       - crop_failure_sensitivity
     scaling_basis: servings_people_climate
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 80
+      maximum_population_per_node: 80
+      scale_down_strategy: use community kitchen, greenhouse, and staple reserve without full food-commons overhead
+      scale_up_strategy: replicate food/protein commons nodes at preferred operating size to avoid concentrated kitchen, cleanup, and protein-lab labor
+      stateful: true
+      provisional: true
     research_queries:
+      - hybrid food commons common kitchen regional staple procurement preservation model
+      - complete protein commons legumes soy duckweed fermentation amino acid digestibility food safety model
+      - seasonal food preservation pantry rotation low labor winter spring reserve drawdown model
       - peer reviewed agrivoltaics vegetable yield water use efficiency
       - controlled environment agriculture water use yield meta analysis
       - low energy greenhouse crop yield cold climate study
     provisional: true
   - id: critical_energy
     domain: energy
-    role: critical load continuity
+    role: demand reduction, grid/solar/storage supply, critical-load continuity, thermal resilience, safety review, and visible energy operations
     default_patterns: [solar_shed, critical_load_reserve]
+    accepted_patterns: [critical_load_energy_commons]
     dignity_floor_resources: [energy_kwh]
     swap_policy: adapter_required
-    accepted_module_domains: [energy, storage, microgrid, demand_response]
+    accepted_module_domains: [energy, storage, microgrid, demand_response, solar, battery, efficiency, thermal_resilience, electrical_safety]
+    required_interface_bundles: [review_gate, labor_visibility, role_backup_coverage, dashboard_export, scenario_resilience]
     required_interfaces:
       - energy_kwh_per_day
       - storage.energy_kwh
       - critical_load_priority
       - electrical.review_dependency
+      - grid_connected
+      - solar_PV_kW
+      - battery_kWh_usable
+      - critical_load_kWh_per_day
+      - critical_load_runtime_hours_no_sun
+      - critical_load_runtime_hours_with_solar
+      - critical_load_peak_kW
+      - outage_mode_defined
+      - load_shedding_plan
+      - safe_room_powered
+      - high_need_residents_modeled
+      - manual_override
+      - heat_pumps_enabled
+      - heat_pump_water_heating_enabled
+      - LED_lighting
+      - efficient_laundry
+      - envelope_performance_status
+      - battery_certification_status
+      - battery_fire_review
+      - professional_electrical_review
+      - utility_interconnection_review
+      - emergency_shutdown
+      - energy_dashboard
+      - submetering
+      - critical_load_manager
+      - maintenance_schedule
+      - scenario_forecaster
+      - backup_energy_steward
     scaling_basis: critical_loads_households
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 5
+      preferred_population_per_node: 80
+      maximum_population_per_node: 150
+      scale_down_strategy: use solar shed and critical-load reserve seed patterns before full energy commons
+      scale_up_strategy: replicate critical-load energy nodes with local dashboards, storage, and manual override
+      stateful: true
+      provisional: true
     research_queries:
-      - peer reviewed rural microgrid battery reliability critical loads
-      - low cost community microgrid resilience study
+      - critical load energy commons grid connected solar storage thermal resilience village block
+      - rural microgrid battery reliability critical loads outage runtime community scale
+      - critical load panel battery storage fire safety UL 9540 NFPA 855 community building
+      - heat pump envelope demand reduction shared housing energy resilience study
     provisional: true
   - id: sanitation
     domain: sanitation
-    role: safe waste handling
+    role: hygienic sanitation, approved blackwater handling, organics recovery, material waste streams, hazardous separation, and visible cleaning labor
     default_patterns: [composting_system, shared_bathhouse]
+    accepted_patterns: [hygienic_circular_commons]
     dignity_floor_resources: [sanitation_capacity]
     swap_policy: adapter_required
-    accepted_module_domains: [sanitation, composting, wastewater, public_health]
+    accepted_module_domains: [sanitation, composting, wastewater, public_health, greywater, solid_waste, hazardous_waste, cleaning, circularity]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, scenario_resilience]
     required_interfaces:
       - sanitation_capacity_per_day
       - pathogen_risk
       - maintenance_labor_hours
       - health.review_dependency
+      - blackwater_solution_type
+      - blackwater_status
+      - professional_review_required
+      - backup_toilet_plan
+      - greywater_reuse_enabled
+      - greywater_destination
+      - cross_connection_prevention
+      - illness_bypass_plan
+      - toilets_total
+      - accessible_toilets
+      - handwashing_points
+      - menstrual_hygiene_support
+      - diaper_incontinence_plan
+      - food_scrap_collection
+      - compost_capacity_kg_per_week
+      - pest_control_plan
+      - odor_control_plan
+      - hazardous_waste_storage
+      - battery_collection
+      - sharps_medical_waste_protocol
+      - cleaning_schedule
+      - cleaning_labor_hours_per_week
+      - PPE_available
+      - total_sanitation_waste_labor_hours_per_week
+      - backup_sanitation_steward
     scaling_basis: people_and_fixture_load
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 5
+      preferred_population_per_node: 80
+      maximum_population_per_node: 150
+      scale_down_strategy: use composting and shared bathhouse seed patterns at micro-commons scale
+      scale_up_strategy: replicate sanitation nodes with local fixtures, cleaning labor, and reviewed waste paths
+      stateful: true
+      provisional: true
     research_queries:
-      - peer reviewed ecological sanitation pathogen reduction composting toilet study
-      - decentralized wastewater treatment performance small community study
+      - hygienic circular sanitation waste commons blackwater greywater organics hazardous waste small community
+      - decentralized wastewater performance maintenance small community public health review
+      - source separated organics composting pest odor control community scale
+      - sanitation worker PPE training sewage exposure public health guidance
+    provisional: true
+  - id: maintenance_repair
+    domain: maintenance
+    role: asset registry, work orders, preventive maintenance, spare parts, safety boundaries, professional handoff, budget reserve, and repair capacity
+    default_patterns: [tool_library, workshop]
+    accepted_patterns: [maintainable_commons_spine]
+    dignity_floor_resources: [maintenance_capacity]
+    swap_policy: adapter_required
+    accepted_module_domains: [maintenance, repair, asset_management, cmms, tool_library, workshop, safety, inventory, budgeting, facilities]
+    required_interface_bundles: [review_gate, labor_visibility, role_backup_coverage, dashboard_export, scenario_resilience]
+    required_interfaces:
+      - asset_registry_system
+      - assets_total
+      - class_A_assets
+      - class_A_assets_documented_percent
+      - assets_tagged_percent
+      - work_order_system
+      - preventive_scheduler
+      - critical_asset_dashboard
+      - open_P0
+      - open_P1
+      - overdue_tasks
+      - repeated_failure_count
+      - spare_parts_inventory
+      - critical_spares_stocked_percent
+      - below_min_stock_items
+      - supplier_records_available_percent
+      - professional_handoff_engine
+      - restricted_tasks_matrix
+      - PPE_available
+      - stop_work_authority
+      - hazardous_energy_protocol
+      - incident_log
+      - total_maintenance_hours_per_month
+      - hours_per_resident_per_month
+      - emergency_hours_percent
+      - labor_concentration_score
+      - annual_maintenance_budget
+      - emergency_repair_reserve
+      - replacement_reserve
+      - professional_service_budget
+      - backup_maintenance_steward
+    scaling_basis: assets_criticality_labor_budget
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 20
+      preferred_population_per_node: 80
+      maximum_population_per_node: 150
+      scale_down_strategy: use tool library and workshop seed patterns with a simple asset list
+      scale_up_strategy: replicate maintenance spines per village block and federate professional service contracts
+      stateful: true
+      provisional: true
+    research_queries:
+      - maintainable commons spine CMMS lite asset registry work orders spare parts community facilities
+      - operations maintenance best practices asset management water wastewater facilities small community
+      - reliability centered maintenance critical assets community infrastructure
+      - lockout tagout hazardous energy maintenance safety resident repair boundaries
+    provisional: true
+  - id: governance_anticapture
+    domain: governance
+    role: commons asset lock, membership rights, delegated operations, decision domains, finance transparency, conflict safeguards, privacy, and anti-capture monitoring
+    default_patterns: []
+    accepted_patterns: [commons_stewardship_protocol]
+    dignity_floor_resources: [governance_legitimacy, resident_rights]
+    swap_policy: adapter_required
+    accepted_module_domains: [governance, legal, cooperative, land_trust, finance, conflict_resolution, privacy, anti_capture, membership]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, anti_capture_due_process]
+    required_interfaces:
+      - legal_review_status
+      - asset_lock_defined
+      - dissolution_rule_defined
+      - resale_or_exit_formula_defined
+      - core_assets_protected_percent
+      - debt_threshold_policy
+      - written_rights
+      - entry_process
+      - exit_process
+      - anti_discrimination_policy
+      - due_process_policy
+      - member_vote_on_constitutional_matters
+      - operational_domain_defined
+      - policy_domain_defined
+      - budget_domain_defined
+      - constitutional_domain_defined
+      - emergency_domain_defined
+      - supermajority_rules_defined
+      - emergency_sunset_defined
+      - operational_circles_total
+      - coordination_circle
+      - double_linking
+      - circle_minutes_public_to_members
+      - critical_roles_with_backup_percent
+      - roles_with_term_or_review_percent
+      - conflict_of_interest_policy
+      - role_concentration_score
+      - budget_public_to_members
+      - reserve_status_public
+      - debt_report_public
+      - insider_transaction_policy
+      - conflict_ladder
+      - safeguarding_policy
+      - anti_retaliation_policy
+      - role_based_access
+      - audit_log
+      - data_retention_policy
+      - sensitive_data_rules
+      - governance_hours_per_resident_per_month
+      - meeting_hours_per_resident_per_month
+      - participation_distribution_score
+      - governance_dashboard
+      - decision_log
+      - policy_registry
+      - role_registry
+      - budget_transparency_dashboard
+      - conflict_case_tracker
+      - anti_capture_monitor
+    scaling_basis: residents_roles_assets_decision_domains
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 20
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use lightweight resident agreements and role registers before full circle governance
+      scale_up_strategy: replicate village governance cells and federate only bounded cross-block decisions
+      stateful: true
+      provisional: true
+    research_queries:
+      - commons stewardship protocol asset lock resident governance anti capture community land trust cooperative
+      - sociocracy consent circles resident cooperative governance role rotation anti capture
+      - community land trust limited equity cooperative asset lock resale formula governance
+      - restorative conflict resolution safeguarding due process housing commons governance
+    provisional: true
+  - id: labor_time
+    domain: labor
+    role: total life-burden accounting, wage dependency, commons labor, hidden care work, fairness, burnout, protected time, and bad-week resilience
+    default_patterns: []
+    accepted_patterns: [life_burden_ledger]
+    dignity_floor_resources: [time, recovery, autonomy]
+    swap_policy: adapter_required
+    accepted_module_domains: [labor, time_use, care, scheduling, fairness, burnout, wage_dependency, privacy, governance]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, scenario_resilience, anti_capture_due_process]
+    required_interfaces:
+      - time_ledger
+      - weekly_time_budget.time_budget_hours
+      - sleep_hours
+      - personal_care_hours
+      - required_wage_labor_hours
+      - commute_transport_hours
+      - commons_labor_hours
+      - private_household_labor_hours
+      - care_labor_hours
+      - governance_hours
+      - survival_admin_hours
+      - free_time_hours
+      - passion_time_hours
+      - recovery_time_hours
+      - monthly_cash_required
+      - required_wage_hours_at_local_wage
+      - conventional_baseline_cash_required
+      - conventional_baseline_required_wage_hours
+      - wage_dependency_reduction_percent
+      - residents_active_in_labor_pool
+      - required_commons_hours_total
+      - required_commons_hours_per_resident
+      - labor_concentration_score
+      - care_labor_concentration_score
+      - dirty_or_unpleasant_labor_distribution_score
+      - gender_or_role_imbalance_flag
+      - unfilled_required_hours
+      - critical_roles_with_backup_percent
+      - roles_overdue_for_rotation
+      - paid_internal_roles_total
+      - accommodation_requests_active
+      - free_time_increase_vs_baseline
+      - passion_time_increase_vs_baseline
+      - recovery_deficit_hours
+      - quiet_hours_protected
+      - meeting_burden_status
+      - burnout_risk
+      - overloaded_resident_count
+      - repeated_emergency_labor_count
+      - same_group_labor_dependency_score
+      - role_scheduler
+      - labor_fairness_dashboard
+      - protected_time_dashboard
+      - wage_dependency_calculator
+      - bad_week_simulator
+      - meeting_limiter
+    scaling_basis: residents_time_budget_roles_cashflow_care_load
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 20
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use a simple labor ledger and rotation list at micro-commons scale
+      scale_up_strategy: replicate labor ledgers per village block and federate aggregate burden reporting
+      stateful: true
+      provisional: true
+    research_queries:
+      - life burden ledger time use commons labor care work wage dependency community
+      - American Time Use Survey unpaid care labor household work comparison intentional community
+      - burnout psychosocial risk long working hours recovery time community labor fairness
+      - four day week reduced working time burnout free time wellbeing study
+    provisional: true
+  - id: legal_land_finance
+    domain: legal_finance
+    role: anti-speculative land stewardship, resident tenure, asset lock, affordability, reserves, debt limits, insurance, tax, fundraising review, and bank-pressure risk visibility
+    default_patterns: []
+    accepted_patterns: [anti_speculative_civic_floor]
+    dignity_floor_resources: [land_security, affordability, resident_rights]
+    swap_policy: adapter_required
+    accepted_module_domains: [legal, land, finance, cooperative, land_trust, affordability, insurance, accounting, anti_speculation, fundraising]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, scenario_resilience, anti_capture_due_process]
+    required_interfaces:
+      - legal_land_finance_summary
+      - legal_layer_map
+      - land_control_report
+      - land_control_type
+      - land_steward_type
+      - title_review_status
+      - zoning_status
+      - secure_land_control
+      - asset_lock_status
+      - asset_lock_defined
+      - transfer_restrictions
+      - dissolution_rule
+      - resident_rights_report
+      - tenure_type
+      - written_use_agreement
+      - written_rights
+      - due_process
+      - exit_formula
+      - hardship_policy
+      - financial_privacy
+      - anti_retaliation
+      - affordability_formula_defined
+      - resale_or_exit_formula_defined
+      - monthly_core_cost_per_resident
+      - monthly_core_cost_per_household
+      - required_wage_hours_to_cover_core_cost
+      - cost_as_percent_of_income_bands
+      - affordability_drift_monitor
+      - bad_year_assessment_risk
+      - capital_budget_report
+      - total_development_cost
+      - cost_per_resident
+      - financing_gap
+      - capital_stack_report
+      - investor_control_prohibited
+      - speculative_equity_rejected
+      - securities_review_required
+      - operating_budget_report
+      - operating_budget
+      - reserve_contribution_monthly
+      - operating_reserve_months
+      - maintenance_reserve
+      - replacement_reserve
+      - emergency_repair_reserve
+      - insurance_deductible_reserve
+      - hardship_reserve
+      - reserve_status
+      - debt_policy
+      - debt_service_schedule
+      - debt_service_coverage_ratio
+      - debt_per_resident
+      - collateral_map
+      - default_consequence_map
+      - maturity_or_balloon_plan
+      - lender_control_rights_review
+      - bank_pressure_risk_score
+      - insurance_review_status
+      - tax_accounting_review_status
+      - legal_review_status
+      - zoning_permit_risk_report
+      - professional_review_requirements
+      - scenario_failure_report
+      - entity_structure_mapper
+      - capital_stack_builder
+      - pro_forma_engine
+      - reserve_modeler
+      - legal_review_trigger_engine
+      - debt_risk_simulator
+      - rights_and_obligations_generator
+    scaling_basis: residents_land_rights_budget_reserves_debt_risk
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use explicit provisional rights, cost, and land-control notes before full entity stack
+      scale_up_strategy: replicate legal-finance cells under a federation or land-stewardship umbrella
+      stateful: true
+      provisional: true
+    research_queries:
+      - community land trust limited equity cooperative anti speculative civic floor finance reserves
+      - shared equity housing resale formula affordability preservation resident rights
+      - cooperative housing replacement reserves operating reserves debt service affordability model
+      - community fundraising securities review cooperative member capital land trust finance
+    provisional: true
+  - id: materials_fabrication
+    domain: materials
+    role: standardized construction system, material palette, panelization, wet cores, service spines, BOM, fabrication handoff, embodied carbon, waste reduction, and maintainable build metadata
+    default_patterns: []
+    accepted_patterns: [standardized_low_burden_build_system]
+    dignity_floor_resources: [buildability, maintainability, shelter_quality]
+    swap_policy: adapter_required
+    accepted_module_domains: [materials, fabrication, construction, panelization, mass_timber, modular, BIM, embodied_carbon, deconstruction, envelope, code_review]
+    required_interface_bundles: [review_gate, labor_visibility, role_backup_coverage, dashboard_export, scenario_resilience]
+    required_interfaces:
+      - materials_system_summary
+      - construction_system_comparison
+      - primary_system
+      - code_path_status
+      - professional_review_required
+      - structural_grid_defined
+      - unit_type_count
+      - panelization_ratio_percent
+      - custom_detail_ratio_percent
+      - wet_cores_stacked
+      - service_spine_defined
+      - recommended_material_palette
+      - primary_structure_material
+      - secondary_structure_material
+      - foundation_strategy
+      - insulation_family
+      - cladding_family
+      - interior_finish_family
+      - roofing_family
+      - window_door_strategy
+      - low_VOC_policy
+      - low_embodied_carbon_policy
+      - fabrication_method
+      - BOM_available
+      - cut_sheets_available
+      - assembly_sequence_available
+      - transport_plan
+      - staging_plan
+      - quality_control_checklists
+      - inspection_points_defined
+      - BOM_and_procurement_report
+      - cost_and_lifecycle_report
+      - estimated_material_cost
+      - estimated_fabrication_cost
+      - estimated_installation_labor_cost
+      - estimated_transport_cost
+      - estimated_total_build_cost
+      - estimated_lifecycle_cost
+      - cost_per_resident
+      - contingency_percent
+      - embodied_carbon_report
+      - embodied_carbon_estimate
+      - EPD_coverage_percent
+      - high_impact_materials_listed
+      - low_carbon_substitutions_available
+      - transport_impact_estimated
+      - maintainability_report
+      - expected_life_major_components
+      - maintenance_intervals_defined
+      - service_access_score
+      - replacement_path_defined
+      - moisture_strategy
+      - fire_strategy
+      - pest_strategy
+      - acoustic_strategy
+      - waste_reduction_report
+      - construction_waste_estimate_percent
+      - offcut_reuse_plan
+      - salvage_reuse_plan
+      - design_for_disassembly_score
+      - deconstruction_plan
+      - landfill_fraction_estimate
+      - parametric_layout_engine
+      - materials_selector
+      - BOM_generator
+      - embodied_carbon_estimator
+      - fabrication_planner
+      - review_gate_engine
+      - BIM_IFC_export
+      - Unreal_visualization_export
+      - code_path_and_professional_review_report
+      - structural_grid_and_module_report
+      - panelization_report
+      - wet_core_service_spine_report
+      - fabrication_sequence_report
+      - transport_and_staging_report
+      - salvage_reuse_deconstruction_report
+      - substitution_risk_report
+      - scenario_failure_report
+      - visualization_bundle_metadata
+    scaling_basis: residents_pods_panels_wet_cores_fabrication_capacity
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use simple material schedules and repair metadata before full fabrication system
+      scale_up_strategy: replicate standardized build-system packages by block and federate procurement libraries
+      stateful: true
+      provisional: true
+    research_queries:
+      - standardized low burden build system panelized light wood hybrid mass timber village block
+      - offsite construction standards ICC MBI panelized modular housing inspection compliance
+      - passive envelope panelized construction embodied carbon maintenance access affordable housing
+      - design for disassembly construction waste salvage reuse BIM IFC bill of materials housing
+    provisional: true
+  - id: mobility_access
+    domain: mobility
+    role: pedestrian-first internal access, universal routes, perimeter vehicle access, shared mobility, delivery/service routes, emergency access, external care access, and transportation affordability
+    default_patterns: []
+    accepted_patterns: [pedestrian_first_access_commons]
+    dignity_floor_resources: [accessibility, emergency_access, non_driver_access]
+    swap_policy: adapter_required
+    accepted_module_domains: [mobility, accessibility, transportation, pedestrian, bike, shared_vehicle, shuttle, emergency_access, parking, delivery, transit]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, scenario_resilience]
+    required_interfaces:
+      - mobility_access_summary
+      - internal_path_network_report
+      - pedestrian_first
+      - accessible_route_coverage_percent
+      - primary_path_length_meters
+      - max_unit_to_common_house_minutes
+      - max_unit_to_food_commons_minutes
+      - max_unit_to_care_room_minutes
+      - max_unit_to_accessible_dropoff_minutes
+      - lighting_primary_routes
+      - resting_points_count
+      - path_weather_plan
+      - accessible_route_report
+      - common_space_distance_report
+      - vehicle_edge_access_report
+      - perimeter_parking
+      - parking_spaces_total
+      - accessible_parking_spaces
+      - shared_vehicle_spaces
+      - delivery_loading_zone
+      - maintenance_vehicle_access
+      - emergency_vehicle_access_review_status
+      - service_routes_defined
+      - shared_vehicle_report
+      - shared_vehicle_count
+      - accessible_shared_vehicle_available
+      - cargo_bikes_count
+      - carts_count
+      - e_bike_charging
+      - mobility_device_charging
+      - booking_system
+      - maintenance_plan
+      - insurance_review
+      - transit_access_status
+      - shuttle_plan
+      - grocery_access_minutes
+      - pharmacy_access_minutes
+      - primary_care_access_minutes
+      - urgent_care_or_hospital_access_minutes
+      - clinic_transport_plan
+      - pharmacy_pickup_plan
+      - regional_bike_route_safety_status
+      - delivery_service_available
+      - emergency_access_report
+      - evacuation_transport_report
+      - EMS_route
+      - fire_access_review
+      - evacuation_plan
+      - high_need_transport_plan
+      - emergency_pickup_points
+      - backup_route
+      - shared_vehicle_charge_or_fuel_tracking
+      - parking_land_use_report
+      - transportation_cost_report
+      - housing_plus_transport_affordability_report
+      - monthly_transport_cost_per_resident
+      - private_vehicle_dependency_score
+      - parking_land_area_m2
+      - shared_vehicle_admin_hours_per_month
+      - shuttle_driver_hours_per_month
+      - path_maintenance_hours_per_month
+      - errand_time_hours_per_resident_per_week
+      - commute_time_hours_per_resident_per_week
+      - mobility_labor_burden_report
+      - access_map_generator
+      - distance_friction_calculator
+      - shared_vehicle_scheduler
+      - shuttle_trip_planner
+      - delivery_manager
+      - emergency_access_dashboard
+      - bike_cart_fleet_manager
+      - transportation_cost_calculator
+      - bike_cart_fleet_report
+      - delivery_service_access_report
+      - external_location_score
+      - grocery_pharmacy_clinic_access_report
+      - scenario_failure_report
+      - professional_review_requirements
+      - visualization_bundle_metadata
+    scaling_basis: residents_paths_daily_needs_shared_fleet_external_access
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use basic accessible paths, dropoff, and shared errand planning at micro scale
+      scale_up_strategy: replicate pedestrian-first access cells and federate regional transit, delivery, and emergency routes
+      stateful: true
+      provisional: true
+    research_queries:
+      - pedestrian first access commons universal accessible routes perimeter parking shared mobility village block
+      - complete streets shared street woonerf emergency access accessible routes small community
+      - housing transportation affordability shared vehicle shuttle clinic pharmacy grocery access rural community
+      - cargo bike cart shared mobility non driver access emergency evacuation functional needs planning
+    provisional: true
+  - id: education_skill
+    domain: education
+    role: resident onboarding, role-based skill lattice, safety training gates, apprenticeships, knowledge capture, backup-role development, credential boundaries, and learning burden visibility
+    default_patterns: []
+    accepted_patterns: [civic_skill_lattice]
+    dignity_floor_resources: [skill_resilience, safety_training, knowledge_continuity]
+    swap_policy: adapter_required
+    accepted_module_domains: [education, training, apprenticeship, skills, safety, onboarding, knowledge_base, credentialing, workforce, governance]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, anti_capture_due_process]
+    required_interfaces:
+      - education_skill_summary
+      - skill_graph_report
+      - orientation_program
+      - knowledge_base
+      - skill_graph
+      - learning_management_lite
+      - practice_log
+      - training_gate_engine
+      - backup_role_tracker
+      - learning_burden_dashboard
+      - critical_skill_coverage_report
+      - critical_roles_total
+      - critical_roles_primary_trained_percent
+      - critical_roles_backup_trained_percent
+      - class_A_roles_second_backup_percent
+      - single_point_skill_failures
+      - training_overdue_count
+      - expired_required_credentials
+      - apprentice_pipeline_count
+      - onboarding_report
+      - residents_oriented_percent
+      - new_residents_in_first_90_days
+      - mentor_capacity_status
+      - rights_training_complete_percent
+      - emergency_training_complete_percent
+      - safety_orientation_complete_percent
+      - learning_labor_burden_report
+      - required_learning_hours_per_resident_per_month
+      - optional_learning_hours_per_resident_per_month
+      - mentor_hours_per_month
+      - apprentice_hours_per_month
+      - unpaid_training_labor_hours
+      - training_burnout_risk
+      - safety_training_gate_report
+      - safety_critical_tasks_total
+      - safety_critical_tasks_with_gate_percent
+      - PPE_training_current_percent
+      - stop_work_authority_training_percent
+      - incident_review_training
+      - knowledge_base_status_report
+      - role_docs_complete_percent
+      - asset_docs_linked_percent
+      - lessons_learned_logged
+      - offline_copy_available
+      - docs_plain_language_score
+      - docs_review_overdue_count
+      - external_credential_partnership_report
+      - community_college_partner
+      - trade_partner
+      - cooperative_extension_partner
+      - food_safety_training_partner
+      - first_aid_CPR_AED_partner
+      - OSHA_or_safety_partner
+      - local_professional_mentor_pool
+      - passion_learning_report
+      - optional_skill_shares_per_month
+      - quiet_learning_space
+      - workshop_studio_access
+      - intergenerational_learning_events
+      - passion_learning_protected
+      - role_curriculum_report
+      - apprenticeship_pipeline_report
+      - backup_role_report
+      - documentation_gap_report
+      - expert_dependency_report
+      - scenario_failure_report
+      - professional_review_requirements
+      - visualization_bundle_metadata
+    scaling_basis: residents_roles_safety_gates_skill_coverage_training_burden
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use onboarding notes and role backup lists before full skill lattice
+      scale_up_strategy: replicate skill lattices per block and federate credential partnerships and knowledge bases
+      stateful: true
+      provisional: true
+    research_queries:
+      - civic skill lattice role based microlearning safety gates apprenticeship commons infrastructure
+      - community apprenticeship mentorship practice logs skill coverage backup roles learning burden
+      - OSHA understandable safety training volunteer resident worker cooperative community
+      - knowledge base skill graph task knowledge skill framework community operations
+    provisional: true
+  - id: social_cultural_commons
+    domain: social_culture
+    role: low-coercion belonging, third places, common meals, quiet rooms, arts and making, cultural pluralism, hospitality, anti-clique access, privacy, and social labor visibility
+    default_patterns: []
+    accepted_patterns: [belonging_without_coercion_commons]
+    dignity_floor_resources: [belonging, privacy, cultural_life]
+    swap_policy: adapter_required
+    accepted_module_domains: [social, culture, arts, third_place, hospitality, conflict_resolution, privacy, inclusion, placemaking, mutual_aid]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, anti_capture_due_process]
+    required_interfaces:
+      - social_cultural_summary
+      - common_space_typology_report
+      - common_house
+      - common_dining
+      - quiet_library_room
+      - maker_art_music_space
+      - courtyards_count
+      - child_elder_commons
+      - guest_hospitality_space
+      - outdoor_gathering_area
+      - small_nooks_thresholds_count
+      - social_rhythm_calendar_report
+      - common_meals_per_week
+      - optional_events_per_month
+      - skill_shares_per_month
+      - arts_music_craft_events_per_month
+      - seasonal_events_per_year
+      - open_unprogrammed_hours_per_week
+      - quiet_hours_policy
+      - privacy_opt_out_report
+      - opt_out_protected
+      - mandatory_events
+      - no_social_scoring
+      - guest_policy
+      - privacy_policy
+      - anti_clique_policy
+      - conflict_process
+      - cultural_pluralism_policy
+      - anti_clique_access_report
+      - common_space_booking_system
+      - prime_time_booking_concentration_score
+      - accessibility_review
+      - newcomer_support_process
+      - external_partnerships_count
+      - public_event_policy
+      - social_labor_burden_report
+      - social_cultural_labor_hours_per_month
+      - event_labor_hours
+      - cleanup_hours
+      - host_hours
+      - emotional_labor_hours_estimated
+      - labor_concentration_score
+      - social_burnout_risk
+      - loneliness_support_aggregate_report
+      - clique_capture_risk
+      - overprogramming_risk
+      - loneliness_support_status
+      - privacy_risk_score
+      - cultural_exclusion_risk_score
+      - event_calendar
+      - common_space_scheduler
+      - participation_boundary_tracker
+      - social_rhythm_generator
+      - opt_in_check_in_system
+      - cultural_archive
+      - access_and_inclusion_monitor
+      - third_place_readiness_report
+      - common_meal_social_report
+      - quiet_space_protection_report
+      - arts_making_flourishing_report
+      - cultural_pluralism_report
+      - hospitality_external_membrane_report
+      - conflict_risk_report
+      - scenario_failure_report
+      - visualization_bundle_metadata
+    scaling_basis: residents_common_spaces_events_labor_privacy_access
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use informal opt-in gatherings and simple common-space rules before full cultural commons
+      scale_up_strategy: replicate social-cultural commons per block and federate only voluntary cross-block events
+      stateful: true
+      provisional: true
+    research_queries:
+      - belonging without coercion social infrastructure third places cohousing common meals privacy opt out
+      - common house third place loneliness social connection arts health community resilience
+      - anti clique common space governance optional participation cultural pluralism intentional community
+      - social labor emotional labor event cleanup hosting burnout community commons
+    provisional: true
+  - id: risk_resilience
+    domain: resilience
+    role: whole-system hazard register, dependency graph, service levels, buffers, scenarios, emergency modes, recovery, after-action learning, and anti-capture under stress
+    default_patterns: []
+    accepted_patterns: [graceful_degradation_engine]
+    dignity_floor_resources: [floor_continuity, graceful_degradation, recovery]
+    swap_policy: adapter_required
+    accepted_module_domains: [risk, resilience, emergency_management, continuity, climate_adaptation, scenario_modeling, recovery, mutual_aid, hazard, governance]
+    required_interface_bundles: [review_gate, labor_visibility, privacy_boundary, role_backup_coverage, dashboard_export, scenario_resilience, anti_capture_due_process]
+    required_interfaces:
+      - risk_resilience_summary
+      - hazard_register_report
+      - hazards_total
+      - hazards_reviewed_percent
+      - critical_hazards_count
+      - local_hazard_profile_complete
+      - climate_hazard_profile_complete
+      - critical_function_map_report
+      - dependency_graph_report
+      - dependency_graph_complete
+      - critical_functions_mapped
+      - single_point_failures_count
+      - external_dependencies_count
+      - cascade_paths_count
+      - single_point_failure_report
+      - service_level_matrix
+      - normal_operations_defined
+      - degraded_comfort_defined
+      - protected_floor_defined
+      - emergency_floor_defined
+      - floor_failure_conditions_defined
+      - buffer_and_reserve_report
+      - food_buffer_days
+      - water_emergency_days
+      - critical_energy_hours
+      - operating_reserve_months
+      - replacement_reserve_status
+      - role_backup_percent
+      - external_support_map
+      - scenario_run_report
+      - scenarios_total
+      - required_scenarios_run_percent
+      - compound_scenarios_run_percent
+      - last_scenario_run_date
+      - unresolved_scenario_failures
+      - cascade_timeline_report
+      - floor_continuity_report
+      - emergency_mode_report
+      - emergency_modes_defined
+      - emergency_roles_with_backups_percent
+      - emergency_authority_sunset
+      - incident_log
+      - communication_tree
+      - evacuation_plan
+      - recovery_readiness_report
+      - recovery_playbooks_count
+      - after_action_reviews_completed
+      - corrective_actions_open
+      - adaptation_backlog_items
+      - reserve_replenishment_plan
+      - routine_resilience_hours_per_month
+      - emergency_labor_capacity_hours
+      - same_group_response_dependency_score
+      - resilience_burnout_risk
+      - high_need_resident_protection_report_privacy_preserving
+      - function_based_support_modeled
+      - privacy_protected
+      - medication_continuity_status
+      - accessible_evacuation_status
+      - care_surge_plan
+      - hazard_register_tool
+      - dependency_graph_engine
+      - scenario_runner
+      - resilience_dashboard
+      - early_warning_monitor
+      - emergency_mode_manager
+      - recovery_planner
+      - after_action_review_logger
+      - risk_investment_backlog
+      - climate_adaptation_report
+      - anti_capture_under_stress_report
+      - resilience_investment_backlog
+      - professional_review_requirements
+      - visualization_bundle_metadata
+    scaling_basis: hazards_dependencies_buffers_scenarios_recovery_roles
+    node_policy:
+      scale_unit: residents
+      minimum_population_per_node: 50
+      preferred_population_per_node: 100
+      maximum_population_per_node: 150
+      scale_down_strategy: use a simple hazard list and contact tree before full degradation engine
+      scale_up_strategy: replicate resilience engines per block and federate scenario libraries, warnings, and mutual aid
+      stateful: true
+      provisional: true
+    research_queries:
+      - graceful degradation engine community resilience hazard register dependency graph service levels
+      - NIST community resilience planning critical functions infrastructure dependency recovery objectives
+      - FEMA whole community resilience planning access functional needs emergency operations recovery
+      - cascading failure simulation social infrastructure climate adaptation mutual aid community scale
     provisional: true
 research_scan_policy:
   recency_preference_years: 10
   accepted_sources: [peer_reviewed_paper, systematic_review, meta_analysis, standards_body_report]
   required_metadata: [title, authors, year, doi_or_url, study_context, sample_size_or_scale, performance_statistics, limitations]
-  ai_tooling_role: find candidate papers, extract claims, map statistics to module interfaces, preserve uncertainty and provenance
+  planning_phase_role: find candidate plans, extract claims, map statistics to module interfaces, preserve uncertainty and provenance
   human_review_role: approve module promotion beyond evidence_seed
   provisional: true
 scaling_policy:
-  required_targets: [5, 10, 25, 50]
+  required_targets: [12, 150, 1500]
   preserve_dignity_floors: true
   prefer_additive_research_modules: true
   notes: Research modules should scale through explicit interfaces, not hidden reductions in consumption or comfort.
   provisional: true
 unknowns:
-  - AI research scans can miss or misread papers; extracted claims must keep citations and uncertainty.
+  - Planning-phase research can miss or misread plans and papers; extracted claims must keep citations and uncertainty.
   - Drag-and-drop compatibility means simulation compatibility, not legal, engineering, health, or construction approval.
   - Many promising technologies need adapter models before they can affect CIaC resource flows.

@@ -19,6 +19,8 @@ SCHEMA_BY_KIND = {
     "Scenario": "scenario.schema.json",
     "ScenarioRun": "scenario_run.schema.json",
     "FoodPlan": "food_plan.schema.json",
+    "FoodLaborReport": "food_labor_report.schema.json",
+    "FoodAutonomyReport": "food_autonomy_report.schema.json",
     "NutritionReport": "nutrition_report.schema.json",
     "WaterPlan": "water_plan.schema.json",
     "WaterReport": "water_report.schema.json",
@@ -37,6 +39,7 @@ SCHEMA_BY_KIND = {
     "ReviewStatusReport": "review_status_report.schema.json",
     "SeasonalProfile": "seasonal_profile.schema.json",
     "HouseholdProfile": "household_profile.schema.json",
+    "InfrastructureNodeReport": "infrastructure_node_report.schema.json",
     "SpatialProfile": "spatial_profile.schema.json",
     "RuntimeBundle": "runtime_bundle.schema.json",
     "FoundationGateReport": "foundation_gate_report.schema.json",
@@ -60,6 +63,10 @@ SCHEMA_BY_KIND = {
     "ResearchNeedReport": "research_need_report.schema.json",
     "ScalabilityGateReport": "scalability_gate_report.schema.json",
     "ModuleImplementationReport": "module_implementation_report.schema.json",
+    "ComplexityReport": "complexity_report.schema.json",
+    "TopologyRecommendationReport": "topology_recommendation_report.schema.json",
+    "ArtifactCohesionReport": "artifact_cohesion_report.schema.json",
+    "ViewerRunReport": "viewer_run_report.schema.json",
 }
 
 
@@ -91,6 +98,8 @@ def validate_data(data: dict[str, Any], path: str = "<memory>") -> ValidationRep
 
     if kind == "CivicPattern":
         report.issues.extend(_validate_pattern_semantics(data))
+    if kind == "ModuleRegistry":
+        report.issues.extend(_validate_module_registry_semantics(data))
 
     return report
 
@@ -164,6 +173,68 @@ def _validate_pattern_semantics(pattern: dict[str, Any]) -> list[ValidationIssue
                 "warning",
                 "Seed patterns should be marked provisional for any unsourced safety/legal/engineering assumptions",
                 "$.provisional_for",
+            )
+        )
+
+    return issues
+
+
+def _validate_module_registry_semantics(registry: dict[str, Any]) -> list[ValidationIssue]:
+    issues: list[ValidationIssue] = []
+    bundles = registry.get("interface_bundles", {})
+    bundle_ids = set(bundles)
+    slots = registry.get("slots", [])
+    slot_ids = [slot.get("id") for slot in slots]
+    duplicate_slot_ids = sorted({slot_id for slot_id in slot_ids if slot_ids.count(slot_id) > 1})
+    for slot_id in duplicate_slot_ids:
+        issues.append(ValidationIssue("error", f"Duplicate module slot id: {slot_id}", "$.slots"))
+
+    tier_slots = set()
+    for tier_id, tier_slot_ids in registry.get("module_tiers", {}).items():
+        if not isinstance(tier_slot_ids, list):
+            continue
+        for slot_id in tier_slot_ids:
+            if slot_id not in slot_ids:
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        f"Module tier {tier_id} references unknown slot: {slot_id}",
+                        "$.module_tiers",
+                    )
+                )
+            tier_slots.add(slot_id)
+
+    for index, slot in enumerate(slots):
+        for bundle_id in slot.get("required_interface_bundles", []):
+            if bundle_id not in bundle_ids:
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        f"Slot {slot.get('id', '<unknown>')} references unknown interface bundle: {bundle_id}",
+                        f"$.slots[{index}].required_interface_bundles",
+                    )
+                )
+        node_policy = slot.get("node_policy")
+        if isinstance(node_policy, dict):
+            minimum = node_policy.get("minimum_population_per_node")
+            preferred = node_policy.get("preferred_population_per_node")
+            maximum = node_policy.get("maximum_population_per_node")
+            if all(isinstance(value, int) for value in (minimum, preferred, maximum)):
+                if not minimum <= preferred <= maximum:
+                    issues.append(
+                        ValidationIssue(
+                            "error",
+                            f"Slot {slot.get('id', '<unknown>')} node_policy must satisfy minimum <= preferred <= maximum",
+                            f"$.slots[{index}].node_policy",
+                        )
+                    )
+    unclassified = sorted(slot_id for slot_id in slot_ids if slot_id not in tier_slots)
+    if unclassified:
+        issues.append(
+            ValidationIssue(
+                "warning",
+                f"Module slots are not assigned to a tier: {', '.join(unclassified)}",
+                "$.module_tiers",
             )
         )
 

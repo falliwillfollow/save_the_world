@@ -1,0 +1,323 @@
+kind: CivicPattern
+id: hybrid_food_commons
+type: FoodSystem
+status: draft
+provisional: true
+provisional_for: [health, legal, water, electrical, cost, labor, governance, ecology]
+purpose: Provide a hybrid food commons that combines voluntary shared meals, regional staple procurement, onsite fresh production, food storage, preservation, and food-safety operations.
+scale: village
+mdl_categories: [food, health, commons, contribution]
+inputs:
+  - potable_water
+  - critical_power
+  - regional_food_relationships
+  - common_kitchen
+  - dry_and_cold_storage
+  - garden_and_greenhouse_interface
+  - food_safety_training
+outputs:
+  - voluntary_common_meals
+  - regional_staple_procurement
+  - onsite_fresh_food_buffer
+  - shelf_stable_food_reserve
+  - preservation_capacity
+  - food_safety_controls
+  - food_labor_visibility
+dependencies:
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: The food commons hub depends on a reviewed shared kitchen and dining workflow.
+  - id: staple_food_reserve
+    kind: pattern
+    critical: true
+    rationale: Hybrid food strategy preserves a shelf-stable staple buffer rather than claiming total self-sufficiency.
+  - id: greenhouse
+    kind: pattern
+    critical: true
+    rationale: Onsite production should prioritize fresh, high-dignity crops through garden and season-extension infrastructure.
+  - id: composting_system
+    kind: pattern
+    critical: true
+    rationale: Food waste reduction and safe organic loops need a resolved compost/sanitation interface.
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: Shared kitchen, preservation, wash-pack, and garden operations need tested water.
+  - id: solar_shed
+    kind: pattern
+    critical: true
+    rationale: Cold storage, kitchen operations, inventory systems, and food safety logs need a resilient power path.
+  - id: critical_load_reserve
+    kind: pattern
+    critical: true
+    rationale: Critical cold storage and emergency meal operations need a reserve energy path.
+  - id: food_safety_review
+    kind: external
+    critical: true
+    rationale: Shared food preparation, storage, preservation, allergen control, and meal service require health and food-safety review.
+  - id: regional_food_procurement_plan
+    kind: external
+    critical: true
+    rationale: The hybrid model depends on bulk staple purchasing, CSA or farm relationships, food hubs, and emergency retail fallback.
+  - id: nutrition_review
+    kind: external
+    critical: false
+    rationale: Nutrition baselines, dietary constraints, child/elder needs, and medical diet boundaries require qualified review.
+constraints:
+  physical:
+    - food commons hub attached to common house and dining space
+    - dry pantry, cold storage, root or cool storage, preservation kitchen, wash-pack zone, and compost route
+    - accessible resident entry, delivery/service entry, cleanable surfaces, pest-resistant storage, and adequate ventilation
+    - separation from sleeping-unit noise conflicts, sanitation failure risk, and workshop dust or chemical zones
+    - emergency power path for critical cold storage
+  ecological:
+    - onsite production should prioritize herbs, greens, vegetables, culturally meaningful crops, education, and therapeutic gardens
+    - staple calories should be regionally procured by default rather than grown through heroic resident labor
+    - food waste reduction, planned leftovers, preservation, and compost interface are core infrastructure
+    - avoid high-energy vertical farming, vendor-locked food technology, and fragile hydroponics as the baseline
+  legal:
+    - shared kitchen, storage, preservation, food-service, procurement, compost, and health rules vary by jurisdiction
+    - the model must not imply restaurant certification, food-business compliance, or medical nutrition therapy
+  social:
+    - private food autonomy is required; residents can skip common meals, store personal food, and prepare private meals
+    - common meals are opt-in by default and must not become surveillance, shaming, or mandatory togetherness
+    - dietary needs, allergies, cultural food practices, sensory needs, and eating-disorder sensitivity must be respected
+    - food labor, care meals, cleanup, and safety logging must be counted rather than hidden as unpaid drudgery
+  safety:
+    - food safety lead and backup, temperature logs, allergen controls, cleaning schedule, date marking, and illness exclusion policy are required
+    - preservation requires validated recipes, batch logs, storage conditions, discard rules, and training records
+    - supplier fallback, crop failure replacement, and emergency menu planning must be explicit
+build_phase: 2
+lifecycle:
+  build_sequence:
+    - define food source mix, common meal frequency, private food autonomy, and resident dietary constraints
+    - confirm food-safety review path, local health rules, preservation boundaries, and allergen controls
+    - establish bulk procurement channels, CSA or regional farm relationships, food hub options, and emergency retail fallback
+    - set up dry pantry, cold storage, preservation workspace, wash-pack flow, inventory system, and compost interface
+    - connect greenhouse and garden harvest logs to kitchen, pantry, meal planning, and preservation workflows
+    - train food, procurement, kitchen, preservation, garden, pantry, care-meal, and food-safety stewards with backups
+  inspection_points:
+    - private food autonomy
+    - common meal opt-out
+    - dry pantry and cold storage capacity
+    - temperature logs and allergen matrix
+    - preservation batch logs
+    - supplier diversity and fallback channels
+    - food labor per resident
+    - food waste and leftover plan
+    - crop failure replacement plan
+  maintenance:
+    - id: food_inventory_round
+      description: Check inventory visibility, shelf rotation, allergen separation, pest signs, procurement triggers, and emergency menu availability.
+      interval: weekly
+      role: pantry_steward
+      estimated_hours: 2
+      provisional: true
+    - id: food_safety_round
+      description: Verify temperature logs, cleaning schedule, date marking, illness exclusion, preservation records, and food-safety incidents.
+      interval: weekly
+      role: food_safety_steward
+      estimated_hours: 2
+      provisional: true
+    - id: food_commons_labor_review
+      description: Review cook, cleanup, garden, preservation, procurement, care-meal, and safety labor for overload, invisibility, or role imbalance.
+      interval: monthly
+      role: food_steward
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: ongoing with replaceable appliances, storage equipment, procurement relationships, crop plans, and preservation workflows
+  repair_procedure:
+    - isolate unsafe food, equipment, supplier channel, or preservation batch
+    - preserve emergency food floor and private food autonomy while resolving the issue
+    - document incident, notify affected residents, and escalate to qualified food-safety or nutrition review where needed
+    - revise procurement, storage, labor, or menu rules before returning to normal operation
+  end_of_life_path:
+    - transfer safe pantry stock through resident-approved rules or donation where legal
+    - compost safe organics and dispose unsafe food through approved channels
+    - salvage appliances, shelving, containers, and kitchen equipment
+    - preserve food records needed for traceability and resident accountability
+failure_modes:
+  - mode: hidden_food_labor_burden
+    likelihood: medium
+    severity: high
+    detection_method: labor logs, role rotation records, resident complaints, and care-meal tracking
+    mitigation: reduce common meal frequency, add paid or credited food work, add backups, simplify menus, or shift more sourcing regionally
+  - mode: food_safety_incident
+    likelihood: medium
+    severity: high
+    detection_method: temperature logs, illness reports, allergen records, batch logs, and cleaning checklists
+    mitigation: isolate suspect food, pause affected service, clean and retrain, notify residents, and escalate to health review
+  - mode: supplier_failure
+    likelihood: medium
+    severity: high
+    detection_method: missed deliveries, price spikes, unavailable staples, or supplier share audit
+    mitigation: draw shelf-stable buffer, activate alternate supplier, simplify menus, and review procurement diversity
+  - mode: mandatory_communal_food_drift
+    likelihood: low
+    severity: high
+    detection_method: resident complaints, meal participation records, private food access audit, and governance review
+    mitigation: reaffirm opt-out rights, improve private food storage and reheating access, and revise meal governance rules
+governance:
+  owner: commons
+  access_rule: shared food infrastructure is available through transparent pantry, kitchen, meal, and safety rules while private food autonomy and opt-out rights remain protected.
+  stewardship_role: food_steward
+  backup_role: procurement_steward
+  audit_frequency: weekly
+  capture_risk: control over meals, pantry access, supplier choices, dietary norms, or food labor can become coercive without transparent governance and resident opt-out rights
+metrics:
+  cost: 240000
+  build_labor_hours: 1800
+  recurring_labor_hours_per_week: 72
+  energy_use: 35
+  water_use: 900
+  embodied_carbon: 4
+  maintenance_burden: 7
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+labor_model:
+  target_population: 80
+  categories:
+    - id: procurement_inventory
+      label: Regional procurement, ordering, receiving, and inventory decisions
+      hours_per_week: 8
+      scaling_mode: sublinear
+      role: procurement_steward
+      reduction_strategy: standing supplier relationships, recurring orders, inventory triggers, and shared receiving windows
+      provisional: true
+    - id: pantry_cold_storage
+      label: Pantry rotation, cold-storage checks, labels, and pest inspection
+      hours_per_week: 6
+      scaling_mode: sublinear
+      role: pantry_steward
+      reduction_strategy: standardized bins, shelf maps, date labels, temperature alerts, and weekly batch inspection
+      provisional: true
+    - id: preservation_batching
+      label: Seasonal preservation, batch records, and safe storage
+      hours_per_week: 8
+      scaling_mode: batch
+      role: preservation_steward
+      reduction_strategy: narrow preservation menu, validated recipes, seasonal work parties, and discard rules
+      provisional: true
+    - id: common_meal_prep
+      label: Optional common-meal preparation and care-meal support
+      hours_per_week: 18
+      scaling_mode: batch
+      role: kitchen_steward
+      reduction_strategy: limit common meals, simplify menus, protect opt-out rights, and use batch cooking rather than daily service
+      provisional: true
+    - id: common_meal_cleanup
+      label: Common-meal dishwashing, sanitation, reset, and waste routing
+      hours_per_week: 12
+      scaling_mode: linear
+      role: cleanup_rotation
+      reduction_strategy: reduce menu complexity, use durable dish flow, separate cleanup shifts, and count cleanup as required labor
+      provisional: true
+    - id: garden_greenhouse_coordination
+      label: Garden and greenhouse harvest coordination with kitchen and pantry
+      hours_per_week: 12
+      scaling_mode: linear
+      role: garden_food_liaison
+      reduction_strategy: prioritize low-labor fresh crops, reject heroic staple self-sufficiency, and coordinate harvest windows
+      provisional: true
+    - id: food_safety_logs
+      label: Temperature, allergen, illness-exclusion, cleaning, and batch logs
+      hours_per_week: 4
+      scaling_mode: fixed
+      role: food_safety_steward
+      reduction_strategy: simple checklists, visible thermometers, alert thresholds, and backup steward review
+      provisional: true
+    - id: scheduling_admin
+      label: Food labor scheduling, role rotation, resident feedback, and opt-out protection
+      hours_per_week: 4
+      scaling_mode: fixed
+      role: food_steward
+      reduction_strategy: recurring rotations, labor dashboard, meeting limits, and explicit escalation when labor concentrates
+      provisional: true
+  thresholds:
+    max_hours_per_resident_per_week: 1.5
+    max_single_category_hours_per_week: 20
+    max_linear_labor_share: 0.4
+    provisional: true
+  replication:
+    preferred_population_per_node: 80
+    max_population_per_node: 80
+    above_max_strategy: replicate food commons nodes at preferred operating size instead of centralizing one institutional kitchen
+    provisional: true
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -900
+    energy_kwh_per_day: -35
+    food_servings_per_day: 60
+  storage:
+    - resource: food_servings
+      capacity: 24000
+      initial: 21600
+      reserve_floor: 7200
+      max_release_per_day: 300
+      max_refill_per_day: 400
+      refill_mode: manual_procurement
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 45
+        loss_per_day_after_unsafe: 0.08
+        risk: food commons stores may become unsafe through spoilage, pest intrusion, allergen mixing, or failed temperature control
+        recovery_action: isolate unsafe stock, clean storage, replace staples, review logs, and escalate to food-safety review
+        recovery_role: pantry_steward
+        recovery_labor_hours: 8
+        recovery_duration_days: 2
+        review_dependency: food_safety
+        provisional: true
+      access_rule: release through transparent pantry and emergency menu rules while preserving private food autonomy and dietary safety
+      notes: Provisional 80-resident shelf-stable food buffer target; not a complete diet, procurement guarantee, or food-safety approval.
+      provisional: true
+  critical_resources: [water, energy, food, maintenance]
+  notes: Provisional hybrid food commons for an 80-resident village block. Direct production represents fresh-food contribution only; staple calories remain regionally procured and stored.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: food_buffer_capacity
+      path: simulation.storage[0].capacity
+      label: Hybrid food commons shelf-stable buffer
+      unit: servings
+      min: 7200
+      max: 72000
+      step: 2400
+      default: 24000
+      affects: [food, resilience, cost, labor, external_dependency]
+      review_required: true
+      provisional: true
+    - id: procurement_refill_rate
+      path: simulation.storage[0].max_refill_per_day
+      label: Regional procurement refill capacity
+      unit: servings_per_day
+      min: 160
+      max: 1000
+      step: 40
+      default: 400
+      affects: [food, resilience, external_dependency, labor]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: food_safety_controls
+      path: simulation.storage[0].quality.review_dependency
+      reason: Shared food storage, preservation, allergens, temperature control, and meal service require food-safety review.
+      review_dependency: food_safety
+      provisional: true
+    - id: total_self_sufficiency_rejection
+      path: simulation.notes
+      reason: The default strategy intentionally rejects total self-sufficiency claims until crop, labor, storage, procurement, and nutrition models are much richer.
+      review_dependency: nutrition_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A food commons hub should serve roughly 50-150 residents; above that, replicate food nodes rather than growing one institutional kitchen indefinitely.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

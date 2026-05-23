@@ -146,6 +146,42 @@
         "provisional": { "type": "boolean" }
       }
     },
+    "labor_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_population", "categories", "thresholds", "replication", "provisional"],
+      "properties": {
+        "target_population": { "type": "integer", "minimum": 1 },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/labor_category" }
+        },
+        "thresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_hours_per_resident_per_week", "max_single_category_hours_per_week", "max_linear_labor_share", "provisional"],
+          "properties": {
+            "max_hours_per_resident_per_week": { "type": "number", "minimum": 0 },
+            "max_single_category_hours_per_week": { "type": "number", "minimum": 0 },
+            "max_linear_labor_share": { "type": "number", "minimum": 0, "maximum": 1 },
+            "provisional": { "type": "boolean" }
+          }
+        },
+        "replication": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["preferred_population_per_node", "max_population_per_node", "above_max_strategy", "provisional"],
+          "properties": {
+            "preferred_population_per_node": { "type": "integer", "minimum": 1 },
+            "max_population_per_node": { "type": "integer", "minimum": 1 },
+            "above_max_strategy": { "type": "string", "minLength": 5 },
+            "provisional": { "type": "boolean" }
+          }
+        },
+        "provisional": { "type": "boolean" }
+      }
+    },
     "simulation": {
       "type": "object",
       "additionalProperties": false,
@@ -323,6 +359,20 @@
         },
         "access_rule": { "type": "string", "minLength": 5 },
         "notes": { "type": "string", "minLength": 5 },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "labor_category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "hours_per_week", "scaling_mode", "role", "reduction_strategy", "provisional"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "label": { "type": "string", "minLength": 3 },
+        "hours_per_week": { "type": "number", "minimum": 0 },
+        "scaling_mode": { "type": "string", "enum": ["fixed", "sublinear", "linear", "batch", "threshold"] },
+        "role": { "type": "string", "minLength": 3 },
+        "reduction_strategy": { "type": "string", "minLength": 5 },
         "provisional": { "type": "boolean" }
       }
     }

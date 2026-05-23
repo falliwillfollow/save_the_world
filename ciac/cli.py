@@ -4,20 +4,24 @@ import argparse
 import sys
 from pathlib import Path
 
+from .artifact_cohesion import evaluate_artifact_cohesion
 from .audit import evaluate_audit
 from .candidates import generate_candidate_matrix
 from .compare import compare_audits
 from .compiler import CompileError, compile_plan, load_patterns
+from .complexity import generate_complexity_report
 from .cycle import materialize_search_candidate
 from .dossier import generate_dossier
 from .energy import evaluate_energy
 from .export_md import render_review_packet, write_review_packet
+from .food_labor import generate_food_labor_report
 from .foundation import evaluate_foundation_gate
 from .gates import evaluate_gates
 from .io import dump_json, load_data, write_json
 from .matrix_redesign import generate_matrix_redesign
 from .module_implementation import implement_technology_module
 from .nutrition import evaluate_nutrition
+from .node_scaling import generate_node_scaling_report
 from .objective_calibration import evaluate_objective_calibration
 from .optimization import evaluate_optimization_readiness
 from .optimizer import optimize_candidates
@@ -33,7 +37,9 @@ from .search_optimizer import optimize_search
 from .simulation import simulate
 from .simulation_compare import compare_simulations
 from .technology import evaluate_module_compatibility, pressure_test_technology_module
+from .topology_optimizer import generate_topology_recommendation
 from .validation import validate_data, validate_path
+from .viewer_server import serve_viewer
 from .visualization_bundle import build_visualization_bundle
 from .water import evaluate_water
 from .weight_governance import evaluate_weight_governance
@@ -74,6 +80,13 @@ def main(argv: list[str] | None = None) -> int:
     nutrition_parser.add_argument("compiled_plan")
     nutrition_parser.add_argument("food_plan")
     nutrition_parser.add_argument("--output", "-o")
+
+    food_labor_parser = subparsers.add_parser("food-labor", help="Evaluate food commons labor burden and scale fit")
+    food_labor_parser.add_argument("module_registry")
+    food_labor_parser.add_argument("pattern_dir")
+    food_labor_parser.add_argument("--slot", default="food_production")
+    food_labor_parser.add_argument("--people", type=int, action="append", default=[], help="Add an ad hoc population row to scaling_results")
+    food_labor_parser.add_argument("--output", "-o")
 
     water_parser = subparsers.add_parser("water", help="Evaluate a provisional water resilience plan")
     water_parser.add_argument("compiled_plan")
@@ -178,6 +191,19 @@ def main(argv: list[str] | None = None) -> int:
     scale_parser.add_argument("scale_profile")
     scale_parser.add_argument("--output", "-o")
 
+    node_scaling_parser = subparsers.add_parser("node-scaling", help="Plan infrastructure node-pool scale up/down across population targets")
+    node_scaling_parser.add_argument("module_registry")
+    node_scaling_parser.add_argument("--scale-profile")
+    node_scaling_parser.add_argument("--people", type=int, action="append", default=[], help="Add an ad hoc population target to the node-scaling report")
+    node_scaling_parser.add_argument("--output", "-o")
+
+    topology_parser = subparsers.add_parser("topology-recommend", help="Recommend the next node-aware civic topology action")
+    topology_parser.add_argument("node_scaling_report")
+    topology_parser.add_argument("--population", type=int, default=150)
+    topology_parser.add_argument("--food-labor")
+    topology_parser.add_argument("--complexity")
+    topology_parser.add_argument("--output", "-o")
+
     optimize_parser = subparsers.add_parser("optimize", help="Rank candidate configurations and run objective sensitivity checks")
     optimize_parser.add_argument("candidate_matrix")
     optimize_parser.add_argument("optimization_profile")
@@ -259,6 +285,20 @@ def main(argv: list[str] | None = None) -> int:
     implement_module_parser.add_argument("--days", type=int, default=365)
     implement_module_parser.add_argument("--output", "-o")
 
+    complexity_parser = subparsers.add_parser("complexity-report", help="Evaluate registry and pattern complexity for scalability")
+    complexity_parser.add_argument("module_registry")
+    complexity_parser.add_argument("pattern_dir")
+    complexity_parser.add_argument("--output", "-o")
+
+    cohesion_parser = subparsers.add_parser("artifact-cohesion", help="Check generated viewer artifacts for stale or disconnected report flow")
+    cohesion_parser.add_argument("generated_dir")
+    cohesion_parser.add_argument("--output", "-o")
+
+    viewer_server_parser = subparsers.add_parser("viewer-server", help="Serve the viewer with an API that persists browser run logs")
+    viewer_server_parser.add_argument("--host", default="127.0.0.1")
+    viewer_server_parser.add_argument("--port", type=int, default=8765)
+    viewer_server_parser.add_argument("--repo-root", default=".")
+
     args = parser.parse_args(argv)
     if args.command == "validate":
         return _validate(args.path)
@@ -272,6 +312,8 @@ def main(argv: list[str] | None = None) -> int:
         return _scenario(args.compiled_plan, args.scenario, args.output)
     if args.command == "nutrition":
         return _nutrition(args.compiled_plan, args.food_plan, args.output)
+    if args.command == "food-labor":
+        return _food_labor(args.module_registry, args.pattern_dir, args.slot, args.people, args.output)
     if args.command == "water":
         return _water(args.compiled_plan, args.water_plan, args.output)
     if args.command == "energy":
@@ -306,6 +348,10 @@ def main(argv: list[str] | None = None) -> int:
         return _candidate_matrix(args)
     if args.command == "tradeoff-scale":
         return _tradeoff_scale(args)
+    if args.command == "node-scaling":
+        return _node_scaling(args.module_registry, args.scale_profile, args.people, args.output)
+    if args.command == "topology-recommend":
+        return _topology_recommend(args)
     if args.command == "optimize":
         return _optimize(args)
     if args.command == "export-visualization":
@@ -328,6 +374,12 @@ def main(argv: list[str] | None = None) -> int:
         return _scalability_gate(args.compiled_plan, args.technology_module, args.module_registry, args.output)
     if args.command == "implement-module":
         return _implement_module(args)
+    if args.command == "complexity-report":
+        return _complexity_report(args.module_registry, args.pattern_dir, args.output)
+    if args.command == "artifact-cohesion":
+        return _artifact_cohesion(args.generated_dir, args.output)
+    if args.command == "viewer-server":
+        return _viewer_server(args.host, args.port, args.repo_root)
     return 2
 
 
@@ -424,6 +476,26 @@ def _scenario(compiled_plan_path: str, scenario_path: str, output: str | None) -
 
 def _nutrition(compiled_plan_path: str, food_plan_path: str, output: str | None) -> int:
     report = evaluate_nutrition(load_data(compiled_plan_path), load_data(food_plan_path))
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "fail" else 0
+
+
+def _food_labor(module_registry_path: str, pattern_dir: str, slot: str, people: list[int], output: str | None) -> int:
+    registry = load_data(module_registry_path)
+    registry_report = validate_data(registry, module_registry_path)
+    if not registry_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+        print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+        return 2
+    try:
+        report = generate_food_labor_report(registry, load_patterns(pattern_dir), slot, people)
+    except CompileError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
     if output:
         write_json(output, report)
         print(f"Wrote {Path(output)}")
@@ -671,6 +743,59 @@ def _tradeoff_scale(args: argparse.Namespace) -> int:
     except (CompileError, ValueError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
+    if args.output:
+        write_json(args.output, report)
+        print(f"Wrote {Path(args.output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "not_ready" else 0
+
+
+def _node_scaling(module_registry_path: str, scale_profile_path: str | None, people: list[int], output: str | None) -> int:
+    registry = load_data(module_registry_path)
+    registry_report = validate_data(registry, module_registry_path)
+    if not registry_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+        print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+        return 2
+    scale_profile = load_data(scale_profile_path) if scale_profile_path else None
+    if scale_profile is not None:
+        scale_report = validate_data(scale_profile, scale_profile_path or "<scale-profile>")
+        if not scale_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in scale_report.issues)
+            print(f"ERROR: Invalid scale profile: {details}", file=sys.stderr)
+            return 2
+    report = generate_node_scaling_report(registry, scale_profile, people)
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "not_ready" else 0
+
+
+def _topology_recommend(args: argparse.Namespace) -> int:
+    node_report = load_data(args.node_scaling_report)
+    node_validation = validate_data(node_report, args.node_scaling_report)
+    if not node_validation.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in node_validation.issues)
+        print(f"ERROR: Invalid node scaling report: {details}", file=sys.stderr)
+        return 2
+    food_labor = load_data(args.food_labor) if args.food_labor else None
+    if food_labor is not None:
+        food_validation = validate_data(food_labor, args.food_labor)
+        if not food_validation.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in food_validation.issues)
+            print(f"ERROR: Invalid food labor report: {details}", file=sys.stderr)
+            return 2
+    complexity = load_data(args.complexity) if args.complexity else None
+    if complexity is not None:
+        complexity_validation = validate_data(complexity, args.complexity)
+        if not complexity_validation.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in complexity_validation.issues)
+            print(f"ERROR: Invalid complexity report: {details}", file=sys.stderr)
+            return 2
+    report = generate_topology_recommendation(node_report, args.population, food_labor, complexity)
     if args.output:
         write_json(args.output, report)
         print(f"Wrote {Path(args.output)}")
@@ -944,3 +1069,41 @@ def _implement_module(args: argparse.Namespace) -> int:
     else:
         print(dump_json(report), end="")
     return 1 if report["status"].startswith("blocked") or report["status"] == "implemented_with_regression" else 0
+
+
+def _complexity_report(module_registry_path: str, pattern_dir: str, output: str | None) -> int:
+    registry = load_data(module_registry_path)
+    registry_report = validate_data(registry, module_registry_path)
+    if not registry_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+        print(f"ERROR: Invalid module registry: {details}", file=sys.stderr)
+        return 2
+    try:
+        report = generate_complexity_report(registry, load_patterns(pattern_dir))
+    except CompileError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "blocked" else 0
+
+
+def _artifact_cohesion(generated_dir: str, output: str | None) -> int:
+    report = evaluate_artifact_cohesion(generated_dir)
+    if output:
+        write_json(output, report)
+        print(f"Wrote {Path(output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "not_ready" else 0
+
+
+def _viewer_server(host: str, port: int, repo_root: str) -> int:
+    try:
+        serve_viewer(host, port, repo_root)
+    except KeyboardInterrupt:
+        return 0
+    return 0

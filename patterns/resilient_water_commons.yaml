@@ -1,0 +1,264 @@
+kind: CivicPattern
+id: resilient_water_commons
+type: WaterSystem
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, sanitation, electrical, cost, labor, ecology, governance]
+purpose: Provide a conservative village-scale water commons with safe potable supply, protected emergency storage, visible operations, and reviewed nonpotable resilience.
+scale: village
+mdl_categories: [water, health, sanitation, food, commons]
+inputs:
+  - regulated_public_water_or_permitted_well
+  - certified_lab_testing
+  - potable_storage
+  - nonpotable_catchment
+  - metering_and_leak_detection
+  - critical_pump_power
+  - water_steward_team
+outputs:
+  - conservative_potable_floor
+  - emergency_potable_buffer
+  - nonpotable_resilience_layer
+  - visible_water_dashboard
+  - drought_response_stages
+  - testing_and_maintenance_schedule
+  - contamination_response_plan
+dependencies:
+  - id: well_house
+    kind: pattern
+    critical: true
+    rationale: The commons needs an identified potable entry, source protection, pump or pressure point, and sampling location.
+  - id: rainwater_capture
+    kind: pattern
+    critical: true
+    rationale: Rainwater is used as a nonpotable resilience and irrigation layer rather than an assumed drinking source.
+  - id: emergency_water_reserve
+    kind: pattern
+    critical: true
+    rationale: The water commons must preserve a protected emergency potable buffer and release protocol.
+  - id: critical_load_reserve
+    kind: pattern
+    critical: true
+    rationale: Pumps, treatment controls, monitoring, freeze protection, and emergency water points need critical-load continuity.
+  - id: shared_bathhouse
+    kind: pattern
+    critical: true
+    rationale: Water demand and hygiene dignity must stay coupled to sanitation and bathing infrastructure.
+  - id: water_public_health_review
+    kind: external
+    critical: true
+    rationale: Potable safety, testing, contamination response, and any reuse boundary require public-health review.
+  - id: plumbing_code_review
+    kind: external
+    critical: true
+    rationale: Potable/nonpotable separation, backflow prevention, fixtures, and distribution require jurisdiction-specific plumbing review.
+  - id: delivered_water_fallback_plan
+    kind: external
+    critical: true
+    rationale: Source loss and contamination response need a concrete delivered-water or alternate-supply plan.
+  - id: onsite_reuse_review
+    kind: external
+    critical: false
+    rationale: Treated graywater or reclaimed-water reuse is optional and must not be assumed without professional and legal review.
+constraints:
+  physical:
+    - potable entry or well house, treatment and testing station, protected potable storage, nonpotable cistern, pump room, sampling points, and emergency dispensing point
+    - submetered building or pod zones, leak detection, tank level monitoring, and accessible water status display
+    - clear physical separation and labeling between potable and nonpotable distribution
+    - fixture and irrigation design should target 35 to 55 gallons per person per day indoors and warn above 65
+    - storage and access points must support high-need residents, care rooms, infants, elders, disabled residents, and illness waves
+  ecological:
+    - use rainwater first for gardens, greenhouse support, drought response, and potable-demand reduction
+    - avoid high-water lawns, unmanaged irrigation, and conservation strategies that undermine hygiene
+    - treat drought as graceful degradation, prioritizing potable water, sanitation, food crops, and health before comfort
+    - avoid single-source dependency where practical and keep source limits, recharge, rainfall, and overflow assumptions visible
+  legal:
+    - public water connections, private wells, hauled water, rainwater, nonpotable reuse, water rights, plumbing, backflow, and public-water-system thresholds vary by jurisdiction
+    - the pattern must not imply final treatment design, well siting, water-rights approval, plumbing compliance, or lab interpretation
+  social:
+    - residents must be able to identify the potable source, testing status, treatment status, storage days, and fallback plan
+    - conservation should come from fixtures, metering, leak repair, and irrigation controls rather than resident shame
+    - no survival-critical water role may depend on one person
+    - water status, scarcity rules, and emergency distribution must be transparent and nonpunitive
+  safety:
+    - potable water cannot rely on untreated rainwater, untested wells, black-box treatment, or sensors without lab testing
+    - nonpotable systems require labeling, backflow prevention, cross-connection prevention, maintenance logs, and review
+    - contamination, source loss, pump outage, flood, drought, leak, and cistern failure scenarios need response plans
+build_phase: 1
+lifecycle:
+  build_sequence:
+    - choose regulated public water, permitted shared well, or delivered potable path as the conservative potable source
+    - confirm public-health, plumbing-code, water-rights, and delivered-water fallback review requirements
+    - define potable and nonpotable topology, storage targets, source hierarchy, demand categories, and emergency dispensing path
+    - install or adapt metering, leak detection, tank level monitoring, sampling points, backflow prevention, and dashboard reporting
+    - connect pump, treatment, monitoring, and emergency water points to critical-load continuity or manual fallback
+    - train water, testing, maintenance, drought, emergency-water, and public-health liaison stewards with backups
+  inspection_points:
+    - potable source identity and legal access
+    - latest lab test and next test due
+    - potable storage volume and rotation
+    - cross-connection and backflow prevention
+    - nonpotable labels and piping separation
+    - submetering, leak detection, tank levels, and dashboard status
+    - delivered-water fallback and emergency distribution
+    - pump backup power and manual fallback
+  maintenance:
+    - id: water_status_round
+      description: Check dashboard, tank levels, source status, warnings, visible labels, and emergency water access.
+      interval: weekly
+      role: water_steward
+      estimated_hours: 1
+      provisional: true
+    - id: testing_schedule_round
+      description: Track annual and event-based lab testing, sampling points, contaminant list, and public-health review flags.
+      interval: monthly
+      role: testing_steward
+      estimated_hours: 2
+      provisional: true
+    - id: meter_and_leak_round
+      description: Review submeter trends, inspect for abnormal use, check leak alerts, and assign repairs without blame.
+      interval: weekly
+      role: maintenance_steward
+      estimated_hours: 1.5
+      provisional: true
+    - id: drought_and_storage_review
+      description: Review rainfall, cistern levels, irrigation budget, emergency buffer days, supplier fallback, and drought stage triggers.
+      interval: monthly
+      role: drought_steward
+      estimated_hours: 2
+      provisional: true
+  expected_lifespan: ongoing commons operation with replaceable pumps, meters, sensors, tanks, fixtures, treatment components, and review agreements
+  repair_procedure:
+    - isolate unsafe source, tank, fixture zone, or nonpotable connection
+    - issue boil-water, do-not-use, conservation, or alternate-source notice as appropriate
+    - preserve emergency potable access and high-need resident support while repairs proceed
+    - repair under qualified review where potable safety, plumbing, electrical, or public health is implicated
+    - retest, flush, document, and publicly close the incident before returning to normal service
+  end_of_life_path:
+    - decommission unsafe wells, tanks, filters, sensors, pumps, and piping under local rules
+    - preserve water quality logs, maintenance history, incident records, and source agreements
+    - salvage reusable tanks, valves, meters, and controls only where sanitary and legal
+failure_modes:
+  - mode: potable_source_contamination
+    likelihood: medium
+    severity: catastrophic
+    detection_method: lab testing, event-based sampling, illness reports, taste or odor change, and source event alerts
+    mitigation: stop use, switch to protected storage or delivered water, isolate source, notify residents, review professionally, and retest before reinstating
+  - mode: nonpotable_cross_connection
+    likelihood: low
+    severity: catastrophic
+    detection_method: inspection, backflow testing, labeling audit, plumbing review, and unexpected quality results
+    mitigation: isolate nonpotable system, provide alternate potable supply, correct plumbing, disinfect affected lines, and require qualified review
+  - mode: drought_storage_drawdown
+    likelihood: medium
+    severity: high
+    detection_method: cistern levels, rainfall deficit, well yield changes, water restrictions, and demand dashboard trends
+    mitigation: trigger drought stages, prioritize potable and sanitation, reduce irrigation, activate delivery fallback, and protect high-need residents
+  - mode: pump_or_power_loss
+    likelihood: medium
+    severity: high
+    detection_method: pressure alarms, outage reports, pump monitoring, and resident access reports
+    mitigation: use backup power, gravity or manual fallback, emergency dispensing point, and critical-load shedding priority
+  - mode: hidden_water_waste
+    likelihood: medium
+    severity: medium
+    detection_method: submeter trends, leak alerts, high-use warning above target, and maintenance inspection
+    mitigation: repair leaks, adjust fixtures or irrigation controls, inspect abnormal zones, and communicate without blaming residents
+governance:
+  owner: commons
+  access_rule: potable water, emergency storage, test status, and scarcity rules are governed as a transparent dignity floor with protected access for every resident.
+  stewardship_role: water_steward
+  backup_role: testing_steward
+  audit_frequency: weekly
+  capture_risk: control over source status, shutoffs, test records, emergency distribution, or reuse complexity could become coercive without public logs and backup stewards
+metrics:
+  cost: 350000
+  build_labor_hours: 900
+  recurring_labor_hours_per_week: 8
+  energy_use: 8
+  water_use: 0
+  embodied_carbon: 4
+  maintenance_burden: 7
+  dignity_score: 10
+  autonomy_score: 7
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 2200
+    energy_kwh_per_day: -8
+    food_servings_per_day: 0
+  storage:
+    - resource: water_liters
+      capacity: 9085
+      initial: 9085
+      reserve_floor: 4240
+      max_release_per_day: 1600
+      max_refill_per_day: 1600
+      refill_mode: manual_procurement
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 30
+        loss_per_day_after_unsafe: 0.25
+        risk: emergency potable storage may become unsafe if rotation, seals, labels, testing, or contamination response are neglected
+        recovery_action: isolate suspect water, provide delivered potable backup, sanitize storage, refill, and retest before use
+        recovery_role: water_steward
+        recovery_labor_hours: 8
+        recovery_duration_days: 2
+        review_dependency: water_public_health
+        provisional: true
+      access_rule: release through transparent emergency water protocol while protecting high-need residents and preserving the potable reserve floor
+      notes: Provisional 80-resident emergency potable buffer sized near 30 days at 1 gallon per person per day; normal service demand is modeled elsewhere.
+      provisional: true
+  critical_resources: [water, energy, sanitation, maintenance]
+  notes: Provisional topology and operations layer for an 80-resident water commons. The modeled water contribution represents reviewed source capacity, leak control, nonpotable reuse, and conservation operations; it does not claim final treatment design, legal compliance, or potable approval.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: emergency_potable_capacity
+      path: simulation.storage[0].capacity
+      label: Emergency potable buffer
+      unit: liters
+      min: 4240
+      max: 27255
+      step: 1515
+      default: 9085
+      affects: [water, resilience, cost, maintenance]
+      review_required: true
+      provisional: true
+    - id: emergency_release_capacity
+      path: simulation.storage[0].max_release_per_day
+      label: Emergency potable release capacity
+      unit: liters_per_day
+      min: 303
+      max: 4400
+      step: 100
+      default: 1600
+      affects: [water, dignity, resilience, governance]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: potable_safety_review
+      path: simulation.storage[0].quality.review_dependency
+      reason: Potable safety, contamination response, lab testing, and storage handling cannot be relaxed without public-health review.
+      review_dependency: water_public_health
+      provisional: true
+    - id: rainwater_nonpotable_default
+      path: constraints.safety
+      reason: Rainwater defaults to nonpotable resilience unless local law, treatment, testing, and professional review support potable use.
+      review_dependency: water_public_health_review
+      provisional: true
+    - id: no_untested_source
+      path: constraints.safety
+      reason: Untested private wells, untreated rainwater, and treatment recommendations without contaminant data are invalid for potable claims.
+      review_dependency: lab_testing_provider
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: A water commons node should serve roughly 50-150 residents; above that, replicate village-block water cells or professionalize utility operations.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

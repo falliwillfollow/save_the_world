@@ -1,0 +1,238 @@
+kind: CivicPattern
+id: anti_speculative_civic_floor
+type: Commons
+status: draft
+provisional: true
+provisional_for: [legal, governance, cost, labor]
+purpose: Define a legal, land-control, finance, affordability, reserve, debt, insurance, and risk structure that keeps the civic floor outside speculative extraction.
+scale: village
+mdl_categories: [commons, shelter, privacy, contribution]
+inputs:
+  - land_control_profile
+  - entity_layer_map
+  - resident_rights_policy
+  - capital_stack
+  - operating_budget
+  - reserve_policy
+  - debt_policy
+  - insurance_tax_review_map
+  - affordability_baseline
+outputs:
+  - legal_land_finance_summary
+  - land_control_report
+  - resident_rights_report
+  - asset_lock_report
+  - capital_stack_report
+  - operating_budget_report
+  - monthly_cost_per_resident_report
+  - reserve_adequacy_report
+  - debt_risk_report
+  - professional_review_requirements
+dependencies:
+  - id: commons_stewardship_protocol
+    kind: pattern
+    critical: true
+    rationale: Anti-speculative finance depends on written rights, anti-capture governance, decision domains, transparency, conflict safeguards, and asset-lock authority.
+  - id: maintainable_commons_spine
+    kind: pattern
+    critical: true
+    rationale: Affordability claims require honest asset records, work orders, replacement cycles, emergency repair reserves, and maintenance budget visibility.
+  - id: land_tenure_legal_review
+    kind: external
+    critical: true
+    rationale: Land stewardship, title, ground lease, use rights, transfer restrictions, zoning, and dissolution rules require qualified legal review.
+  - id: finance_affordability_review
+    kind: external
+    critical: true
+    rationale: Capital budgets, operating budgets, monthly resident costs, reserves, debt service, affordability formulas, and hardship rules need finance review.
+  - id: tax_accounting_review
+    kind: external
+    critical: true
+    rationale: Tax status, filings, accounting controls, reserves, member capital, donations, grants, and entity separation require CPA or tax review.
+  - id: insurance_liability_review
+    kind: external
+    critical: true
+    rationale: Property, liability, D&O, workers compensation, deductible, exclusions, and regional hazard risks require insurance review.
+  - id: securities_fundraising_review
+    kind: external
+    critical: true
+    rationale: Member capital, community notes, crowdfunding, capped returns, and any investor-like capital must be screened before fundraising claims are made.
+constraints:
+  physical:
+    - entity structure mapper, land-control report, capital-stack builder, pro forma, reserve modeler, debt-risk simulator, affordability monitor, and review trigger dashboard must be visible to residents and stewards
+    - dashboards must show monthly cost per resident, required reserve contributions, debt service, insurance, taxes, maintenance, administration, and bad-year assessment risk
+    - records must separate land stewardship, resident housing rights, operating commons, finance vehicle, lenders, funders, insurers, reserves, and decision rights
+    - financial dashboards must protect resident hardship, disability, income, family, conflict, and payment-detail privacy while preserving aggregate governance visibility
+  ecological:
+    - land, water, energy, food, sanitation, maintenance spares, common buildings, ecological assets, and reserve funds must not be convertible into private speculative gain without legal and resident review
+    - affordability may not be created by omitting replacement reserves, emergency reserves, insurance, taxes, maintenance, or known professional service costs
+    - above roughly 150 residents, the pattern should replicate village blocks or federate services rather than centralizing one opaque legal organism
+  legal:
+    - the pattern models structure, risk, review triggers, and failure gates only; it is not legal, tax, investment, insurance, mortgage, zoning, eviction, cooperative, nonprofit, or securities advice
+    - final entity selection, legal drafting, resident agreements, financing documents, fundraising, tax status, zoning, insurance, and enforcement require qualified professionals
+    - public profit-bearing fundraising, tokenized ownership, investor control, tax exemption claims, eviction automation, or securities compliance claims are outside app authority
+  social:
+    - resident control must not scale with financial contribution
+    - residents need written use rights, due process, privacy, participation rights, repair process, exit process, hardship process, dispute process, and anti-retaliation protection
+    - resident exit value may support dignity, but it cannot destroy affordability for the next resident
+    - no founder, investor, lender, landlord-like body, or faction should be able to turn survival infrastructure into an extraction machine
+  safety:
+    - land sale pressure, debt default, insurance shock, tax shock, refinance failure, maintenance capex shock, resident income shock, founder pressure, zoning denial, and dissolution must be stress-tested
+    - debt must include a service schedule, maturity plan, collateral map, default consequence map, covenant tracking, reserve requirement, and member approval threshold
+    - asset transfer, major debt, reserve drawdown, dissolution, resident removal, and changes to affordability formulas must trigger review and documented authority
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - map land stewardship, resident housing rights, operating commons, finance vehicle, lenders, funders, insurers, reserves, residents, assets, and approval rights
+    - define land-control options, title status, zoning status, asset lock, transfer restrictions, dissolution rule, and ecological asset protection
+    - establish written resident rights, due process, hardship process, exit formula, financial privacy, anti-retaliation, and affordability protections
+    - build capital budget, operating budget, capital stack, reserve policy, debt policy, insurance map, tax/accounting calendar, and professional review tracker
+    - model normal year plus insurance, tax, interest rate, refinance, maintenance, income, land-sale, founder-pressure, zoning, and dissolution stress scenarios
+    - train land stewardship, legal review, finance, affordability, reserve, insurance risk, tax accounting, permitting, and fundraising compliance roles with backups
+  inspection_points:
+    - secure land control and title review status
+    - asset lock, transfer restrictions, and dissolution rule
+    - written resident rights, due process, exit formula, hardship policy, and financial privacy
+    - monthly core cost per resident with reserves, insurance, taxes, debt, maintenance, administration, and professional services included
+    - operating, replacement, emergency, deductible, and hardship reserve status
+    - debt service coverage, maturity risk, collateral exposure, default consequence map, and lender control rights
+    - securities, fundraising, tax, insurance, zoning, and permit review status
+    - affordability drift and bad-year assessment displacement risk
+  maintenance:
+    - id: legal_land_finance_dashboard_round
+      description: Review entity map, land control, resident rights, asset-lock status, review calendar, open risks, and authority changes.
+      interval: monthly
+      role: legal_review_liaison
+      estimated_hours: 3
+      provisional: true
+    - id: budget_reserve_round
+      description: Review operating budget, monthly cost, reserve balances, reserve contributions, maintenance reserve linkage, tax and insurance allowances, and assessment risk.
+      interval: monthly
+      role: finance_steward
+      estimated_hours: 4
+      provisional: true
+    - id: affordability_drift_round
+      description: Compare monthly cost, required wage hours, local rent, income bands, debt service, reserves, and bad-year scenarios.
+      interval: monthly
+      role: affordability_steward
+      estimated_hours: 3
+      provisional: true
+    - id: debt_and_capital_risk_round
+      description: Review capital stack, control rights, securities triggers, debt schedule, covenants, maturity risk, default consequences, and lender pressure.
+      interval: quarterly
+      role: finance_steward
+      estimated_hours: 4
+      provisional: true
+  expected_lifespan: ongoing legal-financial stewardship layer with periodic attorney, CPA, lender, insurance, resident, and authority review
+  repair_procedure:
+    - classify the issue as land, rights, affordability, reserve, debt, tax, insurance, securities, permit, hardship, or governance capture risk
+    - pause unreviewed transfers, debt, fundraising, affordability formula changes, resident removals, or reserve drawdowns when gates fail
+    - trigger the relevant professional review and publish a resident-readable risk summary within privacy and legal limits
+    - revise budgets, reserves, debt terms, hardship policies, or scope before treating missing costs as affordability
+    - update the entity map, review tracker, decision log, and stress scenarios after resolution
+  end_of_life_path:
+    - follow dissolution, asset-lock, transfer, resident transition, debt satisfaction, reserve use, records retention, and legal review rules
+    - preserve resident rights, notices, exit value rules, hardship protections, and mission continuity where legally available
+    - route remaining commons assets according to reviewed public-purpose or mission-lock requirements
+failure_modes:
+  - mode: speculative_land_capture
+    likelihood: medium
+    severity: catastrophic
+    detection_method: insecure title, founder-owned or investor-owned land, sale pressure, missing transfer restrictions, lender control, or no resident use rights
+    mitigation: pause expansion, require legal review, secure mission-locked stewardship, document resident rights, and add transfer or dissolution protections
+  - mode: false_affordability
+    likelihood: medium
+    severity: catastrophic
+    detection_method: budgets omit reserves, insurance, taxes, debt service, maintenance, professional services, labor, or bad-year assessments
+    mitigation: rebuild pro forma with full costs, increase reserves, reduce scope, seek subsidy, or mark model financially nonviable
+  - mode: debt_pressure_cascade
+    likelihood: medium
+    severity: catastrophic
+    detection_method: balloon maturity, variable-rate exposure, weak DSCR, cross-collateralized core assets, unclear default map, or lender rights over survival infrastructure
+    mitigation: require member approval, refinance or reduce debt, add reserves, isolate collateral, and review default mitigation before implementation
+  - mode: resident_rights_insecurity
+    likelihood: medium
+    severity: high
+    detection_method: no written use agreement, unclear exit value, hardship process absent, discretionary removal, or due-process complaints
+    mitigation: pause tenure claims, draft reviewed rights, add appeal process, protect financial privacy, and prohibit arbitrary loss of access
+  - mode: fundraising_or_tax_compliance_failure
+    likelihood: medium
+    severity: high
+    detection_method: return promises, public notes, tokenized ownership, investor control terms, assumed exemption, missing CPA review, or unclear filings
+    mitigation: stop fundraising claim, trigger securities and tax review, remove control rights, correct disclosures, and rebuild capital stack
+governance:
+  owner: commons
+  access_rule: residents and stewards can inspect aggregate land, budget, reserve, debt, affordability, insurance, tax, and review status while individual hardship, income, payment, disability, and conflict details remain privacy-limited.
+  stewardship_role: finance_steward
+  backup_role: legal_review_liaison
+  audit_frequency: monthly
+  capture_risk: land, debt, reserves, entity documents, fundraising, resident payments, insurance, tax status, and hardship records can become capture levers if controlled by unreviewed parties
+metrics:
+  cost: 180000
+  build_labor_hours: 500
+  recurring_labor_hours_per_week: 14
+  energy_use: 1
+  water_use: 0
+  embodied_carbon: 0.2
+  maintenance_burden: 4
+  dignity_score: 9
+  autonomy_score: 9
+  resilience_score: 10
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -1
+    food_servings_per_day: 0
+  critical_resources: [maintenance]
+  notes: Provisional legal-land-finance stewardship layer. The current simulator does not yet model enforceability, title, tax status, insurance underwriting, securities compliance, monthly affordability, debt default, resident tenure, or land-sale pressure as first-class dynamics.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: legal_finance_operating_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Legal, land, and finance stewardship labor
+      unit: hours_per_week
+      min: 6
+      max: 60
+      step: 2
+      default: 14
+      affects: [governance, labor, cost, resilience, autonomy]
+      review_required: true
+      provisional: true
+    - id: legal_finance_startup_allowance
+      path: metrics.cost
+      label: Legal, finance, insurance, tax, and reserve setup allowance
+      unit: dollars
+      min: 50000
+      max: 500000
+      step: 25000
+      default: 180000
+      affects: [cost, resilience, governance, external_dependency]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: no_speculative_control
+      path: constraints.social
+      reason: Investor, founder, lender, or landlord-like control over survival infrastructure must remain a blocking risk, not an optimization tradeoff.
+      review_dependency: land_tenure_legal_review
+      provisional: true
+    - id: reserves_count_as_cost
+      path: constraints.ecological
+      reason: Operating, replacement, emergency, deductible, hardship, tax, insurance, and maintenance reserves must be counted in monthly affordability.
+      review_dependency: finance_affordability_review
+      provisional: true
+    - id: securities_boundary
+      path: constraints.legal
+      reason: The app cannot recommend fundraising, member capital, notes, capped returns, or investor structures without securities review.
+      review_dependency: securities_fundraising_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: The legal-finance structure is most plausible for roughly 50-150 residents; above that, replicate village blocks or federate shared services instead of growing one opaque entity.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

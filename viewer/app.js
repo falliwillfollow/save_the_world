@@ -4,6 +4,12 @@ const DEFAULT_SEARCH_OPTIMIZER_PATH = "../examples/generated/micro_commons_searc
 const DEFAULT_OBJECTIVE_CALIBRATION_PATH = "../examples/generated/micro_commons_objective_calibration.json";
 const DEFAULT_WEIGHT_GOVERNANCE_PATH = "../examples/generated/micro_commons_weight_governance.json";
 const DEFAULT_CYCLE_ITERATION_PATH = "../examples/generated/micro_commons_cycle_iteration.json";
+const DEFAULT_FOOD_AUTONOMY_PATH = "../examples/generated/micro_commons_food_autonomy_report.json";
+const DEFAULT_NODE_SCALING_PATH = "../examples/generated/micro_commons_node_scaling.json";
+const DEFAULT_TOPOLOGY_RECOMMENDATION_PATH = "../examples/generated/micro_commons_topology_recommendation.json";
+const DEFAULT_VIEWER_RUN_REPORT_PATH = "../examples/generated/micro_commons_viewer_session_report.json";
+const VIEWER_RUN_REPORT_API = "/api/viewer-session-report";
+const VIEWER_RUN_REPORT_STORAGE_KEY = "ciac.viewerRunReport.v0";
 
 const zonePositions = {
   access_lane: { x: 10, y: 48 },
@@ -23,6 +29,17 @@ const state = {
   objectiveCalibration: null,
   weightGovernance: null,
   cycleReport: null,
+  foodAutonomyReport: null,
+  foodLaborReport: null,
+  complexityReport: null,
+  nodeScaling: null,
+  topologyRecommendation: null,
+  viewerRunReport: null,
+  artifactCohesion: null,
+  runLogStatus: "not_loaded",
+  runLogMessage: "",
+  population: 150,
+  populationTouched: false,
   day: 1,
   selectedSystem: "",
   selectedScenarioIndex: -1,
@@ -50,6 +67,12 @@ const elements = {
   calibrationFile: document.querySelector("#calibrationFile"),
   weightFile: document.querySelector("#weightFile"),
   cycleFile: document.querySelector("#cycleFile"),
+  nodeFile: document.querySelector("#nodeFile"),
+  topologyFile: document.querySelector("#topologyFile"),
+  nodeScalingStatus: document.querySelector("#nodeScalingStatus"),
+  nodeScalingSummary: document.querySelector("#nodeScalingSummary"),
+  populationSlider: document.querySelector("#populationSlider"),
+  populationOutput: document.querySelector("#populationOutput"),
   foundationStatus: document.querySelector("#foundationStatus"),
   foundationSummary: document.querySelector("#foundationSummary"),
   optimizationStatus: document.querySelector("#optimizationStatus"),
@@ -90,6 +113,14 @@ elements.searchFile.addEventListener("change", event => loadOptimizationFile(eve
 elements.calibrationFile.addEventListener("change", event => loadOptimizationFile(event.target.files[0], "calibration"));
 elements.weightFile.addEventListener("change", event => loadOptimizationFile(event.target.files[0], "weight"));
 elements.cycleFile.addEventListener("change", event => loadCycleFile(event.target.files[0]));
+elements.nodeFile.addEventListener("change", event => loadNodeScalingFile(event.target.files[0]));
+elements.topologyFile.addEventListener("change", event => loadTopologyRecommendationFile(event.target.files[0]));
+elements.populationSlider.addEventListener("input", event => {
+  state.population = Number(event.target.value || 150);
+  state.populationTouched = true;
+  renderNodeScaling();
+  renderLayout();
+});
 elements.daySlider.addEventListener("input", event => {
   state.day = Number(event.target.value);
   renderDay();
@@ -120,6 +151,21 @@ async function loadDefaultBundle() {
   loadDefaultFoundationGate();
   loadDefaultOptimizationReports();
   loadDefaultCycleIteration();
+  loadDefaultFoodAutonomy();
+  loadDefaultNodeScaling();
+  loadDefaultTopologyRecommendation();
+  loadDefaultViewerRunReport();
+}
+
+async function loadDefaultFoodAutonomy() {
+  try {
+    const response = await fetch(noStorePath(DEFAULT_FOOD_AUTONOMY_PATH), { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    state.foodAutonomyReport = await response.json();
+    renderOptimization();
+  } catch (error) {
+    state.foodAutonomyReport = null;
+  }
 }
 
 async function loadDefaultFoundationGate() {
@@ -202,6 +248,51 @@ async function loadDefaultCycleIteration() {
   }
 }
 
+async function loadDefaultNodeScaling() {
+  try {
+    const response = await fetch(noStorePath(DEFAULT_NODE_SCALING_PATH), { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    setNodeScaling(await response.json());
+  } catch (error) {
+    state.nodeScaling = null;
+    renderNodeScalingLoadError(error);
+  }
+}
+
+async function loadDefaultTopologyRecommendation() {
+  try {
+    const response = await fetch(noStorePath(DEFAULT_TOPOLOGY_RECOMMENDATION_PATH), { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    setTopologyRecommendation(await response.json(), { syncPopulation: false });
+  } catch (error) {
+    state.topologyRecommendation = null;
+    renderNodeScaling();
+  }
+}
+
+async function loadDefaultViewerRunReport() {
+  try {
+    const response = await fetch(noStorePath(VIEWER_RUN_REPORT_API), { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    setViewerRunReport(await response.json(), "persisted");
+    return;
+  } catch (error) {
+    try {
+      const response = await fetch(noStorePath(DEFAULT_VIEWER_RUN_REPORT_PATH), { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      setViewerRunReport(await response.json(), "artifact");
+      return;
+    } catch (artifactError) {
+      const cached = window.localStorage.getItem(VIEWER_RUN_REPORT_STORAGE_KEY);
+      if (cached) {
+        setViewerRunReport(JSON.parse(cached), "local_only");
+      } else {
+        setViewerRunReport(emptyViewerRunReport(), "not_persisted");
+      }
+    }
+  }
+}
+
 function loadCycleFile(file) {
   if (!file) return;
   const reader = new FileReader();
@@ -214,6 +305,75 @@ function loadCycleFile(file) {
     }
   };
   reader.readAsText(file);
+}
+
+function loadNodeScalingFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      setNodeScaling(JSON.parse(reader.result));
+    } catch (error) {
+      elements.nodeScalingStatus.textContent = "invalid";
+      elements.nodeScalingStatus.className = "status-chip status-fail";
+    }
+  };
+  reader.readAsText(file);
+}
+
+function loadTopologyRecommendationFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      setTopologyRecommendation(JSON.parse(reader.result), { syncPopulation: true });
+    } catch (error) {
+      elements.nodeScalingStatus.textContent = "invalid";
+      elements.nodeScalingStatus.className = "status-chip status-fail";
+    }
+  };
+  reader.readAsText(file);
+}
+
+function setTopologyRecommendation(report, options = {}) {
+  state.topologyRecommendation = report;
+  if (options.syncPopulation && report.population) {
+    state.population = Number(report.population);
+    state.populationTouched = true;
+    elements.populationSlider.value = String(state.population);
+  }
+  renderNodeScaling();
+}
+
+function setNodeScaling(report) {
+  state.nodeScaling = report;
+  const targets = report.target_results || [];
+  const maxTarget = Math.max(1500, ...targets.map(target => Number(target.people || 0)));
+  elements.populationSlider.max = String(maxTarget);
+  if (!state.populationTouched) {
+    state.population = defaultPopulationFromTargets(targets, maxTarget);
+  } else if (!state.population || state.population > maxTarget) {
+    state.population = Math.min(150, maxTarget);
+  }
+  elements.populationSlider.value = String(state.population);
+  renderNodeScaling();
+  renderLayout();
+}
+
+function setViewerRunReport(report, status) {
+  state.viewerRunReport = report;
+  state.runLogStatus = status;
+  state.runLogMessage = runLogMessage(status);
+  renderCycle();
+}
+
+function defaultPopulationFromTargets(targets, maxTarget) {
+  const adHoc = targets
+    .filter(target => String(target.notes || "").toLowerCase().includes("ad hoc"))
+    .map(target => Number(target.people || 0))
+    .filter(Boolean);
+  if (adHoc.length) return adHoc[adHoc.length - 1];
+  return Math.min(150, maxTarget);
 }
 
 function setCycleReport(report) {
@@ -253,6 +413,7 @@ function renderAll() {
   renderFoundation();
   renderOptimization();
   renderCycle();
+  renderNodeScaling();
   renderRuntimeKpis();
   renderLayout();
   renderDay();
@@ -343,6 +504,7 @@ function completeCycle() {
   state.cycle.submitted = false;
   state.cycle.elapsedBeforePauseMs = 0;
   setDay(max);
+  recordCompletedYear(max);
   renderCycle();
 }
 
@@ -399,7 +561,143 @@ function renderCycle() {
   elements.nextCycle.disabled = !state.cycle.submitted;
   elements.runCycle.disabled = false;
   elements.runCycle.textContent = state.cycle.running ? "Pause" : state.cycle.paused ? "Resume" : "Run Year";
-  elements.cycleSummary.innerHTML = cycleSummaryMarkup(selected, max);
+  elements.cycleSummary.innerHTML = `${cycleSummaryMarkup(selected, max)}${viewerRunLogSummary()}`;
+}
+
+function recordCompletedYear(max) {
+  const event = viewerRunEvent(max);
+  appendViewerRunLocal(event, "local_pending");
+  persistViewerRunEvent(event);
+}
+
+function viewerRunEvent(days) {
+  const people = Math.max(1, Number(state.population || elements.populationSlider.value || 150));
+  const rows = state.nodeScaling ? scaledNodeRows(state.nodeScaling.node_policy_catalog || [], people) : [];
+  const tierCounts = tierNodeCounts(rows);
+  const live = liveTopologyRecommendation(rows, people);
+  return {
+    event_type: "year_cycle_completed",
+    completed_at: new Date().toISOString(),
+    cycle_number: Number(state.cycle.number || 1),
+    population: people,
+    days,
+    bundle_id: state.bundle?.id || "",
+    selected_candidate: selectedSearchCandidate()?.id || "",
+    topology_action: live.action.id,
+    topology_status: live.status,
+    total_nodes: rows.reduce((sum, row) => sum + Number(row.desired_nodes || 0), 0),
+    replicated_slots: rows.filter(row => row.mode === "replicated_nodes").length,
+    scaled_down_slots: rows.filter(row => row.mode === "seed_or_minimal").length,
+    near_capacity_slots: rows.filter(row => row.action === "near_capacity").length,
+    tier_node_counts: tierCounts,
+  };
+}
+
+async function persistViewerRunEvent(event) {
+  try {
+    const response = await fetch(VIEWER_RUN_REPORT_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event }),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    applyViewerRunPipelineResponse(payload);
+    state.runLogStatus = "persisted";
+    state.runLogMessage = runLogMessage("persisted", payload);
+    window.localStorage.setItem(VIEWER_RUN_REPORT_STORAGE_KEY, JSON.stringify(state.viewerRunReport));
+  } catch (error) {
+    state.runLogStatus = "local_only";
+    state.runLogMessage = `Run recorded in browser only; start ciac viewer-server to write examples/generated/micro_commons_viewer_session_report.json. ${String(error.message || error)}`;
+  }
+  renderCycle();
+}
+
+function applyViewerRunPipelineResponse(payload) {
+  const report = payload.viewer_run_report || payload;
+  state.viewerRunReport = report;
+  if (payload.node_scaling) {
+    state.nodeScaling = payload.node_scaling;
+    const targets = state.nodeScaling.target_results || [];
+    const maxTarget = Math.max(1500, ...targets.map(target => Number(target.people || 0)));
+    elements.populationSlider.max = String(maxTarget);
+  }
+  if (payload.food_labor) state.foodLaborReport = payload.food_labor;
+  if (payload.food_autonomy) state.foodAutonomyReport = payload.food_autonomy;
+  if (payload.complexity) state.complexityReport = payload.complexity;
+  if (payload.topology_recommendation) state.topologyRecommendation = payload.topology_recommendation;
+  if (payload.cycle_iteration) state.cycleReport = payload.cycle_iteration;
+  if (payload.artifact_cohesion) state.artifactCohesion = payload.artifact_cohesion;
+  renderNodeScaling();
+  renderLayout();
+}
+
+function appendViewerRunLocal(event, status) {
+  const report = state.viewerRunReport || emptyViewerRunReport();
+  const runs = [...(report.runs || [])];
+  const normalized = {
+    run_index: runs.length + 1,
+    provisional: true,
+    ...event,
+  };
+  runs.push(normalized);
+  const updated = {
+    ...report,
+    status: "runs_recorded",
+    active_population: Number(event.population || 0),
+    run_count: runs.length,
+    runs,
+  };
+  state.viewerRunReport = updated;
+  state.runLogStatus = status;
+  state.runLogMessage = runLogMessage(status);
+  window.localStorage.setItem(VIEWER_RUN_REPORT_STORAGE_KEY, JSON.stringify(updated));
+}
+
+function emptyViewerRunReport() {
+  return {
+    kind: "ViewerRunReport",
+    id: "micro_commons_viewer_session_report",
+    generated_by: "ciac.viewer.client.v0",
+    provisional: true,
+    status: "no_runs",
+    active_population: 0,
+    run_count: 0,
+    runs: [],
+    unknowns: [],
+  };
+}
+
+function viewerRunLogSummary() {
+  const report = state.viewerRunReport;
+  if (!report) return "";
+  const runs = report.runs || [];
+  const latest = runs[runs.length - 1];
+  const status = state.runLogStatus === "persisted" || state.runLogStatus === "artifact" ? "pass" : state.runLogStatus === "local_pending" ? "warn" : "fail";
+  const summary = latest
+    ? `${runs.length} completed year run(s); latest population ${latest.population}, ${latest.total_nodes} nodes, ${label(latest.topology_action)}.`
+    : "No completed webapp year runs recorded yet.";
+  const cohesion = state.artifactCohesion ? `cohesion: ${label(state.artifactCohesion.status)} | active ${state.artifactCohesion.active_population}` : "";
+  return `
+    <div class="event-row status-border-${status}">
+      <div class="event-title"><span>webapp run log</span><span>${label(state.runLogStatus)}</span></div>
+      <div class="small">${summary}</div>
+      ${cohesion ? `<div class="small">${cohesion}</div>` : ""}
+      <div class="small">${state.runLogMessage || runLogMessage(state.runLogStatus)}</div>
+    </div>
+  `;
+}
+
+function runLogMessage(status, payload = null) {
+  if (status === "persisted") {
+    const pipeline = payload?.pipeline;
+    return pipeline ? `Run log persisted; ran the simulator and regenerated food labor, food autonomy, complexity, node-scaling, topology, cycle, and cohesion for ${pipeline.population} people.` : "Run log is being written through the viewer-server API.";
+  }
+  if (status === "artifact") return "Run log loaded from generated artifacts; new runs need viewer-server for persistence.";
+  if (status === "local_pending") return "Run completed; attempting to write the generated viewer run report.";
+  if (status === "local_only") return "Run is recorded in browser storage only; it is not visible to Codex as a generated artifact.";
+  if (status === "not_persisted") return "No writable viewer run endpoint is active.";
+  return "";
 }
 
 function cycleStatus() {
@@ -585,6 +883,27 @@ function renderOptimization() {
     ${calibration ? detailRow("calibration", `${label(calibration.status)} | ${calibration.uncalibrated_score_count || 0} uncalibrated`) : detailRow("calibration", "not loaded")}
     ${governance ? detailRow("governance", `${label(governance.status)} | promotion ${String(governance.promotion_allowed)}`) : detailRow("governance", "not loaded")}
     ${bindingConstraintRows(search)}
+    ${foodAutonomySummary()}
+  `;
+}
+
+function foodAutonomySummary() {
+  const report = state.foodAutonomyReport;
+  if (!report) return "";
+  const food = report.food_autonomy || {};
+  const smoothing = report.seasonal_smoothing || {};
+  const risk = report.risk_scenario_coverage || {};
+  const statusClass = report.status === "pass" ? "pass" : report.status === "fail" ? "fail" : "warn";
+  return `
+    <div class="event-row status-border-${statusClass}">
+      <div class="event-title">
+        <span>food autonomy</span>
+        <span class="status-chip status-${statusClass}">${label(report.status)}</span>
+      </div>
+      <div class="small">production ${formatNumber(Number(food.production_ratio || 0) * 100)}% | reserve release ${formatNumber(Number(food.reserve_release_ratio || 0) * 100)}% | drawdown ${formatNumber(food.reserve_drawdown_per_resident_servings)} servings/resident</div>
+      <div class="small">seasonal smoothing: ${label(smoothing.status)} | uncovered risk modes: ${(risk.uncovered_risk_modes || []).length}</div>
+      ${(report.recommendations || []).slice(0, 2).map(item => `<div class="small">${item}</div>`).join("")}
+    </div>
   `;
 }
 
@@ -730,6 +1049,225 @@ function renderFoundationLoadError(error) {
   `;
 }
 
+function renderNodeScaling() {
+  const report = state.nodeScaling;
+  if (!report) {
+    elements.nodeScalingStatus.textContent = "not loaded";
+    elements.nodeScalingStatus.className = "status-chip status-provisional";
+    elements.populationOutput.textContent = `${state.population || 150} people`;
+    elements.nodeScalingSummary.innerHTML = `<div class="event-row small">Load an InfrastructureNodeReport to use the population slider.</div>`;
+    return;
+  }
+  const people = Math.max(1, Number(state.population || elements.populationSlider.value || 150));
+  elements.populationSlider.value = String(people);
+  elements.populationOutput.textContent = `${people} people`;
+  const rows = scaledNodeRows(report.node_policy_catalog || [], people);
+  const tierCounts = tierNodeCounts(rows);
+  const totalNodes = rows.reduce((sum, row) => sum + row.desired_nodes, 0);
+  const replicated = rows.filter(row => row.mode === "replicated_nodes").length;
+  const scaledDown = rows.filter(row => row.mode === "seed_or_minimal").length;
+  const status = scaledDown || replicated ? "ready_with_warnings" : "ready";
+  elements.nodeScalingStatus.textContent = label(status);
+  elements.nodeScalingStatus.className = `status-chip status-${statusClass(status)}`;
+  elements.nodeScalingSummary.innerHTML = `
+    <div class="event-row status-border-${statusClass(status)}">
+      <div class="event-title"><span>node topology</span><span>${totalNodes} nodes</span></div>
+      <div class="small">${replicated} replicated slot(s) | ${scaledDown} seed/minimal slot(s)</div>
+    </div>
+    <div class="metric-grid compact-metrics">
+      ${metric("floor", tierCounts.floor_systems || 0)}
+      ${metric("operating", tierCounts.operating_systems || 0)}
+      ${metric("capacity", tierCounts.capacity_systems || 0)}
+      ${metric("meta", tierCounts.meta_systems || 0)}
+    </div>
+    ${topologyRecommendationMarkup(rows, people)}
+    ${flourishingFrame(report)}
+    ${rows
+      .filter(row => row.mode !== "village_node" || row.action === "near_capacity")
+      .slice(0, 8)
+      .map(nodeScalingRow)
+      .join("")}
+    ${rows.every(row => row.mode === "village_node" && row.action !== "near_capacity") ? `<div class="event-row small">All node pools are inside preferred village-node range.</div>` : ""}
+  `;
+}
+
+function topologyRecommendationMarkup(rows, people) {
+  const live = liveTopologyRecommendation(rows, people);
+  const report = state.topologyRecommendation;
+  const sourceNote = report && Number(report.population || 0) !== Number(people)
+    ? `<div class="small">Loaded recommendation file is for ${report.population} people; live action is recalculated for ${people}.</div>`
+    : "";
+  return `
+    <div class="event-row status-border-${statusClass(live.status)}">
+      <div class="event-title"><span>topology action</span><span>${label(live.action.type)}</span></div>
+      <div class="small">${label(live.action.id)}: ${live.action.rationale}</div>
+      <div class="small">${live.summary}</div>
+      ${sourceNote}
+    </div>
+  `;
+}
+
+function liveTopologyRecommendation(rows, people) {
+  const scaledDown = rows.filter(row => row.mode === "seed_or_minimal");
+  const replicated = rows.filter(row => row.mode === "replicated_nodes");
+  const nearCapacity = rows.filter(row => row.action === "near_capacity");
+  const candidates = [];
+  if (scaledDown.length) {
+    candidates.push(topologyAction(
+      "scale_down_to_seed_patterns",
+      "scale_down",
+      people < 50 ? 82 : 45,
+      "Use seed/default patterns instead of carrying every village-scale module.",
+      scaledDown,
+    ));
+  }
+  if (replicated.length) {
+    candidates.push(topologyAction(
+      "replicate_village_node_pools",
+      "scale_up",
+      88,
+      "Replicate local dignity-floor and capacity nodes rather than centralizing one oversized system.",
+      replicated,
+    ));
+  }
+  if (nearCapacity.length) {
+    const floorNear = nearCapacity.filter(row => row.tier === "floor_systems");
+    candidates.push(topologyAction(
+      "preplan_second_village_cell",
+      "prepare_scale_up",
+      floorNear.length ? 76 : 62,
+      "Population is above preferred node size; prepare split-node topology before adding more residents.",
+      floorNear.length ? floorNear : nearCapacity,
+    ));
+  }
+  const maxNodes = Math.max(1, ...rows.map(row => Number(row.desired_nodes || 1)));
+  if (people >= 300) {
+    candidates.push({
+      id: "add_district_capability_layer",
+      type: "add_capability_layer",
+      priority: 64,
+      rationale: "Add district-scale shared services while preserving local dignity-floor nodes.",
+    });
+  }
+  if (people >= 900) {
+    candidates.push({
+      id: "add_town_city_capability_layer",
+      type: "add_capability_layer",
+      priority: 66,
+      rationale: "Add town/city capability for transit, culture, markets, and utilities coordination.",
+    });
+  }
+  if (maxNodes >= 6) {
+    candidates.push({
+      id: "federate_cross_node_control_plane",
+      type: "federate",
+      priority: 70,
+      rationale: "Add a thin federation layer for aggregate dashboards, mutual aid, standards, and portability.",
+    });
+  }
+  const action = candidates.sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id))[0] || {
+    id: "monitor_current_topology",
+    type: "monitor",
+    priority: 20,
+    rationale: `Current node topology is inside preferred range for ${people} people.`,
+  };
+  const status = action.type === "monitor" ? "ready" : "action_recommended";
+  return {
+    action,
+    status,
+    summary: `${rows.reduce((sum, row) => sum + Number(row.desired_nodes || 0), 0)} desired nodes | ${replicated.length} replicated slot(s) | ${nearCapacity.length} near-capacity slot(s)`,
+  };
+}
+
+function topologyAction(id, type, priority, rationale, rows) {
+  return {
+    id,
+    type,
+    priority,
+    rationale,
+    affected_slots: rows.map(row => row.slot),
+  };
+}
+
+function renderNodeScalingLoadError(error) {
+  elements.nodeScalingStatus.textContent = "not loaded";
+  elements.nodeScalingStatus.className = "status-chip status-provisional";
+  elements.nodeScalingSummary.innerHTML = `
+    <div class="event-row small">Default InfrastructureNodeReport did not load: ${String(error.message || error)}.</div>
+    <div class="event-row small">Use the Nodes control to open examples/generated/micro_commons_node_scaling.json.</div>
+  `;
+}
+
+function scaledNodeRows(policies, people) {
+  return policies.map(policy => scaledNodeRow(policy, people));
+}
+
+function scaledNodeRow(policy, people) {
+  const minimum = Number(policy.minimum_population_per_node || 1);
+  const preferred = Number(policy.preferred_population_per_node || minimum);
+  const maximum = Number(policy.maximum_population_per_node || preferred);
+  let desiredNodes = 1;
+  let mode = "village_node";
+  let action = "steady";
+  let activePatterns = policy.accepted_patterns?.length ? policy.accepted_patterns : policy.default_patterns || [];
+  let notes = "Within preferred node range.";
+  if (people < minimum) {
+    mode = "seed_or_minimal";
+    action = "scale_down";
+    activePatterns = policy.default_patterns || [];
+    notes = policy.scale_down_strategy || "Use seed/default patterns.";
+  } else if (people > maximum) {
+    desiredNodes = Math.ceil(people / maximum);
+    mode = "replicated_nodes";
+    action = "scale_up";
+    notes = policy.scale_up_strategy || "Replicate node pool.";
+  } else if (people > preferred) {
+    action = "near_capacity";
+    notes = "Above preferred population but still inside one maximum-size node.";
+  }
+  const populationPerNode = people / desiredNodes;
+  return {
+    ...policy,
+    mode,
+    action,
+    desired_nodes: desiredNodes,
+    population_per_node: populationPerNode,
+    headroom_per_node: maximum - populationPerNode,
+    active_patterns: activePatterns,
+    notes,
+  };
+}
+
+function tierNodeCounts(rows) {
+  return rows.reduce((counts, row) => {
+    counts[row.tier] = (counts[row.tier] || 0) + row.desired_nodes;
+    return counts;
+  }, {});
+}
+
+function flourishingFrame(report) {
+  const model = report.orchestration_model || {};
+  if (!model.flourishing_frame && !model.scope_rule) return "";
+  return `
+    <div class="event-row">
+      <div class="event-title"><span>abundance frame</span><span>${label(report.status)}</span></div>
+      <div class="small">${model.flourishing_frame || ""}</div>
+      <div class="small">${model.scope_rule || ""}</div>
+    </div>
+  `;
+}
+
+function nodeScalingRow(row) {
+  const status = row.mode === "replicated_nodes" || row.action === "near_capacity" ? "warn" : "provisional";
+  return `
+    <div class="event-row status-border-${status}">
+      <div class="event-title"><span>${label(row.slot)}</span><span>${row.desired_nodes} node${row.desired_nodes === 1 ? "" : "s"}</span></div>
+      <div class="small">${label(row.mode)} | ${formatNumber(row.population_per_node)} people/node | ${label(row.tier)}</div>
+      <div class="small">${row.notes}</div>
+    </div>
+  `;
+}
+
 function setDay(day) {
   if (!state.bundle) return;
   const max = state.bundle.timeline.daily_states.length;
@@ -744,6 +1282,10 @@ function stopCycleTimer() {
 }
 
 function renderLayout() {
+  if (state.nodeScaling) {
+    renderTopologyLayout();
+    return;
+  }
   const bundle = state.bundle;
   if (!bundle) return;
   const layoutGraph = bundle.site.layout_graph || {};
@@ -771,6 +1313,128 @@ function renderLayout() {
   });
 
   renderRoutes(zones);
+}
+
+function renderTopologyLayout() {
+  const report = state.nodeScaling;
+  const people = Math.max(1, Number(state.population || elements.populationSlider.value || 150));
+  const rows = scaledNodeRows(report.node_policy_catalog || [], people);
+  const tierCounts = tierNodeCounts(rows);
+  const cellCount = Math.max(1, ...rows.map(row => Number(row.desired_nodes || 1)));
+  const replicated = rows.filter(row => row.mode === "replicated_nodes");
+  const scaledDown = rows.filter(row => row.mode === "seed_or_minimal");
+  const nearCapacity = rows.filter(row => row.action === "near_capacity");
+  const status = scaledDown.length || nearCapacity.length || replicated.length ? "ready_with_warnings" : "ready";
+  const perCell = {
+    floor_systems: Math.round((tierCounts.floor_systems || 0) / cellCount),
+    operating_systems: Math.round((tierCounts.operating_systems || 0) / cellCount),
+    capacity_systems: Math.round((tierCounts.capacity_systems || 0) / cellCount),
+    meta_systems: Math.round((tierCounts.meta_systems || 0) / cellCount),
+  };
+  elements.layoutStatus.textContent = label(status);
+  elements.layoutStatus.className = `status-chip status-${statusClass(status)}`;
+  elements.routeLayer.innerHTML = "";
+  elements.zoneLayer.innerHTML = `
+    <div class="topology-board">
+      <div class="topology-summary">
+        <div>
+          <h3>${people} people</h3>
+          <p>${cellCount} local cell${cellCount === 1 ? "" : "s"} | ${(tierCounts.floor_systems || 0) + (tierCounts.operating_systems || 0) + (tierCounts.capacity_systems || 0) + (tierCounts.meta_systems || 0)} infrastructure nodes</p>
+        </div>
+        <div class="topology-badges">
+          <span>${scaledDown.length} scaled down</span>
+          <span>${nearCapacity.length} near capacity</span>
+          <span>${replicated.length} replicated</span>
+        </div>
+      </div>
+      <div class="topology-grid" style="--cell-count:${Math.min(5, cellCount)}">
+        ${Array.from({ length: cellCount }, (_, index) => topologyCell(index, perCell, people, cellCount)).join("")}
+      </div>
+      <div class="capability-layers">
+        ${capabilityLayerRows(people, cellCount).map(capabilityLayer).join("")}
+      </div>
+      <div class="topology-footer">
+        ${report.orchestration_model?.flourishing_frame || "Local dignity floors stay resilient while larger scales add shared capability."}
+      </div>
+    </div>
+  `;
+}
+
+function topologyCell(index, perCell, people, cellCount) {
+  const residents = Math.round(people / cellCount);
+  return `
+    <section class="topology-cell">
+      <div class="topology-cell-title">
+        <h3>${cellCount === 1 ? "Local cell" : `Cell ${index + 1}`}</h3>
+        <span>${residents} people</span>
+      </div>
+      <div class="node-stack">
+        ${topologyTier("floor", perCell.floor_systems, "food water shelter energy sanitation")}
+        ${topologyTier("operating", perCell.operating_systems, "maintenance governance labor finance")}
+        ${topologyTier("capacity", perCell.capacity_systems, "materials mobility skill culture")}
+        ${topologyTier("meta", perCell.meta_systems, "risk and graceful degradation")}
+      </div>
+    </section>
+  `;
+}
+
+function topologyTier(name, count, detail) {
+  return `
+    <div class="node-tier node-tier-${name}">
+      <span>${label(name)}</span>
+      <strong>${count}</strong>
+      <small>${detail}</small>
+    </div>
+  `;
+}
+
+function capabilityLayerRows(people, localCells) {
+  const layers = [
+    {
+      id: "district",
+      active: people >= 300,
+      count: people >= 300 ? Math.max(1, Math.ceil(people / 500)) : 0,
+      label: "District capability",
+      detail: "shared clinics, logistics, advanced workshops, learning partnerships",
+    },
+    {
+      id: "town_city",
+      active: people >= 900,
+      count: people >= 900 ? Math.max(1, Math.ceil(people / 1500)) : 0,
+      label: "Town / city layer",
+      detail: "transit spine, cultural venues, markets, utilities coordination",
+    },
+    {
+      id: "regional",
+      active: people >= 1500,
+      count: people >= 1500 ? 1 : 0,
+      label: "Regional membrane",
+      detail: "watershed, hospitals, universities, regional energy and mutual aid",
+    },
+  ];
+  if (people < 300) {
+    layers.unshift({
+      id: "micro",
+      active: true,
+      count: localCells,
+      label: "Micro scale",
+      detail: "seed/default systems before full village overhead",
+    });
+  }
+  return layers;
+}
+
+function capabilityLayer(layer) {
+  const status = layer.active ? "active" : "inactive";
+  return `
+    <div class="capability-layer ${status}">
+      <div>
+        <span>${layer.label}</span>
+        <small>${layer.detail}</small>
+      </div>
+      <strong>${layer.count}</strong>
+    </div>
+  `;
 }
 
 function systemButton(system) {
@@ -1195,7 +1859,7 @@ function cycleStatusClass(status) {
 
 function statusClass(status) {
   if (["pass", "ready", "ratified"].includes(status)) return "pass";
-  if (["warn", "warning", "ready_with_warnings", "running", "paused", "reviewing", "recommendation_ready"].includes(status)) return "warn";
+  if (["warn", "warning", "ready_with_warnings", "running", "paused", "reviewing", "recommendation_ready", "action_recommended"].includes(status)) return "warn";
   if (["fail", "error", "failure", "not_ratified", "blocked"].includes(status)) return "fail";
   return "provisional";
 }

@@ -1,0 +1,296 @@
+kind: CivicPattern
+id: protein_commons_supplement
+type: FoodSystem
+status: draft
+provisional: true
+provisional_for: [health, legal, water, electrical, cost, labor, ecology, governance]
+purpose: Add a complete-protein commons layer using staple legumes, soy or equivalent plant protein, low-complexity fermentation, duckweed feasibility, protein buffers, and explicit acceptance and safety gates.
+scale: village
+mdl_categories: [food, health, commons, contribution]
+inputs:
+  - staple_legumes_and_grains
+  - soy_or_equivalent_complete_plant_protein
+  - controlled_fermentation_space
+  - food_safe_water
+  - protein_storage
+  - food_safety_training
+  - resident_acceptance_feedback
+outputs:
+  - protein_commons_summary
+  - protein_buffer
+  - amino_acid_coverage_model
+  - fermentation_protein_upgrade
+  - duckweed_feasibility_model
+  - acceptance_and_opt_out_controls
+  - input_dependency_visibility
+dependencies:
+  - id: hybrid_food_commons
+    kind: pattern
+    critical: true
+    rationale: Protein commons is an extension of the hybrid food commons rather than a separate food authority.
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: Protein prep, soaking, cooking, allergen separation, and fermentation workflow need reviewed kitchen capacity.
+  - id: staple_food_reserve
+    kind: pattern
+    critical: true
+    rationale: Legumes, grains, seeds, soy, and emergency protein buffers extend the staple reserve.
+  - id: greenhouse
+    kind: pattern
+    critical: true
+    rationale: Duckweed or water-lentil feasibility belongs near controlled fresh-food and water/greenhouse operations.
+  - id: food_safety_review
+    kind: external
+    critical: true
+    rationale: Fermentation, allergen controls, aquatic protein testing, storage, and batch logs require food-safety review.
+  - id: nutrition_review
+    kind: external
+    critical: true
+    rationale: Protein quantity, amino acid sufficiency, digestibility, high-need profiles, and menu completeness require nutrition review.
+  - id: resident_acceptance_review
+    kind: external
+    critical: false
+    rationale: Novel protein sources, cultural menu variants, and opt-out rights need resident acceptance checks.
+constraints:
+  physical:
+    - dry legume, grain, seed, soy, and preserved-protein storage with allergen separation
+    - protein prep kitchen supports soaking, pressure cooking, batch cooking, tofu or tempeh workflow where enabled
+    - small fermentation space has cleanable surfaces, culture storage, batch logs, and time-temperature controls
+    - duckweed or water-lentil system remains a reviewed feasibility layer with controlled water, harvest, rinse, and discard protocols
+  ecological:
+    - use legumes for the floor, duckweed for a novel plant layer, and fermentation to transform staples rather than relying on one protein monoculture
+    - track water, energy, minerals, cultures, seeds, feedstocks, cleaning supplies, testing supplies, containers, and equipment replacement
+    - do not claim protein self-sufficiency when mineral, culture, feedstock, or testing dependencies are hidden
+  legal:
+    - food safety, fermentation, allergen, novel food, aquatic crop, labeling, and shared kitchen rules vary by jurisdiction
+    - insect, microalgae, mycoprotein, and microbial protein layers are not enabled as defaults and require review before use
+  social:
+    - residents can opt out of common protein foods and must not be coerced into novel or ethically contested sources
+    - cultural, religious, allergy, sensory, child, elder, pregnancy, illness recovery, and clinical diet needs remain review-bound
+    - novel protein sources must be disclosed and taste-tested before becoming a menu dependency
+  safety:
+    - batch logs, allergen controls, discard rules, food-safety lead, backup lead, and contamination response plan are required
+    - duckweed or water lentils require food-grade water source, contaminant testing, species identification, rinse protocol, and storage protocol
+    - fermentation requires approved cultures, time-temperature controls, contamination detection, discard rules, and trained backup operator
+build_phase: 2
+lifecycle:
+  build_sequence:
+    - define protein target, planning buffer, high-need profile assumptions, and diet-level amino acid model
+    - choose baseline legume, grain, seed, soy or soy-free equivalent, and fermentation menu families
+    - establish protein buffer inventory, allergen separation, FIFO rotation, and emergency protein menu
+    - set up fermentation batch logs, culture storage, discard rules, and operator backup training
+    - run duckweed or water-lentil feasibility only with food-safe water, testing plan, and acceptance checks
+    - document input loops for minerals, cultures, feedstocks, testing supplies, cleaning supplies, and equipment replacement
+  inspection_points:
+    - daily protein target and planning buffer
+    - essential amino acid and digestibility model
+    - protein buffer days
+    - allergen separation and labeling
+    - fermentation batch logs and discard rules
+    - duckweed water testing feasibility
+    - resident taste testing and opt-out availability
+    - operator backup coverage
+  maintenance:
+    - id: protein_buffer_inventory
+      description: Check protein storage days, legume and soy inventory, allergen labels, FIFO rotation, and emergency protein menu.
+      interval: weekly
+      role: pantry_steward
+      estimated_hours: 1.5
+      provisional: true
+    - id: fermentation_batch_review
+      description: Review fermentation culture condition, time-temperature logs, batch labels, discard events, and operator handoff notes.
+      interval: weekly
+      role: fermentation_steward
+      estimated_hours: 2
+      provisional: true
+    - id: protein_acceptance_review
+      description: Review taste testing, opt-outs, cultural menu variants, high-need profile notes, and novel protein disclosure.
+      interval: monthly
+      role: nutrition_steward
+      estimated_hours: 2
+      provisional: true
+    - id: aquatic_protein_feasibility_round
+      description: If duckweed or water lentils are enabled, check water quality logs, contamination tests, species identity, and harvest/discard records.
+      interval: weekly
+      role: food_safety_steward
+      estimated_hours: 1.5
+      provisional: true
+  expected_lifespan: ongoing with replaceable pantry stock, cultures, testing supplies, small equipment, and menu models
+  repair_procedure:
+    - pause unsafe fermentation or aquatic protein batches and shift to staple protein buffer
+    - discard unsafe food through food-safety protocol and document affected residents
+    - review input dependency, contamination source, operator training, and menu acceptance before restarting
+    - preserve opt-out food autonomy and emergency protein menu during any shutdown
+  end_of_life_path:
+    - consume or donate safe dry protein stock where legal and resident-approved
+    - discard unsafe cultures, aquatic batches, or allergen-compromised food through approved food-safety routes
+    - clean and reuse containers, logs, fermentation equipment, shelving, and testing station where safe
+failure_modes:
+  - mode: protein_monoculture_dependency
+    likelihood: medium
+    severity: high
+    detection_method: source mix report shows one protein layer or external source dominates the protein floor
+    mitigation: diversify legumes, grains, soy or equivalent, fermentation, buffers, and reviewed duckweed feasibility without adding contested defaults
+  - mode: aquatic_protein_contamination
+    likelihood: medium
+    severity: high
+    detection_method: water quality testing, microbial testing, heavy metal review, species verification, taste or odor change, and batch logs
+    mitigation: halt harvest, discard affected batch, shift menu to stored protein buffer, clean system, and restart only after review
+  - mode: fermentation_batch_failure
+    likelihood: medium
+    severity: medium
+    detection_method: batch logs, temperature records, culture condition, visible contamination, odor, texture, and pH checks where applicable
+    mitigation: discard suspect batch, retrain operators, update logs, and switch to staple protein menu
+  - mode: resident_acceptance_failure
+    likelihood: medium
+    severity: high
+    detection_method: opt-out rates, taste tests, resident feedback, allergy or intolerance reports, and cultural menu review
+    mitigation: redesign menu, disclose ingredients, preserve opt-outs, and shift to accepted staple protein sources
+  - mode: hidden_protein_labor
+    likelihood: medium
+    severity: high
+    detection_method: labor logs, specialist hours, backup coverage, missed batches, and resident complaints
+    mitigation: simplify protein stack, pay or credit specialist labor, add backups, reduce novel layers, and use more shelf-stable staples
+governance:
+  owner: commons
+  access_rule: protein foods, buffers, batch records, and menu decisions remain transparent while resident opt-out, cultural food autonomy, allergy safety, and disclosure are protected.
+  stewardship_role: nutrition_steward
+  backup_role: food_safety_steward
+  audit_frequency: weekly
+  capture_risk: control over protein sources, ethical food norms, novel ingredients, allergen labels, or menu access could become coercive without disclosure and opt-out rights
+metrics:
+  cost: 55000
+  build_labor_hours: 420
+  recurring_labor_hours_per_week: 16
+  energy_use: 8
+  water_use: 180
+  embodied_carbon: 1.5
+  maintenance_burden: 5
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+labor_model:
+  target_population: 80
+  categories:
+    - id: protein_inventory
+      label: Legume, soy, seed, and protein buffer inventory with allergen separation
+      hours_per_week: 3
+      scaling_mode: sublinear
+      role: pantry_steward
+      reduction_strategy: standard bins, FIFO shelf maps, allergen labels, and menu-linked reorder triggers
+      provisional: true
+    - id: fermentation_batches
+      label: Low-complexity tempeh, koji, or legume fermentation batch prep and logs
+      hours_per_week: 4
+      scaling_mode: batch
+      role: fermentation_steward
+      reduction_strategy: narrow approved-culture menu, weekly batch windows, discard rules, and backup operator checklists
+      provisional: true
+    - id: duckweed_feasibility
+      label: Duckweed or water-lentil feasibility checks, water testing, and harvest/discard records
+      hours_per_week: 3
+      scaling_mode: threshold
+      role: food_safety_steward
+      reduction_strategy: keep aquatic protein as feasibility layer until trained backups and test protocols are proven
+      provisional: true
+    - id: menu_acceptance
+      label: Taste testing, opt-outs, cultural variants, and high-need profile menu review
+      hours_per_week: 3
+      scaling_mode: fixed
+      role: nutrition_steward
+      reduction_strategy: reusable recipes, explicit opt-out alternatives, and resident feedback windows instead of constant meetings
+      provisional: true
+    - id: input_loop_tracking
+      label: Track protein minerals, cultures, feedstocks, cleaning supplies, testing supplies, and equipment replacement
+      hours_per_week: 3
+      scaling_mode: sublinear
+      role: procurement_steward
+      reduction_strategy: inventory templates, supplier bundles, and dashboard triggers for hidden dependency review
+      provisional: true
+  thresholds:
+    max_hours_per_resident_per_week: 1.5
+    max_single_category_hours_per_week: 20
+    max_linear_labor_share: 0.35
+    provisional: true
+  replication:
+    preferred_population_per_node: 80
+    max_population_per_node: 80
+    above_max_strategy: replicate protein commons inside each preferred-size food node; do not centralize a fragile protein facility
+    provisional: true
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -180
+    energy_kwh_per_day: -8
+    food_servings_per_day: 80
+  storage:
+    - resource: food_servings
+      capacity: 7200
+      initial: 6500
+      reserve_floor: 2400
+      max_release_per_day: 120
+      max_refill_per_day: 120
+      refill_mode: manual_procurement
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 90
+        loss_per_day_after_unsafe: 0.05
+        risk: protein stores may become unsafe through allergen mixing, spoilage, pest intrusion, failed fermentation, or unreviewed aquatic contamination
+        recovery_action: isolate unsafe protein stock, discard suspect batches, clean storage and equipment, shift to emergency protein menu, and escalate to food-safety review
+        recovery_role: food_safety_steward
+        recovery_labor_hours: 6
+        recovery_duration_days: 2
+        review_dependency: food_safety
+        provisional: true
+      access_rule: release through transparent emergency protein menu while preserving allergen safety, disclosure, and opt-out rights
+      notes: Provisional protein-equivalent food buffer; not a dietitian-approved complete nutrition plan or food-safety approval.
+      provisional: true
+  critical_resources: [water, energy, food, maintenance]
+  notes: "Provisional complete-protein supplement model: legumes and grains form the floor, soy or equivalent and fermentation improve completeness, duckweed is feasibility-only, and insects or future microbial protein are not baseline dependencies."
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: protein_buffer_capacity
+      path: simulation.storage[0].capacity
+      label: Protein-equivalent buffer capacity
+      unit: servings
+      min: 2400
+      max: 24000
+      step: 1200
+      default: 7200
+      affects: [food, resilience, cost, labor, external_dependency]
+      review_required: true
+      provisional: true
+    - id: protein_refill_rate
+      path: simulation.storage[0].max_refill_per_day
+      label: Protein buffer refill capacity
+      unit: servings_per_day
+      min: 40
+      max: 300
+      step: 20
+      default: 120
+      affects: [food, resilience, external_dependency, labor]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: complete_protein_review
+      path: simulation.notes
+      reason: Complete protein, amino acid sufficiency, digestibility, high-need profiles, and acceptance claims require nutrition review.
+      review_dependency: nutrition_review
+      provisional: true
+    - id: insect_not_default
+      path: constraints.social
+      reason: Insect protein is not a default dependency and requires explicit resident consent, ethics review, safety review, and opt-out protection.
+      review_dependency: resident_acceptance_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: Protein commons should scale with food nodes and avoid one central protein facility or one fragile novel technology.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

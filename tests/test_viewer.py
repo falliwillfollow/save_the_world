@@ -4,9 +4,20 @@ import unittest
 from pathlib import Path
 
 from ciac.io import load_data
+from ciac.validation import validate_data
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def assert_no_failures_and_only_allowed_warnings(test_case: unittest.TestCase, report: dict) -> None:
+    test_case.assertEqual(report["summary"]["fail_count"], 0)
+    warnings = [
+        check
+        for check in [*report.get("artifact_checks", []), *report.get("relationship_checks", [])]
+        if check.get("status") == "warn"
+    ]
+    test_case.assertEqual({warning["id"] for warning in warnings}, {"viewer_run_nodes_match_node_scaling"} if warnings else set())
 
 
 class ViewerTests(unittest.TestCase):
@@ -21,6 +32,7 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("Foundation", index)
         self.assertIn("Optimization", index)
         self.assertIn("Cycle", index)
+        self.assertIn("Scalability", index)
         self.assertIn("View Mode", index)
         self.assertIn("Baseline | normal year", app)
         self.assertIn("Why Failing", index)
@@ -35,6 +47,11 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("runtimeKpis", index)
         self.assertIn("snapshotSummary", index)
         self.assertIn("cycleFile", index)
+        self.assertIn("food autonomy", app)
+        self.assertIn("nodeFile", index)
+        self.assertIn("topologyFile", index)
+        self.assertIn("populationSlider", index)
+        self.assertIn("nodeScalingSummary", index)
         self.assertIn("searchFile", index)
         self.assertIn("calibrationFile", index)
         self.assertIn("weightFile", index)
@@ -44,6 +61,11 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("../examples/generated/micro_commons_objective_calibration.json", app)
         self.assertIn("../examples/generated/micro_commons_weight_governance.json", app)
         self.assertIn("../examples/generated/micro_commons_cycle_iteration.json", app)
+        self.assertIn("../examples/generated/micro_commons_food_autonomy_report.json", app)
+        self.assertIn("../examples/generated/micro_commons_node_scaling.json", app)
+        self.assertIn("../examples/generated/micro_commons_topology_recommendation.json", app)
+        self.assertIn("../examples/generated/micro_commons_viewer_session_report.json", app)
+        self.assertIn("/api/viewer-session-report", app)
         self.assertIn("renderFoundation", app)
         self.assertIn("loadDefaultFoundationGate", app)
         self.assertIn("loadDefaultOptimizationReports", app)
@@ -59,7 +81,28 @@ class ViewerTests(unittest.TestCase):
         self.assertIn("submitCycleChange", app)
         self.assertIn("runNextCycle", app)
         self.assertIn("renderCycle", app)
+        self.assertIn("recordCompletedYear", app)
+        self.assertIn("persistViewerRunEvent", app)
+        self.assertIn("applyViewerRunPipelineResponse", app)
+        self.assertIn("foodAutonomySummary", app)
+        self.assertIn("ran the simulator and regenerated food labor, food autonomy, complexity, node-scaling, topology, cycle, and cohesion", app)
+        self.assertIn("viewerRunLogSummary", app)
+        self.assertIn("ViewerRunReport", app)
+        self.assertIn("renderNodeScaling", app)
+        self.assertIn("renderTopologyLayout", app)
+        self.assertIn("topologyRecommendationMarkup", app)
+        self.assertIn("liveTopologyRecommendation", app)
+        self.assertIn("defaultPopulationFromTargets", app)
+        self.assertIn("populationTouched", app)
+        self.assertIn("syncPopulation: false", app)
+        self.assertIn("Loaded recommendation file is for", app)
+        self.assertIn("topologyCell", app)
+        self.assertIn("capabilityLayerRows", app)
+        self.assertIn("scaledNodeRow", app)
+        self.assertIn("node_policy_catalog", app)
         self.assertIn("loadDefaultCycleIteration", app)
+        self.assertIn("loadDefaultNodeScaling", app)
+        self.assertIn("loadDefaultTopologyRecommendation", app)
         self.assertIn("setCycleReport", app)
         self.assertIn("cycleAuthoritySummary", app)
         self.assertIn("cycleAppliedScenarioRows", app)
@@ -94,11 +137,15 @@ class ViewerTests(unittest.TestCase):
         self.assertIn(".map-stage", styles)
         self.assertIn(".zone-failure", styles)
         self.assertIn(".system-chip.has-warning", styles)
+        self.assertIn(".topology-board", styles)
+        self.assertIn(".topology-cell", styles)
+        self.assertIn(".capability-layers", styles)
         self.assertIn(".foundation-check", styles)
         self.assertIn(".family-grid", styles)
         self.assertIn(".cycle-actions", styles)
         self.assertIn(".progress-track", styles)
         self.assertIn(".kpi-strip", styles)
+        self.assertIn(".slider-row", styles)
         self.assertIn(".diagnostics", styles)
         self.assertIn(".primary-card", styles)
 
@@ -139,11 +186,67 @@ class ViewerTests(unittest.TestCase):
         self.assertFalse(governance["promotion_allowed"])
         self.assertEqual(cycle["kind"], "CycleIterationReport")
         self.assertEqual(cycle["selected_candidate"], search["selected_candidate"])
+        self.assertEqual(cycle["viewer_population_context"]["population"], cycle["applied_simulation"]["population"]["population"])
+        self.assertIn("resilient_water_commons", cycle["viewer_population_context"]["active_node_patterns"])
         self.assertEqual(cycle["runtime_bundle"]["kind"], "RuntimeBundle")
         self.assertEqual(cycle["authority"]["mode"], "operator_directed")
         self.assertEqual(cycle["operator_acceptance"]["status"], "converged")
         self.assertTrue(cycle["operator_acceptance"]["simulation_submit_allowed"])
         self.assertEqual(cycle["next_search_optimizer_report"]["kind"], "SearchOptimizerReport")
+
+    def test_generated_food_autonomy_report_is_viewer_ready(self) -> None:
+        report = load_data(ROOT / "examples" / "generated" / "micro_commons_food_autonomy_report.json")
+        viewer = load_data(ROOT / "examples" / "generated" / "micro_commons_viewer_session_report.json")
+
+        self.assertEqual(report["kind"], "FoodAutonomyReport")
+        self.assertEqual(report["population"], viewer["active_population"])
+        self.assertIn(report["status"], {"pass", "warn"})
+        self.assertTrue(report["seasonal_smoothing"]["resources"])
+        self.assertTrue(validate_data(report, "food-autonomy").ok)
+
+    def test_generated_artifact_cohesion_report_is_viewer_ready(self) -> None:
+        report = load_data(ROOT / "examples" / "generated" / "micro_commons_artifact_cohesion.json")
+        viewer = load_data(ROOT / "examples" / "generated" / "micro_commons_viewer_session_report.json")
+
+        self.assertEqual(report["kind"], "ArtifactCohesionReport")
+        self.assertIn(report["status"], {"coherent", "ready_with_warnings"})
+        self.assertEqual(report["active_population"], viewer["active_population"])
+        assert_no_failures_and_only_allowed_warnings(self, report)
+
+    def test_generated_viewer_run_report_is_viewer_ready(self) -> None:
+        report = load_data(ROOT / "examples" / "generated" / "micro_commons_viewer_session_report.json")
+
+        self.assertEqual(report["kind"], "ViewerRunReport")
+        self.assertEqual(report["status"], "runs_recorded")
+        self.assertGreater(report["active_population"], 0)
+        self.assertGreaterEqual(report["run_count"], 2)
+        self.assertEqual(report["runs"][-1]["population"], report["active_population"])
+
+    def test_generated_node_scaling_report_is_viewer_ready(self) -> None:
+        report = load_data(ROOT / "examples" / "generated" / "micro_commons_node_scaling.json")
+
+        self.assertEqual(report["kind"], "InfrastructureNodeReport")
+        self.assertTrue(report["node_policy_catalog"])
+        self.assertIn("flourishing_frame", report["orchestration_model"])
+        food = next(policy for policy in report["node_policy_catalog"] if policy["slot"] == "food_production")
+        self.assertEqual(food["maximum_population_per_node"], 80)
+        self.assertIn("hybrid_food_commons", food["accepted_patterns"])
+
+    def test_generated_topology_recommendation_is_viewer_ready(self) -> None:
+        report = load_data(ROOT / "examples" / "generated" / "micro_commons_topology_recommendation.json")
+        viewer = load_data(ROOT / "examples" / "generated" / "micro_commons_viewer_session_report.json")
+
+        self.assertEqual(report["kind"], "TopologyRecommendationReport")
+        self.assertEqual(report["population"], viewer["active_population"])
+        self.assertEqual(report["selected_action"]["id"], "replicate_village_node_pools")
+        self.assertTrue(report["candidate_actions"])
+
+    def test_generated_food_labor_report_matches_viewer_population(self) -> None:
+        report = load_data(ROOT / "examples" / "generated" / "micro_commons_food_labor_report.json")
+        viewer = load_data(ROOT / "examples" / "generated" / "micro_commons_viewer_session_report.json")
+
+        self.assertEqual(report["kind"], "FoodLaborReport")
+        self.assertIn(viewer["active_population"], {row["target_population"] for row in report["scaling_results"]})
 
 
 if __name__ == "__main__":

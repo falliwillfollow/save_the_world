@@ -1,0 +1,232 @@
+kind: CivicPattern
+id: seasonal_food_smoothing_commons
+type: FoodSystem
+status: draft
+provisional: true
+provisional_for: [health, legal, water, electrical, cost, labor, ecology, governance]
+purpose: Smooth winter and spring food reserve drawdown by turning seasonal surplus, preserved staples, batch processing, and pantry scheduling into low-burden food autonomy gains.
+scale: village
+mdl_categories: [food, health, commons, contribution]
+inputs:
+  - seasonal_crop_calendar
+  - preservation_workspace
+  - pantry_inventory_signal
+  - surplus_energy_windows
+  - food_safe_water
+  - reusable_storage_containers
+  - food_safety_training
+outputs:
+  - seasonal_food_smoothing_summary
+  - preservation_batch_schedule
+  - reserve_drawdown_reduction
+  - winter_spring_menu_bridge
+  - surplus_energy_to_food_storage_plan
+  - food_autonomy_dashboard_inputs
+dependencies:
+  - id: hybrid_food_commons
+    kind: pattern
+    critical: true
+    rationale: Seasonal smoothing extends the food commons rather than becoming a separate food authority.
+  - id: protein_commons_supplement
+    kind: pattern
+    critical: false
+    rationale: Preserved legumes, ferments, sauces, and protein buffers should align with the protein commons menu.
+  - id: staple_food_reserve
+    kind: pattern
+    critical: true
+    rationale: Smoothing works by reducing reserve drawdown and improving refill timing, not by deleting the reserve.
+  - id: community_kitchen
+    kind: pattern
+    critical: true
+    rationale: Batch processing, drying, fermenting, and safe packaging need reviewed kitchen workflow.
+  - id: critical_load_energy_commons
+    kind: pattern
+    critical: false
+    rationale: Low-risk drying, cooling, and batch processing should prefer surplus energy windows where available.
+  - id: food_safety_review
+    kind: external
+    critical: true
+    rationale: Preservation, fermentation, dehydration, cooling, labeling, and discard rules require food-safety review.
+constraints:
+  physical:
+    - preservation shelves, drying racks or dehydrator, freezer or cold-storage scheduling, batch labels, and pest-resistant containers
+    - workflow fits inside the food commons and does not add a daily service obligation
+    - preserved foods remain accessible, labeled, culturally legible, and opt-out compatible
+  ecological:
+    - prioritize seasonal surplus, gleaned produce, shelf-stable staples, leftovers, and low-waste processing before adding new growing area
+    - avoid energy-intensive preservation unless surplus energy windows or critical storage paths are available
+    - track containers, cleaning supplies, brines, cultures, labels, replacement seals, and spoilage loss
+  legal:
+    - preservation, fermentation, shared pantry, donation, and food-service rules vary by jurisdiction
+    - this module is not a food business license, nutrition approval, or food-safety certification
+  social:
+    - seasonal menus should remain dignified, varied, opt-in, and culturally adaptable
+    - repetition is acceptable only when residents retain private food autonomy and menu alternatives
+    - preservation work must be scheduled as visible commons labor rather than hidden kitchen duty
+  safety:
+    - validated preservation recipes, time-temperature controls, pH or equivalent checks where relevant, batch logs, labels, and discard rules are required
+    - allergen separation, illness exclusion, cleaning, pest monitoring, and backup steward coverage are required
+build_phase: 2
+lifecycle:
+  build_sequence:
+    - map winter and spring food reserve drawdown against seasonal harvest, pantry, and energy-curtailment windows
+    - choose a narrow preservation menu using low-risk dried, frozen, fermented, canned, sauced, or prepared staple components
+    - define batch windows, food-safety controls, labels, storage locations, and release rules
+    - connect pantry dashboard triggers to preservation batches, reserve refill, and procurement timing
+    - train preservation, pantry, kitchen, and food-safety stewards with backup coverage
+  inspection_points:
+    - reserve drawdown per resident
+    - winter and spring menu bridge
+    - preservation batch logs
+    - food-safety review dependency
+    - storage quality and discard records
+    - labor hours per food node
+    - surplus energy use for food smoothing
+  maintenance:
+    - id: preservation_batch_window
+      description: Run or review seasonal preservation batches, labels, storage locations, and release schedule.
+      interval: weekly
+      role: preservation_steward
+      estimated_hours: 3
+      provisional: true
+    - id: pantry_drawdown_review
+      description: Compare actual pantry release, refill, spoilage, and winter-spring menu needs against the food-autonomy dashboard.
+      interval: weekly
+      role: pantry_steward
+      estimated_hours: 2
+      provisional: true
+    - id: smoothing_food_safety_round
+      description: Check preservation logs, pH or temperature records where relevant, allergen labels, and discard rules.
+      interval: weekly
+      role: food_safety_steward
+      estimated_hours: 1.5
+      provisional: true
+    - id: seasonal_menu_bridge_review
+      description: Review resident acceptance, repetition burden, cultural menu variants, and opt-out alternatives for seasonal foods.
+      interval: monthly
+      role: nutrition_steward
+      estimated_hours: 1.5
+      provisional: true
+  expected_lifespan: ongoing with seasonal menus, replaceable containers, small preservation equipment, labels, cultures, and pantry records
+  repair_procedure:
+    - isolate unsafe or unlabeled preserved foods and shift to staple reserve
+    - discard unsafe batches through food-safety protocol and document the incident
+    - simplify the preservation menu, retrain stewards, or reduce batch volume before restarting
+    - preserve private food autonomy during any pantry or preservation shutdown
+  end_of_life_path:
+    - consume safe preserved foods through transparent menu rules
+    - donate safe unopened surplus where legal and resident-approved
+    - compost safe organics and dispose unsafe batches through approved food-safety routes
+    - reuse or recycle containers, shelves, labels, and equipment where safe
+failure_modes:
+  - mode: preservation_safety_failure
+    likelihood: medium
+    severity: high
+    detection_method: batch logs, pH or temperature records where relevant, swollen containers, spoilage signs, illness reports, and discard records
+    mitigation: isolate and discard suspect batches, pause affected preservation method, clean equipment, retrain stewards, and restart only after review
+  - mode: seasonal_menu_burden
+    likelihood: medium
+    severity: medium
+    detection_method: resident feedback, opt-out rates, repeated menu complaints, pantry bypass, or private food strain
+    mitigation: diversify preserved menu families, protect opt-outs, add sauces and fresh accents, and reduce reliance on one seasonal bridge
+  - mode: hidden_preservation_labor
+    likelihood: medium
+    severity: high
+    detection_method: labor logs, missed batch windows, single-steward dependency, cleanup complaints, or food-safety log gaps
+    mitigation: narrow the menu, batch less often, add backups, count cleanup, and stop any preservation path that creates hidden drudgery
+  - mode: smoothing_overproduction_waste
+    likelihood: medium
+    severity: medium
+    detection_method: spoilage, excess untouched preserved foods, storage crowding, or curtailment without consumption
+    mitigation: reduce batch sizes, improve release schedule, coordinate menus, and shift surplus to compost or approved donation before spoilage
+governance:
+  owner: commons
+  access_rule: preserved foods, batch records, release rules, and menu bridge decisions remain visible while opt-out rights, allergy safety, and private food autonomy are protected.
+  stewardship_role: preservation_steward
+  backup_role: pantry_steward
+  audit_frequency: weekly
+  capture_risk: control over preserved staples, winter menus, batch labor, or pantry release can become coercive without opt-out rights and transparent labor accounting
+metrics:
+  cost: 38000
+  build_labor_hours: 260
+  recurring_labor_hours_per_week: 8
+  energy_use: 6
+  water_use: 40
+  embodied_carbon: 1.2
+  maintenance_burden: 4
+  dignity_score: 8.5
+  autonomy_score: 8.5
+  resilience_score: 9
+  provisional: true
+labor_model:
+  target_population: 80
+  categories:
+    - id: preservation_batches
+      label: Seasonal preservation, drying, freezing, fermenting, or sauce batch windows
+      hours_per_week: 4
+      scaling_mode: batch
+      role: preservation_steward
+      reduction_strategy: narrow preservation menu, seasonal work windows, reusable labels, and batch templates
+      provisional: true
+    - id: drawdown_dashboard
+      label: Pantry drawdown, refill trigger, release schedule, and spoilage review
+      hours_per_week: 2
+      scaling_mode: sublinear
+      role: pantry_steward
+      reduction_strategy: dashboard thresholds, shelf maps, FIFO bins, and simple release rules
+      provisional: true
+    - id: preservation_safety_logs
+      label: Preservation food-safety logs, labels, discard checks, and backup review
+      hours_per_week: 2
+      scaling_mode: fixed
+      role: food_safety_steward
+      reduction_strategy: validated recipes, limited methods, visible checklists, and automatic discard thresholds
+      provisional: true
+    - id: seasonal_acceptance_review
+      label: Seasonal menu acceptance, repetition burden, and opt-out alternatives
+      hours_per_week: 1.5
+      scaling_mode: fixed
+      role: nutrition_steward
+      reduction_strategy: reusable menu families, resident feedback windows, and private-food autonomy protection
+      provisional: true
+  thresholds:
+    max_hours_per_resident_per_week: 1.5
+    max_single_category_hours_per_week: 20
+    max_linear_labor_share: 0.35
+    provisional: true
+  replication:
+    preferred_population_per_node: 80
+    max_population_per_node: 80
+    above_max_strategy: replicate seasonal food smoothing inside each preferred-size food node; do not centralize preservation labor
+    provisional: true
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: -40
+    energy_kwh_per_day: -6
+    food_servings_per_day: 35
+  storage:
+    - resource: food_servings
+      capacity: 6400
+      initial: 5200
+      reserve_floor: 1600
+      max_release_per_day: 90
+      max_refill_per_day: 180
+      refill_mode: surplus_or_external
+      quality:
+        check_interval_days: 7
+        unsafe_after_days: 60
+        loss_per_day_after_unsafe: 0.08
+        risk: preserved foods may become unsafe through spoilage, failed preservation, allergen mixing, pest intrusion, or unlabeled batches
+        recovery_action: isolate suspect batches, discard unsafe food, clean storage, review method, retrain stewards, and shift to staple reserve
+        recovery_role: food_safety_steward
+        recovery_labor_hours: 6
+        recovery_duration_days: 2
+        review_dependency: food_safety
+        provisional: true
+      access_rule: release preserved foods through transparent seasonal menu and emergency pantry rules while preserving opt-out and allergy safety
+      notes: Provisional preserved-serving buffer for an 80-resident food node; not a complete diet, canning approval, or food-safety certification.
+      provisional: true
+  critical_resources: [water, energy, food, maintenance]
+  notes: "Provisional seasonal smoothing model: converts surplus harvest, preservation work, pantry timing, and some surplus energy windows into reduced winter and spring reserve drawdown."
+  provisional: true

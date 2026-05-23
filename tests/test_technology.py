@@ -26,6 +26,153 @@ class TechnologyModuleTests(unittest.TestCase):
         self.assertTrue(validate_data(self.module, "technology-module").ok)
         self.assertTrue(validate_data(self.registry, "module-registry").ok)
 
+    def test_module_registry_tracks_housing_slot(self) -> None:
+        housing = next(slot for slot in self.registry["slots"] if slot["id"] == "housing")
+
+        self.assertEqual(housing["domain"], "shelter")
+        self.assertIn("privacy_score", housing["required_interfaces"])
+        self.assertEqual(load_data(ROOT / "patterns" / "dignified_village_block.yaml")["id"], "dignified_village_block")
+
+    def test_module_registry_tracks_hybrid_food_interfaces(self) -> None:
+        food = next(slot for slot in self.registry["slots"] if slot["id"] == "food_production")
+
+        self.assertIn("private_food_autonomy", food["required_interfaces"])
+        self.assertIn("shelf_stable_buffer_days", food["required_interfaces"])
+        self.assertIn("reserve_drawdown_reduction", food["required_interfaces"])
+        self.assertIn("seasonal_menu_bridge", food["required_interfaces"])
+        self.assertIn("preservation", food["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "hybrid_food_commons.yaml")["id"], "hybrid_food_commons")
+        self.assertEqual(
+            load_data(ROOT / "patterns" / "seasonal_food_smoothing_commons.yaml")["id"],
+            "seasonal_food_smoothing_commons",
+        )
+
+    def test_module_registry_tracks_resilient_water_interfaces(self) -> None:
+        water = next(slot for slot in self.registry["slots"] if slot["id"] == "potable_water_source")
+
+        self.assertIn("emergency_buffer_days", water["required_interfaces"])
+        self.assertIn("cross_connection_prevention", water["required_interfaces"])
+        self.assertIn("leak_detection", water["required_interfaces"])
+        self.assertIn("public_health", water["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "resilient_water_commons.yaml")["id"], "resilient_water_commons")
+
+    def test_module_registry_tracks_hygienic_circular_sanitation_interfaces(self) -> None:
+        sanitation = next(slot for slot in self.registry["slots"] if slot["id"] == "sanitation")
+
+        self.assertIn("blackwater_solution_type", sanitation["required_interfaces"])
+        self.assertIn("hazardous_waste_storage", sanitation["required_interfaces"])
+        self.assertIn("cleaning_labor_hours_per_week", sanitation["required_interfaces"])
+        self.assertIn("hazardous_waste", sanitation["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "hygienic_circular_commons.yaml")["id"], "hygienic_circular_commons")
+
+    def test_module_registry_tracks_critical_load_energy_interfaces(self) -> None:
+        energy = next(slot for slot in self.registry["slots"] if slot["id"] == "critical_energy")
+
+        self.assertIn("critical_load_runtime_hours_no_sun", energy["required_interfaces"])
+        self.assertIn("battery_fire_review", energy["required_interfaces"])
+        self.assertIn("safe_room_powered", energy["required_interfaces"])
+        self.assertIn("thermal_resilience", energy["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "critical_load_energy_commons.yaml")["id"], "critical_load_energy_commons")
+
+    def test_module_registry_tracks_maintainable_commons_interfaces(self) -> None:
+        maintenance = next(slot for slot in self.registry["slots"] if slot["id"] == "maintenance_repair")
+
+        self.assertIn("asset_registry_system", maintenance["required_interfaces"])
+        self.assertIn("professional_handoff_engine", maintenance["required_interfaces"])
+        self.assertIn("emergency_repair_reserve", maintenance["required_interfaces"])
+        self.assertIn("asset_management", maintenance["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "maintainable_commons_spine.yaml")["id"], "maintainable_commons_spine")
+
+    def test_module_registry_tracks_commons_stewardship_interfaces(self) -> None:
+        governance = next(slot for slot in self.registry["slots"] if slot["id"] == "governance_anticapture")
+
+        self.assertIn("asset_lock_defined", governance["required_interfaces"])
+        self.assertIn("member_vote_on_constitutional_matters", governance["required_interfaces"])
+        self.assertIn("anti_capture_monitor", governance["required_interfaces"])
+        self.assertIn("land_trust", governance["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "commons_stewardship_protocol.yaml")["id"], "commons_stewardship_protocol")
+
+    def test_module_registry_tracks_life_burden_interfaces(self) -> None:
+        labor = next(slot for slot in self.registry["slots"] if slot["id"] == "labor_time")
+
+        self.assertIn("time_ledger", labor["required_interfaces"])
+        self.assertIn("wage_dependency_reduction_percent", labor["required_interfaces"])
+        self.assertIn("bad_week_simulator", labor["required_interfaces"])
+        self.assertIn("time_use", labor["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "life_burden_ledger.yaml")["id"], "life_burden_ledger")
+
+    def test_module_registry_tracks_legal_land_finance_interfaces(self) -> None:
+        legal_finance = next(slot for slot in self.registry["slots"] if slot["id"] == "legal_land_finance")
+
+        self.assertIn("land_control_type", legal_finance["required_interfaces"])
+        self.assertIn("affordability_formula_defined", legal_finance["required_interfaces"])
+        self.assertIn("replacement_reserve", legal_finance["required_interfaces"])
+        self.assertIn("debt_risk_simulator", legal_finance["required_interfaces"])
+        self.assertIn("anti_speculation", legal_finance["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "anti_speculative_civic_floor.yaml")["id"], "anti_speculative_civic_floor")
+
+    def test_module_registry_tracks_materials_fabrication_interfaces(self) -> None:
+        materials = next(slot for slot in self.registry["slots"] if slot["id"] == "materials_fabrication")
+
+        self.assertIn("panelization_ratio_percent", materials["required_interfaces"])
+        self.assertIn("BOM_generator", materials["required_interfaces"])
+        self.assertIn("embodied_carbon_estimator", materials["required_interfaces"])
+        self.assertIn("BIM_IFC_export", materials["required_interfaces"])
+        self.assertIn("embodied_carbon", materials["accepted_module_domains"])
+        self.assertEqual(
+            load_data(ROOT / "patterns" / "standardized_low_burden_build_system.yaml")["id"],
+            "standardized_low_burden_build_system",
+        )
+
+    def test_module_registry_tracks_mobility_access_interfaces(self) -> None:
+        mobility = next(slot for slot in self.registry["slots"] if slot["id"] == "mobility_access")
+
+        self.assertIn("accessible_route_coverage_percent", mobility["required_interfaces"])
+        self.assertIn("emergency_access_dashboard", mobility["required_interfaces"])
+        self.assertIn("monthly_transport_cost_per_resident", mobility["required_interfaces"])
+        self.assertIn("grocery_pharmacy_clinic_access_report", mobility["required_interfaces"])
+        self.assertIn("shared_vehicle", mobility["accepted_module_domains"])
+        self.assertEqual(
+            load_data(ROOT / "patterns" / "pedestrian_first_access_commons.yaml")["id"],
+            "pedestrian_first_access_commons",
+        )
+
+    def test_module_registry_tracks_education_skill_interfaces(self) -> None:
+        education = next(slot for slot in self.registry["slots"] if slot["id"] == "education_skill")
+
+        self.assertIn("skill_graph", education["required_interfaces"])
+        self.assertIn("training_gate_engine", education["required_interfaces"])
+        self.assertIn("critical_roles_backup_trained_percent", education["required_interfaces"])
+        self.assertIn("required_learning_hours_per_resident_per_month", education["required_interfaces"])
+        self.assertIn("apprenticeship", education["accepted_module_domains"])
+        self.assertEqual(load_data(ROOT / "patterns" / "civic_skill_lattice.yaml")["id"], "civic_skill_lattice")
+
+    def test_module_registry_tracks_social_cultural_interfaces(self) -> None:
+        social = next(slot for slot in self.registry["slots"] if slot["id"] == "social_cultural_commons")
+
+        self.assertIn("opt_out_protected", social["required_interfaces"])
+        self.assertIn("common_space_scheduler", social["required_interfaces"])
+        self.assertIn("social_cultural_labor_hours_per_month", social["required_interfaces"])
+        self.assertIn("loneliness_support_aggregate_report", social["required_interfaces"])
+        self.assertIn("third_place", social["accepted_module_domains"])
+        self.assertEqual(
+            load_data(ROOT / "patterns" / "belonging_without_coercion_commons.yaml")["id"],
+            "belonging_without_coercion_commons",
+        )
+
+    def test_module_registry_tracks_risk_resilience_interfaces(self) -> None:
+        resilience = next(slot for slot in self.registry["slots"] if slot["id"] == "risk_resilience")
+
+        self.assertIn("hazards_total", resilience["required_interfaces"])
+        self.assertIn("dependency_graph_engine", resilience["required_interfaces"])
+        self.assertIn("emergency_authority_sunset", resilience["required_interfaces"])
+        self.assertIn("anti_capture_under_stress_report", resilience["required_interfaces"])
+        self.assertIn("emergency_management", resilience["accepted_module_domains"])
+        self.assertEqual(
+            load_data(ROOT / "patterns" / "graceful_degradation_engine.yaml")["id"],
+            "graceful_degradation_engine",
+        )
+
     def test_pressure_test_preserves_dignity_floors_and_flags_modeling_gap(self) -> None:
         report = pressure_test_technology_module(self.plan, self.module)
 
@@ -239,6 +386,15 @@ def _implementation_ready_food_module() -> dict[str, object]:
                 "edible_servings_per_day": 30,
                 "water_liters_per_serving": 0,
                 "labor_hours_per_week": 0,
+                "private_food_autonomy": True,
+                "common_meals_per_week": 3,
+                "shelf_stable_buffer_days": 30,
+                "reserve_drawdown_reduction": 0,
+                "preservation_servings_per_year": 0,
+                "seasonal_labor_hours": 0,
+                "seasonal_menu_bridge": "not_applicable",
+                "supplier_count": 2,
+                "food_safety.review_dependency": "food_safety",
                 "crop_failure_sensitivity": "bounded",
             },
             "provisional": True,

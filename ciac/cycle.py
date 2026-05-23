@@ -50,6 +50,7 @@ def materialize_search_candidate(
     )
     before_after = _before_after(baseline, applied)
     operator_acceptance = _operator_acceptance(candidate, before_after)
+    viewer_population_context = _viewer_population_context(compiled_plan, applied_plan)
     runtime = build_runtime_bundle(
         applied_plan,
         applied,
@@ -70,6 +71,7 @@ def materialize_search_candidate(
         "search_optimizer_report": search_optimizer_report["id"],
         "selected_candidate": candidate["id"],
         "authority": _authority(authority_mode, candidate, operator_acceptance),
+        "viewer_population_context": viewer_population_context,
         "cycle": {
             "index": cycle_index,
             "simulated_days": days,
@@ -97,6 +99,25 @@ def materialize_search_candidate(
             "The regenerated runtime bundle is still provisional and must not be treated as legal, engineering, health, safety, or consent approval.",
             "Operator-directed iteration may reduce oversight inside the simulator, but it does not remove real-world review, consent, or safety duties.",
         ],
+    }
+
+
+def _viewer_population_context(compiled_plan: dict[str, Any], applied_plan: dict[str, Any]) -> dict[str, Any]:
+    population_context = applied_plan.get("simulation_inputs", {}).get("population_context") or compiled_plan.get("simulation_inputs", {}).get("population_context") or {}
+    viewer_context = applied_plan.get("metadata", {}).get("viewer_run_context", {}) or compiled_plan.get("metadata", {}).get("viewer_run_context", {}) or {}
+    return {
+        "source": str(population_context.get("source") or viewer_context.get("source") or "compiled_plan"),
+        "population": int(population_context.get("population", applied_plan.get("site_summary", {}).get("population_target", 0))),
+        "household_count": int(population_context.get("household_count", applied_plan.get("site_summary", {}).get("households", 0))),
+        "daily_resource_demand_adjustments": {
+            "water_liters": round(float(population_context.get("daily_resource_demand_adjustments", {}).get("water_liters", 0.0)), 3),
+            "energy_kwh": round(float(population_context.get("daily_resource_demand_adjustments", {}).get("energy_kwh", 0.0)), 3),
+            "food_servings": round(float(population_context.get("daily_resource_demand_adjustments", {}).get("food_servings", 0.0)), 3),
+        },
+        "capacity_multiplier": round(float(viewer_context.get("capacity_multiplier", 1.0)), 6),
+        "active_node_patterns": list(viewer_context.get("active_node_patterns", [])),
+        "pattern_node_multipliers": dict(viewer_context.get("pattern_node_multipliers", {})),
+        "provisional": True,
     }
 
 

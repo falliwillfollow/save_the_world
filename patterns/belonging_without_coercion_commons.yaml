@@ -1,0 +1,237 @@
+kind: CivicPattern
+id: belonging_without_coercion_commons
+type: Commons
+status: draft
+provisional: true
+provisional_for: [legal, health, labor, governance, cost]
+purpose: Provide a low-coercion social and cultural commons with third places, optional rituals, arts, quiet rooms, hospitality, privacy, anti-clique protections, and counted social labor.
+scale: village
+mdl_categories: [commons, privacy, rest, health, contribution]
+inputs:
+  - common_space_typology
+  - event_calendar
+  - common_meal_social_rules
+  - quiet_space_policy
+  - guest_hospitality_policy
+  - anti_clique_policy
+  - cultural_pluralism_policy
+  - social_labor_budget
+  - opt_in_check_in_protocol
+outputs:
+  - social_cultural_summary
+  - common_space_typology_report
+  - third_place_readiness_report
+  - social_rhythm_calendar_report
+  - quiet_space_protection_report
+  - privacy_opt_out_report
+  - anti_clique_access_report
+  - cultural_pluralism_report
+  - social_labor_burden_report
+  - loneliness_support_aggregate_report
+dependencies:
+  - id: commons_stewardship_protocol
+    kind: pattern
+    critical: true
+    rationale: Social norms, common-space access, event policy, conflict process, privacy, anti-clique rules, and guest boundaries need rights-based governance.
+  - id: life_burden_ledger
+    kind: pattern
+    critical: true
+    rationale: Hosting, event planning, cleanup, emotional labor, hospitality, grief support, and optional-vs-required participation must be counted.
+  - id: civic_skill_lattice
+    kind: pattern
+    critical: true
+    rationale: Skill shares, teach-back, intergenerational learning, passion learning, and facilitation need the education and skill lattice.
+  - id: social_privacy_review
+    kind: external
+    critical: true
+    rationale: Opt-in check-ins, loneliness signals, event participation, conflict aftercare, guest boundaries, and social data need privacy review.
+  - id: accessibility_inclusion_review
+    kind: external
+    critical: true
+    rationale: Events, quiet spaces, common rooms, rituals, arts spaces, guest access, and cultural life must be accessible and inclusive.
+  - id: cultural_pluralism_review
+    kind: external
+    critical: true
+    rationale: Rituals, symbols, events, meals, art, music, hospitality, and public-facing culture must avoid belief, political, or cultural coercion.
+  - id: hospitality_safeguarding_review
+    kind: external
+    critical: true
+    rationale: Guests, public events, visiting family, caregivers, external partnerships, and open-house boundaries require safeguarding and privacy review.
+constraints:
+  physical:
+    - common house, common dining, quiet library room, maker art music space, courtyards, child elder commons, guest hospitality area, outdoor gathering area, notice board, and small nooks should be legible social nodes
+    - the social environment must include high, medium, low, and threshold social-energy spaces so residents can gather loudly, meet quietly, or be alone near life
+    - common spaces need accessibility, open hours, comfort, cleaning schedule, noise rules, booking rules, everyday unprogrammed time, and protection from clique capture
+    - arts and making spaces need storage, ventilation, tool safety, cleanup plans, quiet hours, scheduling, and public/private boundaries
+  ecological:
+    - social infrastructure should reuse shared spaces, gardens, workshops, kitchens, paths, and thresholds before adding fragile amenity complexity
+    - beauty, seasonal change, resident-made art, repair-as-care, gardens, acoustic comfort, and tactile warmth are treated as lifecycle stewardship, not disposable decoration
+    - cultural programming should strengthen mutual aid and crisis response without turning ordinary joy into emergency preparedness theater
+  legal:
+    - the pattern models spaces, rhythms, access, labor, privacy, inclusion, conflict pathways, and cultural flourishing; it is not therapy, abuse investigation, religious governance, public-event permitting, or mental-health diagnosis
+    - guest access, public events, safeguarding, noise, alcohol or substance policies, childcare, minors, harassment, discrimination, accessibility, and privacy require review where applicable
+  social:
+    - participation in meals, events, rituals, art, music, skill shares, check-ins, and public-facing culture must remain opt-in except for clearly governed safety or cleanup duties
+    - private units, closed doors, quiet seasons, introversion, grief, illness, nonattendance, and social difference must not be treated as disloyalty or suspicion
+    - no spiritual, political, lifestyle, wellness, vulnerability, personality, or founder-centered conformity may become a condition of belonging or access to the floor
+    - common spaces must not require membership in the right clique, taste culture, age group, identity group, or social circle to be usable
+  safety:
+    - conflict, harassment, serious harm, public shaming, noise conflicts, guest boundary violations, clique capture, and social exclusion must have a governance and safeguarding path
+    - loneliness and isolation may be detected only through aggregate, optional, privacy-limited, and care-aware signals; popularity, absence, private-room, or mental-health inference is prohibited
+    - public events must protect resident privacy, access, parking/dropoff needs, cleanup labor, emergency routes, and private residential areas
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - map high, medium, low, threshold, and external social spaces with accessibility, quiet, noise, guest, and cleaning requirements
+    - define optional common meals, open table, social hour, skill shares, art/music/craft events, seasonal rhythms, newcomer welcome, grief care, and quiet hours
+    - establish privacy, opt-out, no-social-scoring, anti-clique, cultural pluralism, guest, public event, booking, noise, and conflict policies
+    - create event calendar, common-space scheduler, participation boundary tracker, access and inclusion monitor, opt-in check-in protocol, and cultural archive
+    - define social labor categories, cleanup assignment, hosting rotation, emotional labor visibility, event-labor targets, and overprogramming warnings
+    - train commons host, event, quiet space, arts culture, newcomer, intergenerational, hospitality, inclusion access, grief care ritual, and social risk roles with backups
+  inspection_points:
+    - common house and third-place readiness
+    - quiet room access and opt-out safety
+    - optional event calendar balance and open unprogrammed hours
+    - common meal social protections and labor visibility
+    - common-space booking concentration and clique risk
+    - accessibility, cultural pluralism, guest boundaries, and public/private membrane
+    - social cultural labor hours, cleanup hours, host hours, emotional labor, and concentration
+    - aggregate loneliness support, newcomer feedback, privacy controls, and care interface
+  maintenance:
+    - id: social_rhythm_round
+      description: Review event balance, open hours, common meals, quiet hours, overprogramming risk, newcomer access, and opt-out protection.
+      interval: monthly
+      role: event_steward
+      estimated_hours: 3
+      provisional: true
+    - id: common_space_access_round
+      description: Review space booking, clique risk, quiet space protection, accessibility, noise conflicts, guest boundaries, and open unprogrammed time.
+      interval: monthly
+      role: inclusion_access_steward
+      estimated_hours: 3
+      provisional: true
+    - id: social_labor_round
+      description: Review event planning, hosting, cleanup, emotional labor, hospitality, grief support, cultural archive, and labor concentration.
+      interval: monthly
+      role: commons_host
+      estimated_hours: 3
+      provisional: true
+    - id: cultural_archive_round
+      description: Review resident art, stories, recipes, seasonal memory, event notes, repair culture, and public-facing culture without ranking residents.
+      interval: quarterly
+      role: arts_culture_steward
+      estimated_hours: 3
+      provisional: true
+  expected_lifespan: ongoing social and cultural infrastructure with recurring review of spaces, rhythms, privacy, access, labor, and cultural pluralism
+  repair_procedure:
+    - classify the issue as belonging, privacy, anti-coercion, anti-clique, cultural pluralism, arts access, labor, conflict, hospitality, or social risk
+    - protect opt-out, quiet space, resident privacy, and safety before adding events or social pressure
+    - use conflict ladder or safeguarding path for exclusion, harassment, public shaming, guest boundary violations, or serious harm
+    - rebalance calendar, open hours, booking rules, host roles, cleanup, and labor if one group or person is carrying or capturing social life
+    - update social rhythm records, labor ledger, privacy review, access rules, and resident-facing explanations after resolution
+  end_of_life_path:
+    - archive cultural memory, event practices, access rules, lessons learned, social labor patterns, and privacy-safe aggregate reports for future blocks
+    - preserve resident-made art and cultural records where consent allows
+    - delete or protect sensitive check-in, conflict, care, guest, and privacy-limited records according to retention policy
+failure_modes:
+  - mode: coercive_togetherness
+    likelihood: medium
+    severity: catastrophic
+    detection_method: mandatory events, suspicion of absence, belief tests, public vulnerability pressure, social scoring, or access tied to sociability
+    mitigation: pause coercive practice, reaffirm opt-out rights, revise policy, separate governance from social participation, and trigger privacy and cultural pluralism review
+  - mode: clique_capture_of_common_space
+    likelihood: medium
+    severity: high
+    detection_method: booking concentration, newcomers not using spaces, prime-time capture, repeated exclusion reports, or common house feeling privately owned
+    mitigation: rotate access, reserve open hours, create multiple social nodes, invite new hosts, mediate conflict, and publish booking rules
+  - mode: social_labor_burnout
+    likelihood: medium
+    severity: high
+    detection_method: same small group hosts or cleans most events, emotional labor concentration, overprogramming, unassigned cleanup, or host fatigue
+    mitigation: reduce events, count labor, rotate or pay host work, assign cleanup, protect rest, and distinguish optional from required activity
+  - mode: privacy_surveillance_drift
+    likelihood: medium
+    severity: high
+    detection_method: absence tracking, popularity ranking, loneliness labels, private-room surveillance, care data leakage, or social data used in membership decisions
+    mitigation: delete invasive data, restrict signals to aggregate or opt-in, review privacy rules, add appeals, and prohibit social data in floor access decisions
+  - mode: sterile_or_isolated_commons
+    likelihood: medium
+    severity: medium
+    detection_method: no common third place, no quiet room, no arts or ritual life, underused common spaces, newcomer isolation, or public culture absent
+    mitigation: add low-pressure social nodes, protect beauty and comfort, invite resident-led culture, improve hospitality, and adjust space design
+governance:
+  owner: commons
+  access_rule: Aggregate event, space, labor, access, inclusion, and social-risk signals are member-visible while individual attendance, loneliness, grief, health, conflict, guest, and care details remain privacy-limited.
+  stewardship_role: commons_host
+  backup_role: inclusion_access_steward
+  audit_frequency: monthly
+  capture_risk: social life can become coercive if common spaces, rituals, meals, event calendars, guest access, check-ins, conflict narratives, or cultural norms are captured by founders, cliques, or status groups
+metrics:
+  cost: 140000
+  build_labor_hours: 700
+  recurring_labor_hours_per_week: 10
+  energy_use: 2
+  water_use: 0
+  embodied_carbon: 1
+  maintenance_burden: 4
+  dignity_score: 10
+  autonomy_score: 9
+  resilience_score: 9
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -1
+    food_servings_per_day: 0
+  critical_resources: [maintenance]
+  notes: Provisional social and cultural commons. The current simulator does not yet model belonging, privacy, opt-out safety, common-space access, social labor, clique capture, loneliness support, or cultural flourishing as first-class dynamics.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: social_cultural_operations_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Social, cultural, hosting, access, and event coordination labor
+      unit: hours_per_week
+      min: 3
+      max: 40
+      step: 1
+      default: 10
+      affects: [labor, dignity, autonomy, governance, maintenance]
+      review_required: true
+      provisional: true
+    - id: social_cultural_startup_allowance
+      path: metrics.cost
+      label: Third-place, quiet room, arts, hospitality, event tooling, and cultural archive setup allowance
+      unit: dollars
+      min: 20000
+      max: 400000
+      step: 10000
+      default: 140000
+      affects: [cost, dignity, autonomy, resilience]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: opt_out_protected
+      path: constraints.social
+      reason: Belonging is not valid if events, meals, rituals, or public sociability become conditions of floor access or resident worth.
+      review_dependency: social_privacy_review
+      provisional: true
+    - id: no_ideological_conformity
+      path: constraints.social
+      reason: Rituals and culture must not require spiritual, political, lifestyle, wellness, or founder-centered conformity.
+      review_dependency: cultural_pluralism_review
+      provisional: true
+    - id: social_labor_counted
+      path: constraints.social
+      reason: Hosting, cleanup, event planning, hospitality, grief support, and emotional labor must be counted so joy does not become hidden extraction.
+      review_dependency: labor_fairness_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: Social infrastructure should serve roughly 50-150 residents through overlapping social nodes; above that, replicate village blocks or create multiple social hearts rather than one central arena.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

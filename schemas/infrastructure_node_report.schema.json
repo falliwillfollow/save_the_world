@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/infrastructure_node_report.schema.json",
+  "title": "InfrastructureNodeReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "module_registry",
+    "scale_profile",
+    "orchestration_model",
+    "node_policy_catalog",
+    "target_results",
+    "hotspots",
+    "recommendations",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "InfrastructureNodeReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["ready", "ready_with_warnings", "not_ready"] },
+    "module_registry": { "type": "string" },
+    "scale_profile": { "type": "string" },
+    "orchestration_model": { "type": "object" },
+    "node_policy_catalog": { "type": "array", "items": { "type": "object" } },
+    "target_results": { "type": "array", "items": { "type": "object" } },
+    "hotspots": { "type": "array", "items": { "type": "object" } },
+    "recommendations": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,257 @@
+kind: CivicPattern
+id: graceful_degradation_engine
+type: Commons
+status: draft
+provisional: true
+provisional_for: [engineering, legal, health, water, sanitation, electrical, cost, labor, ecology, governance]
+purpose: Provide a whole-system risk and resilience engine that maps hazards, dependencies, service levels, scenarios, buffers, emergency modes, recovery plans, and after-action learning for the civic floor.
+scale: village
+mdl_categories: [commons, health, shelter, sanitation, energy, food, privacy, contribution]
+inputs:
+  - hazard_register
+  - dependency_graph
+  - critical_function_map
+  - service_level_matrix
+  - scenario_library
+  - buffer_and_reserve_status
+  - emergency_mode_protocol
+  - recovery_playbooks
+  - after_action_review_log
+outputs:
+  - risk_resilience_summary
+  - hazard_register_report
+  - critical_function_map_report
+  - dependency_graph_report
+  - single_point_failure_report
+  - service_level_matrix
+  - buffer_and_reserve_report
+  - scenario_run_report
+  - floor_continuity_report
+  - recovery_readiness_report
+dependencies:
+  - id: resilient_water_commons
+    kind: pattern
+    critical: true
+    rationale: Floor continuity requires potable water, storage, testing, contamination response, and drought fallback scenarios.
+  - id: hybrid_food_commons
+    kind: pattern
+    critical: true
+    rationale: Food continuity, emergency menus, procurement fallback, cold storage, and labor surge need a modeled food commons.
+  - id: hygienic_circular_commons
+    kind: pattern
+    critical: true
+    rationale: Sanitation continuity, emergency toilets, cleaning, illness response, and exposure controls are critical floor functions.
+  - id: critical_load_energy_commons
+    kind: pattern
+    critical: true
+    rationale: Critical energy, load shedding, safe-room power, outage mode, and battery/fire review are core resilience dependencies.
+  - id: anti_speculative_civic_floor
+    kind: pattern
+    critical: true
+    rationale: Financial shocks, reserves, land pressure, debt default, insurance shock, and anti-capture under stress depend on the legal-finance floor.
+  - id: pedestrian_first_access_commons
+    kind: pattern
+    critical: true
+    rationale: Evacuation, clinic transport, emergency access, road closure, shared vehicle failure, and high-need transport are mobility risks.
+  - id: civic_skill_lattice
+    kind: pattern
+    critical: true
+    rationale: Emergency roles, backup coverage, drills, training refreshers, expert-exit risk, and after-action learning depend on skill redundancy.
+  - id: belonging_without_coercion_commons
+    kind: pattern
+    critical: true
+    rationale: Social continuity, grief, isolation, conflict, clique capture, and mutual support under stress affect resilience without coercion.
+  - id: emergency_management_review
+    kind: external
+    critical: true
+    rationale: Emergency modes, evacuation, incident command boundaries, public authority interfaces, and disaster planning require qualified review.
+  - id: local_hazard_climate_review
+    kind: external
+    critical: true
+    rationale: Flood, heat, cold, storm, wildfire smoke, drought, landslide, and local industrial risks require site-specific hazard review.
+  - id: high_need_resident_resilience_review
+    kind: external
+    critical: true
+    rationale: Medication continuity, accessible evacuation, care surge, high-need support, and emergency privacy need qualified and resident review.
+  - id: mutual_aid_external_support_plan
+    kind: external
+    critical: true
+    rationale: Suppliers, clinics, contractors, public authorities, utilities, neighboring communities, and mutual aid cannot be assumed.
+constraints:
+  physical:
+    - hazard register, dependency graph, critical function map, service-level matrix, scenario library, early-warning dashboard, emergency mode manager, recovery planner, and after-action log must be accessible to responsible roles
+    - dependency graph must connect modules, assets, roles, buffers, external partners, reserves, review dependencies, and recovery playbooks
+    - scenario outputs must show affected functions, cascade paths, service levels, high-need support coverage, labor surge, reserve drawdown, external support triggers, recovery time, and design changes
+    - dashboards must be calm, actionable, role-aware, and able to distinguish degraded comfort, protected floor, emergency floor, and floor failure
+  ecological:
+    - buffers, redundancy, repairability, climate adaptation, local hazard mitigation, reserve replenishment, and external support are treated as civic infrastructure rather than inefficiency
+    - resilience investments should reduce floor failure, hidden labor, and cascading harm before optimizing optional comfort or aesthetic systems
+    - repeated failures must change design assumptions, not merely add more emergency work
+  legal:
+    - the pattern models risk, service levels, scenarios, buffers, emergency modes, recovery, and review gates; it is not official emergency-management certification, fire approval, public-health authority, insurance underwriting, clinical triage, law enforcement, or legal emergency powers
+    - fire, evacuation, public-health, emergency authority, insurance, structural hazard, flood, utility, medical, and legal emergency decisions require qualified review
+  social:
+    - emergencies must not become a path to permanent power, factional advantage, resident dispossession, loss of due process, or suspension of anti-capture rules
+    - high-need residents, disabled residents, elders, children, caregivers, residents with medical devices, non-drivers, and low-income residents must be modeled without exposing private status
+    - resilience labor must be counted so the same small group is not spent as the reserve
+    - risk dashboards must not be used for blame, panic scoring, resident surveillance, or social control
+  safety:
+    - optional systems degrade before critical systems, comfort before safety, and plans before people
+    - emergency modes need activation criteria, authority bounds, resident notification, incident log, sunset, review, and recovery path
+    - floor failure includes loss of potable water, sanitation, safe shelter, emergency food, care for high-need residents, emergency communication, privacy, due process, or non-discrimination
+build_phase: 0
+lifecycle:
+  build_sequence:
+    - define critical functions, service levels, floor failure conditions, emergency modes, and degradation priority across all modules
+    - build hazard register, local hazard profile, climate hazard profile, dependency graph, external dependency map, single-point failure list, and risk scoring assumptions
+    - define food, water, energy, finance, maintenance, role, external support, and high-need resident buffers with activation and replenishment rules
+    - create standard scenarios for normal year, bad week, bad year, climate stress, infrastructure failure, illness wave, financial shock, governance capture, growth pressure, and compound events
+    - set emergency roles, backup roles, communication tree, evacuation plan, incident log, recovery playbooks, after-action process, adaptation backlog, and resilience investment backlog
+    - train resilience, hazard register, dependency graph, scenario, emergency operations, recovery, external partnership, access-functional-needs, anti-capture, and climate adaptation roles with backups
+  inspection_points:
+    - hazard register completeness and review date
+    - critical function map and dependency graph completeness
+    - single-point failures and external dependencies
+    - food, water, energy, financial, repair, role, and external support buffers
+    - emergency authority sunset, incident log, communication tree, evacuation plan, and high-need support privacy
+    - scenario coverage, compound scenario coverage, unresolved scenario failures, and recommended mitigations
+    - recovery playbooks, reserve replenishment plan, after-action reviews, corrective actions, and adaptation backlog
+    - resilience labor, same-group response dependency, burnout risk, and recovery rest periods
+  maintenance:
+    - id: hazard_register_round
+      description: Review hazards, likelihood, severity, controls, owners, early warnings, local hazard changes, and review dates.
+      interval: monthly
+      role: hazard_register_steward
+      estimated_hours: 3
+      provisional: true
+    - id: scenario_drill_round
+      description: Run or review a bad-week, bad-year, climate, infrastructure, health, governance, finance, growth, or compound scenario.
+      interval: monthly
+      role: scenario_steward
+      estimated_hours: 4
+      provisional: true
+    - id: buffer_recovery_round
+      description: Review reserves, buffer days, repair reserves, recovery playbooks, external support map, corrective actions, and replenishment plans.
+      interval: monthly
+      role: recovery_steward
+      estimated_hours: 3
+      provisional: true
+    - id: emergency_governance_round
+      description: Review emergency authority, sunset rules, incident logs, anti-capture safeguards, high-need support privacy, and communication tree.
+      interval: quarterly
+      role: emergency_operations_steward
+      estimated_hours: 4
+      provisional: true
+  expected_lifespan: ongoing risk and resilience engine with recurring hazard review, scenario simulation, emergency drills, after-action learning, and adaptation updates
+  repair_procedure:
+    - classify the issue as floor continuity, graceful degradation, cascade, reserve, high-need support, emergency governance, labor burnout, recovery, climate adaptation, anti-capture under stress, or learning failure
+    - activate the least coercive valid emergency mode with explicit authority bounds, notification, logging, and sunset
+    - protect critical functions, high-need residents, privacy, due process, and anti-capture rules before optional systems or comfort
+    - trigger external support when labor surge, reserve drawdown, professional review, medical access, utility dependency, or public authority boundaries require it
+    - complete after-action review, update scenario assumptions, replenish reserves, revise pattern specs, and add adaptation backlog items
+  end_of_life_path:
+    - export hazard register, dependency graph, scenario history, after-action reviews, recovery playbooks, and adaptation backlog for future blocks
+    - archive or delete high-need, health, hardship, conflict, and resident-level emergency records according to privacy and retention rules
+    - preserve privacy-safe lessons about failure points, mitigations, and external dependencies
+failure_modes:
+  - mode: floor_continuity_failure
+    likelihood: medium
+    severity: catastrophic
+    detection_method: potable water, sanitation, emergency food, safe shelter, care health, emergency communication, privacy, due process, or high-need support fails under scenario
+    mitigation: reject or redesign plan, add buffers, reduce dependencies, add external support, and rerun scenario until protected floor survives
+  - mode: cascade_blind_spot
+    likelihood: medium
+    severity: catastrophic
+    detection_method: dependency graph absent, compound scenarios missing, external dependencies unmapped, or hidden single point failure discovered during stress
+    mitigation: map dependency, run compound scenario, add redundancy, define early warning, and update mitigation backlog
+  - mode: emergency_authoritarian_drift
+    likelihood: medium
+    severity: catastrophic
+    detection_method: emergency authority lacks sunset, due process suspended without limit, incident log absent, or stress used to change constitutional rules
+    mitigation: sunset emergency authority, require governance review, restore due process, log decisions, and trigger anti-capture review
+  - mode: crisis_labor_burnout
+    likelihood: medium
+    severity: high
+    detection_method: same group absorbs emergency and recovery work, labor surge exceeds capacity, care or maintenance burnout appears, or recovery has no rest period
+    mitigation: call external support, rotate roles, add paid support, reduce optional systems, schedule recovery rest, and update life-burden ledger
+  - mode: after_action_learning_failure
+    likelihood: medium
+    severity: high
+    detection_method: repeated failure without design change, after-action reviews absent, corrective actions open, or scenario outputs do not update specs
+    mitigation: complete review, assign corrective action owners, update training and patterns, rerun scenario, and publish privacy-safe lessons
+governance:
+  owner: commons
+  access_rule: Aggregate hazard, dependency, scenario, buffer, emergency mode, recovery, and resilience status are member-visible while high-need, health, financial hardship, conflict, and resident-level emergency details remain privacy-limited.
+  stewardship_role: resilience_steward
+  backup_role: emergency_operations_steward
+  audit_frequency: monthly
+  capture_risk: emergency authority, reserve access, risk dashboards, external support, incident narratives, land or asset pressure, and high-need data can become coercive under stress without sunset, review, privacy, and anti-capture rules
+metrics:
+  cost: 150000
+  build_labor_hours: 600
+  recurring_labor_hours_per_week: 12
+  energy_use: 1
+  water_use: 0
+  embodied_carbon: 0.2
+  maintenance_burden: 4
+  dignity_score: 10
+  autonomy_score: 8
+  resilience_score: 10
+  provisional: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -1
+    food_servings_per_day: 0
+  critical_resources: [water, energy, food, sanitation, maintenance]
+  notes: Provisional whole-system resilience layer. The current simulator already runs resource flows, storage, failures, reviews, and stress scenarios, but does not yet model dependency graphs, high-need support, emergency authority sunsets, adaptation backlog, or qualitative floor service levels as first-class state.
+  provisional: true
+optimization:
+  tunable_parameters:
+    - id: resilience_operations_capacity
+      path: metrics.recurring_labor_hours_per_week
+      label: Risk review, scenario, buffer, emergency, recovery, and adaptation coordination labor
+      unit: hours_per_week
+      min: 4
+      max: 50
+      step: 2
+      default: 12
+      affects: [labor, resilience, governance, maintenance, dignity]
+      review_required: true
+      provisional: true
+    - id: resilience_engine_startup_allowance
+      path: metrics.cost
+      label: Hazard register, dependency graph, scenarios, emergency modes, recovery plans, and adaptation setup allowance
+      unit: dollars
+      min: 25000
+      max: 500000
+      step: 25000
+      default: 150000
+      affects: [cost, resilience, governance, external_dependency]
+      review_required: true
+      provisional: true
+  locked_parameters:
+    - id: protected_floor_required
+      path: constraints.safety
+      reason: Comfort, optional projects, and noncritical systems must degrade before water, food, sanitation, shelter, care, privacy, due process, and critical energy.
+      review_dependency: emergency_management_review
+      provisional: true
+    - id: high_need_privacy_required
+      path: constraints.social
+      reason: High-need residents must be protected under stress without exposing health, disability, medication, or hardship data.
+      review_dependency: high_need_resident_resilience_review
+      provisional: true
+    - id: emergency_power_sunset_required
+      path: constraints.social
+      reason: Emergency authority must not become permanent power or a path to capture.
+      review_dependency: legal_governance_review
+      provisional: true
+  scaling:
+    mode: step
+    household_range:
+      min: 20
+      max: 65
+    notes: The graceful degradation engine should serve roughly 50-150 residents as one resilience cell; above that, federate resilience networks, mutual aid, specialized equipment, and emergency operations support.
+    provisional: true
+  objectives: [dignity, resilience, autonomy, cost, labor, external_dependency, review_burden]
+  provisional: true

@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/artifact_cohesion_report.schema.json",
+  "title": "ArtifactCohesionReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "provisional",
+    "status",
+    "generated_dir",
+    "active_population",
+    "summary",
+    "artifact_checks",
+    "relationship_checks",
+    "recommendations",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ArtifactCohesionReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["coherent", "ready_with_warnings", "not_ready"] },
+    "generated_dir": { "type": "string" },
+    "active_population": { "type": "integer", "minimum": 0 },
+    "summary": { "type": "object" },
+    "artifact_checks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/check" }
+    },
+    "relationship_checks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/check" }
+    },
+    "recommendations": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  },
+  "definitions": {
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "message", "artifacts", "provisional"],
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+        "message": { "type": "string" },
+        "artifacts": { "type": "array", "items": { "type": "string" } },
+        "provisional": { "type": "boolean" }
+      }
+    }
+  }
+}
