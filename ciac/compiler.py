@@ -118,6 +118,8 @@ def _build_plan(
     resource_effects_by_pattern: dict[str, dict[str, float]] = {}
     critical_resources_by_pattern: dict[str, list[str]] = {}
     storage_by_pattern: dict[str, list[dict[str, Any]]] = {}
+    capability_effects_by_pattern: dict[str, dict[str, Any]] = {}
+    capability_metadata_by_pattern: dict[str, dict[str, Any]] = {}
 
     for pattern_id in order:
         pattern = patterns_by_id[pattern_id]
@@ -159,6 +161,13 @@ def _build_plan(
         resource_effects_by_pattern[pattern_id] = pattern["simulation"]["resource_effects"]
         critical_resources_by_pattern[pattern_id] = pattern["simulation"]["critical_resources"]
         storage_by_pattern[pattern_id] = pattern["simulation"].get("storage", [])
+        if pattern.get("capability_effects"):
+            capability_effects_by_pattern[pattern_id] = pattern.get("capability_effects", {})
+        capability_metadata_by_pattern[pattern_id] = {
+            "name": pattern.get("name", pattern_id),
+            "scale": pattern.get("scale", ""),
+            "provisional": pattern.get("provisional", True),
+        }
 
     phases = [
         {
@@ -175,6 +184,8 @@ def _build_plan(
         "resource_effects_by_pattern": resource_effects_by_pattern,
         "critical_resources_by_pattern": critical_resources_by_pattern,
         "storage_by_pattern": storage_by_pattern,
+        "capability_effects_by_pattern": capability_effects_by_pattern,
+        "capability_metadata_by_pattern": capability_metadata_by_pattern,
         "provisional": True,
     }
     if seasonal_profile is not None:

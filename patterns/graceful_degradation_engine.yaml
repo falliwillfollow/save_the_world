@@ -198,6 +198,18 @@ metrics:
   autonomy_score: 8
   resilience_score: 10
   provisional: true
+capability_effects:
+  risk_resilience:
+    hazard_register_supported: true
+    dependency_graph_supported: true
+    service_level_matrix_supported: true
+    scenario_coverage_delta: 10
+    recovery_playbook_count_delta: 5
+    graceful_degradation_supported: true
+  governance_anticapture:
+    emergency_power_sunset_defined: true
+  labor_time:
+    emergency_labor_tracking_supported: true
 simulation:
   resource_effects:
     water_liters_per_day: 0

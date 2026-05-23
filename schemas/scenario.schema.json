@@ -118,6 +118,21 @@
         }
       }
     },
+    "capability_shocks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "boolean" },
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        }
+      }
+    },
     "notes": { "type": "string", "minLength": 5 }
   }
 }

@@ -20,7 +20,8 @@ def implement_technology_module(
 ) -> dict[str, Any]:
     scalability_gate = evaluate_scalability_gate(compiled_plan, technology_module, module_registry)
     effects = _resource_effects(technology_module)
-    blockers = _effect_blockers(effects)
+    capability_effects = _capability_effects(technology_module)
+    blockers = _effect_blockers(effects, capability_effects)
 
     if not scalability_gate["passes_scalability_gate"]:
         return _blocked_report(
@@ -31,6 +32,7 @@ def implement_technology_module(
             days,
             scalability_gate,
             effects,
+            capability_effects,
             scalability_gate["next_actions"],
         )
     if blockers:
@@ -42,10 +44,11 @@ def implement_technology_module(
             days,
             scalability_gate,
             effects,
+            capability_effects,
             blockers,
         )
 
-    implemented_plan = _implemented_plan(compiled_plan, technology_module, effects)
+    implemented_plan = _implemented_plan(compiled_plan, technology_module, effects, capability_effects)
     baseline = simulate(compiled_plan, days=days, review_status=review_status)
     implemented = simulate(implemented_plan, days=days, review_status=review_status)
     comparison = compare_simulations(baseline, implemented)
@@ -67,6 +70,7 @@ def implement_technology_module(
         "days": days,
         "scalability_gate": scalability_gate,
         "applied_effects": effects,
+        "applied_capability_effects": capability_effects,
         "implemented_plan": implemented_plan,
         "baseline_simulation": baseline,
         "implemented_simulation": implemented,
@@ -75,7 +79,7 @@ def implement_technology_module(
         "unknowns": [
             *technology_module.get("unknowns", []),
             "Module implementation is a provisional simulator materialization, not real-world technology approval.",
-            "Only explicit direct CIaC resource effects are applied; prose claims and unmodeled costs remain excluded.",
+            "Only explicit direct CIaC resource effects and capability effects are applied; prose claims and unmodeled costs remain excluded.",
             "Passing this step does not satisfy resident consent, professional review, sourcing, permitting, or safety duties.",
         ],
     }
@@ -89,6 +93,7 @@ def _blocked_report(
     days: int,
     scalability_gate: dict[str, Any],
     effects: dict[str, float],
+    capability_effects: dict[str, Any],
     next_actions: list[str],
 ) -> dict[str, Any]:
     return {
@@ -103,6 +108,7 @@ def _blocked_report(
         "days": days,
         "scalability_gate": scalability_gate,
         "applied_effects": effects,
+        "applied_capability_effects": capability_effects,
         "implemented_plan": None,
         "baseline_simulation": None,
         "implemented_simulation": None,
@@ -121,17 +127,23 @@ def _resource_effects(module: dict[str, Any]) -> dict[str, float]:
     return {key: float(direct.get(key, 0) or 0) for key in RESOURCE_EFFECT_KEYS}
 
 
-def _effect_blockers(effects: dict[str, float]) -> list[str]:
+def _capability_effects(module: dict[str, Any]) -> dict[str, Any]:
+    modeled = module.get("modeled_impacts", {})
+    effects = modeled.get("capability_effects") or module.get("capability_effects") or {}
+    return effects if isinstance(effects, dict) else {}
+
+
+def _effect_blockers(effects: dict[str, float], capability_effects: dict[str, Any] | None = None) -> list[str]:
     blockers = []
-    if not any(value != 0 for value in effects.values()):
-        blockers.append("Declare at least one nonzero direct CIaC resource effect before implementation.")
+    if not any(value != 0 for value in effects.values()) and not capability_effects:
+        blockers.append("Declare at least one nonzero direct CIaC resource effect or one capability_effect before implementation.")
     for key, value in effects.items():
         if value < 0:
             blockers.append(f"{key} effect {value} would reduce a dignity-floor resource.")
     return blockers
 
 
-def _implemented_plan(compiled_plan: dict[str, Any], module: dict[str, Any], effects: dict[str, float]) -> dict[str, Any]:
+def _implemented_plan(compiled_plan: dict[str, Any], module: dict[str, Any], effects: dict[str, float], capability_effects: dict[str, Any]) -> dict[str, Any]:
     plan = deepcopy(compiled_plan)
     module_pattern_id = f"module_{module['id']}"
     plan["id"] = f"{compiled_plan['id']}_{module['id']}_implemented"
@@ -143,6 +155,7 @@ def _implemented_plan(compiled_plan: dict[str, Any], module: dict[str, Any], eff
             "source_status": module.get("status", "unknown"),
             "applied_as_pattern": module_pattern_id,
             "applied_effects": effects,
+            "applied_capability_effects": capability_effects,
             "provisional": True,
         }
     )
@@ -154,6 +167,12 @@ def _implemented_plan(compiled_plan: dict[str, Any], module: dict[str, Any], eff
         if value > 0
     ]
     simulation_inputs["storage_by_pattern"][module_pattern_id] = []
+    simulation_inputs.setdefault("capability_effects_by_pattern", {})[module_pattern_id] = capability_effects
+    simulation_inputs.setdefault("capability_metadata_by_pattern", {})[module_pattern_id] = {
+        "name": module.get("name", module["id"]),
+        "scale": "module",
+        "provisional": module.get("provisional", True),
+    }
     return plan
 
 

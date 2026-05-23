@@ -171,6 +171,15 @@ metrics:
   autonomy_score: 9
   resilience_score: 9
   provisional: true
+capability_effects:
+  labor_time:
+    labor_time_ledger_supported: true
+    hidden_labor_tracking_supported: true
+    protected_time_tracking_supported: true
+    wage_dependency_calculator_supported: true
+    hidden_labor_risk_delta: -2
+    burnout_risk_delta: -1
+    governance_burden_visibility_supported: true
 simulation:
   resource_effects:
     water_liters_per_day: 0

@@ -41,12 +41,14 @@ class RuntimeExportTests(unittest.TestCase):
                 "site",
                 "systems",
                 "timeline",
+                "capabilities",
                 "scenarios",
                 "viewer_hints",
                 "unknowns",
             ],
         )
         self.assertEqual(bundle["kind"], "RuntimeBundle")
+        self.assertEqual(bundle["capabilities"]["state"]["kind"], "CapabilityState")
         self.assertTrue(validate_data(bundle, "runtime-bundle").ok)
 
     def test_runtime_bundle_includes_layout_systems_and_spatial_warnings(self) -> None:

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .capabilities import runtime_capability_summary
+
 
 def build_runtime_bundle(
     compiled_plan: dict[str, Any],
@@ -20,6 +22,7 @@ def build_runtime_bundle(
         "site": _site(compiled_plan),
         "systems": _systems(compiled_plan, simulation_run),
         "timeline": _timeline(simulation_run),
+        "capabilities": _capabilities(simulation_run),
         "scenarios": [_scenario_summary(scenario) for scenario in scenarios],
         "viewer_hints": _viewer_hints(),
         "unknowns": _unknowns(compiled_plan, simulation_run, scenarios),
@@ -127,6 +130,20 @@ def _timeline(simulation_run: dict[str, Any]) -> dict[str, Any]:
         "daily_states": [_daily_state_for_viewer(state) for state in simulation_run.get("daily_states", [])],
         "provisional": True,
     }
+
+
+def _capabilities(simulation_run: dict[str, Any]) -> dict[str, Any]:
+    state = simulation_run.get("capability_state")
+    if not isinstance(state, dict) or state.get("kind") != "CapabilityState":
+        return {
+            "state": {},
+            "domain_statuses": {},
+            "ledger": [],
+            "warnings": ["Simulation did not include capability state."],
+            "failures": [],
+            "provisional": True,
+        }
+    return runtime_capability_summary(state, simulation_run.get("capability_gate", {}))
 
 
 def _daily_state_for_viewer(state: dict[str, Any]) -> dict[str, Any]:

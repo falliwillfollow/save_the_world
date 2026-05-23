@@ -315,6 +315,30 @@ class TechnologyModuleTests(unittest.TestCase):
         self.assertGreater(food_delta["net_per_day_delta"], 10)
         self.assertTrue(validate_data(report, "module-implementation").ok)
 
+    def test_module_implementation_allows_capability_only_module(self) -> None:
+        module = _implementation_ready_governance_module()
+        report = implement_technology_module(self.plan, module, None, days=14)
+
+        self.assertEqual(report["kind"], "ModuleImplementationReport")
+        self.assertEqual(report["status"], "implemented")
+        self.assertEqual(report["scalability_gate"]["status"], "pass")
+        self.assertEqual(report["applied_capability_effects"]["governance_anticapture"]["due_process_defined"], True)
+        module_pattern_id = f"module_{module['id']}"
+        self.assertIn(module_pattern_id, report["implemented_plan"]["selected_patterns"])
+        self.assertIn(module_pattern_id, report["implemented_plan"]["simulation_inputs"]["capability_effects_by_pattern"])
+        self.assertTrue(report["implemented_simulation"]["capability_state"]["ledger"])
+        self.assertTrue(validate_data(report, "module-implementation").ok)
+
+    def test_module_implementation_still_blocks_negative_resource_effects(self) -> None:
+        module = _implementation_ready_governance_module()
+        module["modeled_impacts"]["direct_resource_effects"]["water_liters_per_day"] = -10
+
+        report = implement_technology_module(self.plan, module, None, days=14)
+
+        self.assertIn(report["status"], {"blocked_by_scalability_gate", "blocked_by_effects"})
+        self.assertIsNone(report["implemented_plan"])
+        self.assertTrue(validate_data(report, "module-implementation").ok)
+
     def test_cli_implement_module_writes_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             module_path = Path(tmp) / "ready_food_module.json"
@@ -396,6 +420,65 @@ def _implementation_ready_food_module() -> dict[str, object]:
                 "supplier_count": 2,
                 "food_safety.review_dependency": "food_safety",
                 "crop_failure_sensitivity": "bounded",
+            },
+            "provisional": True,
+        },
+        "integration_requirements": [],
+        "unknowns": [],
+    }
+
+
+def _implementation_ready_governance_module() -> dict[str, object]:
+    return {
+        "kind": "TechnologyModule",
+        "id": "explicit_governance_capability_module_v0",
+        "name": "Explicit Governance Capability Module",
+        "domain": ["governance", "anti_capture"],
+        "status": "candidate",
+        "provisional": True,
+        "source_evidence": [
+            {
+                "id": "source_1",
+                "citation": "Synthetic governance test evidence record",
+                "url": "https://example.org/governance-evidence",
+                "context": "Unit-test fixture for a capability-only CIaC module.",
+                "provisional": True,
+            }
+        ],
+        "performance_statistics": [
+            {
+                "id": "stat_1",
+                "source_id": "source_1",
+                "metric": "role_backup_coverage_delta",
+                "value": 0.2,
+                "unit": "ratio_delta",
+                "evidence_status": "test_fixture",
+                "provisional": True,
+            }
+        ],
+        "applicability": {
+            "target_slots": ["governance_anticapture"],
+            "target_patterns": ["commons_stewardship_protocol"],
+            "excludes": [],
+            "provisional": True,
+        },
+        "modeled_impacts": {
+            "dignity_floor_policy": "additive_only",
+            "direct_resource_effects": {
+                "food_servings_per_day": 0,
+                "water_liters_per_day": 0,
+                "energy_kwh_per_day": 0,
+            },
+            "candidate_modifiers": {
+                "labor_hours_per_week": 0,
+            },
+            "capability_effects": {
+                "governance_anticapture": {
+                    "due_process_defined": True,
+                    "emergency_power_sunset_defined": True,
+                    "capture_risk_delta": -1,
+                    "role_backup_coverage_delta": 0.2,
+                }
             },
             "provisional": True,
         },

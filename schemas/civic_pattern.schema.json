@@ -210,6 +210,21 @@
         "provisional": { "type": "boolean" }
       }
     },
+    "capability_effects": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "oneOf": [
+            { "type": "number" },
+            { "type": "boolean" },
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        }
+      }
+    },
     "optimization": {
       "type": "object",
       "additionalProperties": false,

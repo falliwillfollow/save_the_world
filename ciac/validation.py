@@ -12,6 +12,8 @@ from .models import ValidationIssue, ValidationReport
 
 SCHEMA_BY_KIND = {
     "CivicPattern": "civic_pattern.schema.json",
+    "CapabilityState": "capability_state.schema.json",
+    "CapabilityGateReport": "capability_gate_report.schema.json",
     "SiteProfile": "site_profile.schema.json",
     "CompiledPlan": "compiled_plan.schema.json",
     "GateReport": "gate_report.schema.json",

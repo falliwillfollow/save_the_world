@@ -44,6 +44,7 @@
     "days": { "type": "integer" },
     "scalability_gate": { "type": "object" },
     "applied_effects": { "type": "object" },
+    "applied_capability_effects": { "type": "object" },
     "implemented_plan": { "type": ["object", "null"] },
     "baseline_simulation": { "type": ["object", "null"] },
     "implemented_simulation": { "type": ["object", "null"] },

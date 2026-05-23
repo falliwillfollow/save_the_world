@@ -47,6 +47,39 @@ class SimulationTests(unittest.TestCase):
         self.assertGreater(run["maintenance"]["overdue_task_count"], 0)
         self.assertIn("Reduce recurring labor", " ".join(run["gate_recommendations"]))
 
+    def test_simulation_emits_capability_state(self) -> None:
+        site = copy.deepcopy(self.site)
+        site["selected_patterns"].extend(
+            [
+                "maintainable_commons_spine",
+                "commons_stewardship_protocol",
+                "life_burden_ledger",
+            ]
+        )
+        site["resolved_external_dependencies"].extend(
+            [
+                "professional_service_matrix",
+                "maintenance_budget_reserve_plan",
+                "legal_governance_review",
+                "resident_membership_charter",
+                "finance_transparency_review",
+                "conflict_safeguarding_review",
+                "data_privacy_review",
+                "resident_time_use_baseline",
+                "labor_privacy_review",
+                "accommodation_policy_review",
+                "labor_fairness_review",
+            ]
+        )
+        plan = compile_plan(site, self.patterns)
+        run = simulate(plan, days=1)
+
+        self.assertEqual(run["capability_state"]["kind"], "CapabilityState")
+        self.assertIn("labor_time", run["capability_state"]["domains"])
+        self.assertTrue(run["capability_state"]["ledger"])
+        self.assertEqual(run["capability_state"]["domains"]["labor_time"]["hidden_labor_risk_score"], 3)
+        self.assertIn(run["capability_gate"]["status"], {"pass", "warn", "fail"})
+
     def test_maintenance_intervals_generate_expected_task_counts(self) -> None:
         plan = compile_plan(self.site, self.patterns)
         run = simulate(plan, days=365)
@@ -143,6 +176,10 @@ class SimulationTests(unittest.TestCase):
                 "labor",
                 "maintenance",
                 "triggered_risks",
+                "capability_state",
+                "capability_gate",
+                "capability_warnings",
+                "capability_failures",
                 "bottlenecks",
                 "gate_recommendations",
                 "confidence",

@@ -26,6 +26,7 @@
     "site": { "type": "object" },
     "systems": { "type": "array", "items": { "type": "object" } },
     "timeline": { "type": "object" },
+    "capabilities": { "type": "object" },
     "scenarios": { "type": "array", "items": { "type": "object" } },
     "viewer_hints": { "type": "object" },
     "unknowns": { "type": "array", "items": { "type": "string" } }

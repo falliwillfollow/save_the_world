@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/capability_state.schema.json",
+  "title": "CapabilityState",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kind",
+    "version",
+    "provisional",
+    "domains",
+    "ledger",
+    "warnings",
+    "failures"
+  ],
+  "properties": {
+    "kind": { "const": "CapabilityState" },
+    "version": { "const": "v0" },
+    "provisional": { "type": "boolean" },
+    "population": { "type": "integer", "minimum": 0 },
+    "domains": { "type": "object" },
+    "ledger": { "type": "array", "items": { "type": "object" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "failures": { "type": "array", "items": { "type": "string" } }
+  }
+}

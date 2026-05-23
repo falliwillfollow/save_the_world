@@ -29,6 +29,7 @@
     "performance_statistics": { "type": "array", "items": { "type": "object" } },
     "applicability": { "type": "object" },
     "modeled_impacts": { "type": "object" },
+    "capability_effects": { "type": "object" },
     "integration_requirements": { "type": "array", "items": { "type": "string" } },
     "unknowns": { "type": "array", "items": { "type": "string" } }
   }

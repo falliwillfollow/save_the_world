@@ -4,6 +4,8 @@ import math
 from collections import defaultdict
 from typing import Any
 
+from .capabilities import build_capability_state, evaluate_capability_gate
+
 
 RESOURCE_KEYS = {
     "water_liters_per_day": "water_liters",
@@ -39,6 +41,8 @@ def simulate(
         raise ValueError("Simulation days must be at least 1")
 
     population = _population_context(compiled_plan)
+    capability_state = build_capability_state(compiled_plan, population=int(population["population"]), scenario=scenario)
+    capability_gate = evaluate_capability_gate(capability_state, active_patterns=compiled_plan.get("selected_patterns", []))
     scenario_context = _scenario_context(scenario)
     runtime_failures = _runtime_failures(compiled_plan, scenario, days)
     daily_states = _daily_states(compiled_plan, days, runtime_failures, review_status, scenario)
@@ -74,6 +78,10 @@ def simulate(
         "labor": labor,
         "maintenance": maintenance,
         "triggered_risks": triggered_risks,
+        "capability_state": capability_state,
+        "capability_gate": capability_gate,
+        "capability_warnings": sorted(set(capability_state.get("warnings", []) + capability_gate.get("warnings", []))),
+        "capability_failures": sorted(set(capability_state.get("failures", []) + capability_gate.get("failures", []))),
         "bottlenecks": bottlenecks,
         "gate_recommendations": gate_recommendations,
         "confidence": "low" if unknowns else "medium",

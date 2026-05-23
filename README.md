@@ -124,6 +124,12 @@ The viewer resource cards show reserves, not magic totals. For water, food, and 
 
 This means a stable water number can be correct if natural source flow is covering daily use while storage remains full. Once demand exceeds source, storage declines; once source exceeds demand again, storage refills. The runtime bundle now carries these moving parts explicitly so a future visual layer can show the system without hidden water or opaque balances.
 
+## Capability Semantics
+
+Resource simulation tracks water, food, energy, storage, and flows. Capability simulation tracks non-resource civic conditions such as governance, labor, care, access, legal-finance resilience, skill coverage, social/coercion risk, and graceful degradation.
+
+Capability outputs are provisional modeling aids. They do not satisfy professional review, legal review, resident consent, accessibility compliance, safety validation, or real-world trust. See [Capability State Layer](docs/capability_state_layer.md).
+
 ## Scaling And Topology
 
 CIaC models infrastructure as node pools rather than one endlessly growing facility. At small scale, some slots can remain seed/default patterns. At village scale, slots activate node counts. Above node capacity, the model prefers replicated village cells and thin federation over centralized megastructures.

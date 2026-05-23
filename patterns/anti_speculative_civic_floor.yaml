@@ -179,6 +179,16 @@ metrics:
   autonomy_score: 9
   resilience_score: 10
   provisional: true
+capability_effects:
+  legal_land_finance:
+    land_security_status: provisional
+    reserve_modeling_supported: true
+    resident_rights_defined: true
+    affordability_drift_tracking_supported: true
+    debt_risk_delta: -1
+  governance_anticapture:
+    asset_lock_monitoring_supported: true
+    capture_risk_delta: -1
 simulation:
   resource_effects:
     water_liters_per_day: 0

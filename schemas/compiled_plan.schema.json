@@ -40,7 +40,12 @@
     "simulation_inputs": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["resource_effects_by_pattern", "critical_resources_by_pattern", "storage_by_pattern", "provisional"],
+      "required": [
+        "resource_effects_by_pattern",
+        "critical_resources_by_pattern",
+        "storage_by_pattern",
+        "provisional"
+      ],
       "properties": {
         "resource_effects_by_pattern": {
           "type": "object",
@@ -67,6 +72,14 @@
             "type": "array",
             "items": { "type": "object" }
           }
+        },
+        "capability_effects_by_pattern": {
+          "type": "object",
+          "additionalProperties": { "type": "object" }
+        },
+        "capability_metadata_by_pattern": {
+          "type": "object",
+          "additionalProperties": { "type": "object" }
         },
         "seasonal_profile": { "type": "object" },
         "household_profile": { "type": "object" },

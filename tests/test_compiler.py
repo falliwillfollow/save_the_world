@@ -71,6 +71,8 @@ class CompilerTests(unittest.TestCase):
         self.assertIn("water_liters_per_day", simulation_inputs["resource_effects_by_pattern"]["well_house"])
         self.assertIn("emergency_water_reserve", simulation_inputs["storage_by_pattern"])
         self.assertEqual(simulation_inputs["storage_by_pattern"]["emergency_water_reserve"][0]["resource"], "water_liters")
+        self.assertIn("capability_effects_by_pattern", simulation_inputs)
+        self.assertIn("capability_metadata_by_pattern", simulation_inputs)
 
     def test_compile_can_embed_matching_seasonal_profile(self) -> None:
         plan = compile_plan(self.site, self.patterns, self.seasonal_profile)
@@ -355,6 +357,10 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["life_burden_ledger"]["energy_kwh_per_day"],
             -1,
+        )
+        self.assertEqual(
+            plan["simulation_inputs"]["capability_effects_by_pattern"]["life_burden_ledger"]["labor_time"]["hidden_labor_risk_delta"],
+            -2,
         )
         self.assertIn(
             "maintenance",
