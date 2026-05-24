@@ -5,6 +5,7 @@ from collections import defaultdict
 from typing import Any
 
 from .capabilities import build_capability_state, evaluate_capability_gate
+from .capability_policy import evaluate_policy_gates
 
 
 RESOURCE_KEYS = {
@@ -26,6 +27,7 @@ INTERVAL_DAYS = {
     "daily": 1,
     "weekly": 7,
     "monthly": 30,
+    "quarterly": 91,
     "seasonal": 91,
     "annual": 365,
 }
@@ -43,6 +45,7 @@ def simulate(
     population = _population_context(compiled_plan)
     capability_state = build_capability_state(compiled_plan, population=int(population["population"]), scenario=scenario)
     capability_gate = evaluate_capability_gate(capability_state, active_patterns=compiled_plan.get("selected_patterns", []))
+    capability_policy_gate = evaluate_policy_gates(capability_state, mode="simulation")
     scenario_context = _scenario_context(scenario)
     runtime_failures = _runtime_failures(compiled_plan, scenario, days)
     daily_states = _daily_states(compiled_plan, days, runtime_failures, review_status, scenario)
@@ -80,6 +83,7 @@ def simulate(
         "triggered_risks": triggered_risks,
         "capability_state": capability_state,
         "capability_gate": capability_gate,
+        "capability_policy_gate": capability_policy_gate,
         "capability_warnings": sorted(set(capability_state.get("warnings", []) + capability_gate.get("warnings", []))),
         "capability_failures": sorted(set(capability_state.get("failures", []) + capability_gate.get("failures", []))),
         "bottlenecks": bottlenecks,
@@ -190,6 +194,13 @@ def _daily_states(
             review_status,
             scenario_day,
         )
+        _refresh_storage_quality_statuses(storage_activity, storage_quality)
+        for resource, activity in storage_activity.items():
+            resource_state[resource]["status"] = _daily_resource_status(
+                float(resource_state[resource]["ending_balance"]),
+                float(resource_state[resource]["unmet_demand"]),
+                activity,
+            )
         recovery_hours = _storage_recovery_hours(recovery_tasks)
         labor_hours = maintenance_state["required_hours"] + _failure_response_hours(active_failures) + scenario_emergency_hours + recovery_hours
 
@@ -474,6 +485,24 @@ def _storage_quality_status(specs: list[dict[str, Any]], storage_quality: dict[s
     return _worst_status(statuses)
 
 
+def _refresh_storage_quality_statuses(storage_activity: dict[str, dict[str, Any]], storage_quality: dict[str, int]) -> None:
+    for summary in storage_activity.values():
+        stores = summary.get("stores", [])
+        for store in stores:
+            store["quality"]["days_since_check"] = int(storage_quality.get(store["storage_id"], 0))
+            store["quality"]["status"] = _storage_quality_status(
+                [
+                    {
+                        "storage_id": store["storage_id"],
+                        "quality": store["quality"],
+                    }
+                ],
+                storage_quality,
+            )
+        summary["quality_status"] = _worst_status([store["quality"]["status"] for store in stores])
+        summary["status"] = _worst_status([summary["quantity_status"], summary["quality_status"]])
+
+
 def _worst_status(statuses: list[str]) -> str:
     if any(status == "fail" for status in statuses):
         return "fail"
@@ -545,6 +574,17 @@ def _advance_storage_recovery(
                     "review_dependency": candidate["review_dependency"],
                 }
             )
+            if recovery_state[task_id].get("status") == "resolved":
+                recovery_state[task_id].update(
+                    {
+                        "opened_day": day,
+                        "worked_hours_total": 0.0,
+                        "worked_hours_today": 0.0,
+                        "remaining_hours": float(candidate["estimated_hours"]),
+                        "days_active": 1,
+                        "status": "open",
+                    }
+                )
 
     for task in recovery_state.values():
         task["worked_hours_today"] = 0.0
@@ -716,7 +756,7 @@ def _scheduled_maintenance_by_day(compiled_plan: dict[str, Any], days: int) -> d
         interval_days = INTERVAL_DAYS.get(task["interval"])
         if interval_days is None:
             continue
-        day = 1
+        day = 1 if interval_days <= 1 else _initial_maintenance_day(task, interval_days)
         while day <= days:
             scheduled[day].append(
                 {
@@ -734,6 +774,11 @@ def _scheduled_maintenance_by_day(compiled_plan: dict[str, Any], days: int) -> d
             )
             day += interval_days
     return {day: sorted(tasks, key=lambda item: (item["role"], item["task_id"])) for day, tasks in scheduled.items()}
+
+
+def _initial_maintenance_day(task: dict[str, Any], interval_days: int) -> int:
+    key = f"{task.get('pattern_id', '')}:{task.get('task_id', '')}"
+    return (sum(ord(char) for char in key) % interval_days) + 1
 
 
 def _maintenance_due_today(
@@ -1718,6 +1763,8 @@ def _active_maintenance_risks(backlog: list[dict[str, Any]], degradation_by_patt
     risks: list[dict[str, Any]] = []
     for pattern_id, degradation in sorted(degradation_by_pattern.items()):
         overdue_tasks = [task for task in backlog if task["pattern_id"] == pattern_id]
+        if not overdue_tasks:
+            continue
         risks.append(
             {
                 "type": "maintenance_backlog",

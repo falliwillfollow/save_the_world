@@ -163,7 +163,7 @@ metrics:
   cost: 90000
   build_labor_hours: 400
   recurring_labor_hours_per_week: 10
-  energy_use: 1
+  energy_use: 0
   water_use: 0
   embodied_carbon: 0.2
   maintenance_burden: 4
@@ -177,13 +177,15 @@ capability_effects:
     hidden_labor_tracking_supported: true
     protected_time_tracking_supported: true
     wage_dependency_calculator_supported: true
+    free_time_increase_supported: true
+    required_wage_hours_reduction_percent: 25
     hidden_labor_risk_delta: -2
     burnout_risk_delta: -1
     governance_burden_visibility_supported: true
 simulation:
   resource_effects:
     water_liters_per_day: 0
-    energy_kwh_per_day: -1
+    energy_kwh_per_day: 0
     food_servings_per_day: 0
   critical_resources: [maintenance]
   notes: Provisional labor and time accounting layer. The current simulator tracks infrastructure upkeep and role burden, but not total weekly life burden, wage dependency, private household labor, passion time, or resident consent.

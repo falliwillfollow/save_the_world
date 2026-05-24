@@ -24,6 +24,14 @@ DEFAULT_SCENARIO_PATHS = [
     Path("scenarios/crop_failure.yaml"),
     Path("scenarios/energy_outage_reserve_v2.yaml"),
 ]
+WEEKLY_INTERVAL_FACTORS = {
+    "daily": 7.0,
+    "weekly": 1.0,
+    "monthly": 7.0 / 30.0,
+    "quarterly": 7.0 / 91.0,
+    "seasonal": 7.0 / 91.0,
+    "annual": 7.0 / 365.0,
+}
 
 
 def analyze_materialized_patch(
@@ -230,13 +238,18 @@ def _refresh_role_burden(plan: dict[str, Any]) -> None:
     role_hours: dict[str, float] = {}
     for task in plan.get("maintenance_calendar", []):
         role = str(task.get("role") or "unassigned")
-        role_hours[role] = role_hours.get(role, 0.0) + float(task.get("estimated_hours", 0.0))
+        role_hours[role] = role_hours.get(role, 0.0) + _weekly_equivalent_hours(task)
     burden = plan.setdefault("role_burden", {})
     burden["weekly_hours_by_role"] = dict(sorted((role, round(hours, 6)) for role, hours in role_hours.items()))
     total_hours = round(sum(role_hours.values()), 6)
     burden["total_recurring_hours_per_week"] = total_hours
     population = max(1, int(plan.get("site_summary", {}).get("population_target", 1)))
     burden["recurring_hours_per_resident_per_week"] = round(total_hours / population, 3)
+
+
+def _weekly_equivalent_hours(task: dict[str, Any]) -> float:
+    factor = WEEKLY_INTERVAL_FACTORS.get(str(task.get("interval")), 1.0)
+    return round(float(task.get("estimated_hours", 0.0)) * factor, 6)
 
 
 def _acceptance(

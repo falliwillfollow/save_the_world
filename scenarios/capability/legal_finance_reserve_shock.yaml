@@ -1,0 +1,16 @@
+kind: CapabilityScenario
+scenario_id: legal_finance_reserve_shock
+domain: legal_land_finance
+description: Tests whether reserve and affordability logic survives a repair or insurance shock.
+required_capability_fields:
+- legal_land_finance.reserve_modeling_supported
+- legal_land_finance.land_security_status
+- legal_land_finance.resident_rights_defined
+shocks:
+  legal_land_finance:
+    emergency_repair_cost: true
+    operating_reserve_months_delta: -1
+expected_gates:
+- reserve_modeling
+- tenure_security
+provisional: true

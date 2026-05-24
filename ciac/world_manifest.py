@@ -44,6 +44,7 @@ STRUCTURE_MODULE_TARGETS = {
     "water_public_health": "node_water_reserve",
     "governance": "structure_common_house",
     "governance_anticapture": "structure_common_house",
+    "sanitation": "node_sanitation_waste",
 }
 
 
@@ -304,7 +305,7 @@ def build_infrastructure_nodes(layout: dict[str, Any], runtime_bundle: dict[str,
     return [
         _node("node_water_reserve", "water", "Water Source + Reserve", positions["water_node"], "proxy_water_node", _with_dynamic_refs(["water.resilient_water_commons.v0_1"], module_refs_by_structure, "node_water_reserve"), {"daily_net": resources.get("water_liters", {}).get("net_per_day", 0), "stored": storage.get("water_liters", {}).get("ending_total", 0), "status": resources.get("water_liters", {}).get("status", "provisional")}, "evidence_water_node"),
         _node("node_solar_battery", "energy", "Solar + Critical Battery", positions["energy_node"], "proxy_solar_battery", ["energy.critical_load_energy_commons.v0_1"], {"daily_net": resources.get("energy_kwh", {}).get("net_per_day", 0), "stored": storage.get("energy_kwh", {}).get("ending_total", 0), "critical_load_runtime_hours": 72, "status": resources.get("energy_kwh", {}).get("status", "provisional")}, "evidence_solar_battery"),
-        _node("node_sanitation_waste", "sanitation", "Sanitation + Waste", positions["sanitation_node"], "proxy_sanitation_node", ["sanitation.hygienic_circular_commons.v0_1"], {"status": resources.get("sanitation_capacity", {}).get("status", "provisional")}, "evidence_sanitation_node"),
+        _node("node_sanitation_waste", "sanitation", "Sanitation + Waste", positions["sanitation_node"], "proxy_sanitation_node", _with_dynamic_refs(["sanitation.hygienic_circular_commons.v0_1"], module_refs_by_structure, "node_sanitation_waste"), {"status": _sanitation_status(runtime_bundle), "fields": _sanitation_fields(runtime_bundle)}, "evidence_sanitation_node"),
         _node("node_risk_governance", "risk", "Risk + Governance Board", _v(-6, 0, -8), "proxy_risk_board", ["governance.commons_stewardship_protocol.v0_1", "risk_resilience.graceful_degradation_engine.v0_1"], {"capability_status": _capability_status(runtime_bundle)}, "evidence_risk_governance"),
     ]
 
@@ -455,15 +456,24 @@ def build_scenario_states(runtime_bundle: dict[str, Any]) -> list[dict[str, Any]
 
 def build_overlays(runtime_bundle: dict[str, Any]) -> dict[str, Any]:
     resource_balance = runtime_bundle.get("timeline", {}).get("resource_balance", {})
+    capability_state = runtime_bundle.get("capabilities", {}).get("state", {}).get("domains", {})
     domain_statuses = runtime_bundle.get("capabilities", {}).get("domain_statuses", {})
+    policy_domain_statuses = runtime_bundle.get("capabilities", {}).get("policy_gate", {}).get("domain_statuses", {})
     overlays = {
         "food": _overlay("food", resource_balance.get("food_servings", {}).get("status", "provisional"), "Food commons and reserve state."),
         "water": _overlay("water", resource_balance.get("water_liters", {}).get("status", "provisional"), "Water source, storage, and recovery state."),
         "energy": _overlay("energy", resource_balance.get("energy_kwh", {}).get("status", "provisional"), "Critical-load supply and storage state."),
-        "sanitation": _overlay("sanitation", resource_balance.get("sanitation_capacity", {}).get("status", "provisional"), "Sanitation and waste continuity."),
     }
-    for domain in ("labor_time", "governance_anticapture", "care_health", "mobility_access", "legal_land_finance", "risk_resilience"):
-        overlays[domain] = _overlay(domain, domain_statuses.get(domain, {}).get("status", "provisional"), f"{_title(domain)} capability status.")
+    for domain in ("labor_time", "governance_anticapture", "care_health", "sanitation", "mobility_access", "legal_land_finance", "risk_resilience"):
+        domain_status = policy_domain_statuses.get(domain) or domain_statuses.get(domain, {})
+        overlays[domain] = _overlay(
+            domain,
+            domain_status.get("status", "provisional"),
+            f"{_title(domain)} capability status.",
+            messages=domain_status.get("messages", []),
+            fields=capability_state.get(domain, {}),
+            policy=domain_status if domain_status is policy_domain_statuses.get(domain) else {},
+        )
     return overlays
 
 
@@ -596,6 +606,19 @@ def _care_room_status(runtime_bundle: dict[str, Any]) -> str:
     return {"pass": "normal", "warn": "warning", "fail": "failed"}.get(care_status, "warning")
 
 
+def _sanitation_status(runtime_bundle: dict[str, Any]) -> str:
+    capabilities = runtime_bundle.get("capabilities", {})
+    return (
+        capabilities.get("policy_gate", {}).get("domain_statuses", {}).get("sanitation", {}).get("status")
+        or capabilities.get("domain_statuses", {}).get("sanitation", {}).get("status")
+        or "provisional"
+    )
+
+
+def _sanitation_fields(runtime_bundle: dict[str, Any]) -> dict[str, Any]:
+    return runtime_bundle.get("capabilities", {}).get("state", {}).get("domains", {}).get("sanitation", {})
+
+
 def _module_id(domain: str, pattern_id: str) -> str:
     return f"{domain}.{pattern_id}.active"
 
@@ -603,6 +626,8 @@ def _module_id(domain: str, pattern_id: str) -> str:
 def _domain_for_pattern(pattern_id: str, system: dict[str, Any]) -> str:
     if pattern_id.startswith("care_health_") or "medication" in pattern_id or "care_" in pattern_id:
         return "care_health"
+    if pattern_id in {"hygienic_circular_commons", "composting_system", "shared_bathhouse"}:
+        return "sanitation"
     if pattern_id.startswith("mobility_access_") or "accessible_route" in pattern_id:
         return "mobility_access"
     if pattern_id.startswith("water_public_health_") or "water_reserve_sanitation" in pattern_id or "water_recovery" in pattern_id:
@@ -640,6 +665,8 @@ def _module_summary(domain: str, pattern_id: str) -> str:
         return "Care continuity operating module attached to the Care Room."
     if domain == "water_public_health":
         return "Water reserve sanitation and recovery protocol attached to the water node."
+    if domain == "sanitation":
+        return "Sanitation, waste-stream, hygiene, and worker-safety operating module."
     if domain == "labor_time":
         return "Labor visibility and burden-tracking module."
     if domain == "mobility_access":
@@ -665,11 +692,14 @@ def _placeholder_scenario(identifier: str, label: str, scenario_type: str, affec
     }
 
 
-def _overlay(name: str, status: str, summary: str) -> dict[str, Any]:
+def _overlay(name: str, status: str, summary: str, messages: list[str] | None = None, fields: dict[str, Any] | None = None, policy: dict[str, Any] | None = None) -> dict[str, Any]:
     return {
         "enabled": True,
         "status": status,
         "summary": summary,
+        "messages": messages or [],
+        "fields": fields or {},
+        "policy": policy or {},
         "provisional": True,
     }
 

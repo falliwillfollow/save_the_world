@@ -1,0 +1,19 @@
+kind: CapabilityScenario
+scenario_id: care_health_illness_wave
+domain: care_health
+description: Tests whether the community can support illness without forcing sick residents into common meals or public disclosure.
+required_capability_fields:
+- care_health.illness_wave_protocol_supported
+- care_health.care_meal_protocol_supported
+- care_health.medication_continuity_supported
+- labor_time.hidden_labor_tracking_supported
+shocks:
+  care_health:
+    care_meal_demand_delta: 0.25
+    care_steward_capacity_delta: -0.25
+  labor_time:
+    care_labor_hours_delta: 2
+expected_gates:
+- illness_wave_protocol
+- care_meal_protocol
+provisional: true

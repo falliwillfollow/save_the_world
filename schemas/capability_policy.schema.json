@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/capability_policy.schema.json",
+  "title": "CapabilityPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "policy_id",
+    "version",
+    "status",
+    "provisional",
+    "research_inputs",
+    "source_registry",
+    "domains",
+    "promotion_blockers",
+    "scenario_requirements",
+    "ui_warnings",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "CapabilityPolicy" },
+    "policy_id": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "type": "string", "enum": ["provisional", "reviewed", "deprecated"] },
+    "provisional": { "type": "boolean" },
+    "research_inputs": { "type": "array", "items": { "type": "string" } },
+    "source_registry": { "type": "array", "items": { "$ref": "#/definitions/source" } },
+    "domains": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/domain_policy" }
+    },
+    "promotion_blockers": { "type": "array", "items": { "$ref": "#/definitions/promotion_blocker" } },
+    "scenario_requirements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["required"],
+        "properties": {
+          "required": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "ui_warnings": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/ui_warning" }
+    },
+    "unknowns": { "type": "array", "items": { "type": "string" } }
+  },
+  "definitions": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "organization", "url", "evidence_quality", "supports"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "organization": { "type": "string" },
+        "url": { "type": "string" },
+        "evidence_quality": { "type": "string", "enum": ["high", "moderate", "low", "mixed"] },
+        "supports": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "domain_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability_fields",
+        "required_structures",
+        "required_protocols",
+        "external_review_blockers",
+        "gates"
+      ],
+      "properties": {
+        "capability_fields": { "type": "array", "items": { "type": "string" } },
+        "required_structures": { "type": "array", "items": { "type": "string" } },
+        "required_protocols": { "type": "array", "items": { "type": "string" } },
+        "external_review_blockers": { "type": "array", "items": { "type": "string" } },
+        "scenarios": { "type": "array", "items": { "type": "string" } },
+        "ui_warnings": { "type": "array", "items": { "type": "string" } },
+        "gates": { "type": "array", "items": { "$ref": "#/definitions/capability_gate" } }
+      }
+    },
+    "capability_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "capability_field",
+        "pass_condition",
+        "warn_condition",
+        "fail_condition",
+        "promotion_block_condition",
+        "messages",
+        "evidence_quality",
+        "translation_confidence",
+        "regulatory_strength",
+        "source_ids"
+      ],
+      "properties": {
+        "gate_id": { "type": "string" },
+        "capability_field": { "type": "string" },
+        "pass_condition": { "$ref": "#/definitions/condition" },
+        "warn_condition": { "$ref": "#/definitions/condition" },
+        "fail_condition": { "$ref": "#/definitions/condition" },
+        "promotion_block_condition": { "$ref": "#/definitions/condition" },
+        "messages": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pass", "warn", "fail", "promotion_blocked", "unknown"],
+          "properties": {
+            "pass": { "type": "string" },
+            "warn": { "type": "string" },
+            "fail": { "type": "string" },
+            "promotion_blocked": { "type": "string" },
+            "unknown": { "type": "string" }
+          }
+        },
+        "evidence_quality": { "type": "string", "enum": ["high", "moderate", "low", "mixed"] },
+        "translation_confidence": { "type": "string", "enum": ["high", "moderate", "low"] },
+        "regulatory_strength": { "type": "string", "enum": ["binding", "guideline", "professional_practice", "research_inferred", "heuristic"] },
+        "source_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "all": { "type": "array", "items": { "$ref": "#/definitions/clause" } },
+        "any": { "type": "array", "items": { "$ref": "#/definitions/clause" } }
+      }
+    },
+    "clause": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field"],
+      "properties": {
+        "field": { "type": "string" },
+        "equals": {},
+        "not_equals": {},
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "above": { "type": "number" },
+        "below": { "type": "number" },
+        "between": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" }
+        },
+        "in": { "type": "array" },
+        "missing": { "type": "boolean" }
+      }
+    },
+    "promotion_blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "domain", "severity", "description"],
+      "properties": {
+        "id": { "type": "string" },
+        "domain": { "type": "string" },
+        "severity": { "type": "string", "enum": ["block", "warn"] },
+        "description": { "type": "string" }
+      }
+    },
+    "ui_warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "severity", "message"],
+      "properties": {
+        "domain": { "type": "string" },
+        "severity": { "type": "string", "enum": ["info", "warn", "fail", "block"] },
+        "message": { "type": "string" }
+      }
+    }
+  }
+}

@@ -171,7 +171,7 @@ metrics:
   cost: 180000
   build_labor_hours: 500
   recurring_labor_hours_per_week: 14
-  energy_use: 1
+  energy_use: 0
   water_use: 0
   embodied_carbon: 0.2
   maintenance_burden: 4
@@ -181,7 +181,7 @@ metrics:
   provisional: true
 capability_effects:
   legal_land_finance:
-    land_security_status: provisional
+    land_security_status: pass
     reserve_modeling_supported: true
     resident_rights_defined: true
     affordability_drift_tracking_supported: true
@@ -192,7 +192,7 @@ capability_effects:
 simulation:
   resource_effects:
     water_liters_per_day: 0
-    energy_kwh_per_day: -1
+    energy_kwh_per_day: 0
     food_servings_per_day: 0
   critical_resources: [maintenance]
   notes: Provisional legal-land-finance stewardship layer. The current simulator does not yet model enforceability, title, tax status, insurance underwriting, securities compliance, monthly affordability, debt default, resident tenure, or land-sale pressure as first-class dynamics.

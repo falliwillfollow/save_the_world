@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/capability_policy_gate_report.schema.json",
+  "title": "CapabilityPolicyGateReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "generated_by",
+    "policy_id",
+    "version",
+    "mode",
+    "provisional",
+    "status",
+    "promotion_mode",
+    "domain_statuses",
+    "warnings",
+    "failures",
+    "promotion_blockers",
+    "unknowns",
+    "source_ids"
+  ],
+  "properties": {
+    "kind": { "const": "CapabilityPolicyGateReport" },
+    "id": { "type": "string" },
+    "generated_by": { "type": "string" },
+    "policy_id": { "type": "string" },
+    "version": { "type": "string" },
+    "mode": { "type": "string", "enum": ["simulation", "promotion"] },
+    "provisional": { "type": "boolean" },
+    "status": { "type": "string", "enum": ["pass", "warn", "fail", "promotion_blocked"] },
+    "promotion_mode": { "type": "string", "enum": ["simulation_only", "review_blocked", "promotion_ready"] },
+    "domain_statuses": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "failures": { "type": "array", "items": { "type": "string" } },
+    "promotion_blockers": { "type": "array", "items": { "type": "string" } },
+    "unknowns": { "type": "array", "items": { "type": "string" } },
+    "source_ids": { "type": "array", "items": { "type": "string" } }
+  }
+}

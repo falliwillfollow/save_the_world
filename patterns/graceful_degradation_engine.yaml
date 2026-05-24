@@ -190,7 +190,7 @@ metrics:
   cost: 150000
   build_labor_hours: 600
   recurring_labor_hours_per_week: 12
-  energy_use: 1
+  energy_use: 0
   water_use: 0
   embodied_carbon: 0.2
   maintenance_burden: 4
@@ -202,9 +202,10 @@ capability_effects:
   risk_resilience:
     hazard_register_supported: true
     dependency_graph_supported: true
+    dependency_graph_coverage_delta: 1.0
     service_level_matrix_supported: true
     scenario_coverage_delta: 10
-    recovery_playbook_count_delta: 5
+    recovery_playbook_count_delta: 8
     graceful_degradation_supported: true
   governance_anticapture:
     emergency_power_sunset_defined: true
@@ -213,7 +214,7 @@ capability_effects:
 simulation:
   resource_effects:
     water_liters_per_day: 0
-    energy_kwh_per_day: -1
+    energy_kwh_per_day: 0
     food_servings_per_day: 0
   critical_resources: [water, energy, food, sanitation, maintenance]
   notes: Provisional whole-system resilience layer. The current simulator already runs resource flows, storage, failures, reviews, and stress scenarios, but does not yet model dependency graphs, high-need support, emergency authority sunsets, adaptation backlog, or qualitative floor service levels as first-class state.

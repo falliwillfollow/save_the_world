@@ -1,0 +1,132 @@
+kind: CivicPattern
+id: care_health_high_need_meal_illness_support_v0
+type: Commons
+status: draft
+provisional: true
+provisional_for:
+- health
+- labor
+- legal
+- governance
+purpose: A privacy-limited high-need support register, care-meal delivery path, and illness-wave protocol closes the care-health gaps without turning informal care into hidden labor.
+scale: room
+mdl_categories:
+- health
+- food
+- privacy
+- commons
+- contribution
+inputs:
+- resident_consent
+- care_meal_delivery_path
+- privacy_limited_high_need_registry
+- backup_care_roles
+- illness_wave_playbook
+outputs:
+- care_meal_protocol
+- illness_wave_protocol
+- high_need_support_coverage
+- care_labor_visibility
+- professional_handoff_thresholds
+dependencies:
+- id: community_kitchen
+  kind: pattern
+  critical: true
+  rationale: Care meals depend on an explicit food-preparation and delivery source.
+- id: care_health_resident_controlled_medication_continuity_kit_v0
+  kind: pattern
+  critical: false
+  rationale: Medication continuity and care meal support should share privacy boundaries without merging sensitive records.
+- id: public_health_and_safeguarding_review
+  kind: external
+  critical: true
+  rationale: Illness isolation, meal delivery, safeguarding, consent, and clinical escalation require local professional review.
+constraints:
+  physical:
+  - Care meal delivery and high-need support routes must reach every essential residential pod without depending on stairs, private vehicles, or informal favors.
+  ecological:
+  - Prefer reusable delivery containers, low-waste packaging, and low-energy meal staging.
+  legal:
+  - Health, disability, food-safety, consent, privacy, safeguarding, and professional-scope assumptions require local review.
+  social:
+  - Support is opt-in or need-triggered, privacy-limited, and cannot be used to rank resident worth or control participation.
+  safety:
+  - Illness-wave operations must define isolation, hygiene, emergency handoff, food-safety, and backup-steward thresholds.
+build_phase: 0
+lifecycle:
+  build_sequence:
+  - define privacy-limited high-need categories by function rather than diagnosis
+  - assign primary and backup care-meal and illness-wave stewardship roles
+  - map delivery paths from kitchen to residential pods, care room, and quiet recovery spaces
+  - rehearse one normal care-meal day and one illness-wave stress day before treating the module as active
+  inspection_points:
+  - consent and privacy boundary
+  - high-need support coverage
+  - care meal delivery time and food-safety handoff
+  - illness-wave staffing and backup coverage
+  - professional escalation threshold
+  maintenance:
+  - id: high_need_care_meal_and_illness_round
+    description: Review opt-in support coverage, care-meal readiness, backup steward coverage, labor load, and illness-wave escalation triggers.
+    interval: weekly
+    role: care_steward
+    estimated_hours: 4
+    provisional: true
+  expected_lifespan: ongoing protocol with monthly privacy, labor, food-safety, and public-health review
+  repair_procedure:
+  - classify the failure as consent, meal delivery, high-need access, staffing, food safety, illness isolation, or professional handoff
+  - pause unsafe practice, assign backup support, keep essential meals and emergency access operating, and escalate to local professional review
+  - update coverage records, delivery paths, role backups, and scenario assumptions before resuming normal status
+  end_of_life_path:
+  - retire private records under reviewed retention rules
+  - transfer non-sensitive lessons to the care-health module report
+  - replace the protocol if public-health, accessibility, food-safety, or resident-consent assumptions change
+failure_modes:
+- mode: high_need_resident_left_without_meal_or_support
+  likelihood: medium
+  severity: high
+  detection_method: resident report, missed check-in, delivery log gap, scenario replay, or care steward review
+  mitigation: Use backup care roles, delivery redundancy, privacy-limited escalation, and external professional handoff.
+- mode: illness_wave_overloads_informal_care
+  likelihood: medium
+  severity: high
+  detection_method: steward hours exceed threshold, missed meals, unfilled backup role, or infection-control concern
+  mitigation: Activate illness-wave playbook, reduce noncritical work, add external support, and publish labor impact.
+governance:
+  owner: commons
+  access_rule: Aggregate coverage, meal readiness, and labor status are visible; individual health, disability, diagnosis, medication, and hardship details remain privacy-limited.
+  stewardship_role: care_steward
+  backup_role: backup_care_steward
+  audit_frequency: monthly
+  capture_risk: Care meal and high-need support can become coercive if access depends on popularity, ideology, unreviewable resident labor, or exposure of private health needs.
+metrics:
+  cost: 12000
+  build_labor_hours: 80
+  recurring_labor_hours_per_week: 4
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 0.2
+  maintenance_burden: 2
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+capability_effects:
+  care_health:
+    care_meal_protocol_supported: true
+    illness_wave_protocol_supported: true
+    high_need_support_coverage_delta: 1.0
+    care_continuity_protocol_supported: true
+  labor_time:
+    hidden_labor_tracking_supported: true
+    care_labor_visibility_supported: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  critical_resources:
+  - food
+  - maintenance
+  notes: Provisional care-health closure module derived from capability threshold research. It models coverage and labor visibility, not clinical care authorization.
+  provisional: true

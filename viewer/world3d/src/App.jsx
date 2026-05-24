@@ -280,6 +280,7 @@ export default function App() {
         timePercent={timePercent}
         selectedSystem={selectedSystem}
         selectedScenarioId={selectedScenarioId}
+        onSystemChange={setSelectedSystem}
         onScenarioChange={value => { setSelectedScenarioId(value); setMode("stress"); }}
         onSelectObject={setSelectedObject}
         onHighlightObjects={setHighlightedObjectIds}

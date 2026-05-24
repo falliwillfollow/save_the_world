@@ -1,0 +1,20 @@
+kind: CapabilityScenario
+scenario_id: risk_resilience_compound_failure
+domain: risk_resilience
+description: Tests a compound heat, grid outage, and care-support stress.
+required_capability_fields:
+- risk_resilience.hazard_register_supported
+- risk_resilience.dependency_graph_supported
+- risk_resilience.graceful_degradation_supported
+- care_health.high_need_support_coverage
+shocks:
+  risk_resilience:
+    grid_outage_hours: 72
+    extreme_heat: true
+  care_health:
+    high_need_support_demand_delta: 0.2
+expected_gates:
+- hazard_register
+- dependency_graph
+- graceful_degradation
+provisional: true

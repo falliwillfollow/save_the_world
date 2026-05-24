@@ -1,0 +1,596 @@
+kind: CapabilityPolicy
+policy_id: ciac_capability_policy_v0
+version: v0.1
+status: provisional
+provisional: true
+research_inputs:
+- docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md
+- docs/research/ciac_capability_thresholds_research_pack_part_2_v0_1.md
+- docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md
+source_registry:
+- id: CDC_DISABILITY_EMERGENCY_KIT
+  title: Building an Emergency Kit for People with Disabilities
+  organization: CDC
+  url: https://www.cdc.gov/disability-emergency-preparedness/people-with-disabilities/build-a-kit.html
+  evidence_quality: high
+  supports: [medication_continuity, high_need_support, assistive_device_power]
+- id: CDC_RESPIRATORY_PREVENTION
+  title: Preventing Respiratory Illnesses
+  organization: CDC
+  url: https://www.cdc.gov/respiratory-viruses/prevention/index.html
+  evidence_quality: high
+  supports: [illness_wave_protocol, hygiene, cleaner_air]
+- id: HRSA_HEALTH_CENTER_PROGRAM
+  title: About the Health Center Program
+  organization: HRSA
+  url: https://bphc.hrsa.gov/about-health-center-program
+  evidence_quality: moderate
+  supports: [external_professional_care_interface]
+- id: CORNELL_PROCEDURAL_DUE_PROCESS
+  title: Procedural Due Process
+  organization: Cornell Legal Information Institute
+  url: https://www.law.cornell.edu/wex/procedural_due_process
+  evidence_quality: moderate
+  supports: [notice, opportunity_to_respond, impartial_review]
+- id: NIST_PRIVACY_FRAMEWORK
+  title: NIST Privacy Framework
+  organization: NIST
+  url: https://www.nist.gov/privacy-framework
+  evidence_quality: high
+  supports: [privacy_risk_management, role_based_access]
+- id: FEMA_ICS_SPAN_CONTROL
+  title: ICS Principle, Manageable Span of Control
+  organization: FEMA
+  url: https://emilms.fema.gov/is_0362a/groups/103.html
+  evidence_quality: moderate
+  supports: [role_backup, emergency_operations]
+- id: FEMA_NATIONAL_RESILIENCE_GUIDANCE
+  title: National Resilience Guidance
+  organization: FEMA
+  url: https://www.fema.gov/emergency-managers/national-preparedness/plan/resilience-guidance
+  evidence_quality: high
+  supports: [resilience_planning, emergency_access, whole_community_resilience]
+- id: ACCESS_BOARD_ACCESSIBLE_ROUTES
+  title: ADA Guide, Accessible Routes
+  organization: U.S. Access Board
+  url: https://www.access-board.gov/ada/guides/chapter-4-accessible-routes/
+  evidence_quality: high
+  supports: [accessible_route_requirements]
+- id: ITDP_TOD_STANDARD
+  title: TOD Standard
+  organization: Institute for Transportation and Development Policy
+  url: https://tod.itdp.org/tod-standard/tod-standard-framework.html
+  evidence_quality: moderate
+  supports: [daily_need_access_distance, non_driver_access]
+- id: GSN_CLT
+  title: Community Land Trusts
+  organization: Grounded Solutions Network
+  url: https://groundedsolutions.org/strengthening-neighborhoods/community-land-trusts/
+  evidence_quality: moderate
+  supports: [land_stewardship, permanent_affordability]
+- id: LOCAL_HOUSING_SOLUTIONS_LEC
+  title: Limited Equity Cooperatives
+  organization: Local Housing Solutions
+  url: https://www.localhousingsolutions.org/housing-policy-library/limited-equity-cooperatives/
+  evidence_quality: moderate
+  supports: [limited_equity_coop, resident_rights]
+- id: HUD_CHAS_COST_BURDEN
+  title: CHAS Background
+  organization: HUD User
+  url: https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html
+  evidence_quality: high
+  supports: [cost_burden_30_percent, severe_cost_burden_50_percent]
+- id: IRS_501C3_ORGANIZATIONAL_TEST
+  title: Organizational Test, IRC Section 501(c)(3)
+  organization: IRS
+  url: https://www.irs.gov/charities-non-profits/charitable-organizations/organizational-test-internal-revenue-code-section-501c3
+  evidence_quality: moderate
+  supports: [asset_lock, exempt_purpose_assets]
+- id: NIST_COMMUNITY_RESILIENCE_GUIDE
+  title: Community Resilience Planning Guide
+  organization: NIST
+  url: https://www.nist.gov/community-resilience/planning-guide
+  evidence_quality: high
+  supports: [hazard_register, dependency_graph, recovery_goals]
+- id: SENDAI_FRAMEWORK
+  title: Sendai Framework for Disaster Risk Reduction 2015-2030
+  organization: UNDRR
+  url: https://www.undrr.org/publication/sendai-framework-disaster-risk-reduction-2015-2030
+  evidence_quality: high
+  supports: [risk_governance, recovery_preparedness]
+- id: BLS_ATUS_2024
+  title: American Time Use Survey, 2024 Results
+  organization: Bureau of Labor Statistics
+  url: https://www.bls.gov/news.release/atus.nr0.htm
+  evidence_quality: high
+  supports: [work_time, household_labor, care_labor, leisure_time]
+- id: WHO_ILO_LONG_WORKING_HOURS
+  title: Long working hours increasing deaths from heart disease and stroke
+  organization: WHO and ILO
+  url: https://www.who.int/news/item/17-05-2021-long-working-hours-increasing-deaths-from-heart-disease-and-stroke-who-ilo
+  evidence_quality: high
+  supports: [long_working_hours_risk]
+- id: OECD_WORK_LIFE_BALANCE
+  title: OECD Better Life Index, Work-Life Balance
+  organization: OECD
+  url: https://oecd-better-life-index.truth-and-beauty.net/topics/work-life-balance/
+  evidence_quality: moderate
+  supports: [leisure_and_personal_care]
+- id: UKRI_FOUR_DAY_WEEK
+  title: Four-day working week improves mental and physical health
+  organization: UKRI
+  url: https://www.ukri.org/who-we-are/how-we-are-doing/research-outcomes-and-impact/esrc/a-four-day-working-week-improves-mental-and-physical-health/
+  evidence_quality: moderate
+  supports: [reduced_hours_lower_burnout]
+- id: OSHA_TRAINING_UNDERSTANDABLE
+  title: Training Requirements in OSHA Standards
+  organization: OSHA
+  url: https://www.osha.gov/publications/osha2254
+  evidence_quality: high
+  supports: [worker_training, understandable_training]
+- id: OSHA_LOCKOUT_TAGOUT
+  title: Control of Hazardous Energy
+  organization: OSHA
+  url: https://www.osha.gov/control-hazardous-energy
+  evidence_quality: high
+  supports: [hazardous_energy_training, safety_critical_tasks]
+- id: CDC_HUMAN_WASTE_WORKER_SAFETY
+  title: Guidance for Reducing Health Risks to Workers Handling Human Waste or Sewage
+  organization: CDC
+  url: https://www.cdc.gov/healthywater/emergency/sanitation-wastewater/workers_handlingwaste.html
+  evidence_quality: high
+  supports: [sanitation_worker_safety, ppe_training]
+domains:
+  care_health:
+    capability_fields: [care_health.care_continuity_protocol_supported, care_health.high_need_support_coverage, care_health.medication_continuity_supported, care_health.care_meal_protocol_supported, care_health.illness_wave_protocol_supported]
+    required_structures: [care_room, first_aid_station, medication_refrigeration_point, care_meal_delivery_path, privacy_limited_high_need_registry, external_healthcare_registry]
+    required_protocols: [nonclinical_support_scope, privacy_and_consent, medication_cold_chain, care_meal_activation, illness_wave_protocol, high_need_support_plan]
+    external_review_blockers: [clinical_boundary_review, privacy_review, liability_review, public_health_review_for_illness_wave]
+    scenarios: [care_health_illness_wave]
+    ui_warnings: [care_no_external_path, illness_wave_unready]
+    gates:
+    - gate_id: care_continuity_protocol
+      capability_field: care_health.care_continuity_protocol_supported
+      pass_condition: {all: [{field: care_health.care_continuity_protocol_supported, equals: true}]}
+      warn_condition: {any: [{field: care_health.care_continuity_protocol_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Care continuity is explicitly modeled., warn: Care continuity protocol is not explicitly supported., fail: Care continuity is absent for an active care claim., promotion_blocked: Care continuity review blocks promotion., unknown: Care continuity status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: high
+      regulatory_strength: professional_practice
+      source_ids: [CDC_DISABILITY_EMERGENCY_KIT, HRSA_HEALTH_CENTER_PROGRAM]
+    - gate_id: high_need_support_coverage
+      capability_field: care_health.high_need_support_coverage
+      pass_condition: {all: [{field: care_health.high_need_support_coverage, min: 1.0}]}
+      warn_condition: {any: [{field: care_health.high_need_support_coverage, below: 1.0}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: care_health.high_need_support_coverage, below: 1.0}]}
+      messages: {pass: High-need support plans cover known or opt-in high-need residents., warn: High-need support coverage is below the 100 percent target., fail: High-need residents are not modeled., promotion_blocked: High-need support below target blocks real-world readiness claims., unknown: High-need support coverage is unknown.}
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [CDC_DISABILITY_EMERGENCY_KIT, FEMA_NATIONAL_RESILIENCE_GUIDANCE]
+    - gate_id: care_meal_protocol
+      capability_field: care_health.care_meal_protocol_supported
+      pass_condition: {all: [{field: care_health.care_meal_protocol_supported, equals: true}]}
+      warn_condition: {any: [{field: care_health.care_meal_protocol_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Care meal protocol is explicitly supported., warn: Care meal protocol is not explicitly supported., fail: Care meal support is absent during a care claim., promotion_blocked: Care meal review blocks promotion., unknown: Care meal protocol status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: professional_practice
+      source_ids: [CDC_DISABILITY_EMERGENCY_KIT]
+    - gate_id: illness_wave_protocol
+      capability_field: care_health.illness_wave_protocol_supported
+      pass_condition: {all: [{field: care_health.illness_wave_protocol_supported, equals: true}]}
+      warn_condition: {any: [{field: care_health.illness_wave_protocol_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Illness-wave protocol is explicitly supported., warn: Illness-wave protocol is not explicitly supported., fail: Illness-wave support is absent during a public-health claim., promotion_blocked: Public-health review blocks illness-wave promotion., unknown: Illness-wave protocol status is unknown.}
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [CDC_RESPIRATORY_PREVENTION, CDC_DISABILITY_EMERGENCY_KIT]
+  sanitation:
+    capability_fields: [sanitation.toilet_hygiene_access_supported, sanitation.blackwater_path_defined, sanitation.greywater_boundary_defined, sanitation.waste_stream_separation_supported, sanitation.hazardous_waste_plan_supported, sanitation.worker_safety_training_supported, sanitation.sanitation_labor_visibility_supported, sanitation.emergency_sanitation_fallback_supported, sanitation.pathogen_control_protocol_supported]
+    required_structures: [toilet_and_handwashing_access, bathing_access, waste_sorting_station, hazardous_waste_lockup, ppe_station, emergency_sanitation_kit]
+    required_protocols: [blackwater_review_path, greywater_boundary, cleaning_disinfection_schedule, source_separation, hazardous_waste_dropoff, worker_ppe_training, illness_wave_sanitation_escalation, dirty_labor_rotation]
+    external_review_blockers: [local_sanitation_code_review, wastewater_professional_review, worker_safety_training_review, hazardous_waste_dropoff_plan, public_health_review]
+    scenarios: [sanitation_service_interruption, illness_wave_sanitation_surge, hazardous_waste_mixing, wastewater_failure]
+    ui_warnings: [sanitation_review_missing, wastewater_path_missing, dirty_labor_hidden]
+    gates:
+    - gate_id: toilet_hygiene_access
+      capability_field: sanitation.toilet_hygiene_access_supported
+      pass_condition: {all: [{field: sanitation.toilet_hygiene_access_supported, equals: true}]}
+      warn_condition: {any: [{field: sanitation.toilet_hygiene_access_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: sanitation.toilet_hygiene_access_supported, not_equals: true}]}
+      messages:
+        pass: "Toilet, bathing, and handwashing access are explicitly supported."
+        warn: "Toilet, bathing, or handwashing access is not explicitly supported."
+        fail: Sanitation access is absent.
+        promotion_blocked: Missing sanitation access blocks real-world readiness claims.
+        unknown: Sanitation access status is unknown.
+      evidence_quality: high
+      translation_confidence: high
+      regulatory_strength: professional_practice
+      source_ids: [CDC_RESPIRATORY_PREVENTION, CDC_HUMAN_WASTE_WORKER_SAFETY]
+    - gate_id: wastewater_path
+      capability_field: sanitation.blackwater_path_defined
+      pass_condition: {all: [{field: sanitation.blackwater_path_defined, equals: true}, {field: sanitation.greywater_boundary_defined, equals: true}]}
+      warn_condition: {any: [{field: sanitation.blackwater_path_defined, not_equals: true}, {field: sanitation.greywater_boundary_defined, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: sanitation.blackwater_path_defined, not_equals: true}]}
+      messages:
+        pass: Blackwater path and greywater boundary are explicitly modeled.
+        warn: Wastewater path or greywater boundary is incomplete.
+        fail: Wastewater handling is absent.
+        promotion_blocked: Missing wastewater review path blocks promotion.
+        unknown: Wastewater status is unknown.
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: binding
+      source_ids: [CDC_HUMAN_WASTE_WORKER_SAFETY]
+    - gate_id: waste_stream_separation
+      capability_field: sanitation.waste_stream_separation_supported
+      pass_condition: {all: [{field: sanitation.waste_stream_separation_supported, equals: true}, {field: sanitation.hazardous_waste_plan_supported, equals: true}]}
+      warn_condition: {any: [{field: sanitation.waste_stream_separation_supported, not_equals: true}, {field: sanitation.hazardous_waste_plan_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages:
+        pass: Waste-stream separation and hazardous-waste path are explicitly supported.
+        warn: Waste-stream separation or hazardous-waste path is incomplete.
+        fail: Hazardous and ordinary streams are mixed.
+        promotion_blocked: Missing hazardous-waste path blocks sanitation promotion.
+        unknown: Waste-stream status is unknown.
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: professional_practice
+      source_ids: [CDC_HUMAN_WASTE_WORKER_SAFETY, OSHA_TRAINING_UNDERSTANDABLE]
+    - gate_id: worker_safety_and_labor_visibility
+      capability_field: sanitation.worker_safety_training_supported
+      pass_condition: {all: [{field: sanitation.worker_safety_training_supported, equals: true}, {field: sanitation.sanitation_labor_visibility_supported, equals: true}]}
+      warn_condition: {any: [{field: sanitation.worker_safety_training_supported, not_equals: true}, {field: sanitation.sanitation_labor_visibility_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: sanitation.worker_safety_training_supported, not_equals: true}]}
+      messages:
+        pass: Sanitation worker-safety training and dirty-labor visibility are explicitly supported.
+        warn: Worker-safety training or dirty-labor visibility is incomplete.
+        fail: Exposure labor is untrained or hidden.
+        promotion_blocked: Missing worker-safety training blocks promotion.
+        unknown: Worker-safety status is unknown.
+      evidence_quality: high
+      translation_confidence: high
+      regulatory_strength: binding
+      source_ids: [CDC_HUMAN_WASTE_WORKER_SAFETY, OSHA_TRAINING_UNDERSTANDABLE]
+    - gate_id: emergency_sanitation_fallback
+      capability_field: sanitation.emergency_sanitation_fallback_supported
+      pass_condition: {all: [{field: sanitation.emergency_sanitation_fallback_supported, equals: true}, {field: sanitation.pathogen_control_protocol_supported, equals: true}]}
+      warn_condition: {any: [{field: sanitation.emergency_sanitation_fallback_supported, not_equals: true}, {field: sanitation.pathogen_control_protocol_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages:
+        pass: Emergency sanitation fallback and pathogen-control protocol are explicitly supported.
+        warn: Emergency sanitation or pathogen-control protocol is incomplete.
+        fail: Sanitation failure has no safe fallback.
+        promotion_blocked: Missing fallback blocks sanitation resilience claims.
+        unknown: Emergency sanitation status is unknown.
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [CDC_HUMAN_WASTE_WORKER_SAFETY, FEMA_NATIONAL_RESILIENCE_GUIDANCE]
+  governance_anticapture:
+    capability_fields: [governance_anticapture.due_process_defined, governance_anticapture.emergency_power_sunset_defined, governance_anticapture.role_backup_coverage]
+    required_structures: [decision_log, policy_registry, role_registry, backup_role_registry, emergency_authority_log]
+    required_protocols: [notice_and_response, impartial_review, appeal_or_reconsideration, emergency_power_sunset, role_concentration_audit]
+    external_review_blockers: [loss_of_access_or_expulsion_legal_review, privacy_review]
+    scenarios: [governance_emergency_power_drift]
+    ui_warnings: [governance_due_process_missing, emergency_power_no_sunset]
+    gates:
+    - gate_id: due_process_minimum
+      capability_field: governance_anticapture.due_process_defined
+      pass_condition: {all: [{field: governance_anticapture.due_process_defined, equals: true}]}
+      warn_condition: {any: [{field: governance_anticapture.due_process_defined, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: governance_anticapture.due_process_defined, not_equals: true}]}
+      messages: {pass: Due process is explicitly modeled., warn: Due process is not explicitly defined., fail: Loss of access decisions lack due process., promotion_blocked: Missing due process blocks real-world promotion., unknown: Due process status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: research_inferred
+      source_ids: [CORNELL_PROCEDURAL_DUE_PROCESS]
+    - gate_id: emergency_power_sunset
+      capability_field: governance_anticapture.emergency_power_sunset_defined
+      pass_condition: {all: [{field: governance_anticapture.emergency_power_sunset_defined, equals: true}]}
+      warn_condition: {any: [{field: governance_anticapture.emergency_power_sunset_defined, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: governance_anticapture.emergency_power_sunset_defined, not_equals: true}]}
+      messages: {pass: Emergency powers have explicit sunset logic., warn: Emergency power sunset is not explicitly defined., fail: Emergency powers lack limits., promotion_blocked: Missing emergency sunset blocks real-world promotion., unknown: Emergency power sunset status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [FEMA_ICS_SPAN_CONTROL, FEMA_NATIONAL_RESILIENCE_GUIDANCE]
+    - gate_id: role_backup_coverage
+      capability_field: governance_anticapture.role_backup_coverage
+      pass_condition: {all: [{field: governance_anticapture.role_backup_coverage, min: 1.0}]}
+      warn_condition: {any: [{field: governance_anticapture.role_backup_coverage, below: 1.0}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Critical governance roles have backup coverage., warn: Governance role-backup coverage is below 100 percent., fail: High-power roles are single points of control., promotion_blocked: Role concentration blocks promotion., unknown: Role backup coverage is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [FEMA_ICS_SPAN_CONTROL, NIST_PRIVACY_FRAMEWORK]
+  mobility_access:
+    capability_fields: [mobility_access.accessible_route_coverage, mobility_access.non_driver_access_supported, mobility_access.emergency_access_supported]
+    required_structures: [accessible_route_map, emergency_route_map, rest_node_map, shared_cart_or_vehicle_node]
+    required_protocols: [accessibility_audit, route_inspection, care_transport, non_driver_access_review]
+    external_review_blockers: [accessibility_code_review, fire_EMS_access_review, shared_vehicle_insurance_review]
+    scenarios: [mobility_access_route_blockage]
+    ui_warnings: [accessible_route_gap, non_driver_exclusion]
+    gates:
+    - gate_id: accessible_route_coverage
+      capability_field: mobility_access.accessible_route_coverage
+      pass_condition: {all: [{field: mobility_access.accessible_route_coverage, min: 1.0}]}
+      warn_condition: {any: [{field: mobility_access.accessible_route_coverage, min: 0.95}, {field: mobility_access.accessible_route_coverage, below: 0.95}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: mobility_access.accessible_route_coverage, below: 1.0}]}
+      messages: {pass: Essential accessible-route coverage is complete., warn: Essential accessible-route coverage is below the 100 percent target., fail: An essential space lacks accessible route coverage., promotion_blocked: Incomplete accessible-route coverage blocks real-world accessibility claims., unknown: Accessible-route coverage is unknown.}
+      evidence_quality: high
+      translation_confidence: high
+      regulatory_strength: binding
+      source_ids: [ACCESS_BOARD_ACCESSIBLE_ROUTES]
+    - gate_id: non_driver_access
+      capability_field: mobility_access.non_driver_access_supported
+      pass_condition: {all: [{field: mobility_access.non_driver_access_supported, equals: true}]}
+      warn_condition: {any: [{field: mobility_access.non_driver_access_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Non-driver access is explicitly supported., warn: Non-driver access is not explicitly supported., fail: Daily needs require private car access., promotion_blocked: Non-driver exclusion blocks promotion., unknown: Non-driver access status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [ITDP_TOD_STANDARD, ACCESS_BOARD_ACCESSIBLE_ROUTES]
+    - gate_id: emergency_access
+      capability_field: mobility_access.emergency_access_supported
+      pass_condition: {all: [{field: mobility_access.emergency_access_supported, equals: true}]}
+      warn_condition: {any: [{field: mobility_access.emergency_access_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: mobility_access.emergency_access_supported, not_equals: true}]}
+      messages: {pass: Emergency access is explicitly supported., warn: Emergency access is not explicitly supported., fail: Emergency responders cannot access essential points., promotion_blocked: Missing emergency access support blocks real-world promotion., unknown: Emergency access status is unknown.}
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [FEMA_NATIONAL_RESILIENCE_GUIDANCE]
+  legal_land_finance:
+    capability_fields: [legal_land_finance.land_security_status, legal_land_finance.reserve_modeling_supported, legal_land_finance.resident_rights_defined]
+    required_structures: [land_stewardship_model, written_resident_rights, operating_reserve, replacement_reserve, affordability_calculator]
+    required_protocols: [resident_rights_onboarding, payment_hardship_review, reserve_drawdown_and_replenishment]
+    external_review_blockers: [entity_structure, land_control, occupancy_agreements, tax_status, insurance, zoning_permitting]
+    scenarios: [legal_finance_reserve_shock]
+    ui_warnings: [tenure_insecure, reserve_shortfall]
+    gates:
+    - gate_id: tenure_security
+      capability_field: legal_land_finance.land_security_status
+      pass_condition: {all: [{field: legal_land_finance.land_security_status, equals: pass}]}
+      warn_condition: {any: [{field: legal_land_finance.land_security_status, not_equals: pass}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: legal_land_finance.land_security_status, not_equals: pass}]}
+      messages: {pass: Land and tenure security are explicitly modeled., warn: Land security status is not pass., fail: Residents have no secure tenure model., promotion_blocked: Unresolved land/tenure security blocks promotion., unknown: Land security status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: professional_practice
+      source_ids: [GSN_CLT, LOCAL_HOUSING_SOLUTIONS_LEC]
+    - gate_id: reserve_modeling
+      capability_field: legal_land_finance.reserve_modeling_supported
+      pass_condition: {all: [{field: legal_land_finance.reserve_modeling_supported, equals: true}]}
+      warn_condition: {any: [{field: legal_land_finance.reserve_modeling_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Reserve modeling is explicitly supported., warn: Reserve modeling is not explicitly supported., fail: Affordability excludes required reserves., promotion_blocked: Reserve exclusions block affordability claims., unknown: Reserve modeling status is unknown.}
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [HUD_CHAS_COST_BURDEN]
+    - gate_id: resident_rights
+      capability_field: legal_land_finance.resident_rights_defined
+      pass_condition: {all: [{field: legal_land_finance.resident_rights_defined, equals: true}]}
+      warn_condition: {any: [{field: legal_land_finance.resident_rights_defined, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: legal_land_finance.resident_rights_defined, not_equals: true}]}
+      messages: {pass: Resident rights are explicitly defined., warn: Resident rights are not explicitly defined., fail: Residents have no written rights model., promotion_blocked: Missing resident rights blocks promotion., unknown: Resident rights status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: professional_practice
+      source_ids: [GSN_CLT, IRS_501C3_ORGANIZATIONAL_TEST]
+  risk_resilience:
+    capability_fields: [risk_resilience.hazard_register_supported, risk_resilience.dependency_graph_supported, risk_resilience.dependency_graph_coverage, risk_resilience.recovery_playbook_count, risk_resilience.scenario_coverage_count, risk_resilience.graceful_degradation_supported]
+    required_structures: [hazard_register, dependency_graph, critical_function_map, recovery_playbook_library, service_level_matrix]
+    required_protocols: [annual_risk_review, scenario_run_schedule, after_action_review, reserve_replenishment]
+    external_review_blockers: [emergency_management_review, fire_EMS_review, public_health_review, insurance_review]
+    scenarios: [risk_resilience_compound_failure]
+    ui_warnings: [hazard_register_missing]
+    gates:
+    - gate_id: hazard_register
+      capability_field: risk_resilience.hazard_register_supported
+      pass_condition: {all: [{field: risk_resilience.hazard_register_supported, equals: true}]}
+      warn_condition: {any: [{field: risk_resilience.hazard_register_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: risk_resilience.hazard_register_supported, not_equals: true}]}
+      messages: {pass: Hazard register is explicitly supported., warn: Hazard register is not explicitly supported., fail: No hazard register exists., promotion_blocked: Missing hazard register blocks resilience claims., unknown: Hazard register status is unknown.}
+      evidence_quality: high
+      translation_confidence: high
+      regulatory_strength: guideline
+      source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE, FEMA_NATIONAL_RESILIENCE_GUIDANCE]
+    - gate_id: dependency_graph
+      capability_field: risk_resilience.dependency_graph_supported
+      pass_condition: {all: [{field: risk_resilience.dependency_graph_supported, equals: true}, {field: risk_resilience.dependency_graph_coverage, min: 1.0}]}
+      warn_condition: {any: [{field: risk_resilience.dependency_graph_supported, not_equals: true}, {field: risk_resilience.dependency_graph_coverage, below: 1.0}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: risk_resilience.dependency_graph_supported, not_equals: true}]}
+      messages: {pass: Dependency graph is complete enough for the modeled floor., warn: Dependency graph support or coverage is incomplete., fail: Critical functions are untraceable., promotion_blocked: Missing dependency graph blocks system claims., unknown: Dependency graph status is unknown.}
+      evidence_quality: high
+      translation_confidence: high
+      regulatory_strength: guideline
+      source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    - gate_id: recovery_playbooks
+      capability_field: risk_resilience.recovery_playbook_count
+      pass_condition: {all: [{field: risk_resilience.recovery_playbook_count, min: 8}]}
+      warn_condition: {any: [{field: risk_resilience.recovery_playbook_count, min: 4}, {field: risk_resilience.recovery_playbook_count, below: 4}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Recovery playbook count meets the v0 target., warn: Recovery playbook count is below the v0 target., fail: Recovery playbooks are below the minimum floor., promotion_blocked: Missing recovery playbooks block resilience claims., unknown: Recovery playbook count is unknown.}
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE, FEMA_NATIONAL_RESILIENCE_GUIDANCE]
+    - gate_id: graceful_degradation
+      capability_field: risk_resilience.graceful_degradation_supported
+      pass_condition: {all: [{field: risk_resilience.graceful_degradation_supported, equals: true}]}
+      warn_condition: {any: [{field: risk_resilience.graceful_degradation_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Graceful degradation is explicitly supported., warn: Graceful degradation is not explicitly supported., fail: No rationing or fallback logic exists., promotion_blocked: Missing degradation logic blocks resilience claims., unknown: Graceful degradation status is unknown.}
+      evidence_quality: high
+      translation_confidence: moderate
+      regulatory_strength: guideline
+      source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE, SENDAI_FRAMEWORK]
+  labor_time:
+    capability_fields: [labor_time.commons_labor_hours_per_resident_per_week, labor_time.hidden_labor_tracking_supported, labor_time.free_time_increase_supported, labor_time.required_wage_hours_reduction_percent]
+    required_structures: [labor_ledger, role_scheduler, hidden_labor_tracker, protected_time_dashboard, training_gate_matrix]
+    required_protocols: [weekly_labor_accounting, monthly_fairness_audit, labor_concentration_review, optional_vs_required_labor_classifier]
+    external_review_blockers: [employment_labor_review_if_work_is_required_or_paid, disability_accommodation_review, privacy_review_for_labor_data]
+    scenarios: [labor_time_hidden_burden]
+    ui_warnings: [hidden_labor, free_time_not_proven]
+    gates:
+    - gate_id: commons_labor_upper_bound
+      capability_field: labor_time.commons_labor_hours_per_resident_per_week
+      pass_condition: {all: [{field: labor_time.commons_labor_hours_per_resident_per_week, max: 8}, {field: labor_time.commons_labor_hours_per_resident_per_week, above: 0}]}
+      warn_condition: {any: [{field: labor_time.commons_labor_hours_per_resident_per_week, equals: 0}, {field: labor_time.commons_labor_hours_per_resident_per_week, above: 8}]}
+      fail_condition: {any: [{field: labor_time.commons_labor_hours_per_resident_per_week, above: 12}]}
+      promotion_block_condition: {}
+      messages: {pass: Commons labor is tracked and within the v0 upper bound., warn: Commons labor is either unmeasured or above the preferred bound., fail: Commons labor exceeds the blocking threshold., promotion_blocked: Labor burden blocks life-burden claims., unknown: Commons labor burden is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: heuristic
+      source_ids: [BLS_ATUS_2024, WHO_ILO_LONG_WORKING_HOURS, OECD_WORK_LIFE_BALANCE]
+    - gate_id: hidden_labor_tracking
+      capability_field: labor_time.hidden_labor_tracking_supported
+      pass_condition: {all: [{field: labor_time.hidden_labor_tracking_supported, equals: true}]}
+      warn_condition: {any: [{field: labor_time.hidden_labor_tracking_supported, not_equals: true}]}
+      fail_condition: {}
+      promotion_block_condition: {any: [{field: labor_time.hidden_labor_tracking_supported, not_equals: true}]}
+      messages: {pass: Hidden labor tracking is explicitly supported., warn: Hidden labor tracking is not explicitly supported., fail: Savings depend on hidden or untracked labor., promotion_blocked: Hidden labor risk blocks life-burden claims., unknown: Hidden labor tracking status is unknown.}
+      evidence_quality: high
+      translation_confidence: high
+      regulatory_strength: research_inferred
+      source_ids: [BLS_ATUS_2024, OECD_WORK_LIFE_BALANCE]
+    - gate_id: free_time_improvement
+      capability_field: labor_time.free_time_increase_supported
+      pass_condition: {all: [{field: labor_time.free_time_increase_supported, equals: true}, {field: labor_time.required_wage_hours_reduction_percent, min: 25}]}
+      warn_condition: {any: [{field: labor_time.free_time_increase_supported, not_equals: true}, {field: labor_time.required_wage_hours_reduction_percent, below: 25}]}
+      fail_condition: {}
+      promotion_block_condition: {}
+      messages: {pass: Free-time and wage-hour improvement are explicitly supported., warn: Free-time or wage-hour reduction is not demonstrated., fail: Life-burden reduction is contradicted by labor data., promotion_blocked: Missing baseline blocks liberated-time claims., unknown: Free-time improvement status is unknown.}
+      evidence_quality: moderate
+      translation_confidence: moderate
+      regulatory_strength: heuristic
+      source_ids: [BLS_ATUS_2024, WHO_ILO_LONG_WORKING_HOURS, UKRI_FOUR_DAY_WEEK]
+promotion_blockers:
+- id: no_high_need_support_model
+  domain: care_health
+  severity: block
+  description: High-need support is not modeled to the policy threshold.
+- id: no_accessible_route_to_essentials
+  domain: mobility_access
+  severity: block
+  description: Essential accessible route coverage is incomplete.
+- id: no_reviewed_sanitation_path
+  domain: sanitation
+  severity: block
+  description: Sanitation access, wastewater path, worker safety, or emergency fallback is not explicit enough.
+- id: no_due_process
+  domain: governance_anticapture
+  severity: block
+  description: Commons decision process lacks due process.
+- id: no_written_resident_rights_or_tenure
+  domain: legal_land_finance
+  severity: block
+  description: Resident rights or land tenure are not explicit enough.
+- id: no_hazard_register_or_dependency_graph
+  domain: risk_resilience
+  severity: block
+  description: Resilience claim lacks hazard register or dependency graph.
+- id: safety_critical_task_without_training_gate
+  domain: labor_time
+  severity: block
+  description: Safety-critical task has no training gate.
+scenario_requirements:
+  care_health: {required: [injury_event, medication_refrigeration_outage, illness_wave, high_need_evacuation, care_steward_exit, care_labor_burnout]}
+  sanitation: {required: [normal_hygiene_day, illness_wave_sanitation_surge, wastewater_failure, hazardous_waste_mixing, emergency_toilet_fallback, sanitation_labor_burnout]}
+  governance_anticapture: {required: [member_expulsion_case, emergency_power_extension, founder_exit, admin_capture, major_debt_or_land_sale, privacy_breach]}
+  mobility_access: {required: [wheelchair_resident_day, elder_pharmacy_trip, fire_EMS_access, route_blockage, no_private_car_resident, shared_vehicle_failure]}
+  legal_land_finance: {required: [income_loss, reserve_drawdown, insurance_shock, debt_pressure, resident_exit, land_sale_pressure]}
+  risk_resilience: {required: [water_contamination, 72_hour_energy_outage, food_disruption, illness_wave, fire_or_shelter_loss, financial_shock, compound_heat_grid_outage]}
+  labor_time: {required: [normal_week, bad_week, hidden_labor_detection, care_labor_concentration, governance_conflict_month, maintenance_emergency, scale_80_300_730_1500]}
+ui_warnings:
+  care_no_external_path:
+    domain: care_health
+    severity: warn
+    message: Care room lacks a clear external professional care path. This remains simulation-only.
+  illness_wave_unready:
+    domain: care_health
+    severity: warn
+    message: Illness-wave protocol lacks meal delivery, sanitation escalation, or privacy protection.
+  sanitation_review_missing:
+    domain: sanitation
+    severity: warn
+    message: Sanitation requires local code, wastewater, worker-safety, public-health, and hazardous-waste review before real-world use.
+  wastewater_path_missing:
+    domain: sanitation
+    severity: fail
+    message: Blackwater path or greywater boundary is not explicit.
+  dirty_labor_hidden:
+    domain: sanitation
+    severity: warn
+    message: Sanitation exposure and dirty labor must be trained, visible, rotated, and backed up.
+  governance_due_process_missing:
+    domain: governance_anticapture
+    severity: fail
+    message: Commons decision lacks notice, review, appeal, or recordkeeping.
+  emergency_power_no_sunset:
+    domain: governance_anticapture
+    severity: block
+    message: Emergency authority has no sunset. Promotion blocked.
+  accessible_route_gap:
+    domain: mobility_access
+    severity: fail
+    message: Essential route coverage is below the 100 percent accessibility target.
+  non_driver_exclusion:
+    domain: mobility_access
+    severity: fail
+    message: Non-drivers cannot access daily needs without informal help.
+  tenure_insecure:
+    domain: legal_land_finance
+    severity: fail
+    message: Resident rights or land tenure are not explicit enough to pass.
+  reserve_shortfall:
+    domain: legal_land_finance
+    severity: warn
+    message: Reserves are missing or excluded from affordability. Cost model is not credible.
+  hazard_register_missing:
+    domain: risk_resilience
+    severity: block
+    message: Hazard register or dependency graph is missing. Resilience claim blocked.
+  hidden_labor:
+    domain: labor_time
+    severity: fail
+    message: Savings appear to depend on hidden or untracked labor.
+  free_time_not_proven:
+    domain: labor_time
+    severity: warn
+    message: Life burden reduction is not proven because free time or wage-hour reduction is not demonstrated.
+unknowns:
+- Capability policy results are provisional modeling aids, not real-world certification.
+- Missing external review is treated as simulation-only or review-blocked, not as proof of invalidity.

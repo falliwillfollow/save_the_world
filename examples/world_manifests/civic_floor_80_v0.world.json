@@ -202,6 +202,7 @@
       "id": "evidence_care_room",
       "module_refs": [
         "risk_resilience.graceful_degradation_engine.v0_1",
+        "care_health.care_health_high_need_meal_illness_support_v0.active",
         "care_health.care_health_resident_controlled_medication_continuity_kit_v0.active"
       ],
       "review_required": [
@@ -465,9 +466,9 @@
       "id": "node_water_reserve",
       "label": "Water Source + Reserve",
       "metrics": {
-        "daily_net": 23.445,
+        "daily_net": 21.977,
         "status": "pass",
-        "stored": 34351.2
+        "stored": 34425.442
       },
       "module_refs": [
         "water.resilient_water_commons.v0_1",
@@ -487,9 +488,9 @@
       "label": "Solar + Critical Battery",
       "metrics": {
         "critical_load_runtime_hours": 72,
-        "daily_net": 1.937,
+        "daily_net": 1.929,
         "status": "pass",
-        "stored": 596.535
+        "stored": 596.259
       },
       "module_refs": [
         "energy.critical_load_energy_commons.v0_1"
@@ -507,10 +508,23 @@
       "id": "node_sanitation_waste",
       "label": "Sanitation + Waste",
       "metrics": {
-        "status": "provisional"
+        "fields": {
+          "blackwater_path_defined": true,
+          "emergency_sanitation_fallback_supported": true,
+          "greywater_boundary_defined": true,
+          "hazardous_waste_plan_supported": true,
+          "pathogen_control_protocol_supported": true,
+          "sanitation_labor_visibility_supported": true,
+          "toilet_hygiene_access_supported": true,
+          "waste_stream_separation_supported": true,
+          "worker_safety_training_supported": true
+        },
+        "status": "pass"
       },
       "module_refs": [
-        "sanitation.hygienic_circular_commons.v0_1"
+        "sanitation.hygienic_circular_commons.v0_1",
+        "sanitation.composting_system.active",
+        "sanitation.shared_bathhouse.active"
       ],
       "position": {
         "x": 26.0,
@@ -525,7 +539,7 @@
       "id": "node_risk_governance",
       "label": "Risk + Governance Board",
       "metrics": {
-        "capability_status": "warn"
+        "capability_status": "pass"
       },
       "module_refs": [
         "governance.commons_stewardship_protocol.v0_1",
@@ -606,10 +620,10 @@
       "label": "Hygienic Circular Commons",
       "module_id": "sanitation.hygienic_circular_commons.v0_1",
       "pattern_id": "hygienic_circular_commons",
-      "placement_target_id": "",
+      "placement_target_id": "node_sanitation_waste",
       "provisional": true,
       "review_status": "review_required",
-      "status": "contract_defined",
+      "status": "simulation_connected",
       "summary": "Sanitation model layer.",
       "tier": "floor_systems"
     },
@@ -633,7 +647,7 @@
       "placement_target_id": "structure_common_house",
       "provisional": true,
       "review_status": "review_required",
-      "status": "contract_defined",
+      "status": "simulation_connected",
       "summary": "Governance model layer.",
       "tier": "meta_systems"
     },
@@ -645,7 +659,7 @@
       "placement_target_id": "structure_quiet_studio",
       "provisional": true,
       "review_status": "review_required",
-      "status": "contract_defined",
+      "status": "simulation_connected",
       "summary": "Labor Time model layer.",
       "tier": "meta_systems"
     },
@@ -657,7 +671,7 @@
       "placement_target_id": "",
       "provisional": true,
       "review_status": "review_required",
-      "status": "contract_defined",
+      "status": "simulation_connected",
       "summary": "Legal Land Finance model layer.",
       "tier": "meta_systems"
     },
@@ -669,7 +683,7 @@
       "placement_target_id": "",
       "provisional": true,
       "review_status": "review_required",
-      "status": "contract_defined",
+      "status": "simulation_connected",
       "summary": "Mobility model layer.",
       "tier": "operating_systems"
     },
@@ -705,7 +719,7 @@
       "placement_target_id": "",
       "provisional": true,
       "review_status": "review_required",
-      "status": "contract_defined",
+      "status": "simulation_connected",
       "summary": "Risk model layer.",
       "tier": "meta_systems"
     },
@@ -877,7 +891,7 @@
         "sanitation",
         "maintenance"
       ],
-      "domain": "maintenance_repair",
+      "domain": "sanitation",
       "failure_modes": [
         {
           "detection_method": "process logs and sanitation inspection",
@@ -889,14 +903,14 @@
         }
       ],
       "label": "Composting System",
-      "module_id": "maintenance_repair.composting_system.active",
+      "module_id": "sanitation.composting_system.active",
       "pattern_id": "composting_system",
-      "placement_target_id": "structure_maintenance_shop",
+      "placement_target_id": "node_sanitation_waste",
       "provisional": true,
       "review_status": "review_required",
       "status": "simulation_connected",
-      "summary": "Composting System active module.",
-      "tier": "operating_systems"
+      "summary": "Sanitation, waste-stream, hygiene, and worker-safety operating module.",
+      "tier": "floor_systems"
     },
     {
       "active_failure_count": 0,
@@ -906,7 +920,7 @@
         "sanitation",
         "maintenance"
       ],
-      "domain": "maintenance_repair",
+      "domain": "sanitation",
       "failure_modes": [
         {
           "detection_method": "inspection logs and illness reports",
@@ -918,14 +932,14 @@
         }
       ],
       "label": "Shared Bathhouse",
-      "module_id": "maintenance_repair.shared_bathhouse.active",
+      "module_id": "sanitation.shared_bathhouse.active",
       "pattern_id": "shared_bathhouse",
-      "placement_target_id": "structure_maintenance_shop",
+      "placement_target_id": "node_sanitation_waste",
       "provisional": true,
       "review_status": "review_required",
       "status": "simulation_connected",
-      "summary": "Shared Bathhouse active module.",
-      "tier": "operating_systems"
+      "summary": "Sanitation, waste-stream, hygiene, and worker-safety operating module.",
+      "tier": "floor_systems"
     },
     {
       "active_failure_count": 0,
@@ -1162,65 +1176,787 @@
       "status": "simulation_connected",
       "summary": "Accessible route survey and daily-need mobility visibility module.",
       "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "food",
+        "maintenance"
+      ],
+      "domain": "care_health",
+      "failure_modes": [
+        {
+          "detection_method": "resident report, missed check-in, delivery log gap, scenario replay, or care steward review",
+          "likelihood": "medium",
+          "mitigation": "Use backup care roles, delivery redundancy, privacy-limited escalation, and external professional handoff.",
+          "mode": "high_need_resident_left_without_meal_or_support",
+          "pattern_id": "care_health_high_need_meal_illness_support_v0",
+          "severity": "high"
+        },
+        {
+          "detection_method": "steward hours exceed threshold, missed meals, unfilled backup role, or infection-control concern",
+          "likelihood": "medium",
+          "mitigation": "Activate illness-wave playbook, reduce noncritical work, add external support, and publish labor impact.",
+          "mode": "illness_wave_overloads_informal_care",
+          "pattern_id": "care_health_high_need_meal_illness_support_v0",
+          "severity": "high"
+        }
+      ],
+      "label": "Care Health High Need Meal Illness Support V0",
+      "module_id": "care_health.care_health_high_need_meal_illness_support_v0.active",
+      "pattern_id": "care_health_high_need_meal_illness_support_v0",
+      "placement_target_id": "structure_care_room",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Care continuity operating module attached to the Care Room.",
+      "tier": "operating_systems"
     }
   ],
   "overlays": {
     "care_health": {
       "enabled": true,
+      "fields": {
+        "care_continuity_protocol_supported": true,
+        "care_meal_protocol_supported": true,
+        "high_need_support_coverage": 1.0,
+        "illness_wave_protocol_supported": true,
+        "medication_continuity_supported": true,
+        "privacy_boundary_required": true,
+        "reviewable_assumption_register_supported": true
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "clinical_boundary_review",
+          "privacy_review",
+          "liability_review",
+          "public_health_review_for_illness_wave"
+        ],
+        "gates": [
+          {
+            "capability_field": "care_health.care_continuity_protocol_supported",
+            "evidence_quality": "moderate",
+            "gate_id": "care_continuity_protocol",
+            "message": "Care continuity is explicitly modeled.",
+            "provisional": true,
+            "regulatory_strength": "professional_practice",
+            "source_ids": [
+              "CDC_DISABILITY_EMERGENCY_KIT",
+              "HRSA_HEALTH_CENTER_PROGRAM"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "care_health.high_need_support_coverage",
+            "evidence_quality": "high",
+            "gate_id": "high_need_support_coverage",
+            "message": "High-need support plans cover known or opt-in high-need residents.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "CDC_DISABILITY_EMERGENCY_KIT",
+              "FEMA_NATIONAL_RESILIENCE_GUIDANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "care_health.care_meal_protocol_supported",
+            "evidence_quality": "moderate",
+            "gate_id": "care_meal_protocol",
+            "message": "Care meal protocol is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "professional_practice",
+            "source_ids": [
+              "CDC_DISABILITY_EMERGENCY_KIT"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "care_health.illness_wave_protocol_supported",
+            "evidence_quality": "high",
+            "gate_id": "illness_wave_protocol",
+            "message": "Illness-wave protocol is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "CDC_RESPIRATORY_PREVENTION",
+              "CDC_DISABILITY_EMERGENCY_KIT"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "nonclinical_support_scope",
+          "privacy_and_consent",
+          "medication_cold_chain",
+          "care_meal_activation",
+          "illness_wave_protocol",
+          "high_need_support_plan"
+        ],
+        "required_structures": [
+          "care_room",
+          "first_aid_station",
+          "medication_refrigeration_point",
+          "care_meal_delivery_path",
+          "privacy_limited_high_need_registry",
+          "external_healthcare_registry"
+        ],
+        "source_ids": [
+          "CDC_DISABILITY_EMERGENCY_KIT",
+          "CDC_RESPIRATORY_PREVENTION",
+          "FEMA_NATIONAL_RESILIENCE_GUIDANCE",
+          "HRSA_HEALTH_CENTER_PROGRAM"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
       "status": "pass",
       "summary": "Care Health capability status."
     },
     "energy": {
       "enabled": true,
+      "fields": {},
+      "messages": [],
+      "policy": {},
       "provisional": true,
       "status": "pass",
       "summary": "Critical-load supply and storage state."
     },
     "food": {
       "enabled": true,
+      "fields": {},
+      "messages": [],
+      "policy": {},
       "provisional": true,
       "status": "pass",
       "summary": "Food commons and reserve state."
     },
     "governance_anticapture": {
       "enabled": true,
+      "fields": {
+        "asset_lock_monitoring_supported": true,
+        "capture_risk_score": 2.0,
+        "conflict_ladder_supported": true,
+        "due_process_defined": true,
+        "emergency_power_sunset_defined": true,
+        "role_backup_coverage": 1.0,
+        "role_registry_supported": true
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "loss_of_access_or_expulsion_legal_review",
+          "privacy_review"
+        ],
+        "gates": [
+          {
+            "capability_field": "governance_anticapture.due_process_defined",
+            "evidence_quality": "moderate",
+            "gate_id": "due_process_minimum",
+            "message": "Due process is explicitly modeled.",
+            "provisional": true,
+            "regulatory_strength": "research_inferred",
+            "source_ids": [
+              "CORNELL_PROCEDURAL_DUE_PROCESS"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "governance_anticapture.emergency_power_sunset_defined",
+            "evidence_quality": "moderate",
+            "gate_id": "emergency_power_sunset",
+            "message": "Emergency powers have explicit sunset logic.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "FEMA_ICS_SPAN_CONTROL",
+              "FEMA_NATIONAL_RESILIENCE_GUIDANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "governance_anticapture.role_backup_coverage",
+            "evidence_quality": "moderate",
+            "gate_id": "role_backup_coverage",
+            "message": "Critical governance roles have backup coverage.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "FEMA_ICS_SPAN_CONTROL",
+              "NIST_PRIVACY_FRAMEWORK"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "notice_and_response",
+          "impartial_review",
+          "appeal_or_reconsideration",
+          "emergency_power_sunset",
+          "role_concentration_audit"
+        ],
+        "required_structures": [
+          "decision_log",
+          "policy_registry",
+          "role_registry",
+          "backup_role_registry",
+          "emergency_authority_log"
+        ],
+        "source_ids": [
+          "CORNELL_PROCEDURAL_DUE_PROCESS",
+          "FEMA_ICS_SPAN_CONTROL",
+          "FEMA_NATIONAL_RESILIENCE_GUIDANCE",
+          "NIST_PRIVACY_FRAMEWORK"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
-      "status": "warn",
+      "status": "pass",
       "summary": "Governance Anticapture capability status."
     },
     "labor_time": {
       "enabled": true,
+      "fields": {
+        "burnout_risk_score": 4.0,
+        "care_labor_visibility_supported": true,
+        "commons_labor_hours_per_resident_per_week": 5.157,
+        "emergency_labor_tracking_supported": true,
+        "free_time_increase_supported": true,
+        "governance_burden_visibility_supported": true,
+        "hidden_labor_risk_score": 3.0,
+        "hidden_labor_tracking_supported": true,
+        "labor_time_ledger_supported": true,
+        "mobility_labor_visibility_supported": true,
+        "protected_time_tracking_supported": true,
+        "required_wage_hours_reduction_percent": 25.0,
+        "sanitation_labor_visibility_supported": true,
+        "wage_dependency_calculator_supported": true,
+        "water_recovery_labor_visibility_supported": true
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "employment_labor_review_if_work_is_required_or_paid",
+          "disability_accommodation_review",
+          "privacy_review_for_labor_data"
+        ],
+        "gates": [
+          {
+            "capability_field": "labor_time.commons_labor_hours_per_resident_per_week",
+            "evidence_quality": "moderate",
+            "gate_id": "commons_labor_upper_bound",
+            "message": "Commons labor is tracked and within the v0 upper bound.",
+            "provisional": true,
+            "regulatory_strength": "heuristic",
+            "source_ids": [
+              "BLS_ATUS_2024",
+              "WHO_ILO_LONG_WORKING_HOURS",
+              "OECD_WORK_LIFE_BALANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "labor_time.hidden_labor_tracking_supported",
+            "evidence_quality": "high",
+            "gate_id": "hidden_labor_tracking",
+            "message": "Hidden labor tracking is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "research_inferred",
+            "source_ids": [
+              "BLS_ATUS_2024",
+              "OECD_WORK_LIFE_BALANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "labor_time.free_time_increase_supported",
+            "evidence_quality": "moderate",
+            "gate_id": "free_time_improvement",
+            "message": "Free-time and wage-hour improvement are explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "heuristic",
+            "source_ids": [
+              "BLS_ATUS_2024",
+              "WHO_ILO_LONG_WORKING_HOURS",
+              "UKRI_FOUR_DAY_WEEK"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "weekly_labor_accounting",
+          "monthly_fairness_audit",
+          "labor_concentration_review",
+          "optional_vs_required_labor_classifier"
+        ],
+        "required_structures": [
+          "labor_ledger",
+          "role_scheduler",
+          "hidden_labor_tracker",
+          "protected_time_dashboard",
+          "training_gate_matrix"
+        ],
+        "source_ids": [
+          "BLS_ATUS_2024",
+          "OECD_WORK_LIFE_BALANCE",
+          "UKRI_FOUR_DAY_WEEK",
+          "WHO_ILO_LONG_WORKING_HOURS"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
       "status": "pass",
       "summary": "Labor Time capability status."
     },
     "legal_land_finance": {
       "enabled": true,
+      "fields": {
+        "affordability_drift_tracking_supported": true,
+        "debt_risk_score": 4.0,
+        "land_security_status": "pass",
+        "reserve_modeling_supported": true,
+        "resident_rights_defined": true
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "entity_structure",
+          "land_control",
+          "occupancy_agreements",
+          "tax_status",
+          "insurance",
+          "zoning_permitting"
+        ],
+        "gates": [
+          {
+            "capability_field": "legal_land_finance.land_security_status",
+            "evidence_quality": "moderate",
+            "gate_id": "tenure_security",
+            "message": "Land and tenure security are explicitly modeled.",
+            "provisional": true,
+            "regulatory_strength": "professional_practice",
+            "source_ids": [
+              "GSN_CLT",
+              "LOCAL_HOUSING_SOLUTIONS_LEC"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "legal_land_finance.reserve_modeling_supported",
+            "evidence_quality": "high",
+            "gate_id": "reserve_modeling",
+            "message": "Reserve modeling is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "HUD_CHAS_COST_BURDEN"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "legal_land_finance.resident_rights_defined",
+            "evidence_quality": "moderate",
+            "gate_id": "resident_rights",
+            "message": "Resident rights are explicitly defined.",
+            "provisional": true,
+            "regulatory_strength": "professional_practice",
+            "source_ids": [
+              "GSN_CLT",
+              "IRS_501C3_ORGANIZATIONAL_TEST"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "resident_rights_onboarding",
+          "payment_hardship_review",
+          "reserve_drawdown_and_replenishment"
+        ],
+        "required_structures": [
+          "land_stewardship_model",
+          "written_resident_rights",
+          "operating_reserve",
+          "replacement_reserve",
+          "affordability_calculator"
+        ],
+        "source_ids": [
+          "GSN_CLT",
+          "HUD_CHAS_COST_BURDEN",
+          "IRS_501C3_ORGANIZATIONAL_TEST",
+          "LOCAL_HOUSING_SOLUTIONS_LEC"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
       "status": "pass",
       "summary": "Legal Land Finance capability status."
     },
     "mobility_access": {
       "enabled": true,
+      "fields": {
+        "accessible_route_coverage": 1.0,
+        "accessible_route_quality_supported": true,
+        "accessible_route_status_visibility_supported": true,
+        "emergency_access_status_declared": true,
+        "emergency_access_supported": true,
+        "non_driver_access_supported": true,
+        "non_driver_dignity_supported": true,
+        "route_gap_survey_supported": true,
+        "transport_burden_risk_score": 5
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "accessibility_code_review",
+          "fire_EMS_access_review",
+          "shared_vehicle_insurance_review"
+        ],
+        "gates": [
+          {
+            "capability_field": "mobility_access.accessible_route_coverage",
+            "evidence_quality": "high",
+            "gate_id": "accessible_route_coverage",
+            "message": "Essential accessible-route coverage is complete.",
+            "provisional": true,
+            "regulatory_strength": "binding",
+            "source_ids": [
+              "ACCESS_BOARD_ACCESSIBLE_ROUTES"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "mobility_access.non_driver_access_supported",
+            "evidence_quality": "moderate",
+            "gate_id": "non_driver_access",
+            "message": "Non-driver access is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "ITDP_TOD_STANDARD",
+              "ACCESS_BOARD_ACCESSIBLE_ROUTES"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "mobility_access.emergency_access_supported",
+            "evidence_quality": "high",
+            "gate_id": "emergency_access",
+            "message": "Emergency access is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "FEMA_NATIONAL_RESILIENCE_GUIDANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "accessibility_audit",
+          "route_inspection",
+          "care_transport",
+          "non_driver_access_review"
+        ],
+        "required_structures": [
+          "accessible_route_map",
+          "emergency_route_map",
+          "rest_node_map",
+          "shared_cart_or_vehicle_node"
+        ],
+        "source_ids": [
+          "ACCESS_BOARD_ACCESSIBLE_ROUTES",
+          "FEMA_NATIONAL_RESILIENCE_GUIDANCE",
+          "ITDP_TOD_STANDARD"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
-      "status": "warn",
+      "status": "pass",
       "summary": "Mobility Access capability status."
     },
     "risk_resilience": {
       "enabled": true,
+      "fields": {
+        "dependency_graph_coverage": 1.0,
+        "dependency_graph_supported": true,
+        "graceful_degradation_supported": true,
+        "hazard_register_supported": true,
+        "recovery_playbook_count": 8,
+        "scenario_coverage_count": 10,
+        "service_level_matrix_supported": true
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "emergency_management_review",
+          "fire_EMS_review",
+          "public_health_review",
+          "insurance_review"
+        ],
+        "gates": [
+          {
+            "capability_field": "risk_resilience.hazard_register_supported",
+            "evidence_quality": "high",
+            "gate_id": "hazard_register",
+            "message": "Hazard register is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "NIST_COMMUNITY_RESILIENCE_GUIDE",
+              "FEMA_NATIONAL_RESILIENCE_GUIDANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "risk_resilience.dependency_graph_supported",
+            "evidence_quality": "high",
+            "gate_id": "dependency_graph",
+            "message": "Dependency graph is complete enough for the modeled floor.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "NIST_COMMUNITY_RESILIENCE_GUIDE"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "risk_resilience.recovery_playbook_count",
+            "evidence_quality": "high",
+            "gate_id": "recovery_playbooks",
+            "message": "Recovery playbook count meets the v0 target.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "NIST_COMMUNITY_RESILIENCE_GUIDE",
+              "FEMA_NATIONAL_RESILIENCE_GUIDANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "risk_resilience.graceful_degradation_supported",
+            "evidence_quality": "high",
+            "gate_id": "graceful_degradation",
+            "message": "Graceful degradation is explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "NIST_COMMUNITY_RESILIENCE_GUIDE",
+              "SENDAI_FRAMEWORK"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "annual_risk_review",
+          "scenario_run_schedule",
+          "after_action_review",
+          "reserve_replenishment"
+        ],
+        "required_structures": [
+          "hazard_register",
+          "dependency_graph",
+          "critical_function_map",
+          "recovery_playbook_library",
+          "service_level_matrix"
+        ],
+        "source_ids": [
+          "FEMA_NATIONAL_RESILIENCE_GUIDANCE",
+          "NIST_COMMUNITY_RESILIENCE_GUIDE",
+          "SENDAI_FRAMEWORK"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
       "status": "pass",
       "summary": "Risk Resilience capability status."
     },
     "sanitation": {
       "enabled": true,
+      "fields": {
+        "blackwater_path_defined": true,
+        "emergency_sanitation_fallback_supported": true,
+        "greywater_boundary_defined": true,
+        "hazardous_waste_plan_supported": true,
+        "pathogen_control_protocol_supported": true,
+        "sanitation_labor_visibility_supported": true,
+        "toilet_hygiene_access_supported": true,
+        "waste_stream_separation_supported": true,
+        "worker_safety_training_supported": true
+      },
+      "messages": [],
+      "policy": {
+        "external_review_blockers": [
+          "local_sanitation_code_review",
+          "wastewater_professional_review",
+          "worker_safety_training_review",
+          "hazardous_waste_dropoff_plan",
+          "public_health_review"
+        ],
+        "gates": [
+          {
+            "capability_field": "sanitation.toilet_hygiene_access_supported",
+            "evidence_quality": "high",
+            "gate_id": "toilet_hygiene_access",
+            "message": "Toilet, bathing, and handwashing access are explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "professional_practice",
+            "source_ids": [
+              "CDC_RESPIRATORY_PREVENTION",
+              "CDC_HUMAN_WASTE_WORKER_SAFETY"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "sanitation.blackwater_path_defined",
+            "evidence_quality": "high",
+            "gate_id": "wastewater_path",
+            "message": "Blackwater path and greywater boundary are explicitly modeled.",
+            "provisional": true,
+            "regulatory_strength": "binding",
+            "source_ids": [
+              "CDC_HUMAN_WASTE_WORKER_SAFETY"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "sanitation.waste_stream_separation_supported",
+            "evidence_quality": "moderate",
+            "gate_id": "waste_stream_separation",
+            "message": "Waste-stream separation and hazardous-waste path are explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "professional_practice",
+            "source_ids": [
+              "CDC_HUMAN_WASTE_WORKER_SAFETY",
+              "OSHA_TRAINING_UNDERSTANDABLE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          },
+          {
+            "capability_field": "sanitation.worker_safety_training_supported",
+            "evidence_quality": "high",
+            "gate_id": "worker_safety_and_labor_visibility",
+            "message": "Sanitation worker-safety training and dirty-labor visibility are explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "binding",
+            "source_ids": [
+              "CDC_HUMAN_WASTE_WORKER_SAFETY",
+              "OSHA_TRAINING_UNDERSTANDABLE"
+            ],
+            "status": "pass",
+            "translation_confidence": "high",
+            "unknown": false
+          },
+          {
+            "capability_field": "sanitation.emergency_sanitation_fallback_supported",
+            "evidence_quality": "high",
+            "gate_id": "emergency_sanitation_fallback",
+            "message": "Emergency sanitation fallback and pathogen-control protocol are explicitly supported.",
+            "provisional": true,
+            "regulatory_strength": "guideline",
+            "source_ids": [
+              "CDC_HUMAN_WASTE_WORKER_SAFETY",
+              "FEMA_NATIONAL_RESILIENCE_GUIDANCE"
+            ],
+            "status": "pass",
+            "translation_confidence": "moderate",
+            "unknown": false
+          }
+        ],
+        "messages": [],
+        "provisional": true,
+        "required_protocols": [
+          "blackwater_review_path",
+          "greywater_boundary",
+          "cleaning_disinfection_schedule",
+          "source_separation",
+          "hazardous_waste_dropoff",
+          "worker_ppe_training",
+          "illness_wave_sanitation_escalation",
+          "dirty_labor_rotation"
+        ],
+        "required_structures": [
+          "toilet_and_handwashing_access",
+          "bathing_access",
+          "waste_sorting_station",
+          "hazardous_waste_lockup",
+          "ppe_station",
+          "emergency_sanitation_kit"
+        ],
+        "source_ids": [
+          "CDC_HUMAN_WASTE_WORKER_SAFETY",
+          "CDC_RESPIRATORY_PREVENTION",
+          "FEMA_NATIONAL_RESILIENCE_GUIDANCE",
+          "OSHA_TRAINING_UNDERSTANDABLE"
+        ],
+        "status": "pass"
+      },
       "provisional": true,
-      "status": "provisional",
-      "summary": "Sanitation and waste continuity."
+      "status": "pass",
+      "summary": "Sanitation capability status."
     },
     "water": {
       "enabled": true,
+      "fields": {},
+      "messages": [],
+      "policy": {},
       "provisional": true,
       "status": "pass",
       "summary": "Water source, storage, and recovery state."
@@ -1597,43 +2333,43 @@
       "available_hours_per_resident_per_day": 1.0,
       "basis": "Modeled infrastructure upkeep required to keep dignity-floor systems operating. Food preparation, sleep, education, outside work, private household labor, and voluntary social contribution are intentionally unstated.",
       "care_hours_per_week": 41.0,
-      "maintenance_hours_per_week": 24.337,
-      "required_minutes_per_resident_per_day": 17.384,
-      "status": "pass",
-      "utilization": 0.29
+      "maintenance_hours_per_week": 63.345,
+      "required_minutes_per_resident_per_day": 45.247,
+      "status": "warn",
+      "utilization": 0.754
     },
     "provisional": true,
     "resources": [
       {
         "capacity": 60000.0,
-        "current": 34351.2,
-        "current_ratio": 0.573,
-        "drawdown": 31631.8,
+        "current": 34425.442,
+        "current_ratio": 0.574,
+        "drawdown": 31702.263,
         "id": "water",
         "label": "Water",
-        "minimum": 28368.2,
-        "minimum_ratio": 0.473,
-        "net_per_day": 23.445,
+        "minimum": 28297.737,
+        "minimum_ratio": 0.472,
+        "net_per_day": 21.977,
         "provisional": true,
         "quality_status": "pass",
         "reserve_floor": 12000.0,
         "reserve_floor_ratio": 0.2,
         "status": "pass",
-        "total_curtailed": 34206.3,
-        "total_refilled": 16315.0,
-        "total_released": 41963.8,
+        "total_curtailed": 33596.182,
+        "total_refilled": 16659.813,
+        "total_released": 42234.37,
         "unit": "liters"
       },
       {
         "capacity": 24000.0,
-        "current": 12812.8,
+        "current": 12811.9,
         "current_ratio": 0.534,
-        "drawdown": 11187.2,
+        "drawdown": 11188.1,
         "id": "food",
         "label": "Food",
-        "minimum": 12812.8,
+        "minimum": 12811.9,
         "minimum_ratio": 0.534,
-        "net_per_day": -25.17,
+        "net_per_day": -25.173,
         "provisional": true,
         "quality_status": "pass",
         "reserve_floor": 6000.0,
@@ -1641,27 +2377,27 @@
         "status": "pass",
         "total_curtailed": 0.0,
         "total_refilled": 0.0,
-        "total_released": 9187.2,
+        "total_released": 9188.1,
         "unit": "servings"
       },
       {
         "capacity": 1000.0,
-        "current": 596.535,
-        "current_ratio": 0.597,
-        "drawdown": 767.919,
+        "current": 596.259,
+        "current_ratio": 0.596,
+        "drawdown": 768.541,
         "id": "energy",
         "label": "Energy",
-        "minimum": 232.081,
-        "minimum_ratio": 0.232,
-        "net_per_day": 1.937,
+        "minimum": 231.459,
+        "minimum_ratio": 0.231,
+        "net_per_day": 1.929,
         "provisional": true,
         "quality_status": "pass",
         "reserve_floor": 150.0,
         "reserve_floor_ratio": 0.15,
         "status": "pass",
-        "total_curtailed": 1110.527,
-        "total_refilled": 767.918,
-        "total_released": 1171.385,
+        "total_curtailed": 1107.935,
+        "total_refilled": 768.533,
+        "total_released": 1172.285,
         "unit": "kWh"
       }
     ]
@@ -1821,7 +2557,7 @@
   "source": {
     "profile_id": "micro_commons_5_households_compiled_v0",
     "provisional": true,
-    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "runtime_bundle_path": "examples/generated/micro_commons_runtime_bundle.json",
     "simulation_id": "micro_commons_5_households_compiled_v0_normal_year_365d"
   },
   "structures": [
@@ -1933,6 +2669,7 @@
       "label": "Care Room",
       "module_refs": [
         "risk_resilience.graceful_degradation_engine.v0_1",
+        "care_health.care_health_high_need_meal_illness_support_v0.active",
         "care_health.care_health_resident_controlled_medication_continuity_kit_v0.active"
       ],
       "position": {
@@ -2000,12 +2737,10 @@
       "module_refs": [
         "maintenance.maintainable_commons_spine.v0_1",
         "maintenance_repair.community_kitchen.active",
-        "maintenance_repair.composting_system.active",
         "maintenance_repair.critical_load_reserve.active",
         "maintenance_repair.emergency_water_reserve.active",
         "maintenance_repair.greenhouse.active",
         "maintenance_repair.rainwater_capture.active",
-        "maintenance_repair.shared_bathhouse.active",
         "maintenance_repair.solar_shed.active",
         "maintenance_repair.staple_food_reserve.active",
         "maintenance_repair.starter_dwelling.active",
@@ -2227,21 +2962,19 @@
   ],
   "version": "v0",
   "warnings": [
-    "Accessible-route coverage is not complete.",
     "Capability defaults are conservative placeholders until patterns declare explicit capability effects.",
     "Capability scores are provisional modeling aids. They do not prove real-world dignity, safety, legal validity, health outcomes, consent, accessibility compliance, resident trust, or anti-capture success. They expose assumptions and blockers for review.",
-    "Due process is not explicitly defined.",
-    "Emergency access is not explicitly supported.",
-    "Emergency power sunset is not explicitly defined.",
-    "Non-driver access is not explicitly supported.",
     "Spatial profile is provisional; survey, accessibility, emergency, utility, drainage, and code review remain unresolved.",
     "This is a provisional civic simulation. It visualizes model assumptions and stress tests. It does not certify real-world safety, legality, affordability, engineering, public health, accessibility, resident consent, or buildability.",
-    "crop_failure:5 risk mode(s) require explicit response planning",
-    "energy_outage_reserve_v2:4 risk mode(s) require explicit response planning",
+    "crop_failure:17 risk mode(s) require explicit response planning",
+    "energy_outage_reserve_v2:16 risk mode(s) require explicit response planning",
+    "energy_outage_reserve_v2:energy_outage_reserve_v2 overloads available labor capacity",
     "food model is partial: greenhouse output is not a complete nutrition plan",
     "maintenance backlog is degrading one or more systems",
-    "water_contamination_response_v2:4 risk mode(s) require explicit response planning",
+    "maintenance labor burden exceeds fair-work threshold",
+    "water_contamination_response_v2:16 risk mode(s) require explicit response planning",
     "water_contamination_response_v2:water_contamination_response_v2 blocks recovery review for water_public_health",
+    "water_contamination_response_v2:water_contamination_response_v2 overloads available labor capacity",
     "water_public_health_sanitation_labor_protocal_v0 declared provisional unknown capability domain: water_public_health."
   ],
   "world_id": "civic_floor_730_v0",

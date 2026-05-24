@@ -53,6 +53,48 @@ class CapabilityTests(unittest.TestCase):
         self.assertEqual(active_report["status"], "fail")
         self.assertTrue(validate_data(active_report, "capability-gate").ok)
 
+    def test_care_gate_warns_when_core_care_fields_are_missing(self) -> None:
+        state = default_capability_state()
+        updated = apply_capability_effects(
+            state,
+            pattern_id="medication_continuity_only",
+            effects={
+                "care_health": {
+                    "care_continuity_protocol_supported": True,
+                    "medication_continuity_supported": True,
+                }
+            },
+        )
+
+        report = evaluate_capability_gate(updated, active_patterns=[])
+        care = report["domain_statuses"]["care_health"]
+
+        self.assertEqual(care["status"], "warn")
+        self.assertIn("High-need support coverage is below the review threshold.", care["messages"])
+        self.assertIn("Care meal protocol is not explicitly supported.", care["messages"])
+        self.assertIn("Illness-wave protocol is not explicitly supported.", care["messages"])
+        self.assertNotIn("Medication continuity is not yet explicitly supported.", care["messages"])
+
+    def test_care_gate_passes_when_core_care_fields_are_supported(self) -> None:
+        state = default_capability_state()
+        updated = apply_capability_effects(
+            state,
+            pattern_id="full_care_test",
+            effects={
+                "care_health": {
+                    "care_continuity_protocol_supported": True,
+                    "medication_continuity_supported": True,
+                    "care_meal_protocol_supported": True,
+                    "illness_wave_protocol_supported": True,
+                    "high_need_support_coverage_delta": 0.25,
+                }
+            },
+        )
+
+        report = evaluate_capability_gate(updated, active_patterns=[])
+
+        self.assertEqual(report["domain_statuses"]["care_health"]["status"], "pass")
+
 
 if __name__ == "__main__":
     unittest.main()

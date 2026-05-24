@@ -1,0 +1,16 @@
+kind: CapabilityScenario
+scenario_id: mobility_access_route_blockage
+domain: mobility_access
+description: Tests accessible route redundancy and high-need access during route blockage.
+required_capability_fields:
+- mobility_access.accessible_route_coverage
+- mobility_access.emergency_access_supported
+- mobility_access.non_driver_access_supported
+shocks:
+  mobility_access:
+    primary_route_blocked: true
+    accessible_route_penalty_delta: 2
+expected_gates:
+- accessible_route_coverage
+- emergency_access
+provisional: true

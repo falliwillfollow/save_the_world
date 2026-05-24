@@ -100,6 +100,7 @@
     "triggered_risks": { "type": "array", "items": { "type": "object" } },
     "capability_state": { "type": "object" },
     "capability_gate": { "type": "object" },
+    "capability_policy_gate": { "type": "object" },
     "capability_warnings": { "type": "array", "items": { "type": "string" } },
     "capability_failures": { "type": "array", "items": { "type": "string" } },
     "bottlenecks": { "type": "array", "items": { "type": "string" } },

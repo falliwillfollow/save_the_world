@@ -10,6 +10,16 @@ from .models import MissingDependency
 from .validation import validate_data, validate_pattern_library
 
 
+WEEKLY_INTERVAL_FACTORS = {
+    "daily": 7.0,
+    "weekly": 1.0,
+    "monthly": 7.0 / 30.0,
+    "quarterly": 7.0 / 91.0,
+    "seasonal": 7.0 / 91.0,
+    "annual": 7.0 / 365.0,
+}
+
+
 class CompileError(ValueError):
     def __init__(self, message: str, plan: dict[str, Any] | None = None):
         super().__init__(message)
@@ -145,7 +155,7 @@ def _build_plan(
                     "provisional": task.get("provisional", True),
                 }
             )
-            role_burden[task["role"]] += float(task["estimated_hours"])
+            role_burden[task["role"]] += _weekly_equivalent_hours(task)
 
         for mode in pattern["failure_modes"]:
             risk_register.append(
@@ -178,7 +188,7 @@ def _build_plan(
     ]
 
     population = max(1, int(site_profile["population_target"]))
-    recurring_labor = sum(patterns_by_id[pattern_id]["metrics"]["recurring_labor_hours_per_week"] for pattern_id in selected_ids)
+    recurring_labor = round(sum(role_burden.values()), 6)
 
     simulation_inputs: dict[str, Any] = {
         "resource_effects_by_pattern": resource_effects_by_pattern,
@@ -225,6 +235,11 @@ def _build_plan(
         "simulation_inputs": simulation_inputs,
         "promotion_status": "draft_not_validated_for_real_world_use",
     }
+
+
+def _weekly_equivalent_hours(task: dict[str, Any]) -> float:
+    factor = WEEKLY_INTERVAL_FACTORS.get(str(task.get("interval")), 1.0)
+    return round(float(task.get("estimated_hours", 0.0)) * factor, 6)
 
 
 def _validate_household_profile_for_site(site_profile: dict[str, Any], household_profile: dict[str, Any]) -> None:

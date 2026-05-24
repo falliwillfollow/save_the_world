@@ -26,6 +26,7 @@ export function objectStatusForMode(object, mode, selectedScenario) {
 
 export function statusColor(status, fallback) {
   if (status === "failed" || status === "fail") return "#b3261e";
+  if (status === "promotion_blocked") return "#6b2f90";
   if (status === "degraded" || status === "warning" || status === "warn") return "#c77700";
   if (status === "normal" || status === "pass") return fallback;
   return fallback;

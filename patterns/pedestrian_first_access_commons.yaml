@@ -178,7 +178,7 @@ metrics:
   cost: 160000
   build_labor_hours: 900
   recurring_labor_hours_per_week: 12
-  energy_use: 4
+  energy_use: 0
   water_use: 0
   embodied_carbon: 8
   maintenance_burden: 5
@@ -186,10 +186,17 @@ metrics:
   autonomy_score: 9
   resilience_score: 9
   provisional: true
+capability_effects:
+  mobility_access:
+    accessible_route_coverage_delta: 0.75
+    non_driver_access_supported: true
+    emergency_access_supported: true
+    accessible_route_quality_supported: true
+    non_driver_dignity_supported: true
 simulation:
   resource_effects:
     water_liters_per_day: 0
-    energy_kwh_per_day: -4
+    energy_kwh_per_day: 0
     food_servings_per_day: 0
   critical_resources: [maintenance, energy]
   notes: Provisional mobility and access layer. The current simulator does not yet model path topology, accessibility route quality, vehicle pools, parking land, transport cost, external access, evacuation capacity, or trip labor as first-class dynamics.

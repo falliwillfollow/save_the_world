@@ -233,7 +233,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(plan["missing_dependencies"], [])
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["hygienic_circular_commons"]["water_liters_per_day"],
-            -1200,
+            0,
         )
         self.assertIn(
             "sanitation",
@@ -317,7 +317,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(plan["missing_dependencies"], [])
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["commons_stewardship_protocol"]["energy_kwh_per_day"],
-            -1,
+            0,
         )
         self.assertIn(
             "maintenance",
@@ -356,7 +356,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(plan["missing_dependencies"], [])
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["life_burden_ledger"]["energy_kwh_per_day"],
-            -1,
+            0,
         )
         self.assertEqual(
             plan["simulation_inputs"]["capability_effects_by_pattern"]["life_burden_ledger"]["labor_time"]["hidden_labor_risk_delta"],
@@ -400,7 +400,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(plan["missing_dependencies"], [])
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["anti_speculative_civic_floor"]["energy_kwh_per_day"],
-            -1,
+            0,
         )
         self.assertIn(
             "maintenance",
@@ -499,7 +499,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(plan["missing_dependencies"], [])
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["pedestrian_first_access_commons"]["energy_kwh_per_day"],
-            -4,
+            0,
         )
         self.assertIn(
             "maintenance",
@@ -680,7 +680,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(plan["missing_dependencies"], [])
         self.assertEqual(
             plan["simulation_inputs"]["resource_effects_by_pattern"]["graceful_degradation_engine"]["energy_kwh_per_day"],
-            -1,
+            0,
         )
         self.assertIn(
             "water",

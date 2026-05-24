@@ -31,10 +31,22 @@ CAPABILITY_DOMAINS = {
         "capture_risk_score": 5,
     },
     "care_health": {
+        "care_continuity_protocol_supported": False,
         "high_need_support_coverage": 0.0,
         "medication_continuity_supported": False,
         "care_meal_protocol_supported": False,
         "illness_wave_protocol_supported": False,
+    },
+    "sanitation": {
+        "toilet_hygiene_access_supported": False,
+        "blackwater_path_defined": False,
+        "greywater_boundary_defined": False,
+        "waste_stream_separation_supported": False,
+        "hazardous_waste_plan_supported": False,
+        "worker_safety_training_supported": False,
+        "sanitation_labor_visibility_supported": False,
+        "emergency_sanitation_fallback_supported": False,
+        "pathogen_control_protocol_supported": False,
     },
     "mobility_access": {
         "accessible_route_coverage": 0.0,
@@ -114,6 +126,15 @@ NEGATIVE_BOOLEAN_FLAGS = {
     "emergency_power_sunset_defined",
     "medication_continuity_supported",
     "care_meal_protocol_supported",
+    "toilet_hygiene_access_supported",
+    "blackwater_path_defined",
+    "greywater_boundary_defined",
+    "waste_stream_separation_supported",
+    "hazardous_waste_plan_supported",
+    "worker_safety_training_supported",
+    "sanitation_labor_visibility_supported",
+    "emergency_sanitation_fallback_supported",
+    "pathogen_control_protocol_supported",
     "emergency_access_supported",
     "reserve_modeling_supported",
     "resident_rights_defined",
@@ -206,6 +227,7 @@ def build_capability_state(
     scenario: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     state = default_capability_state(population=population)
+    _apply_compiled_plan_context(state, compiled_plan)
     for pattern_id, effects in sorted(capability_effects_for_plan(compiled_plan).items()):
         state = apply_capability_effects(state, pattern_id=pattern_id, effects=effects, source="selected_pattern")
     if scenario and scenario.get("capability_shocks"):
@@ -216,6 +238,13 @@ def build_capability_state(
             source="scenario",
         )
     return state
+
+
+def _apply_compiled_plan_context(state: dict[str, Any], compiled_plan: dict[str, Any]) -> None:
+    labor = state.setdefault("domains", {}).setdefault("labor_time", {})
+    burden = compiled_plan.get("role_burden", {})
+    if isinstance(burden.get("recurring_hours_per_resident_per_week"), (int, float)):
+        labor["commons_labor_hours_per_resident_per_week"] = round(float(burden["recurring_hours_per_resident_per_week"]), 3)
 
 
 def evaluate_capability_gate(
@@ -330,12 +359,20 @@ def _care_gate(domain: dict[str, Any], patterns: set[str]) -> dict[str, Any]:
     failures = []
     warnings = []
     care_active = "community_care_commons" in patterns
+    if not domain.get("care_continuity_protocol_supported"):
+        warnings.append("Care continuity protocol is not explicitly supported.")
     if care_active and float(domain.get("high_need_support_coverage", 0)) < 0.2:
         failures.append("High-need support coverage is below the active care-module threshold.")
+    elif float(domain.get("high_need_support_coverage", 0)) < 0.2:
+        warnings.append("High-need support coverage is below the review threshold.")
     if care_active and not domain.get("medication_continuity_supported"):
         failures.append("Medication continuity is not explicitly supported for the active care module.")
     elif not domain.get("medication_continuity_supported"):
         warnings.append("Medication continuity is not yet explicitly supported.")
+    if not domain.get("care_meal_protocol_supported"):
+        warnings.append("Care meal protocol is not explicitly supported.")
+    if not domain.get("illness_wave_protocol_supported"):
+        warnings.append("Illness-wave protocol is not explicitly supported.")
     return _domain_result(failures, warnings)
 
 

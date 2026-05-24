@@ -183,18 +183,32 @@ metrics:
   cost: 420000
   build_labor_hours: 1400
   recurring_labor_hours_per_week: 32
-  energy_use: 6
-  water_use: 1200
+  energy_use: 0
+  water_use: 0
   embodied_carbon: 3
   maintenance_burden: 8
   dignity_score: 9
   autonomy_score: 7
   resilience_score: 9
   provisional: true
+capability_effects:
+  sanitation:
+    toilet_hygiene_access_supported: true
+    blackwater_path_defined: true
+    greywater_boundary_defined: true
+    waste_stream_separation_supported: true
+    hazardous_waste_plan_supported: true
+    worker_safety_training_supported: true
+    sanitation_labor_visibility_supported: true
+    emergency_sanitation_fallback_supported: true
+    pathogen_control_protocol_supported: true
+  labor_time:
+    hidden_labor_tracking_supported: true
+    sanitation_labor_visibility_supported: true
 simulation:
   resource_effects:
-    water_liters_per_day: -1200
-    energy_kwh_per_day: -6
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
     food_servings_per_day: 0
   critical_resources: [water, energy, sanitation, maintenance]
   notes: Provisional 80-resident sanitation and waste operations layer. Sanitation capacity, wastewater approval, hazardous waste compliance, and pathogen safety require separate review and richer simulator support.

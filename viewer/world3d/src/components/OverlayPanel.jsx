@@ -10,6 +10,7 @@ export default function OverlayPanel({
   timePercent,
   selectedSystem,
   selectedScenarioId,
+  onSystemChange,
   onScenarioChange,
   onSelectObject,
   onHighlightObjects,
@@ -42,14 +43,42 @@ export default function OverlayPanel({
         </div>
       ) : null}
       {mode === "systems" ? (
-        <div className="event-list">
-          {(systems.systems || []).slice(0, 9).map(system => (
-            <div className="event-chip" key={system.id}>
-              <strong>{label(system.id)}</strong>
-              <span>{label(system.status)}</span>
-            </div>
-          ))}
-        </div>
+        <>
+          <div className="event-list system-status-list">
+            {(systems.systems || []).slice(0, 9).map(system => (
+              <button
+                type="button"
+                className={`event-chip system-status-chip status-${system.status} ${system.id === systems.active?.id ? "is-active" : ""}`}
+                key={system.id}
+                onClick={() => onSystemChange(system.id)}
+              >
+                <strong>{label(system.id)}</strong>
+                <span>{label(system.status)}</span>
+              </button>
+            ))}
+          </div>
+          {systems.active ? (
+            <section className={`system-detail status-${systems.active.status}`}>
+              <div>
+                <strong>{label(systems.active.id)}</strong>
+                <span>{label(systems.active.status)}</span>
+              </div>
+              <ul>
+                {systems.messages.slice(0, 5).map(message => <li key={message}>{message}</li>)}
+              </ul>
+              {systems.fields.length ? (
+                <dl>
+                  {systems.fields.slice(0, 6).map(field => (
+                    <div key={field.key}>
+                      <dt>{label(field.key)}</dt>
+                      <dd>{formatFieldValue(field.value)}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
+            </section>
+          ) : null}
+        </>
       ) : null}
       {mode === "stress" ? (
         <>
@@ -93,4 +122,10 @@ export default function OverlayPanel({
       ) : null}
     </aside>
   );
+}
+
+function formatFieldValue(value) {
+  if (typeof value === "boolean") return value ? "yes" : "no";
+  if (typeof value === "number") return Number.isInteger(value) ? String(value) : value.toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
+  return label(value);
 }

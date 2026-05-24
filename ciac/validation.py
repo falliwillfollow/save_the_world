@@ -78,6 +78,9 @@ SCHEMA_BY_KIND = {
     "PatchPromotionReport": "patch_promotion_report.schema.json",
     "ResearchLoopRun": "research_loop_run.schema.json",
     "ScalingPolicy": "scaling_policy.schema.json",
+    "CapabilityPolicy": "capability_policy.schema.json",
+    "CapabilityPolicyGateReport": "capability_policy_gate_report.schema.json",
+    "CapabilityScenario": "capability_scenario.schema.json",
 }
 
 
@@ -111,6 +114,8 @@ def validate_data(data: dict[str, Any], path: str = "<memory>") -> ValidationRep
         report.issues.extend(_validate_pattern_semantics(data))
     if kind == "ModuleRegistry":
         report.issues.extend(_validate_module_registry_semantics(data))
+    if kind == "CapabilityPolicy":
+        report.issues.extend(_validate_capability_policy_semantics(data))
 
     return report
 
@@ -249,4 +254,31 @@ def _validate_module_registry_semantics(registry: dict[str, Any]) -> list[Valida
             )
         )
 
+    return issues
+
+
+def _validate_capability_policy_semantics(policy: dict[str, Any]) -> list[ValidationIssue]:
+    issues: list[ValidationIssue] = []
+    source_ids = [source.get("id") for source in policy.get("source_registry", [])]
+    duplicate_sources = sorted({source_id for source_id in source_ids if source_ids.count(source_id) > 1})
+    for source_id in duplicate_sources:
+        issues.append(ValidationIssue("error", f"Duplicate source id: {source_id}", "$.source_registry"))
+    source_id_set = set(source_ids)
+    gate_ids: list[str] = []
+    for domain, domain_policy in policy.get("domains", {}).items():
+        for gate_index, gate in enumerate(domain_policy.get("gates", [])):
+            gate_id = gate.get("gate_id")
+            gate_ids.append(gate_id)
+            for source_id in gate.get("source_ids", []):
+                if source_id not in source_id_set:
+                    issues.append(
+                        ValidationIssue(
+                            "error",
+                            f"Gate {gate_id} references unknown source id: {source_id}",
+                            f"$.domains.{domain}.gates[{gate_index}].source_ids",
+                        )
+                    )
+    duplicate_gates = sorted({gate_id for gate_id in gate_ids if gate_ids.count(gate_id) > 1})
+    for gate_id in duplicate_gates:
+        issues.append(ValidationIssue("error", f"Duplicate gate id: {gate_id}", "$.domains"))
     return issues

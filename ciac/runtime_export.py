@@ -143,7 +143,13 @@ def _capabilities(simulation_run: dict[str, Any]) -> dict[str, Any]:
             "failures": [],
             "provisional": True,
         }
-    return runtime_capability_summary(state, simulation_run.get("capability_gate", {}))
+    summary = runtime_capability_summary(state, simulation_run.get("capability_gate", {}))
+    policy_gate = simulation_run.get("capability_policy_gate", {})
+    if isinstance(policy_gate, dict) and policy_gate.get("kind") == "CapabilityPolicyGateReport":
+        summary["policy_gate"] = policy_gate
+        summary["policy_id"] = policy_gate.get("policy_id", "")
+        summary["promotion_mode"] = policy_gate.get("promotion_mode", "simulation_only")
+    return summary
 
 
 def _daily_state_for_viewer(state: dict[str, Any]) -> dict[str, Any]:

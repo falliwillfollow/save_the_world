@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/capability_scenario.schema.json",
+  "title": "CapabilityScenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "scenario_id",
+    "domain",
+    "description",
+    "required_capability_fields",
+    "shocks",
+    "expected_gates",
+    "provisional"
+  ],
+  "properties": {
+    "kind": { "const": "CapabilityScenario" },
+    "scenario_id": { "type": "string" },
+    "domain": { "type": "string" },
+    "description": { "type": "string" },
+    "required_capability_fields": { "type": "array", "items": { "type": "string" } },
+    "shocks": { "type": "object" },
+    "expected_gates": { "type": "array", "items": { "type": "string" } },
+    "provisional": { "type": "boolean" }
+  }
+}

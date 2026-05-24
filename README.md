@@ -11,6 +11,7 @@ CIaC is deliberately cautious. It is not a building manual, engineering certific
 - Validate authored patterns, module registries, profiles, scenarios, and generated reports.
 - Compile the demo micro-commons from site, seasonal, household, spatial, and pattern inputs.
 - Simulate normal-year resource flows with production, use, storage release/refill, curtailment, maintenance, labor, and failure/review states.
+- Evaluate provisional capability policy gates for care, governance, mobility, legal/finance, risk resilience, and labor/time.
 - Replay stress scenarios such as drought, water contamination, crop failure, energy outage, sanitation failure, and labor loss.
 - Search bounded optimizer candidates while preserving dignity floors and review locks.
 - Materialize selected search candidates into cycle reports and runtime bundles.
@@ -25,6 +26,7 @@ CIaC is deliberately cautious. It is not a building manual, engineering certific
 - `schemas/`: public JSON/YAML contracts.
 - `patterns/`: authored civic infrastructure patterns.
 - `module_registries/`: module slots, interfaces, node sizing, and scale posture.
+- `capability_policies/`: provisional non-resource capability thresholds and promotion blockers.
 - `examples/site_profiles/`: demo site profile.
 - `seasonal_profiles/`, `household_profiles/`, `spatial_profiles/`: context profiles.
 - `scenarios/`: stress scenario inputs.
@@ -80,6 +82,12 @@ Export a runtime bundle for the viewer:
 ```powershell
 py -3.10 -m ciac export-runtime examples/generated/micro_commons_plan.json examples/generated/micro_commons_simulation.json --output examples/generated/micro_commons_runtime_bundle.json
 ```
+
+## Capability Policy
+
+CIaC includes a provisional capability policy layer at `capability_policies/ciac_capability_policy_v0.yaml`. It evaluates non-resource civic capabilities such as care, governance, mobility, legal/finance resilience, risk, and labor/time as `pass`, `warn`, `fail`, or `promotion_blocked`.
+
+A green simulation result does not certify real-world safety, legality, accessibility, clinical validity, affordability, labor compliance, engineering validity, public-health compliance, resident consent, or buildability. Policy output is a modeling aid for surfacing missing structures, protocols, and external reviews.
 
 ## Viewer Loop
 

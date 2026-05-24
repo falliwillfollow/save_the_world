@@ -1,0 +1,18 @@
+kind: CapabilityScenario
+scenario_id: labor_time_hidden_burden
+domain: labor_time
+description: Tests hidden care, cleaning, governance, and emergency labor under a bad week.
+required_capability_fields:
+- labor_time.commons_labor_hours_per_resident_per_week
+- labor_time.hidden_labor_tracking_supported
+- labor_time.free_time_increase_supported
+shocks:
+  labor_time:
+    commons_labor_hours_per_resident_per_week_delta: 3
+    care_labor_concentration_delta: 2
+    free_time_increase_hours_per_week_delta: -3
+expected_gates:
+- commons_labor_upper_bound
+- hidden_labor_tracking
+- free_time_improvement
+provisional: true

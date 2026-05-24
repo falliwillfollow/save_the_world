@@ -6,7 +6,7 @@ from pathlib import Path
 
 from ciac.compiler import CompileError, compile_plan, load_patterns
 from ciac.io import load_data
-from ciac.simulation import simulate
+from ciac.simulation import _active_maintenance_risks, simulate
 from ciac.validation import validate_data
 
 
@@ -28,6 +28,15 @@ class SimulationTests(unittest.TestCase):
         self.assertEqual(len(run["daily_states"]), 365)
         self.assertIn(run["status"], {"pass", "warn", "fail"})
         self.assertTrue(validate_data(run, "simulation").ok)
+
+    def test_maintenance_risk_summary_skips_cleared_degradation_entries(self) -> None:
+        risks = _active_maintenance_risks(
+            backlog=[{"pattern_id": "active_pattern", "days_overdue": 2}],
+            degradation_by_pattern={"active_pattern": 0.07, "cleared_pattern": 0.03},
+        )
+
+        self.assertEqual(len(risks), 1)
+        self.assertEqual(risks[0]["pattern_id"], "active_pattern")
 
     def test_missing_water_plan_produces_water_bottleneck(self) -> None:
         site = copy.deepcopy(self.site)
@@ -178,6 +187,7 @@ class SimulationTests(unittest.TestCase):
                 "triggered_risks",
                 "capability_state",
                 "capability_gate",
+                "capability_policy_gate",
                 "capability_warnings",
                 "capability_failures",
                 "bottlenecks",
@@ -349,12 +359,14 @@ class SimulationTests(unittest.TestCase):
         quality["recovery_labor_hours"] = 60
 
         run = simulate(plan, days=5)
+        day_two_task = run["daily_states"][1]["storage_state"]["recovery_tasks"][0]
         day_three_task = run["daily_states"][2]["storage_state"]["recovery_tasks"][0]
         final_task = run["storage"]["recovery"]["tasks"][0]
 
+        self.assertEqual(day_two_task["worked_hours_today"], 22)
         self.assertEqual(day_three_task["status"], "in_progress")
-        self.assertEqual(day_three_task["worked_hours_today"], 22)
-        self.assertEqual(day_three_task["remaining_hours"], 38)
+        self.assertEqual(day_three_task["worked_hours_today"], 21)
+        self.assertEqual(day_three_task["remaining_hours"], 17)
         self.assertEqual(final_task["status"], "blocked_review")
         self.assertEqual(final_task["worked_hours_total"], 60)
         self.assertEqual(run["storage"]["recovery"]["total_remaining_hours"], 0)

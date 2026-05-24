@@ -1,0 +1,15 @@
+kind: CapabilityScenario
+scenario_id: governance_emergency_power_drift
+domain: governance_anticapture
+description: Tests emergency authority sunset and capture resistance.
+required_capability_fields:
+- governance_anticapture.emergency_power_sunset_defined
+- governance_anticapture.role_backup_coverage
+shocks:
+  governance_anticapture:
+    emergency_mode_active: true
+    emergency_extension_requested: true
+expected_gates:
+- emergency_power_sunset
+- role_backup_coverage
+provisional: true

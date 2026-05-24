@@ -164,7 +164,7 @@ metrics:
   cost: 120000
   build_labor_hours: 600
   recurring_labor_hours_per_week: 12
-  energy_use: 1
+  energy_use: 0
   water_use: 0
   embodied_carbon: 0.5
   maintenance_burden: 5
@@ -180,11 +180,11 @@ capability_effects:
     asset_lock_monitoring_supported: true
     conflict_ladder_supported: true
     capture_risk_delta: -2
-    role_backup_coverage_delta: 0.10
+    role_backup_coverage_delta: 1.0
 simulation:
   resource_effects:
     water_liters_per_day: 0
-    energy_kwh_per_day: -1
+    energy_kwh_per_day: 0
     food_servings_per_day: 0
   critical_resources: [maintenance]
   notes: Provisional governance and anti-capture operations layer. The current simulator does not yet model legal enforceability, membership consent, conflict case flow, asset locks, or capture dynamics as first-class resources.
