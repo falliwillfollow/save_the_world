@@ -1,0 +1,94 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_4_governance_process",
+      "needs_evidence": true,
+      "statement": "Due process is not explicitly defined and must be added before release authority is granted."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_5_power_sunset",
+      "needs_evidence": true,
+      "statement": "Emergency power sunset is not explicitly defined and impacts recovery review."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "pass",
+      "metric": "capabilities.domain_statuses.governance_anticapture",
+      "rationale": "Explicit definitions may resolve warn status."
+    },
+    {
+      "direction": "decrease",
+      "metric": "scenario.blocked_review_domain_count",
+      "rationale": "Resolving governance warnings may reduce blocked reviews."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Defining emergency power sunset and due process rules reduces governance anticapture warnings and supports water block release.",
+  "id": "water_governance_authority_rule_v0",
+  "intervention_type": "governance_rule",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "emergency power sunset governance anticapture due process water release authority"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_simulation.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779624121647"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Model sunset rules as dynamic based on risk mode thresholds.",
+      "risk": "Defining sunset rules may restrict emergency response speed",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Document external dependencies and do not claim internal authority.",
+      "risk": "Due process definition may require external approval",
+      "severity": "high"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "Due process is not explicitly defined warning is resolved or mitigated.",
+      "Emergency power sunset is modeled explicitly."
+    ],
+    "metrics_to_compare": [
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2",
+      "governance_anticapture_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_238_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__structure_common_house",
+    "block_2__structure_common_house",
+    "block_3__structure_common_house"
+  ],
+  "title": "Water authority sunset modeling rule",
+  "version": "v0"
+}

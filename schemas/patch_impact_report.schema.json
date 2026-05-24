@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/patch_impact_report.schema.json",
+  "title": "PatchImpactReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "version",
+    "id",
+    "status",
+    "source_materialization_id",
+    "pattern_id",
+    "pattern_path",
+    "baseline_plan_id",
+    "candidate_plan_id",
+    "summary",
+    "capability_deltas",
+    "normal_year_comparison",
+    "scenario_results",
+    "acceptance",
+    "provisional"
+  ],
+  "properties": {
+    "kind": { "const": "PatchImpactReport" },
+    "version": { "const": "v0" },
+    "id": { "type": "string", "minLength": 3 },
+    "status": { "type": "string", "enum": ["promotion_recommended", "needs_review", "blocked"] },
+    "source_materialization_id": { "type": "string", "minLength": 3 },
+    "pattern_id": { "type": "string", "minLength": 3 },
+    "pattern_path": { "type": "string", "minLength": 3 },
+    "placement_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_id", "label", "relationship"],
+      "properties": {
+        "object_id": { "type": "string" },
+        "label": { "type": "string" },
+        "relationship": { "type": "string" }
+      }
+    },
+    "baseline_plan_id": { "type": "string", "minLength": 3 },
+    "candidate_plan_id": { "type": "string", "minLength": 3 },
+    "summary": { "type": "array", "items": { "type": "string" } },
+    "capability_deltas": { "type": "array", "items": { "type": "object" } },
+    "normal_year_comparison": { "type": "object" },
+    "scenario_results": { "type": "array", "items": { "type": "object" } },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["can_promote", "improvements", "regressions", "warnings", "required_external_dependencies"],
+      "properties": {
+        "can_promote": { "type": "boolean" },
+        "improvements": { "type": "array", "items": { "type": "string" } },
+        "regressions": { "type": "array", "items": { "type": "string" } },
+        "warnings": { "type": "array", "items": { "type": "string" } },
+        "required_external_dependencies": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "provisional": { "type": "boolean" }
+  }
+}

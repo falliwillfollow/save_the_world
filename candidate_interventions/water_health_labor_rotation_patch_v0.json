@@ -1,0 +1,95 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_rotational_capacity",
+      "needs_evidence": true,
+      "statement": "Rotation must not require consent violations; check mobility_access domain for accessibility constraints."
+    },
+    {
+      "confidence": "medium",
+      "id": "assumption_tool_stewardship",
+      "needs_evidence": true,
+      "statement": "Tool usage for water testing must follow tool_library rotation rules to avoid tool_capture mode."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "increase",
+      "metric": "labor_time",
+      "rationale": "Maintains labor_time domain status by distributing maintenance_workload."
+    },
+    {
+      "direction": "decrease",
+      "metric": "scenario.blocked_review_domain_count",
+      "rationale": "Ensures water_public_health review is staffed without overloading specific residents."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Rotating maintenance roles for water reserve monitoring prevents hidden labor shifts while adhering to labor_time domain status.",
+  "id": "water_health_labor_rotation_patch_v0",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "labor rotation maintenance stewardship governance warnings accessibility mobility constraints"
+    ],
+    "required_sources": [
+      "patterns/",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json"
+    ],
+    "source_ids": [
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626673048"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Verify against mobility_access messages; use shared_bathhouse or community_kitchen as alternative monitoring points if needed.",
+      "risk": "Accessibility constraints may limit labor pool",
+      "severity": "high"
+    },
+    {
+      "mitigation": "Document rotation rules explicitly; do not assume due process is defined.",
+      "risk": "Governance warnings on due process",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "Accessibility constraints remain explicit and mitigated.",
+      "Governance warnings are not ignored."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "labor_time"
+    ],
+    "scenarios_to_run": [
+      "resident_exit_labor_loss_replay_simulation",
+      "baseline_90d_simulation"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "node_water_reserve"
+  ],
+  "title": "Labor rotation patch for water health monitoring",
+  "version": "v0"
+}

@@ -1,0 +1,62 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "Water access reduction is mitigated by alternate supply modeling."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_reserve_isolation_protocol_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Isolating node_water_reserve from structure_common_house supply line during risk mode reduces exposure to contamination risk without requiring new survival-critical unmet demand."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_reserve_isolation_protocol_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_reserve_isolation_protocol_v0.resource_telemetry_resources_current_ratio",
+      "provisional": true,
+      "rationale": "Isolation limits contamination spread; ratio changes reflect supply shift.",
+      "to": "neutral"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_reserve_isolation_protocol_v0.scenario_total_unmet_delta",
+      "provisional": true,
+      "rationale": "Prevents health unmet demand from contaminated water.",
+      "to": "decrease"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "drought_reserve_v2_replay_simulation",
+    "resource_telemetry.resources.current_ratio",
+    "scenario.total_unmet_delta",
+    "capabilities.domain_statuses"
+  ],
+  "source_candidate_id": "water_reserve_isolation_protocol_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "tech_modules/water_reserve_isolation_protocol_v0.yaml",
+    "change_type": "add_module"
+  },
+  "title": "Water reserve source isolation protocol",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_isolation_feasibility",
+      "Assumption requires evidence: assumption_emergency_fallback"
+    ]
+  },
+  "version": "v0"
+}

@@ -1,0 +1,92 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_5_process_definition",
+      "needs_evidence": true,
+      "statement": "Due process is not explicitly defined; candidate requires explicit mitigation before promotion."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_6_accessibility",
+      "needs_evidence": true,
+      "statement": "Accessible-route coverage is not complete; candidate must not assume full mobility."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "decrease",
+      "metric": "governance_anticapture.status",
+      "rationale": "Generated hypothesis expects governance_anticapture status to decrease or resolve warnings."
+    },
+    {
+      "direction": "decrease",
+      "metric": "blocked_review_domain_count",
+      "rationale": "Generated hypothesis expects blocked_review_domain_count to decrease."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Defining due process and emergency power sunset explicitly reduces governance_anticapture warnings.",
+  "id": "water_public_health_governance_patch_v0",
+  "intervention_type": "pattern_patch",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC water governance process definition due process emergency power sunset mobility access"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626446383"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Prioritize critical life-safety tasks first.",
+      "risk": "Process definition may slow response time",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Model multiple power source fallbacks.",
+      "risk": "Emergency power sunset definition may constrain options",
+      "severity": "unknown"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "node_water_reserve"
+  ],
+  "title": "Governance process definition patch",
+  "version": "v0"
+}

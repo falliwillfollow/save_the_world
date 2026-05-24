@@ -1,0 +1,99 @@
+{
+  "assumptions": [
+    {
+      "confidence": "medium",
+      "id": "assumption_5_due_process",
+      "needs_evidence": true,
+      "statement": "Emergency power sunset and due process are not explicitly defined and must be modeled in recovery rules."
+    },
+    {
+      "confidence": "medium",
+      "id": "assumption_6_accessibility",
+      "needs_evidence": true,
+      "statement": "Accessible-route coverage is not complete and must be considered for water distribution access."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "unknown",
+      "metric": "governance_anticapture",
+      "rationale": "Explicit definition of emergency power sunset reduces domain warnings."
+    },
+    {
+      "direction": "increase",
+      "metric": "care_health",
+      "rationale": "Maintains status pass for care_health domain if safety protocols are modeled explicitly."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Water release authority requires explicit definition to avoid governance warnings such as due process or emergency power sunset issues.",
+  "id": "water_public_health_governance_fallback_rule_v0",
+  "intervention_type": "governance_rule",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1",
+    "care_health_resident_controlled_medication_continuity_kit_v0"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "water governance anticapture due process emergency power sunset accessibility route coverage"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626898382"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Pre-authorize fallback paths during planning phase to reduce latency.",
+      "risk": "Governance definition may introduce latency during emergency",
+      "severity": "high"
+    },
+    {
+      "mitigation": "Prioritize essential needs within accessible routes; model mobility_access constraints.",
+      "risk": "Accessibility constraints may limit distribution speed",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "Due process and emergency power sunset must be explicitly defined.",
+      "No new survival-critical unmet demand is introduced.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_255_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__structure_common_house",
+    "block_2__structure_common_house",
+    "block_3__structure_common_house",
+    "block_4__structure_common_house",
+    "block_1__node_water_reserve",
+    "block_2__node_water_reserve",
+    "block_3__node_water_reserve",
+    "block_4__node_water_reserve"
+  ],
+  "title": "Water Authority Governance and Fallback Rule",
+  "version": "v0"
+}

@@ -1,0 +1,73 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "No labor is shifted into untracked resident burden.",
+    "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+  ],
+  "focus_domain": "mobility_access",
+  "id": "patch_mobility_access_accessible_route_gap_survey_map_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Every daily task route should declare grade, surface, rest points, lighting, and emergency access status so population scaling cannot hide access gaps."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.mobility_access.tracked_interventions.mobility_access_accessible_route_gap_survey_map_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.mobility_access_accessible_route_gap_survey_map_v0.accessible_route_coverage",
+      "provisional": true,
+      "rationale": "Generated hypothesis expects accessible_route_coverage to increase.",
+      "to": "increase"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.mobility_access_accessible_route_gap_survey_map_v0.spatial_review_burden",
+      "provisional": true,
+      "rationale": "Generated hypothesis expects spatial_review_burden to increase due to new mapping tasks.",
+      "to": "increase"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.mobility_access_accessible_route_gap_survey_map_v0.non_driver_access",
+      "provisional": true,
+      "rationale": "Generated hypothesis expects visibility of non_driver_access to remain constant pending survey.",
+      "to": "neutral"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "scenario_illness_wave",
+    "water_contamination_response_v2",
+    "resource_telemetry.resources.current_ratio",
+    "resource_telemetry.resources.net_per_day",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses",
+    "scenario.total_unmet_delta",
+    "scenario.blocked_review_domain_count"
+  ],
+  "source_candidate_id": "mobility_access_accessible_route_gap_survey_map_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_486_mobility_access_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/mobility_access/mobility_access_accessible_route_gap_survey_map_v0.yaml",
+    "change_type": "update_pattern"
+  },
+  "title": "Accessible route coverage map gap survey",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_1_local_fit",
+      "Assumption requires evidence: assumption_2_provisional_data"
+    ]
+  },
+  "version": "v0"
+}

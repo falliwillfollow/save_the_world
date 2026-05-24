@@ -1,0 +1,40 @@
+{
+  "focus_domain": "water_public_health",
+  "id": "materialize_patch_water_governance_authority_rule_v0",
+  "kind": "PatchMaterializationReport",
+  "materialized_artifact_path": "patterns\\water_public_health\\water_governance_authority_rule_v0.yaml",
+  "materialized_kind": "CivicPattern",
+  "next_actions": [
+    "Validate the materialized CivicPattern artifact.",
+    "Resolve local health, privacy, consent, safety, and professional-boundary assumptions.",
+    "Run simulation comparisons before selecting this pattern in an active site profile."
+  ],
+  "placement_target": {
+    "label": "Water Source + Reserve",
+    "object_id": "node_water_reserve",
+    "relationship": "attached_operating_protocol"
+  },
+  "provisional": true,
+  "source_candidate_id": "water_governance_authority_rule_v0",
+  "source_candidate_title": "Water authority sunset modeling rule",
+  "source_patch_proposal_id": "patch_water_governance_authority_rule_v0",
+  "status": "materialized_draft",
+  "suggested_plan_change": {
+    "notes": [
+      "Add selected_pattern_id to a site profile only after listed external dependencies are reviewed or represented in review status.",
+      "Compile and replay illness, contamination, power-loss, and labor-burden scenarios before promotion."
+    ],
+    "resolved_external_dependencies": [
+      "water_public_health_review",
+      "labor_burden_review",
+      "water_release_authority_review"
+    ],
+    "selected_pattern_id": "water_governance_authority_rule_v0"
+  },
+  "validation": {
+    "artifact_valid": true,
+    "blocking_reasons": [],
+    "warnings": []
+  },
+  "version": "v0"
+}

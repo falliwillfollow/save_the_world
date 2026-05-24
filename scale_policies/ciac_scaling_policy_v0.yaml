@@ -1,0 +1,696 @@
+kind: ScalingPolicy
+id: ciac_scaling_policy_v0
+version: v0
+status: active_provisional
+provisional: true
+research_inputs:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md
+source_registry:
+  - id: WHO_HOUSING_2018
+    title: WHO Housing and Health Guidelines
+    organization: World Health Organization
+    year: 2018
+    url: https://www.who.int/publications/i/item/9789241550376
+    supports: [crowding, accessibility, indoor_environmental_quality]
+  - id: WHO_HOUSING_CROWDING_NCBI
+    title: Household crowding, WHO Housing and Health Guidelines chapter
+    organization: WHO / NCBI Bookshelf
+    url: https://www.ncbi.nlm.nih.gov/books/NBK535289/
+    supports: [crowding_as_mismatch, mental_and_physical_health_impacts]
+  - id: DUNBAR_SOCIAL_LAYERS
+    title: Dunbar social brain / social-layer research
+    organization: research_literature
+    url: https://royalsocietypublishing.org/doi/10.1098/rstb.2015.0093
+    supports: [social_layers_5_15_50_150_500_1500]
+  - id: SURGEON_GENERAL_SOCIAL_CONNECTION
+    title: Our Epidemic of Loneliness and Isolation
+    organization: U.S. Surgeon General / HHS
+    url: https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf
+    supports: [built_environment_affects_social_connection]
+  - id: COHOUSING_ASSOCIATION
+    title: What is Cohousing
+    organization: Cohousing Association of the United States
+    url: https://www.cohousing.org/what-cohousing/cohousing/
+    supports: [private_homes_plus_shared_spaces, privacy_and_community_balance]
+  - id: GREEN_HOUSE_SMALL_HOUSE
+    title: Green House / small-house elder-care model
+    organization: Green House Project / long-term-care practice
+    url: https://thegreenhouseproject.org/
+    supports: [high_care_small_house_10_to_12_residents]
+  - id: EPA_PUBLIC_WATER_SYSTEM
+    title: Information about Public Water Systems
+    organization: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/dwreginfo/information-about-public-water-systems
+    supports: [public_water_system_15_connections_or_25_people_60_days]
+  - id: CDC_EMERGENCY_WATER
+    title: How to Create an Emergency Water Supply
+    organization: U.S. Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html
+    supports: [one_gallon_per_person_per_day, three_day_minimum, two_week_preferred]
+  - id: WHO_EMERGENCY_WATER_20L
+    title: How much water is needed in emergencies
+    organization: World Health Organization
+    url: https://cdn.who.int/media/docs/default-source/wash-documents/who-tn-09-how-much-water-is-needed.pdf
+    supports: [twenty_liters_per_person_per_day_essential_health_reference]
+  - id: FDA_FOOD_CODE_2022
+    title: FDA Food Code 2022
+    organization: U.S. Food and Drug Administration
+    url: https://www.fda.gov/food/fda-food-code/food-code-2022
+    supports: [shared_food_operations_need_controls]
+  - id: SHARED_KITCHEN_HAZARDS_2024
+    title: Assessment of Hygiene Management Practices and Microbial/Chemical Hazards in Shared Kitchen Facilities
+    organization: peer_reviewed_literature
+    year: 2024
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10969530/
+    supports: [shared_kitchen_hygiene_management_risk, need_for_monitoring_and_food_safety_controls]
+  - id: EPA_PRIVATE_WELLS
+    title: Protect Your Home's Water
+    organization: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/privatewells/protect-your-homes-water
+    supports: [annual_private_well_testing, local_contaminant_testing]
+  - id: CDC_DISABILITY_EMERGENCY_KIT
+    title: Building an Emergency Kit for People with Disabilities
+    organization: U.S. Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/disability-emergency-preparedness/people-with-disabilities/build-a-kit.html
+    supports: [one_week_prescription_medication_supply, refrigerated_medication_cooler, assistive_device_power]
+  - id: HRSA_HEALTH_CENTER_PROGRAM
+    title: About the Health Center Program
+    organization: Health Resources and Services Administration
+    url: https://bphc.hrsa.gov/about-health-center-program
+    supports: [community_based_health_care_access]
+  - id: CITIZENS_JURY_INVOLVE
+    title: Citizens' Jury
+    organization: Involve
+    url: https://www.involve.org.uk/resource/citizens-jury
+    supports: [citizens_jury_12_to_24_participants]
+  - id: SOCIOCRACY_FOR_ALL
+    title: Sociocracy overview
+    organization: Sociocracy for All
+    url: https://www.sociocracyforall.org/sociocracy/
+    supports: [circles, consent_decision_making, roles, double_linking]
+  - id: DOE_FEMP_OM_BEST_PRACTICES
+    title: Operations & Maintenance Best Practices Guide
+    organization: U.S. Department of Energy
+    url: https://www.energy.gov/sites/prod/files/2020/04/f74/omguide_complete-w-eo-disclaimer.pdf
+    supports: [preventive_maintenance, reliability_centered_maintenance]
+  - id: OSHA_TRAINING_UNDERSTANDABLE
+    title: Training Standards Policy Statement
+    organization: Occupational Safety and Health Administration
+    url: https://www.osha.gov/laws-regs/standardinterpretations/2010-04-28
+    supports: [safety_training_legibility]
+  - id: DOL_REGISTERED_APPRENTICESHIP
+    title: Registered Apprenticeship Program
+    organization: U.S. Department of Labor / Apprenticeship.gov
+    url: https://www.apprenticeship.gov/employers/registered-apprenticeship-program
+    supports: [mentorship, work_experience, credentials]
+  - id: NAEYC_RATIO_GROUP_SIZE
+    title: Staff-to-Child Ratio and Class Size
+    organization: NAEYC
+    url: https://www.naeyc.org/sites/default/files/globally-shared/downloads/PDFs/accreditation/early-learning/staff_child_ratio_0.pdf
+    supports: [child_group_size_and_ratio_reference]
+  - id: SPHERE_WASH
+    title: Sphere Handbook, WASH Standards
+    organization: Sphere Association
+    url: https://handbook.spherestandards.org/
+    supports: [emergency_WASH_minimums]
+  - id: NIST_COMMUNITY_RESILIENCE_GUIDE
+    title: Community Resilience Planning Guide for Buildings and Infrastructure Systems
+    organization: NIST
+    url: https://www.nist.gov/community-resilience/planning-guide
+    supports: [community_resilience_planning, recovery_goals_and_dependencies]
+  - id: ITDP_TOD_STANDARD
+    title: TOD Standard
+    organization: Institute for Transportation and Development Policy
+    url: https://www.itdp.org/publication/tod-standard/
+    supports: [walkability_distance_logic]
+  - id: ACCESS_BOARD_ADA_STANDARDS
+    title: ADA Accessibility Standards
+    organization: U.S. Access Board
+    url: https://www.access-board.gov/ada/
+    supports: [accessible_routes]
+global_layers:
+  village_block:
+    comfortable_min: 50
+    comfortable_max: 150
+    scale_action: hybrid
+    source_ids: [DUNBAR_SOCIAL_LAYERS, COHOUSING_ASSOCIATION]
+  district:
+    comfortable_min: 300
+    comfortable_max: 500
+    scale_action: federate
+    source_ids: [DUNBAR_SOCIAL_LAYERS, NIST_COMMUNITY_RESILIENCE_GUIDE]
+  town_city_layer:
+    comfortable_min: 900
+    comfortable_max: 1500
+    scale_action: federate
+    source_ids: [DUNBAR_SOCIAL_LAYERS]
+  regional_membrane:
+    comfortable_min: 1500
+    comfortable_max: 1500+
+    scale_action: federate
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+node_policies:
+  - id: residential_pod
+    domain: residential_life
+    node_type: residential_pod
+    scale_action: duplicate
+    minimum: 12
+    preferred: 20
+    maximum: 24
+    hard_max: 30
+    service_radius_minutes: 1-3
+    action_above_max: duplicate_or_subdivide
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: research_inferred
+    source_ids: [WHO_HOUSING_CROWDING_NCBI, COHOUSING_ASSOCIATION, GREEN_HOUSE_SMALL_HOUSE]
+    human_factor_driver: [privacy, sleep_quality, perceived_crowding, conflict_risk, acoustic_control]
+    optimizer_preference: [duplicate_residential_pod, add_pod_micro_commons, preserve_private_retreat]
+    ui_warning: Residential pod is beyond comfortable cluster size. Duplicate or subdivide.
+    notes:
+      - Larger buildings may be acceptable when socially subdivided into pods.
+      - High-care resident groups should use smaller thresholds.
+  - id: elder_high_care_pod
+    domain: residential_life
+    node_type: high_care_household
+    scale_action: duplicate
+    minimum: 6
+    preferred: 10
+    maximum: 12
+    hard_max: 14
+    action_above_max: duplicate_high_care_household
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [GREEN_HOUSE_SMALL_HOUSE]
+    human_factor_driver: [care_needs, privacy, safeguarding, vulnerability]
+    optimizer_preference: [shrink_high_care_node, duplicate_by_household_type]
+    ui_warning: High-care residential scale should stay small-house sized.
+  - id: common_house
+    domain: common_house_third_place
+    node_type: common_house
+    scale_action: hybrid
+    minimum: 30
+    preferred: 80
+    maximum: 100
+    hard_max: 150
+    service_radius_minutes: 3-5
+    action_above_max: duplicate_neighborhood_commons_and_federate_district_venue
+    evidence_quality: low
+    translation_confidence: moderate
+    regulatory_strength: heuristic
+    source_ids: [COHOUSING_ASSOCIATION, SURGEON_GENERAL_SOCIAL_CONNECTION, DUNBAR_SOCIAL_LAYERS]
+    human_factor_driver: [belonging, third_place_comfort, clique_risk, institutional_feel]
+    optimizer_preference: [duplicate_common_house, add_district_venue_only_after_neighborhood_commons]
+    ui_warning: One common house is serving too many residents as a single social heart. Add neighborhood commons.
+  - id: common_meal_wave
+    domain: food_systems
+    node_type: common_meal_wave
+    scale_action: duplicate
+    minimum: 12
+    preferred: 40
+    maximum: 60
+    hard_max: 80
+    action_above_max: add_meal_wave_or_duplicate_dining
+    evidence_quality: low
+    translation_confidence: moderate
+    regulatory_strength: heuristic
+    source_ids: [COHOUSING_ASSOCIATION]
+    human_factor_driver: [dining_comfort, institutional_feel, labor_burden]
+    optimizer_preference: [add_meal_waves, duplicate_dining]
+    ui_warning: Shared dining is getting too large for a comfortable meal wave.
+  - id: food_commons
+    domain: food_systems
+    node_type: food_commons
+    scale_action: hybrid
+    minimum: 50
+    preferred: 80
+    maximum: 100
+    hard_max: 150
+    service_radius_minutes: 3-5
+    action_above_max: duplicate_kitchen_pickup_or_meal_waves
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [FDA_FOOD_CODE_2022, COHOUSING_ASSOCIATION]
+    human_factor_driver: [food_safety, labor_burden, scheduling, dining_comfort]
+    optimizer_preference: [duplicate_food_commons, federate_procurement, add_preservation_node]
+    ui_warning: Food commons is approaching kitchen, dining, labor, or hygiene bottleneck. Duplicate pickup or kitchen capacity.
+  - id: shared_kitchen
+    domain: food_systems
+    node_type: shared_kitchen
+    scale_action: hybrid
+    minimum: 50
+    preferred: 80
+    maximum: 80
+    hard_max: 100
+    service_radius_minutes: 3-5
+    action_above_max: require_meal_waves_pickup_or_second_kitchen
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [FDA_FOOD_CODE_2022, SHARED_KITCHEN_HAZARDS_2024]
+    human_factor_driver: [labor, hygiene, scheduling, food_safety, resident_autonomy]
+    optimizer_preference: [add_second_kitchen_or_satellite_pickup, add_food_safety_steward_and_backup, add_meal_waves]
+    ui_warning: Shared kitchen is becoming a labor, schedule, cleaning, or food-safety bottleneck.
+  - id: food_service_radius
+    domain: food_systems
+    node_type: food_service_radius
+    scale_action: duplicate
+    minimum: 1
+    preferred: 3
+    maximum: 5
+    hard_max: non_drivers_or_high_need_residents_cannot_access_food
+    service_radius_minutes: 3-5
+    action_above_max: duplicate_meal_pickup_points_or_model_care_meal_delivery
+    evidence_quality: low
+    translation_confidence: moderate
+    regulatory_strength: heuristic
+    source_ids: [ITDP_TOD_STANDARD, ACCESS_BOARD_ADA_STANDARDS, CDC_DISABILITY_EMERGENCY_KIT]
+    human_factor_driver: [food_access, care, mobility, labor, dignity]
+    optimizer_preference: [duplicate_meal_pickup_points, shorten_accessible_food_routes, model_care_meal_delivery]
+    ui_warning: Food access exceeds walk/roll threshold for high-need residents. Add meal pickup or delivery node.
+  - id: protein_commons
+    domain: food_systems
+    node_type: protein_commons
+    scale_action: hybrid
+    minimum: 50
+    preferred: 80
+    maximum: 150
+    hard_max: 150
+    action_above_max: duplicate_simple_layers_and_federate_advanced_protein
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [FDA_FOOD_CODE_2022]
+    human_factor_driver: [food_safety, acceptance, labor_burden]
+    optimizer_preference: [duplicate_simple_protein_commons, federate_advanced_protein]
+    ui_warning: Protein commons should not become one opaque technical bottleneck.
+  - id: potable_water
+    domain: water_systems
+    node_type: potable_water
+    scale_action: hybrid
+    minimum: 25
+    preferred: 80
+    maximum: 150
+    hard_max: 25_people_or_15_connections_without_review
+    service_radius_minutes: 1-3
+    action_above_max: duplicate_emergency_distribution_and_federate_operator_oversight
+    evidence_quality: high
+    translation_confidence: high
+    regulatory_strength: binding
+    source_ids: [EPA_PUBLIC_WATER_SYSTEM, CDC_EMERGENCY_WATER, WHO_EMERGENCY_WATER_20L]
+    human_factor_driver: [public_health, redundancy, access, emergency_resilience]
+    optimizer_preference: [central_reviewed_source, duplicate_emergency_reserve, federate_operator_oversight]
+    ui_warning: Population may trigger public-water-system review. Require legal and public-health review.
+  - id: emergency_potable_reserve
+    domain: water_systems
+    node_type: emergency_potable_reserve
+    scale_action: duplicate
+    minimum: 3
+    preferred: 14
+    maximum: 150
+    hard_max: fewer_than_3_emergency_days
+    service_radius_minutes: 1-3
+    action_above_max: duplicate_reserve_points_and_add_replenishment_plan
+    evidence_quality: high
+    translation_confidence: high
+    regulatory_strength: guideline
+    source_ids: [CDC_EMERGENCY_WATER, WHO_EMERGENCY_WATER_20L]
+    human_factor_driver: [emergency_survival, high_need_support, accessibility, redundancy]
+    optimizer_preference: [duplicate_emergency_reserve, add_replenishment_path, show_reserve_accessibility]
+    ui_warning: Emergency potable water reserve is below CIaC floor or not accessible to all residents.
+  - id: private_well_testing
+    domain: water_systems
+    node_type: water_testing
+    scale_action: federate
+    minimum: annual_testing_current
+    preferred: certified_lab_testing_and_local_contaminant_schedule
+    maximum: annual_testing_current
+    hard_max: no_tested_potable_source
+    action_above_max: require_public_health_or_certified_lab_testing
+    evidence_quality: high
+    translation_confidence: high
+    regulatory_strength: guideline
+    source_ids: [EPA_PRIVATE_WELLS]
+    human_factor_driver: [public_health, trust, contamination_response]
+    optimizer_preference: [require_testing_schedule, add_contamination_response_plan]
+    ui_warning: Potable water testing is missing or stale.
+  - id: sanitation_access
+    domain: sanitation_waste
+    node_type: sanitation_access
+    scale_action: hybrid
+    minimum: 20
+    preferred: 80
+    maximum: 150
+    hard_max: emergency_standard_used_as_normal
+    service_radius_minutes: 1-3
+    action_above_max: duplicate_hygiene_access_and_centralize_controlled_processing
+    evidence_quality: high
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [SPHERE_WASH]
+    human_factor_driver: [hygiene, dignity, public_health, accessibility]
+    optimizer_preference: [duplicate_hygiene_access, centralize_controlled_processing]
+    ui_warning: Sanitation access is using emergency minimum logic. Add dignified local hygiene access.
+  - id: blackwater_treatment
+    domain: sanitation_waste
+    node_type: blackwater_treatment
+    scale_action: federate
+    minimum: approved_blackwater_plan
+    preferred: professionally_reviewed_treatment_and_maintenance
+    maximum: reviewed_system_capacity
+    hard_max: no_approved_plan
+    action_above_max: professional_public_health_review_required
+    evidence_quality: high
+    translation_confidence: high
+    regulatory_strength: binding
+    source_ids: [SPHERE_WASH]
+    human_factor_driver: [pathogen_control, public_health, worker_safety]
+    optimizer_preference: [approved_central_treatment, maintenance_owner, worker_safety_controls]
+    ui_warning: Blackwater system lacks approved design, maintenance, or professional/public-health review.
+  - id: care_room
+    domain: care_health
+    node_type: care_room
+    scale_action: hybrid
+    minimum: 50
+    preferred: 80
+    maximum: 100
+    hard_max: 150
+    service_radius_minutes: 3-5
+    action_above_max: duplicate_care_room_or_add_neighborhood_care_points
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [GREEN_HOUSE_SMALL_HOUSE, SURGEON_GENERAL_SOCIAL_CONNECTION]
+    human_factor_driver: [privacy, infection_control, elder_support, disability_support, medication_continuity]
+    optimizer_preference: [duplicate_care_room, federate_clinical_partnership]
+    ui_warning: Care access, privacy, or illness separation may require another care room.
+  - id: care_network
+    domain: care_health
+    node_type: care_network
+    scale_action: hybrid
+    minimum: 150
+    preferred: 300
+    maximum: 1500
+    hard_max: no_external_care_path
+    service_radius_minutes: 3-5
+    action_above_max: federate_care_network_and_external_healthcare_relationships
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [HRSA_HEALTH_CENTER_PROGRAM, CDC_DISABILITY_EMERGENCY_KIT]
+    human_factor_driver: [access, continuity, professional_boundary, high_need_residents]
+    optimizer_preference: [duplicate_local_care_rooms, federate_health_partnerships, block_clinical_overclaim]
+    ui_warning: Care model is too centralized or lacks external professional healthcare path.
+  - id: medication_continuity
+    domain: care_health
+    node_type: medication_continuity
+    scale_action: hybrid
+    minimum: one_week_prescription_supply_where_possible
+    preferred: privacy_preserving_plan_with_refrigerated_backup_power
+    maximum: village_block
+    hard_max: refrigerated_medications_not_on_critical_load
+    action_above_max: add_critical_load_mapping_and_pharmacy_transport_plan
+    evidence_quality: high
+    translation_confidence: high
+    regulatory_strength: guideline
+    source_ids: [CDC_DISABILITY_EMERGENCY_KIT]
+    human_factor_driver: [health_continuity, privacy, energy_resilience, transport, disability_support]
+    optimizer_preference: [duplicate_medication_backup_points, add_critical_load_mapping, add_pharmacy_transport_plan]
+    ui_warning: Medication continuity or refrigerated medication backup is not protected.
+  - id: high_need_support
+    domain: care_health
+    node_type: high_need_support
+    scale_action: duplicate
+    minimum: function_based_high_need_support
+    preferred: pod_or_village_block_support
+    maximum: 5
+    hard_max: high_need_residents_not_modeled_or_support_depends_on_one_informal_person
+    service_radius_minutes: 3-5
+    action_above_max: duplicate_care_access_and_add_backup_roles
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [CDC_DISABILITY_EMERGENCY_KIT, GREEN_HOUSE_SMALL_HOUSE, HRSA_HEALTH_CENTER_PROGRAM]
+    human_factor_driver: [disability_access, elder_support, privacy, infection_control, caregiver_burden]
+    optimizer_preference: [duplicate_care_access, shrink_high_care_cluster, add_backup_care_roles]
+    ui_warning: High-need resident support is not adequately local, private, or backed up.
+  - id: quiet_room
+    domain: mental_health_social_scale
+    node_type: quiet_room
+    scale_action: duplicate
+    minimum: 1_per_village_block
+    preferred: 1_per_pod_plus_central
+    maximum: 80
+    hard_max: no_quiet_retreat_space
+    action_above_max: duplicate_quiet_room
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: research_inferred
+    source_ids: [WHO_HOUSING_2018, SURGEON_GENERAL_SOCIAL_CONNECTION]
+    human_factor_driver: [mental_health, privacy, sensory_load, autonomy]
+    optimizer_preference: [add_quiet_room, add_private_retreat, add_green_threshold_space]
+    ui_warning: No low-social-energy retreat space is available at this scale.
+  - id: maintenance_tool_cache
+    domain: maintenance_tools
+    node_type: tool_library_and_maintenance_node
+    scale_action: hybrid
+    minimum: 50
+    preferred: 80
+    maximum: 150
+    hard_max: 500_without_district_workshop
+    service_radius_minutes: 1-3
+    action_above_max: duplicate_local_tool_cache_and_federate_advanced_workshop
+    evidence_quality: low
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    human_factor_driver: [response_time, autonomy, repairability, safety]
+    optimizer_preference: [duplicate_local_tool_cache, federate_advanced_workshop]
+    ui_warning: One workshop/tool node is serving too many residents. Add local tool cache or district workshop.
+  - id: central_workshop
+    domain: maintenance_tools
+    node_type: central_workshop
+    scale_action: hybrid
+    minimum: 150
+    preferred: 300
+    maximum: 500
+    hard_max: 500_without_district_workshop
+    action_above_max: federate_advanced_workshop_and_professional_handoff
+    evidence_quality: low
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [DOE_FEMP_OM_BEST_PRACTICES]
+    human_factor_driver: [specialization, reliability, safety, expert_capture]
+    optimizer_preference: [federate_specialized_tools, add_training_gates, preserve_local_basic_tools]
+    ui_warning: Advanced workshop or hazardous tool access needs training, PPE, and federation.
+  - id: governance_circle
+    domain: governance
+    node_type: direct_assembly
+    scale_action: federate
+    minimum: 30
+    preferred: 80
+    maximum: 80
+    hard_max: 150
+    action_above_max: federate_into_circles_and_neighborhood_assemblies
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: research_inferred
+    source_ids: [DUNBAR_SOCIAL_LAYERS, SOCIOCRACY_FOR_ALL]
+    human_factor_driver: [participation_quality, legitimacy, operational_speed, meeting_burden]
+    optimizer_preference: [keep_member_vote_for_constitutional_matters, federate_routine_governance, split_neighborhood_assemblies]
+    ui_warning: Direct assembly burden rising. Federate into circles or delegated roles.
+  - id: operational_circle
+    domain: governance
+    node_type: operational_circle
+    scale_action: federate
+    minimum: 5
+    preferred: 8
+    maximum: 12
+    hard_max: 15
+    action_above_max: split_circle_or_create_subrole_structure
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [SOCIOCRACY_FOR_ALL, DUNBAR_SOCIAL_LAYERS]
+    human_factor_driver: [participation_quality, meeting_burden, role_clarity, operational_speed, anti_capture]
+    optimizer_preference: [create_domain_circle, split_circle_above_12, add_backup_roles, federate_coordination_circle]
+    ui_warning: Operational circle is becoming too large for consent or effective stewardship. Split or delegate roles.
+  - id: deliberative_panel
+    domain: governance
+    node_type: deliberative_panel
+    scale_action: federate
+    minimum: 8
+    preferred: 12
+    maximum: 24
+    hard_max: 24
+    action_above_max: split_panel_or_formalize_process
+    evidence_quality: moderate
+    translation_confidence: high
+    regulatory_strength: professional_practice
+    source_ids: [CITIZENS_JURY_INVOLVE]
+    human_factor_driver: [due_process, trust, fairness, conflict_resolution, anti_clique_protection]
+    optimizer_preference: [create_deliberative_panel, require_due_process, external_mediation_for_high_risk_cases]
+    ui_warning: Deliberative or appeal process is too large, informal, or lacks due process.
+  - id: essential_access
+    domain: mobility_access
+    node_type: daily_need_access
+    scale_action: duplicate
+    minimum: 1
+    preferred: 3
+    maximum: 5
+    hard_max: no_accessible_route_to_essential_spaces
+    service_radius_minutes: 3-5
+    action_above_max: duplicate_neighborhood_center_or_improve_accessible_route
+    evidence_quality: high
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [ITDP_TOD_STANDARD, ACCESS_BOARD_ADA_STANDARDS]
+    human_factor_driver: [accessibility, disability, elder_support, time_burden, emergency_access]
+    optimizer_preference: [duplicate_neighborhood_center, reduce_accessible_distance_penalty, add_shared_mobility_if_external_access_weak]
+    ui_warning: Essential daily functions exceed walk/roll threshold, especially for high-need residents.
+  - id: hands_on_skill_group
+    domain: education_skill_work
+    node_type: hands_on_skill_group
+    scale_action: duplicate
+    minimum: 4
+    preferred: 6
+    maximum: 8
+    hard_max: 12
+    action_above_max: split_training_group
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [OSHA_TRAINING_UNDERSTANDABLE]
+    human_factor_driver: [safety, attention, competence, resident_autonomy]
+    optimizer_preference: [split_groups, add_training_gates, track_training_burden]
+    ui_warning: Training group is too large for hands-on safety or skill acquisition.
+  - id: apprenticeship_pipeline
+    domain: education_skill_work
+    node_type: apprenticeship_pipeline
+    scale_action: hybrid
+    minimum: 1
+    preferred: 3
+    maximum: 3
+    hard_max: one_expert_without_backup
+    action_above_max: add_backup_expert_and_apprentice_pipeline
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [DOL_REGISTERED_APPRENTICESHIP]
+    human_factor_driver: [skill_redundancy, expert_dependency, safety, continuity]
+    optimizer_preference: [apprentice_pipeline, credential_partnership, backup_roles]
+    ui_warning: Critical skill has no backup or apprentice pipeline.
+  - id: risk_resilience_cell
+    domain: emergency_resilience
+    node_type: risk_resilience_cell
+    scale_action: hybrid
+    minimum: 50
+    preferred: 80
+    maximum: 150
+    hard_max: 300_without_district_coordination
+    action_above_max: duplicate_local_buffers_and_federate_resilience_coordination
+    evidence_quality: high
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    human_factor_driver: [failure_isolation, cascade_prevention, recovery, high_need_support]
+    optimizer_preference: [duplicate_local_buffers, federate_resilience_coordination]
+    ui_warning: Critical function depends on one node, role, or external provider.
+  - id: local_redundancy
+    domain: emergency_resilience
+    node_type: local_redundancy
+    scale_action: duplicate
+    minimum: 50
+    preferred: 80
+    maximum: 150
+    hard_max: 300_without_district_coordination
+    action_above_max: duplicate_local_buffers_and_federate_district_response
+    evidence_quality: high
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    human_factor_driver: [failure_isolation, cascading_risk, high_need_protection, recovery]
+    optimizer_preference: [duplicate_local_buffers, add_backup_roles, federate_district_response]
+    ui_warning: Critical system lacks local redundancy for failure isolation.
+  - id: reserve_topology
+    domain: emergency_resilience
+    node_type: reserve_topology
+    scale_action: hybrid
+    minimum: local_accessible_reserve
+    preferred: local_immediate_buffers_plus_federated_bulk_reserve
+    maximum: village_block
+    hard_max: reserve_not_accessible_during_likely_failure
+    action_above_max: distribute_immediate_reserves_and_add_replenishment_plan
+    evidence_quality: moderate
+    translation_confidence: moderate
+    regulatory_strength: professional_practice
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    human_factor_driver: [access, redundancy, distribution, high_need_support, recovery]
+    optimizer_preference: [distribute_immediate_reserves, centralize_bulk_reserves_with_distribution_plan, add_replenishment_path]
+    ui_warning: Reserve is centralized, inaccessible, or lacks replenishment/distribution plan.
+  - id: fallback_system
+    domain: emergency_resilience
+    node_type: fallback_system
+    scale_action: hybrid
+    minimum: independent_fallback_floor
+    preferred: simple_local_legible_fallback
+    maximum: normal_system_dependency_free
+    hard_max: fallback_system_not_independent_enough
+    action_above_max: separate_fallback_from_normal_dependencies
+    evidence_quality: high
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    human_factor_driver: [resilience, simplicity, human_rights_under_stress, recovery, labor_surge]
+    optimizer_preference: [separate_fallback_from_normal_dependencies, preserve_rights_under_emergency, add_recovery_playbook]
+    ui_warning: Fallback system is too dependent on the normal system it is meant to replace.
+  - id: emergency_governance
+    domain: emergency_resilience
+    node_type: emergency_governance
+    scale_action: federate
+    minimum: emergency_roles_with_sunset
+    preferred: backup_roles_incident_log_after_action_review
+    maximum: village_block
+    hard_max: emergency_power_has_no_sunset_or_can_change_core_rights
+    action_above_max: add_emergency_sunset_backup_roles_and_external_liaison
+    evidence_quality: high
+    translation_confidence: moderate
+    regulatory_strength: guideline
+    source_ids: [NIST_COMMUNITY_RESILIENCE_GUIDE]
+    human_factor_driver: [anti_capture, emergency_speed, rights, legitimacy, recovery_learning]
+    optimizer_preference: [add_emergency_sunset, add_backup_roles, federate_external_authority_liaison]
+    ui_warning: Emergency authority lacks backup, sunset, or anti-capture controls.
+warnings:
+  residential_pod_over_soft: Residential pod is exceeding comfortable cluster size. Add another pod or subdivide.
+  common_house_over_soft: Common house is approaching institutional scale. Add neighborhood commons or meal waves.
+  food_node_over_soft: Food commons is approaching kitchen/labor bottleneck. Duplicate pickup/kitchen capacity.
+  kitchen_food_safety_review: Shared kitchen complexity requires food-safety review, logs, allergen controls, and trained backup.
+  meal_radius_warning: Food access exceeds walk/roll threshold for high-need residents. Add meal pickup or delivery node.
+  water_review_trigger: Population may trigger public-water-system review. Require legal/public-health review.
+  water_reserve_warning: Emergency potable water reserve is below CIaC floor or not accessible to all residents.
+  sanitation_access_warning: Toilets or hygiene access are using emergency-minimum logic or exceed dignity thresholds.
+  blackwater_review_fail: Blackwater system lacks approved design, maintenance, or professional/public-health review.
+  care_node_warning: Care access, privacy, or illness separation may require another care room.
+  medication_continuity_fail: Medication continuity or refrigerated medication backup is not protected.
+  high_need_support_fail: High-need resident support is not adequately local, private, or backed up.
+  governance_over_soft: Direct assembly burden rising. Federate into circles or delegated roles.
+  governance_circle_large: Operational circle is becoming too large for consent or effective stewardship. Split or delegate roles.
+  governance_capture: Governance capture risk; one role or group controls too many high-power functions.
+  maintenance_bottleneck: One workshop/tool node is serving too many residents. Add local tool cache or district workshop.
+  mobility_distance_warning: Essential daily functions exceed walk/roll threshold, especially for high-need residents.
+  training_group_too_large: Training group is too large for hands-on safety or skill acquisition.
+  skill_backup_missing: Critical skill has no backup or apprentice pipeline.
+  quiet_space_missing: No low-social-energy retreat space is available at this scale.
+  resilience_single_point_failure: Critical function depends on one node, role, or external provider.
+  reserve_topology_risk: Reserve is centralized, inaccessible, or lacks replenishment/distribution plan.
+  fallback_dependency: Fallback system is too dependent on the normal system it is meant to replace.
+  emergency_governance_risk: Emergency authority lacks backup, sunset, or anti-capture controls.
+unknowns:
+  - Policy thresholds are research-derived heuristics, not final professional certification.
+  - Site, climate, legal jurisdiction, building code, water rights, and household composition can move thresholds.
+  - Emergency minimums are retained for stress testing and must not be treated as normal dignified design targets.

@@ -1,0 +1,70 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "No labor is shifted into untracked resident burden.",
+    "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+  ],
+  "focus_domain": "care_health",
+  "id": "patch_care_health_resident_controlled_medication_continuity_kit_v0_enriched",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "A resident-controlled medication continuity kit plus opt-in care-room backup tracking can close continuity gaps without centralizing private health data, supported by baseline labor telemetry patterns."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.care_health.tracked_interventions.care_health_resident_controlled_medication_continuity_kit_v0_enriched",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.care_health_resident_controlled_medication_continuity_kit_v0_enriched.care_continuity_coverage",
+      "provisional": true,
+      "rationale": "Generated hypothesis expects care_continuity_coverage to increase.",
+      "to": "increase"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.care_health_resident_controlled_medication_continuity_kit_v0_enriched.resource_telemetry_labor_required_minutes_per_resident_per_day",
+      "provisional": true,
+      "rationale": "Opt-in reminders shift tracking burden from hidden labor to explicit protocols.",
+      "to": "decrease"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.care_health_resident_controlled_medication_continuity_kit_v0_enriched.privacy_exposure",
+      "provisional": true,
+      "rationale": "Opt-in refill reminders assume minimal diagnostic inventory checks to maintain privacy.",
+      "to": "neutral"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "scenario_illness_wave",
+    "water_contamination_response_v2",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses",
+    "scenario.blocked_review_domain_count"
+  ],
+  "source_candidate_id": "care_health_resident_controlled_medication_continuity_kit_v0_enriched",
+  "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/care_health/care_health_resident_controlled_medication_continuity_kit_v0_enriched.yaml",
+    "change_type": "add_operating_protocol"
+  },
+  "title": "Resident-controlled medication continuity kit with refill checks",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_1_local_fit_enriched",
+      "Assumption requires evidence: assumption_2_data_minimization"
+    ]
+  },
+  "version": "v0"
+}

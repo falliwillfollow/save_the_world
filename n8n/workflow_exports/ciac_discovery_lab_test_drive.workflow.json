@@ -1,0 +1,210 @@
+{
+  "name": "CIaC Discovery Lab Test Drive",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4b0f4fd0-7b1e-4da2-ae18-1d7f7f685c8f",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "world-manifest-path",
+              "name": "world_manifest_path",
+              "type": "string",
+              "value": "examples/world_manifests/civic_floor_80_v0.world.json"
+            },
+            {
+              "id": "runtime-bundle-path",
+              "name": "runtime_bundle_path",
+              "type": "string",
+              "value": "examples/generated/micro_commons_runtime_bundle.json"
+            },
+            {
+              "id": "focus",
+              "name": "focus",
+              "type": "string",
+              "value": "care_health"
+            },
+            {
+              "id": "output-path",
+              "name": "output_path",
+              "type": "string",
+              "value": "examples/discovery/civic_floor_80_n8n_test_drive.discovery.json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2cbd06dd-fdc1-469f-b7f0-9e49c089da0d",
+      "name": "Set CIaC Inputs",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8791/discovery-loop",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "world_manifest_path",
+              "value": "={{ $json.world_manifest_path }}"
+            },
+            {
+              "name": "runtime_bundle_path",
+              "value": "={{ $json.runtime_bundle_path }}"
+            },
+            {
+              "name": "focus",
+              "value": "={{ $json.focus }}"
+            },
+            {
+              "name": "output_path",
+              "value": "={{ $json.output_path }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "6bf1a80b-0b9f-4056-b629-4e4db84cc633",
+      "name": "Call CIaC Discovery Bridge",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "qwen3.5:9b"
+            },
+            {
+              "name": "stream",
+              "value": "={{ false }}"
+            },
+            {
+              "name": "prompt",
+              "value": "={{ 'You are the CIaC discovery analyst. Use only the DiscoveryLoopReport JSON below. Return only one JSON object with these keys: summary, top_findings, candidate_interventions_to_review, missing_evidence, next_simulation_checks. Do not use markdown. Keep it concise and do not certify safety. DiscoveryLoopReport JSON: ' + JSON.stringify($json.report) }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "e1f8f3ee-3c2d-43c2-8545-27dd5b4d9c24",
+      "name": "Ask Ollama for Discovery Brief",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.response || '{}';\nlet brief;\ntry {\n  brief = JSON.parse(raw);\n} catch (error) {\n  brief = {\n    parse_error: error.message,\n    raw_response: raw\n  };\n}\nreturn [{ json: { ok: true, model: $json.model, discovery_brief: brief } }];"
+      },
+      "id": "2f2a2c17-9ee5-4d15-9724-41c8fbb93a43",
+      "name": "Parse Discovery Brief",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1020,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set CIaC Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set CIaC Inputs": {
+      "main": [
+        [
+          {
+            "node": "Call CIaC Discovery Bridge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call CIaC Discovery Bridge": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama for Discovery Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama for Discovery Brief": {
+      "main": [
+        [
+          {
+            "node": "Parse Discovery Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "test-drive",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

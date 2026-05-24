@@ -1,0 +1,83 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_2_reserve_isolation",
+      "needs_evidence": true,
+      "statement": "Isolated water reserves remain sterile until lab verification, assuming standard cross-contamination vectors."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "decrease",
+      "metric": "resource_telemetry.resources.current_ratio",
+      "rationale": "Supply may drop to fallback reserves while main line is cleared."
+    },
+    {
+      "direction": "increase",
+      "metric": "labor.required_minutes_per_resident_per_day",
+      "rationale": "Resident labor increases for rationing management or alternative water sourcing."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Water supply continuity is maintained by isolating reserves and redirecting distribution flow away from compromised nodes.",
+  "id": "water_fallback_reserve_protocol_v0",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "water reserve isolation labor tracking simulation governance"
+    ],
+    "required_sources": [
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json"
+    ],
+    "source_ids": [
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779625031197"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Public updates scheduled to maintain trust without revealing sensitive infrastructure status.",
+      "risk": "Rationing visibility may be reduced",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "Survival-critical unmet demand is not introduced.",
+      "Labor is not hidden from tracking systems."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.resources.net_per_day",
+      "capabilities.domain_statuses"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2",
+      "drought_reserve_v2_replay_simulation"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__structure_common_house",
+    "block_2__structure_common_house",
+    "block_1__node_water_reserve",
+    "block_2__node_water_reserve"
+  ],
+  "title": "Resilient water fallback reserve protocol",
+  "version": "v0"
+}

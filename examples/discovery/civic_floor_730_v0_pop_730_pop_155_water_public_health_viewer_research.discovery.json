@@ -1,0 +1,189 @@
+{
+  "candidate_requests": [
+    {
+      "finding_id": "finding_water_public_health",
+      "id": "generate_water_public_health_candidates",
+      "output_kind": "DiscoveryCandidateIntervention",
+      "prompt": "Generate 2-4 DiscoveryCandidateIntervention JSON objects for this finding. Do not certify safety. Compare labor, energy, privacy, public-health, accessibility, governance, scenario resilience, and new risks. Use only retrieved context plus explicit assumptions.",
+      "required_candidate_count": 3
+    }
+  ],
+  "evaluation_contract": {
+    "hard_rejection_rules": [
+      "Reject candidates that create new survival-critical unmet demand.",
+      "Reject candidates that hide labor by moving it into untracked resident work.",
+      "Reject candidates that lower privacy, consent, accessibility, or public-health visibility without an explicit mitigation.",
+      "Reject candidates that require a professional license or legal authority but omit that dependency."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.resources.current_ratio",
+      "resource_telemetry.resources.net_per_day",
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.total_unmet_delta",
+      "scenario.blocked_review_domain_count"
+    ],
+    "output_schema": "schemas/discovery_candidate_intervention.schema.json",
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "findings": [
+    {
+      "domain": "water_public_health",
+      "evidence": [
+        "water_contamination_response_v2:7 risk mode(s) require explicit response planning",
+        "water_contamination_response_v2:water_contamination_response_v2 blocks recovery review for water_public_health"
+      ],
+      "id": "finding_water_public_health",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1"
+      ],
+      "scenario_ids": [
+        "water_contamination_response_v2"
+      ],
+      "severity": "critical",
+      "summary": "Water Public Health discovery loop is needed because: water_contamination_response_v2:7 risk mode(s) require explicit response planning",
+      "target_objects": [
+        "block_1__structure_common_house",
+        "block_2__structure_common_house",
+        "block_1__node_water_reserve",
+        "block_2__node_water_reserve"
+      ]
+    }
+  ],
+  "focus": "water_public_health",
+  "id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "kind": "DiscoveryLoopReport",
+  "n8n_contract": {
+    "artifact_outputs": [
+      "examples/discovery/*.discovery.json",
+      "candidate_interventions/*.json",
+      "examples/discovery/*_comparison.json"
+    ],
+    "local_model_provider": "Ollama",
+    "rag_role": "Retrieve local CIaC context before candidate generation.",
+    "required_nodes": [
+      "Manual Trigger or Webhook",
+      "Execute Command: ciac discovery-loop",
+      "Vector Store Retriever",
+      "Ollama Chat Model",
+      "Code: JSON repair and split",
+      "Execute Command: ciac validate candidate_interventions",
+      "Execute Command: ciac discovery-compare or simulation commands"
+    ],
+    "workflow": "n8n/workflow_specs/discovery_lab_pipeline.md"
+  },
+  "next_actions": [
+    "Run retrieval_plan queries against the local vector store.",
+    "Ask Ollama to generate DiscoveryCandidateIntervention JSON only; reject prose-only answers.",
+    "Validate each candidate with `py -3.10 -m ciac validate <candidate_dir>`.",
+    "Run candidate simulation or pressure-test commands before promotion.",
+    "Write accepted candidates to candidate_interventions/ with source_loop_id preserved."
+  ],
+  "provisional": true,
+  "retrieval_plan": [
+    {
+      "domain": "water_public_health",
+      "id": "retrieve_water_public_health",
+      "query": "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "required_context": [
+        "relevant civic patterns and capability effects",
+        "module reports and sprint plans",
+        "runtime warnings and current telemetry",
+        "scenario failure modes and recovery requirements"
+      ]
+    }
+  ],
+  "seed_candidates": [
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_1_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "decrease",
+          "metric": "blocked_review_domain_count",
+          "rationale": "Generated hypothesis expects blocked_review_domain_count to decrease."
+        },
+        {
+          "direction": "increase",
+          "metric": "recovery_time",
+          "rationale": "Generated hypothesis expects recovery_time to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "public_health_visibility",
+          "rationale": "Generated hypothesis expects public_health_visibility to increase."
+        }
+      ],
+      "focus_domain": "water_public_health",
+      "hypothesis": "Water recovery can move from blocked to testable if source isolation, alternate supply, lab testing, and release authority are modeled explicitly.",
+      "id": "water_public_health_water_recovery_test_and_release_playbook_v0",
+      "intervention_type": "scenario_playbook",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Model delivered water fallback and conservative no-release default.",
+          "risk": "Testing authority may be unavailable during disruption",
+          "severity": "high"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+      "status": "draft",
+      "target_objects": [
+        "block_1__structure_common_house",
+        "block_2__structure_common_house",
+        "block_1__node_water_reserve",
+        "block_2__node_water_reserve"
+      ],
+      "title": "Water recovery test-and-release playbook",
+      "version": "v0"
+    }
+  ],
+  "source": {
+    "population": 155,
+    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "scale_class": "multi_block_district",
+    "world_id": "civic_floor_730_v0_pop_730_pop_155",
+    "world_manifest_path": "browser:civic_floor_730_v0_pop_730_pop_155"
+  },
+  "status": "ready_for_generation",
+  "version": "v0"
+}

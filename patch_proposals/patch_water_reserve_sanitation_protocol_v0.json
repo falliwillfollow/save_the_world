@@ -1,0 +1,60 @@
+{
+  "acceptance_tests": [
+    "No labor is shifted into untracked resident burden.",
+    "Storage recovery hours do not exceed available commons hours."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_reserve_sanitation_protocol_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Explicit labor tracking for reserve sanitation reduces hidden burden and blocks recovery review while managing water contamination risks."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_reserve_sanitation_protocol_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_reserve_sanitation_protocol_v0.resource_telemetry_labor_required_minutes_per_resident_per_day",
+      "provisional": true,
+      "rationale": "Tracking should not add hidden demand but may expose existing.",
+      "to": "neutral"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_reserve_sanitation_protocol_v0.capabilities_domain_statuses_labor_time",
+      "provisional": true,
+      "rationale": "Explicit tracking resolves labor_time warnings.",
+      "to": "increase"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "baseline_120d_simulation",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses"
+  ],
+  "source_candidate_id": "water_reserve_sanitation_protocol_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_238_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/water_public_health/water_reserve_sanitation_protocol_v0.yaml",
+    "change_type": "add_operating_protocol"
+  },
+  "title": "Labor-managed water reserve sanitation protocol",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_3_labor_visibility"
+    ]
+  },
+  "version": "v0"
+}

@@ -1,0 +1,62 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "No labor is shifted into untracked resident burden.",
+    "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_public_health_isolation_alternate_authority_playbook_v1",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Water recovery can move from blocked to testable if source isolation, alternate supply, lab testing, and release authority are modeled explicitly using dependency order patterns."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_public_health_isolation_alternate_authority_playbook_v1",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_public_health_isolation_alternate_authority_playbook_v1.blocked_review_domain_count",
+      "provisional": true,
+      "rationale": "Modeling isolation explicitly clears the blockage in recovery review.",
+      "to": "decrease"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_public_health_isolation_alternate_authority_playbook_v1.public_health_visibility",
+      "provisional": true,
+      "rationale": "Explicit authority modeling improves visibility without claiming approval.",
+      "to": "increase"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses",
+    "scenario.blocked_review_domain_count"
+  ],
+  "source_candidate_id": "water_public_health_isolation_alternate_authority_playbook_v1",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_255_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "scenarios/water_public_health_isolation_alternate_authority_playbook_v1.yaml",
+    "change_type": "add_scenario_playbook"
+  },
+  "title": "Water Recovery Source Isolation and Alternate Supply Playbook",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_1_local_law_dependency",
+      "Assumption requires evidence: assumption_2_contamination_risk"
+    ]
+  },
+  "version": "v0"
+}

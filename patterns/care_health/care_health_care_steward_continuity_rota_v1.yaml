@@ -1,0 +1,168 @@
+kind: CivicPattern
+id: care_health_care_steward_continuity_rota_v1
+type: Commons
+status: draft
+provisional: true
+provisional_for:
+- legal
+- health
+- labor
+- governance
+purpose: A backup care steward rota can make medication and high-need continuity visible
+  while preventing a single role from becoming a hidden labor sink.
+scale: village
+mdl_categories:
+- health
+- privacy
+- commons
+- contribution
+inputs:
+- resident_consent
+- privacy_boundary
+- care_need_inventory
+- role_registry
+- review_register
+- risk_resilience_graceful_degradation_engine_v0_1
+outputs:
+- care_steward_continuity_rota
+- explicit_care_continuity_protocol
+- reviewable_assumption_register
+- hidden_labor_visibility
+- role_backup_coverage
+- hidden_labor_tracking
+- commons_labor_minutes
+dependencies:
+- id: commons_stewardship_protocol
+  kind: pattern
+  critical: false
+  rationale: Care continuity should align with explicit stewardship, backup authority,
+    privacy, and anti-capture boundaries, but a draft local protocol can be reviewed
+    before the full commons layer is selected.
+- id: local_health_privacy_review
+  kind: external
+  critical: true
+  rationale: Medication, health data, consent, safety, and local public-health assumptions
+    require qualified local review.
+- id: professional_care_boundary_review
+  kind: external
+  critical: true
+  rationale: The protocol must not substitute resident labor for licensed clinical,
+    pharmacy, emergency, or safeguarding responsibilities.
+constraints:
+  physical:
+  - Maintain a visible inventory, storage location, access boundary, and backup handoff
+    for every resident-facing care continuity item.
+  - Keep protected health, medication, identity, and caregiver information separate
+    from general commons records.
+  ecological:
+  - Prefer low-energy, low-waste storage and procurement paths, and avoid creating
+    discard cycles for still-usable supplies.
+  legal:
+  - Medication, clinical, privacy, consent, controlled-substance, prescription, and
+    professional-scope assumptions require local legal and health review.
+  - This draft does not authorize diagnosis, prescribing, dispensing, or unlicensed
+    clinical care.
+  social:
+  - Resident participation must remain consent-based, privacy-preserving, and accessible
+    to residents with limited time, disability, or high support needs.
+  - The protocol must not make medication access depend on popularity, ideology, informal
+    social standing, or unreviewable role authority.
+  safety:
+  - Emergency access, cold-chain continuity, medication error prevention, contamination,
+    spoilage, diversion, and safeguarding must have explicit escalation paths.
+  - Care stewards must have stop-work authority and external professional handoff
+    thresholds when resident safety is uncertain.
+build_phase: 0
+lifecycle:
+  build_sequence:
+  - define resident consent, privacy, access, professional handoff, emergency, and
+    audit boundaries
+  - map resident-controlled continuity needs without exposing protected personal details
+    to general governance
+  - assign primary and backup stewardship roles with escalation and review thresholds
+  - record evidence gaps, local review dependencies, and scenario tests before promotion
+  inspection_points:
+  - consent and privacy boundaries
+  - local health and legal review status
+  - resident access and backup access paths
+  - cold-chain, storage, spoilage, and emergency continuity checks
+  - hidden labor and high-need resident burden
+  maintenance:
+  - id: care_health_care_steward_continuity_rota_v1_continuity_round
+    description: Review continuity records, access boundaries, stock or rota status,
+      evidence gaps, and professional handoff thresholds.
+    interval: weekly
+    role: care_steward
+    estimated_hours: 3
+    provisional: true
+  expected_lifespan: ongoing protocol with monthly resident, privacy, safety, and
+    local compliance review
+  repair_procedure:
+  - classify the issue as consent, privacy, access, cold-chain, medication error,
+    role coverage, hidden labor, emergency handoff, or local compliance risk
+  - pause unsafe practice, assign backup steward, preserve minimum continuity, and
+    escalate to external professional review when needed
+  - record correction, affected assumptions, resident burden, scenario impact, and
+    follow-up review date
+  end_of_life_path:
+  - retire protected records under privacy and retention rules
+  - return, dispose, or transfer supplies under reviewed local health and safety requirements
+  - preserve only non-sensitive learning needed for future model improvement
+failure_modes:
+- mode: role_may_become_coercive_or_privacy_invasive
+  likelihood: medium
+  severity: medium
+  detection_method: resident report, steward review, audit log, scenario replay, or
+    external professional handoff trigger
+  mitigation: Use opt-in support boundaries and resident-controlled disclosure.
+- mode: schedule_rigidity_during_crises
+  likelihood: medium
+  severity: low
+  detection_method: resident report, steward review, audit log, scenario replay, or
+    external professional handoff trigger
+  mitigation: Include flexible overflow protocols for the rota.
+governance:
+  owner: commons
+  access_rule: Access is resident-controlled and privacy-limited, with care steward
+    support only under explicit consent, emergency threshold, or reviewed professional
+    handoff rule.
+  stewardship_role: care_steward
+  backup_role: backup_care_steward
+  audit_frequency: monthly
+  capture_risk: Care continuity can become coercive if medication access, health data,
+    or emergency discretion is controlled by unreviewable residents or roles.
+metrics:
+  cost: 3500
+  build_labor_hours: 30
+  recurring_labor_hours_per_week: 3
+  energy_use: 0.1
+  water_use: 0
+  embodied_carbon: 0.1
+  maintenance_burden: 1
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+capability_effects:
+  care_health:
+    care_continuity_protocol_supported: true
+    reviewable_assumption_register_supported: true
+    privacy_boundary_required: true
+    medication_continuity_supported: true
+    high_need_support_coverage_delta: 0.1
+    role_backup_coverage_delta: 0.1
+  labor_time:
+    hidden_labor_tracking_supported: true
+    care_labor_visibility_supported: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: -0.1
+    food_servings_per_day: 0
+  critical_resources:
+  - maintenance
+  - energy
+  notes: Materialized from a research-loop patch proposal. Effects are provisional
+    and should be validated through illness, contamination, power-loss, and hidden-labor
+    scenarios before promotion.
+  provisional: true

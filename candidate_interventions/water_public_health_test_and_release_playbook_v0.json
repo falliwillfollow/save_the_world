@@ -1,0 +1,91 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_1_local_fit",
+      "needs_evidence": true,
+      "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "decrease",
+      "metric": "blocked_review_domain_count",
+      "rationale": "Generated hypothesis expects blocked_review_domain_count to decrease."
+    },
+    {
+      "direction": "increase",
+      "metric": "recovery_time",
+      "rationale": "Generated hypothesis expects recovery_time to increase."
+    },
+    {
+      "direction": "increase",
+      "metric": "public_health_visibility",
+      "rationale": "Generated hypothesis expects public_health_visibility to increase."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Water recovery can move from blocked to testable if source isolation, alternate supply, lab testing, and release authority are modeled explicitly.",
+  "id": "water_public_health_test_and_release_playbook_v0",
+  "intervention_type": "scenario_playbook",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779625577441"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Model delivered water fallback and conservative no-release default.",
+      "risk": "Testing authority may be unavailable during disruption",
+      "severity": "high"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__structure_common_house",
+    "block_2__structure_common_house",
+    "block_1__node_water_reserve",
+    "block_2__node_water_reserve"
+  ],
+  "title": "Water recovery test-and-release playbook",
+  "version": "v0"
+}

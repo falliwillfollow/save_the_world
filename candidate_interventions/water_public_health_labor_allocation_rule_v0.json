@@ -1,0 +1,87 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_3_labor_baselines",
+      "needs_evidence": true,
+      "statement": "Available commons hours and hours_per_resident must match baseline_120d_simulation.json labor metrics."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_4_care_health",
+      "needs_evidence": true,
+      "statement": "Care_health status pass does not imply safety; verification needed."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "neutral",
+      "metric": "labor.required_minutes_per_resident_per_day",
+      "rationale": "Generated hypothesis expects labor required minutes to not increase untracked."
+    },
+    {
+      "direction": "decrease",
+      "metric": "blocked_review_domain_count",
+      "rationale": "Generated hypothesis expects blocked_review_domain_count to decrease."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Explicitly checking hours_per_resident constraints prevents shifting labor into untracked resident burden during recovery.",
+  "id": "water_public_health_labor_allocation_rule_v0",
+  "intervention_type": "governance_rule",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC water labor allocation constraints care_health status availability"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_cycle_iteration.json"
+    ],
+    "source_ids": [
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626446383"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Prioritize tasks and rotate stewardship to avoid resident burden.",
+      "risk": "Labor requirements may increase due to contamination response tasks",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "node_water_reserve"
+  ],
+  "title": "Labor time allocation rule for water commons",
+  "version": "v0"
+}

@@ -1,0 +1,707 @@
+{
+  "candidate_requests": [
+    {
+      "finding_id": "finding_governance_anticapture",
+      "id": "generate_governance_anticapture_candidates",
+      "output_kind": "DiscoveryCandidateIntervention",
+      "prompt": "Generate 2-4 DiscoveryCandidateIntervention JSON objects for this finding. Do not certify safety. Compare labor, energy, privacy, public-health, accessibility, governance, scenario resilience, and new risks. Use only retrieved context plus explicit assumptions.",
+      "required_candidate_count": 3
+    },
+    {
+      "finding_id": "finding_mobility_access",
+      "id": "generate_mobility_access_candidates",
+      "output_kind": "DiscoveryCandidateIntervention",
+      "prompt": "Generate 2-4 DiscoveryCandidateIntervention JSON objects for this finding. Do not certify safety. Compare labor, energy, privacy, public-health, accessibility, governance, scenario resilience, and new risks. Use only retrieved context plus explicit assumptions.",
+      "required_candidate_count": 3
+    },
+    {
+      "finding_id": "finding_water_public_health",
+      "id": "generate_water_public_health_candidates",
+      "output_kind": "DiscoveryCandidateIntervention",
+      "prompt": "Generate 2-4 DiscoveryCandidateIntervention JSON objects for this finding. Do not certify safety. Compare labor, energy, privacy, public-health, accessibility, governance, scenario resilience, and new risks. Use only retrieved context plus explicit assumptions.",
+      "required_candidate_count": 3
+    },
+    {
+      "finding_id": "finding_risk_resilience",
+      "id": "generate_risk_resilience_candidates",
+      "output_kind": "DiscoveryCandidateIntervention",
+      "prompt": "Generate 2-4 DiscoveryCandidateIntervention JSON objects for this finding. Do not certify safety. Compare labor, energy, privacy, public-health, accessibility, governance, scenario resilience, and new risks. Use only retrieved context plus explicit assumptions.",
+      "required_candidate_count": 3
+    }
+  ],
+  "evaluation_contract": {
+    "hard_rejection_rules": [
+      "Reject candidates that create new survival-critical unmet demand.",
+      "Reject candidates that hide labor by moving it into untracked resident work.",
+      "Reject candidates that lower privacy, consent, accessibility, or public-health visibility without an explicit mitigation.",
+      "Reject candidates that require a professional license or legal authority but omit that dependency."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.resources.current_ratio",
+      "resource_telemetry.resources.net_per_day",
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.total_unmet_delta",
+      "scenario.blocked_review_domain_count"
+    ],
+    "output_schema": "schemas/discovery_candidate_intervention.schema.json",
+    "scenarios_to_run": [
+      "crop_failure",
+      "energy_outage_reserve_v2",
+      "scenario_financial_shock",
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "findings": [
+    {
+      "domain": "governance_anticapture",
+      "evidence": [
+        "Due process is not explicitly defined.",
+        "Emergency power sunset is not explicitly defined.",
+        "Governance Anticapture capability status.",
+        "governance_anticapture: Due process is not explicitly defined.",
+        "governance_anticapture: Emergency power sunset is not explicitly defined."
+      ],
+      "id": "finding_governance_anticapture",
+      "module_refs": [
+        "governance.commons_stewardship_protocol.v0_1"
+      ],
+      "scenario_ids": [
+        "scenario_financial_shock"
+      ],
+      "severity": "warning",
+      "summary": "Governance Anticapture discovery loop is needed because: Due process is not explicitly defined.",
+      "target_objects": [
+        "structure_common_house",
+        "node_risk_governance"
+      ]
+    },
+    {
+      "domain": "mobility_access",
+      "evidence": [
+        "Accessible-route coverage is not complete.",
+        "Mobility Access capability status.",
+        "Spatial profile is provisional; survey, accessibility, emergency, utility, drainage, and code review remain unresolved.",
+        "mobility_access: Accessible-route coverage is not complete."
+      ],
+      "id": "finding_mobility_access",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "scenario_ids": [
+        "scenario_illness_wave",
+        "water_contamination_response_v2"
+      ],
+      "severity": "warning",
+      "summary": "Mobility Access discovery loop is needed because: Accessible-route coverage is not complete.",
+      "target_objects": [
+        "path_primary_ring",
+        "path_daily_spine"
+      ]
+    },
+    {
+      "domain": "water_public_health",
+      "evidence": [
+        "water_contamination_response_v2:7 risk mode(s) require explicit response planning",
+        "water_contamination_response_v2:water_contamination_response_v2 blocks recovery review for water_public_health"
+      ],
+      "id": "finding_water_public_health",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1"
+      ],
+      "scenario_ids": [
+        "water_contamination_response_v2"
+      ],
+      "severity": "critical",
+      "summary": "Water Public Health discovery loop is needed because: water_contamination_response_v2:7 risk mode(s) require explicit response planning",
+      "target_objects": [
+        "structure_common_house",
+        "node_water_reserve"
+      ]
+    },
+    {
+      "domain": "risk_resilience",
+      "evidence": [
+        "crop_failure:8 risk mode(s) require explicit response planning",
+        "energy_outage_reserve_v2:7 risk mode(s) require explicit response planning",
+        "water_contamination_response_v2:7 risk mode(s) require explicit response planning"
+      ],
+      "id": "finding_risk_resilience",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "scenario_ids": [
+        "crop_failure",
+        "energy_outage_reserve_v2",
+        "water_contamination_response_v2"
+      ],
+      "severity": "critical",
+      "summary": "Risk Resilience discovery loop is needed because: crop_failure:8 risk mode(s) require explicit response planning",
+      "target_objects": [
+        "structure_common_house",
+        "node_risk_governance"
+      ]
+    }
+  ],
+  "focus": "all",
+  "id": "discovery_civic_floor_730_v0_pop_730_all_v0",
+  "kind": "DiscoveryLoopReport",
+  "n8n_contract": {
+    "artifact_outputs": [
+      "examples/discovery/*.discovery.json",
+      "candidate_interventions/*.json",
+      "examples/discovery/*_comparison.json"
+    ],
+    "local_model_provider": "Ollama",
+    "rag_role": "Retrieve local CIaC context before candidate generation.",
+    "required_nodes": [
+      "Manual Trigger or Webhook",
+      "Execute Command: ciac discovery-loop",
+      "Vector Store Retriever",
+      "Ollama Chat Model",
+      "Code: JSON repair and split",
+      "Execute Command: ciac validate candidate_interventions",
+      "Execute Command: ciac discovery-compare or simulation commands"
+    ],
+    "workflow": "n8n/workflow_specs/discovery_lab_pipeline.md"
+  },
+  "next_actions": [
+    "Run retrieval_plan queries against the local vector store.",
+    "Ask Ollama to generate DiscoveryCandidateIntervention JSON only; reject prose-only answers.",
+    "Validate each candidate with `py -3.10 -m ciac validate <candidate_dir>`.",
+    "Run candidate simulation or pressure-test commands before promotion.",
+    "Write accepted candidates to candidate_interventions/ with source_loop_id preserved."
+  ],
+  "provisional": true,
+  "retrieval_plan": [
+    {
+      "domain": "governance_anticapture",
+      "id": "retrieve_governance_anticapture",
+      "query": "CIaC governance anticapture warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "required_context": [
+        "relevant civic patterns and capability effects",
+        "module reports and sprint plans",
+        "runtime warnings and current telemetry",
+        "scenario failure modes and recovery requirements"
+      ]
+    },
+    {
+      "domain": "mobility_access",
+      "id": "retrieve_mobility_access",
+      "query": "CIaC mobility access warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "required_context": [
+        "relevant civic patterns and capability effects",
+        "module reports and sprint plans",
+        "runtime warnings and current telemetry",
+        "scenario failure modes and recovery requirements"
+      ]
+    },
+    {
+      "domain": "water_public_health",
+      "id": "retrieve_water_public_health",
+      "query": "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "required_context": [
+        "relevant civic patterns and capability effects",
+        "module reports and sprint plans",
+        "runtime warnings and current telemetry",
+        "scenario failure modes and recovery requirements"
+      ]
+    },
+    {
+      "domain": "risk_resilience",
+      "id": "retrieve_risk_resilience",
+      "query": "CIaC risk resilience warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "required_context": [
+        "relevant civic patterns and capability effects",
+        "module reports and sprint plans",
+        "runtime warnings and current telemetry",
+        "scenario failure modes and recovery requirements"
+      ]
+    }
+  ],
+  "seed_candidates": [
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_1_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "decrease",
+          "metric": "capture_risk_score",
+          "rationale": "Generated hypothesis expects capture_risk_score to decrease."
+        },
+        {
+          "direction": "increase",
+          "metric": "decision_latency",
+          "rationale": "Generated hypothesis expects decision_latency to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "due_process_coverage",
+          "rationale": "Generated hypothesis expects due_process_coverage to increase."
+        }
+      ],
+      "focus_domain": "governance_anticapture",
+      "hypothesis": "Every emergency authority should expire automatically unless renewed through a visible resident process.",
+      "id": "governance_anticapture_emergency_authority_sunset_rule_v0",
+      "intervention_type": "governance_rule",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "governance.commons_stewardship_protocol.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC governance anticapture warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Allow short renewal windows with published scope and appeal path.",
+          "risk": "Slow renewal could delay response",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "scenario_financial_shock"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_governance_anticapture_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "node_risk_governance"
+      ],
+      "title": "Emergency authority sunset rule",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_2_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "increase",
+          "metric": "due_process_coverage",
+          "rationale": "Generated hypothesis expects due_process_coverage to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "admin_labor",
+          "rationale": "Generated hypothesis expects admin_labor to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "resident_trust",
+          "rationale": "Generated hypothesis expects resident_trust to increase."
+        }
+      ],
+      "focus_domain": "governance_anticapture",
+      "hypothesis": "A minimal appeal lane can reduce capture risk by giving residents notice, reply, and documented review for contested decisions.",
+      "id": "governance_anticapture_due_process_appeal_lane_v0",
+      "intervention_type": "governance_rule",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "governance.commons_stewardship_protocol.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC governance anticapture warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Use lightweight templates and time-boxed review.",
+          "risk": "Administrative burden expands",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "scenario_financial_shock"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_governance_anticapture_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "node_risk_governance"
+      ],
+      "title": "Due process appeal lane",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_1_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "increase",
+          "metric": "accessible_route_coverage",
+          "rationale": "Generated hypothesis expects accessible_route_coverage to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "spatial_review_burden",
+          "rationale": "Generated hypothesis expects spatial_review_burden to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "non_driver_access",
+          "rationale": "Generated hypothesis expects non_driver_access to increase."
+        }
+      ],
+      "focus_domain": "mobility_access",
+      "hypothesis": "Every daily task route should declare grade, surface, rest points, lighting, and emergency access status so population scaling cannot hide access gaps.",
+      "id": "mobility_access_accessible_route_coverage_map_v0",
+      "intervention_type": "pattern_patch",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC mobility access warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Mark all route claims provisional until surveyed.",
+          "risk": "Proxy geometry may imply false compliance",
+          "severity": "high"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "scenario_illness_wave",
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_mobility_access_v0",
+      "status": "draft",
+      "target_objects": [
+        "path_primary_ring",
+        "path_daily_spine"
+      ],
+      "title": "Accessible route coverage map",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_1_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "decrease",
+          "metric": "blocked_review_domain_count",
+          "rationale": "Generated hypothesis expects blocked_review_domain_count to decrease."
+        },
+        {
+          "direction": "increase",
+          "metric": "recovery_time",
+          "rationale": "Generated hypothesis expects recovery_time to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "public_health_visibility",
+          "rationale": "Generated hypothesis expects public_health_visibility to increase."
+        }
+      ],
+      "focus_domain": "water_public_health",
+      "hypothesis": "Water recovery can move from blocked to testable if source isolation, alternate supply, lab testing, and release authority are modeled explicitly.",
+      "id": "water_public_health_water_recovery_test_and_release_playbook_v0",
+      "intervention_type": "scenario_playbook",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Model delivered water fallback and conservative no-release default.",
+          "risk": "Testing authority may be unavailable during disruption",
+          "severity": "high"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "node_water_reserve"
+      ],
+      "title": "Water recovery test-and-release playbook",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_1_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "increase",
+          "metric": "scenario_coverage_count",
+          "rationale": "Generated hypothesis expects scenario_coverage_count to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "response_labor_visibility",
+          "rationale": "Generated hypothesis expects response_labor_visibility to increase."
+        },
+        {
+          "direction": "decrease",
+          "metric": "unknown_failure_modes",
+          "rationale": "Generated hypothesis expects unknown_failure_modes to decrease."
+        }
+      ],
+      "focus_domain": "risk_resilience",
+      "hypothesis": "A shared failure response ledger can keep outage, crop-failure, and contamination actions visible across scenarios instead of burying them in one-off playbooks.",
+      "id": "risk_resilience_cross_scenario_failure_response_ledger_v0",
+      "intervention_type": "pattern_patch",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC risk resilience warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Keep entries scenario-scoped, time-boxed, and linked to concrete recovery decisions.",
+          "risk": "Response records may become administrative drag",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "crop_failure",
+          "energy_outage_reserve_v2",
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_risk_resilience_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "node_risk_governance"
+      ],
+      "title": "Cross-scenario failure response ledger",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_2_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "decrease",
+          "metric": "recovery_decision_latency",
+          "rationale": "Generated hypothesis expects recovery_decision_latency to decrease."
+        },
+        {
+          "direction": "increase",
+          "metric": "external_dependency_visibility",
+          "rationale": "Generated hypothesis expects external_dependency_visibility to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "scenario_coverage_count",
+          "rationale": "Generated hypothesis expects scenario_coverage_count to increase."
+        }
+      ],
+      "focus_domain": "risk_resilience",
+      "hypothesis": "Explicit thresholds for conserve, isolate, substitute, repair, and external-handoff decisions can make stress recovery more repeatable without pretending the model certifies safety.",
+      "id": "risk_resilience_recovery_threshold_decision_table_v0",
+      "intervention_type": "scenario_playbook",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC risk resilience warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Mark thresholds as provisional and require scenario replay plus local review before promotion.",
+          "risk": "Thresholds may imply false precision",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "crop_failure",
+          "energy_outage_reserve_v2",
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_730_v0_pop_730_risk_resilience_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "node_risk_governance"
+      ],
+      "title": "Recovery threshold decision table",
+      "version": "v0"
+    }
+  ],
+  "source": {
+    "population": 730,
+    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "scale_class": "multi_block_district",
+    "world_id": "civic_floor_730_v0_pop_730",
+    "world_manifest_path": "examples\\world_manifests\\civic_floor_80_v0.world.json"
+  },
+  "status": "ready_for_generation",
+  "version": "v0"
+}

@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/scaling_policy.schema.json",
+  "title": "ScalingPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "id",
+    "version",
+    "status",
+    "provisional",
+    "research_inputs",
+    "source_registry",
+    "global_layers",
+    "node_policies",
+    "warnings",
+    "unknowns"
+  ],
+  "properties": {
+    "kind": { "const": "ScalingPolicy" },
+    "id": { "type": "string", "minLength": 3 },
+    "version": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["draft", "approved_research_input", "active_provisional", "retired"] },
+    "provisional": { "type": "boolean" },
+    "research_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "source_registry": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/source" }
+    },
+    "global_layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["village_block", "district", "town_city_layer", "regional_membrane"],
+      "properties": {
+        "village_block": { "$ref": "#/definitions/layer" },
+        "district": { "$ref": "#/definitions/layer" },
+        "town_city_layer": { "$ref": "#/definitions/layer" },
+        "regional_membrane": { "$ref": "#/definitions/layer" }
+      }
+    },
+    "node_policies": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/node_policy" }
+    },
+    "warnings": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "definitions": {
+    "source": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "title", "organization", "supports"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "organization": { "type": "string" },
+        "year": { "type": ["integer", "string", "null"] },
+        "url": { "type": ["string", "null"] },
+        "supports": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["comfortable_min", "comfortable_max", "scale_action", "source_ids"],
+      "properties": {
+        "comfortable_min": { "type": "integer", "minimum": 1 },
+        "comfortable_max": { "type": ["integer", "string"], "minimum": 1 },
+        "scale_action": { "type": "string", "enum": ["resize", "duplicate", "federate", "hybrid"] },
+        "source_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "node_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "domain",
+        "node_type",
+        "scale_action",
+        "minimum",
+        "preferred",
+        "maximum",
+        "hard_max",
+        "action_above_max",
+        "evidence_quality",
+        "translation_confidence",
+        "regulatory_strength",
+        "source_ids",
+        "human_factor_driver",
+        "optimizer_preference",
+        "ui_warning"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "domain": { "type": "string" },
+        "node_type": { "type": "string" },
+        "scale_action": { "type": "string", "enum": ["resize", "duplicate", "federate", "hybrid", "resize_then_duplicate"] },
+        "minimum": { "type": ["integer", "string"] },
+        "preferred": { "type": ["integer", "string"] },
+        "maximum": { "type": ["integer", "string"] },
+        "hard_max": { "type": ["integer", "string"] },
+        "service_radius_minutes": { "type": ["number", "string", "null"] },
+        "action_above_max": { "type": "string" },
+        "evidence_quality": { "type": "string", "enum": ["high", "moderate", "low", "mixed"] },
+        "translation_confidence": { "type": "string", "enum": ["high", "moderate", "low"] },
+        "regulatory_strength": { "type": "string", "enum": ["binding", "guideline", "professional_practice", "research_inferred", "heuristic"] },
+        "source_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "human_factor_driver": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "optimizer_preference": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "ui_warning": { "type": "string" },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "acceptance_tests": [
+    "Survival-critical unmet demand is not introduced.",
+    "Labor is not hidden from tracking systems."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_fallback_reserve_protocol_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Water supply continuity is maintained by isolating reserves and redirecting distribution flow away from compromised nodes."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_fallback_reserve_protocol_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_fallback_reserve_protocol_v0.resource_telemetry_resources_current_ratio",
+      "provisional": true,
+      "rationale": "Supply may drop to fallback reserves while main line is cleared.",
+      "to": "decrease"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_fallback_reserve_protocol_v0.labor_required_minutes_per_resident_per_day",
+      "provisional": true,
+      "rationale": "Resident labor increases for rationing management or alternative water sourcing.",
+      "to": "increase"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "drought_reserve_v2_replay_simulation",
+    "resource_telemetry.resources.net_per_day",
+    "capabilities.domain_statuses"
+  ],
+  "source_candidate_id": "water_fallback_reserve_protocol_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/water_public_health/water_fallback_reserve_protocol_v0.yaml",
+    "change_type": "add_operating_protocol"
+  },
+  "title": "Resilient water fallback reserve protocol",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_2_reserve_isolation"
+    ]
+  },
+  "version": "v0"
+}

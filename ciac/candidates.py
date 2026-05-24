@@ -14,6 +14,8 @@ CANDIDATE_MODES = [
     ("high_resilience_reserve", "High resilience reserve", "max"),
 ]
 
+SURVIVAL_DEMAND_RESOURCES = {"water_liters", "energy_kwh", "food_servings", "sanitation_capacity"}
+
 
 def generate_candidate_matrix(
     compiled_plan: dict[str, Any],
@@ -73,8 +75,22 @@ def _selected_tunables(compiled_plan: dict[str, Any], patterns_by_id: dict[str, 
     for pattern_id in sorted(selected):
         pattern = patterns_by_id.get(pattern_id, {})
         for tunable in pattern.get("optimization", {}).get("tunable_parameters", []):
+            if not _is_supported_candidate_tunable(tunable):
+                continue
             tunables.append({"pattern_id": pattern_id, **tunable})
     return tunables
+
+
+def _is_supported_candidate_tunable(tunable: dict[str, Any]) -> bool:
+    path = str(tunable.get("path", ""))
+    if not path.startswith("simulation.storage["):
+        return False
+    try:
+        _storage_index(path)
+        _storage_field(path)
+    except ValueError:
+        return False
+    return True
 
 
 def _selected_locked_parameters(compiled_plan: dict[str, Any], patterns_by_id: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
@@ -207,11 +223,17 @@ def _scenario_result(plan: dict[str, Any], scenario: dict[str, Any], review_stat
     replay = simulate(plan, days=days, scenario=scenario, review_status=review_status)
     comparison = compare_simulations(baseline, replay)
     unmet_delta = sum(max(0.0, float(item.get("delta", 0.0))) for item in comparison.get("unmet_need_deltas", []))
+    survival_unmet_delta = sum(
+        max(0.0, float(item.get("delta", 0.0)))
+        for item in comparison.get("unmet_need_deltas", [])
+        if item.get("resource") in SURVIVAL_DEMAND_RESOURCES
+    )
     return {
         "scenario": scenario["id"],
         "days": days,
         "status": comparison["status"],
         "total_unmet_delta": round(unmet_delta, 3),
+        "survival_unmet_delta": round(survival_unmet_delta, 3),
         "scenario_emergency_hours": comparison["labor_delta"]["scenario_emergency_hours"],
         "active_failure_day_delta": comparison["failure_day_delta"]["delta"],
         "blocked_review_domain_count": len(comparison["review_delta"]["new_blocked_domains"]) + len(comparison["review_delta"]["remaining_blocked_domains"]),
@@ -264,7 +286,7 @@ def _constraint_status(
     if constraint_id == "no_unmet_survival_demand":
         if baseline["status"] == "fail":
             return "fail"
-        if any(result["status"] == "stress_failed" or float(result["total_unmet_delta"]) > 0 for result in scenario_results):
+        if any(float(result.get("survival_unmet_delta", result.get("total_unmet_delta", 0))) > 0 for result in scenario_results):
             return "fail"
         return "pass"
     if constraint_id == "preserve_review_locks":
@@ -376,4 +398,3 @@ def _next_actions(status: str) -> list[str]:
         "Expose candidate rankings in the viewer or runtime handoff bundle.",
         "Keep objective scores provisional until assumptions are sourced or reviewed.",
     ]
-

@@ -1,0 +1,94 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_5_governance_warning",
+      "needs_evidence": true,
+      "statement": "Due process is not explicitly defined and must be addressed in governance module."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_6_legal_dependency",
+      "needs_evidence": true,
+      "statement": "Candidate requires professional license or legal authority dependency if applicable."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "increase",
+      "metric": "governance_anticapture.status",
+      "rationale": "Addressing governance warnings may improve status from warn to pass."
+    },
+    {
+      "direction": "decrease",
+      "metric": "scenario.blocked_review_domain_count",
+      "rationale": "Explicit due process definition may unblock governance domains."
+    }
+  ],
+  "focus_domain": "mobility_access",
+  "hypothesis": "Accessibility claims require explicit due process definition and emergency power sunset definition before promotion.",
+  "id": "mobility_access_review_process_draft_v0",
+  "intervention_type": "governance_rule",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "mobility_access.pedestrian_first_access_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC mobility access warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "governance_anticapture due process emergency power sunset definitions"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_visualization_bundle.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_visualization_bundle.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779633997258"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Mark legal authority requirements as dependency.",
+      "risk": "Defining due process may reveal unresolved legal gaps",
+      "severity": "high"
+    },
+    {
+      "mitigation": "Review emergency power sunset scope during simulation.",
+      "risk": "Emergency power sunset definition may limit operational flexibility",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_486_mobility_access_v0",
+  "status": "generated",
+  "target_objects": [],
+  "title": "Accessibility review process draft",
+  "version": "v0"
+}

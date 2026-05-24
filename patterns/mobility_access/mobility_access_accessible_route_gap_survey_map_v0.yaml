@@ -1,0 +1,168 @@
+kind: CivicPattern
+id: mobility_access_accessible_route_gap_survey_map_v0
+type: Storage
+status: draft
+provisional: true
+provisional_for:
+- engineering
+- legal
+- labor
+- governance
+purpose: Every daily task route should declare grade, surface, rest points, lighting,
+  and emergency access status so population scaling cannot hide access gaps.
+scale: village
+mdl_categories:
+- commons
+- contribution
+- health
+inputs:
+- route_inventory
+- daily_need_map
+- accessible_route_survey
+- maintenance_backlog
+- review_register
+- mobility_access_pedestrian_first_access_commons_v0_1
+outputs:
+- accessible_route_coverage_map_gap_survey
+- reviewable_assumption_register
+- hidden_labor_visibility
+- accessible_route_gap_register
+- route_status_map
+- mobility_burden_visibility
+- accessible_route_coverage
+- spatial_review_burden
+- non_driver_access
+dependencies:
+- id: pedestrian_first_access_commons
+  kind: pattern
+  critical: false
+  rationale: Route surveys should attach to the modeled daily-access network instead
+    of floating as an unplaced model note.
+- id: accessibility_and_emergency_access_review
+  kind: external
+  critical: true
+  rationale: Grade, surface, rest-point, lighting, weather, emergency-access, and
+    code assumptions require qualified local review.
+- id: labor_burden_review
+  kind: external
+  critical: true
+  rationale: Route mapping and gap response work must remain visible and must not
+    become untracked resident burden.
+constraints:
+  physical:
+  - Every daily-need route claim must identify grade, surface, clear width, rest points,
+    lighting status, weather exposure, and emergency-access status.
+  - The survey may improve modeled route visibility, but it must not claim full accessible-route
+    coverage until gaps are resolved or explicitly accepted as blockers.
+  ecological:
+  - Prefer repair, surface improvement, shade, lighting efficiency, and route consolidation
+    before adding avoidable paved area.
+  legal:
+  - Accessibility, emergency access, public-way, lighting, drainage, and code assumptions
+    require qualified local review.
+  - This draft does not certify ADA, fire, building-code, transportation, or public-realm
+    compliance.
+  social:
+  - Non-driver access, disability access, weather exposure, trip burden, and high-need
+    resident routes must be visible in the review register.
+  - Route priority must not make daily needs depend on car access, popularity, informal
+    labor availability, or unreviewable role authority.
+  safety:
+  - Blocked emergency routes, unsafe grades, poor lighting, heat exposure, ice risk,
+    and missing rest points must remain explicit blockers until resolved.
+  - Survey labor and remediation labor must be tracked so access gaps are not converted
+    into hidden resident burden.
+build_phase: 0
+lifecycle:
+  build_sequence:
+  - inventory daily-need destinations and routes from housing to food, water, care,
+    commons, sanitation, maintenance, and emergency access points
+  - record grade, surface, clear width, rest points, lighting, weather exposure, non-driver
+    burden, and emergency-access status for each route
+  - map route gaps into the maintenance backlog with resident-visible priority and
+    labor burden
+  - record evidence gaps, local review dependencies, and route-failure scenario tests
+    before treating coverage as complete
+  inspection_points:
+  - accessible-route coverage and remaining gaps
+  - non-driver access to daily needs
+  - emergency access status
+  - surface, grade, rest-point, lighting, and weather-exposure status
+  - hidden labor and high-need resident trip burden
+  maintenance:
+  - id: mobility_access_accessible_route_gap_survey_map_v0_route_gap_survey_round
+    description: Review accessible route survey records, unresolved gaps, non-driver
+      access burden, emergency access status, and maintenance follow-up.
+    interval: weekly
+    role: mobility_steward
+    estimated_hours: 1
+    provisional: true
+  expected_lifespan: ongoing route survey and maintenance-priority protocol with monthly
+    accessibility and emergency-access review
+  repair_procedure:
+  - classify the issue as grade, surface, clear width, rest point, lighting, weather
+    exposure, emergency access, non-driver access, or hidden labor burden
+  - mark the affected route as incomplete, assign a visible maintenance response or
+    workaround, and escalate to qualified review when safety is uncertain
+  - record correction, affected residents, labor burden, scenario impact, and follow-up
+    review date
+  end_of_life_path:
+  - retire outdated route maps only after replacement maps are active
+  - archive non-sensitive access lessons needed for future layout and scaling decisions
+  - preserve unresolved blocker history until the route is repaired, redesigned, or
+    formally removed from daily-need service
+failure_modes:
+- mode: proxy_geometry_may_imply_false_compliance
+  likelihood: medium
+  severity: high
+  detection_method: resident report, steward review, audit log, scenario replay, or
+    external professional handoff trigger
+  mitigation: Mark all route claims provisional until surveyed.
+- mode: labor_burden_on_residents_may_increase_if_not_tracked
+  likelihood: medium
+  severity: medium
+  detection_method: resident report, steward review, audit log, scenario replay, or
+    external professional handoff trigger
+  mitigation: Monitor resource_telemetry.labor.required_minutes_per_resident_per_day.
+governance:
+  owner: commons
+  access_rule: Route status, gaps, priorities, and temporary workarounds are visible
+    and review-bound; unresolved access blockers cannot be hidden by population scaling.
+  stewardship_role: mobility_steward
+  backup_role: backup_mobility_steward
+  audit_frequency: monthly
+  capture_risk: Mobility access can become coercive if daily needs, emergency access,
+    or route priorities depend on car access, informal status, or invisible resident
+    labor.
+metrics:
+  cost: 1800
+  build_labor_hours: 16
+  recurring_labor_hours_per_week: 1
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 0.1
+  maintenance_burden: 1
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+capability_effects:
+  mobility_access:
+    route_gap_survey_supported: true
+    accessible_route_status_visibility_supported: true
+    emergency_access_status_declared: true
+    accessible_route_coverage_delta: 0.25
+  labor_time:
+    hidden_labor_tracking_supported: true
+    mobility_labor_visibility_supported: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  critical_resources:
+  - maintenance
+  notes: Materialized from a research-loop patch proposal. Effects are provisional
+    and should be validated through illness, contamination, power-loss, and hidden-labor
+    scenarios before promotion.
+  provisional: true

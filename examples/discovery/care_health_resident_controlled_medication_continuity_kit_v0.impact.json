@@ -1,0 +1,481 @@
+{
+  "acceptance": {
+    "can_promote": true,
+    "improvements": [
+      "care_health.medication_continuity_supported: False -> True"
+    ],
+    "regressions": [],
+    "required_external_dependencies": [
+      "local_health_privacy_review",
+      "professional_care_boundary_review"
+    ],
+    "warnings": [
+      "Visible labor burden increases by 0.127 hours per resident per week.",
+      "water_contamination_response_v2 comparison is stress_failed.",
+      "crop_failure comparison is stress_failed.",
+      "energy_outage_reserve_v2 comparison is stress_failed.",
+      "External review dependencies remain explicit: local_health_privacy_review, professional_care_boundary_review."
+    ]
+  },
+  "baseline_plan_id": "micro_commons_5_households_compiled_v0",
+  "candidate_plan_id": "micro_commons_5_households_compiled_v0_care_health_resident_controlled_medication_continuity_kit_v0",
+  "capability_deltas": [
+    {
+      "after": true,
+      "before": null,
+      "domain": "care_health",
+      "field": "care_continuity_protocol_supported",
+      "improved": false,
+      "provisional": true
+    },
+    {
+      "after": true,
+      "before": false,
+      "domain": "care_health",
+      "field": "medication_continuity_supported",
+      "improved": true,
+      "provisional": true
+    },
+    {
+      "after": true,
+      "before": null,
+      "domain": "care_health",
+      "field": "privacy_boundary_required",
+      "improved": false,
+      "provisional": true
+    },
+    {
+      "after": true,
+      "before": null,
+      "domain": "care_health",
+      "field": "reviewable_assumption_register_supported",
+      "improved": false,
+      "provisional": true
+    },
+    {
+      "after": true,
+      "before": null,
+      "domain": "labor_time",
+      "field": "care_labor_visibility_supported",
+      "improved": false,
+      "provisional": true
+    },
+    {
+      "after": true,
+      "before": null,
+      "domain": "labor_time",
+      "field": "hidden_labor_tracking_supported",
+      "improved": false,
+      "provisional": true
+    }
+  ],
+  "id": "impact_materialize_patch_care_health_resident_controlled_medication_continuity_kit_v0",
+  "kind": "PatchImpactReport",
+  "normal_year_comparison": {
+    "bottlenecks": [
+      "food model is partial: greenhouse output is not a complete nutrition plan"
+    ],
+    "labor_delta": {
+      "baseline_status": "pass",
+      "estimated_hours_per_resident_per_week_delta": 0.127,
+      "labor_utilization_delta": 0.018,
+      "replay_status": "pass",
+      "runtime_failure_response_hours_delta": 0.0,
+      "scenario_emergency_hours": 0.0,
+      "storage_recovery_hours_delta": 0.0
+    },
+    "provisional": true,
+    "resource_deltas": [
+      {
+        "baseline_status": "pass",
+        "ending_balance_delta": -3.565,
+        "minimum_balance_delta": -6.785,
+        "net_per_day_delta": -0.104,
+        "replay_status": "pass",
+        "resource": "energy_kwh"
+      },
+      {
+        "baseline_status": "pass",
+        "ending_balance_delta": 0.0,
+        "minimum_balance_delta": 0.0,
+        "net_per_day_delta": 0.0,
+        "replay_status": "pass",
+        "resource": "food_servings"
+      },
+      {
+        "baseline_status": "pass",
+        "ending_balance_delta": 0.0,
+        "minimum_balance_delta": 0.0,
+        "net_per_day_delta": 0.0,
+        "replay_status": "pass",
+        "resource": "water_liters"
+      }
+    ],
+    "status": "stable",
+    "summary": [
+      "Comparison status is stable.",
+      "Replay scenario is normal_replay.",
+      "Largest unmet-demand increase: energy_kwh (0.0).",
+      "Largest minimum-balance drop: energy_kwh (-6.785).",
+      "Unmet demand increased for 0 resource(s): none.",
+      "Scenario emergency labor hours: 0.0.",
+      "Blocked recovery review delta: 0.",
+      "New blocked review domains: none."
+    ],
+    "unmet_need_deltas": [
+      {
+        "baseline_total_unmet": 0.0,
+        "delta": 0.0,
+        "first_unmet_day": null,
+        "replay_total_unmet": 0.0,
+        "resource": "energy_kwh"
+      },
+      {
+        "baseline_total_unmet": 0.0,
+        "delta": 0.0,
+        "first_unmet_day": null,
+        "replay_total_unmet": 0.0,
+        "resource": "food_servings"
+      },
+      {
+        "baseline_total_unmet": 0.0,
+        "delta": 0.0,
+        "first_unmet_day": null,
+        "replay_total_unmet": 0.0,
+        "resource": "labor_hours"
+      },
+      {
+        "baseline_total_unmet": 0.0,
+        "delta": 0.0,
+        "first_unmet_day": null,
+        "replay_total_unmet": 0.0,
+        "resource": "procurement_units"
+      },
+      {
+        "baseline_total_unmet": 0.0,
+        "delta": 0.0,
+        "first_unmet_day": null,
+        "replay_total_unmet": 0.0,
+        "resource": "sanitation_capacity"
+      },
+      {
+        "baseline_total_unmet": 0.0,
+        "delta": 0.0,
+        "first_unmet_day": null,
+        "replay_total_unmet": 0.0,
+        "resource": "water_liters"
+      }
+    ]
+  },
+  "pattern_id": "care_health_resident_controlled_medication_continuity_kit_v0",
+  "pattern_path": "patterns\\care_health\\care_health_resident_controlled_medication_continuity_kit_v0.yaml",
+  "provisional": true,
+  "scenario_results": [
+    {
+      "bottlenecks": [
+        "food model is partial: greenhouse output is not a complete nutrition plan",
+        "labor_hours unmet demand increases by 1.55",
+        "scenario emergency work adds 14.0 labor hours"
+      ],
+      "labor_delta": {
+        "baseline_status": "pass",
+        "estimated_hours_per_resident_per_week_delta": 0.125,
+        "labor_utilization_delta": 0.014,
+        "replay_status": "pass",
+        "runtime_failure_response_hours_delta": 0.0,
+        "scenario_emergency_hours": 14.0,
+        "storage_recovery_hours_delta": 0.0
+      },
+      "provisional": true,
+      "resource_deltas": [
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": -1.61,
+          "minimum_balance_delta": -1.61,
+          "net_per_day_delta": -0.115,
+          "replay_status": "pass",
+          "resource": "energy_kwh"
+        },
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": 0.0,
+          "minimum_balance_delta": 0.0,
+          "net_per_day_delta": 0.0,
+          "replay_status": "pass",
+          "resource": "food_servings"
+        },
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": 0.0,
+          "minimum_balance_delta": 0.0,
+          "net_per_day_delta": 0.0,
+          "replay_status": "pass",
+          "resource": "water_liters"
+        }
+      ],
+      "scenario": "water_contamination_response_v2",
+      "status": "stress_failed",
+      "summary": [
+        "Comparison status is stress_failed.",
+        "Replay scenario is water_contamination_response_v2.",
+        "Largest unmet-demand increase: labor_hours (1.55).",
+        "Largest minimum-balance drop: energy_kwh (-1.61).",
+        "Unmet demand increased for 1 resource(s): labor_hours.",
+        "Scenario emergency labor hours: 14.0.",
+        "Blocked recovery review delta: 0.",
+        "New blocked review domains: none."
+      ],
+      "unmet_need_deltas": [
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "energy_kwh"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "food_servings"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 1.55,
+          "first_unmet_day": 1,
+          "replay_total_unmet": 1.55,
+          "resource": "labor_hours"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "procurement_units"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "sanitation_capacity"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "water_liters"
+        }
+      ]
+    },
+    {
+      "bottlenecks": [
+        "food model is partial: greenhouse output is not a complete nutrition plan",
+        "labor_hours unmet demand increases by 1.3",
+        "scenario emergency work adds 18.0 labor hours"
+      ],
+      "labor_delta": {
+        "baseline_status": "pass",
+        "estimated_hours_per_resident_per_week_delta": 0.131,
+        "labor_utilization_delta": 0.018,
+        "replay_status": "pass",
+        "runtime_failure_response_hours_delta": 0.0,
+        "scenario_emergency_hours": 18.0,
+        "storage_recovery_hours_delta": 0.0
+      },
+      "provisional": true,
+      "resource_deltas": [
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": -12.58,
+          "minimum_balance_delta": -6.785,
+          "net_per_day_delta": -0.105,
+          "replay_status": "pass",
+          "resource": "energy_kwh"
+        },
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": 0.0,
+          "minimum_balance_delta": 0.0,
+          "net_per_day_delta": 0.0,
+          "replay_status": "pass",
+          "resource": "food_servings"
+        },
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": 0.0,
+          "minimum_balance_delta": 0.0,
+          "net_per_day_delta": 0.0,
+          "replay_status": "pass",
+          "resource": "water_liters"
+        }
+      ],
+      "scenario": "crop_failure",
+      "status": "stress_failed",
+      "summary": [
+        "Comparison status is stress_failed.",
+        "Replay scenario is crop_failure.",
+        "Largest unmet-demand increase: labor_hours (1.3).",
+        "Largest minimum-balance drop: energy_kwh (-6.785).",
+        "Unmet demand increased for 1 resource(s): labor_hours.",
+        "Scenario emergency labor hours: 18.0.",
+        "Blocked recovery review delta: 0.",
+        "New blocked review domains: none."
+      ],
+      "unmet_need_deltas": [
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "energy_kwh"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "food_servings"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 1.3,
+          "first_unmet_day": 1,
+          "replay_total_unmet": 1.3,
+          "resource": "labor_hours"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "procurement_units"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "sanitation_capacity"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "water_liters"
+        }
+      ]
+    },
+    {
+      "bottlenecks": [
+        "food model is partial: greenhouse output is not a complete nutrition plan",
+        "labor_hours unmet demand increases by 1.55",
+        "scenario emergency work adds 12.0 labor hours"
+      ],
+      "labor_delta": {
+        "baseline_status": "pass",
+        "estimated_hours_per_resident_per_week_delta": 0.125,
+        "labor_utilization_delta": 0.014,
+        "replay_status": "pass",
+        "runtime_failure_response_hours_delta": 0.0,
+        "scenario_emergency_hours": 12.0,
+        "storage_recovery_hours_delta": 0.0
+      },
+      "provisional": true,
+      "resource_deltas": [
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": -0.805,
+          "minimum_balance_delta": -0.805,
+          "net_per_day_delta": -0.115,
+          "replay_status": "pass",
+          "resource": "energy_kwh"
+        },
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": 0.0,
+          "minimum_balance_delta": 0.0,
+          "net_per_day_delta": 0.0,
+          "replay_status": "pass",
+          "resource": "food_servings"
+        },
+        {
+          "baseline_status": "pass",
+          "ending_balance_delta": 0.0,
+          "minimum_balance_delta": 0.0,
+          "net_per_day_delta": 0.0,
+          "replay_status": "pass",
+          "resource": "water_liters"
+        }
+      ],
+      "scenario": "energy_outage_reserve_v2",
+      "status": "stress_failed",
+      "summary": [
+        "Comparison status is stress_failed.",
+        "Replay scenario is energy_outage_reserve_v2.",
+        "Largest unmet-demand increase: labor_hours (1.55).",
+        "Largest minimum-balance drop: energy_kwh (-0.805).",
+        "Unmet demand increased for 1 resource(s): labor_hours.",
+        "Scenario emergency labor hours: 12.0.",
+        "Blocked recovery review delta: 0.",
+        "New blocked review domains: none."
+      ],
+      "unmet_need_deltas": [
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "energy_kwh"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "food_servings"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 1.55,
+          "first_unmet_day": 1,
+          "replay_total_unmet": 1.55,
+          "resource": "labor_hours"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "procurement_units"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "sanitation_capacity"
+        },
+        {
+          "baseline_total_unmet": 0.0,
+          "delta": 0.0,
+          "first_unmet_day": null,
+          "replay_total_unmet": 0.0,
+          "resource": "water_liters"
+        }
+      ]
+    }
+  ],
+  "source_materialization_id": "materialize_patch_care_health_resident_controlled_medication_continuity_kit_v0",
+  "status": "promotion_recommended",
+  "summary": [
+    "Impact status is promotion_recommended.",
+    "Pattern care_health_resident_controlled_medication_continuity_kit_v0 changes 6 capability field(s).",
+    "Promotion improvements: 1. Regressions: 0.",
+    "Normal-year labor delta is 0.127 hours per resident per week."
+  ],
+  "version": "v0"
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/discovery_loop_report.schema.json",
+  "title": "DiscoveryLoopReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "version",
+    "id",
+    "source",
+    "focus",
+    "status",
+    "findings",
+    "retrieval_plan",
+    "candidate_requests",
+    "seed_candidates",
+    "evaluation_contract",
+    "n8n_contract",
+    "next_actions",
+    "provisional"
+  ],
+  "properties": {
+    "kind": { "const": "DiscoveryLoopReport" },
+    "version": { "const": "v0" },
+    "id": { "type": "string", "minLength": 3 },
+    "source": { "type": "object" },
+    "focus": { "type": "string" },
+    "status": { "type": "string", "enum": ["ready_for_generation", "blocked", "no_findings"] },
+    "findings": { "type": "array", "items": { "$ref": "#/definitions/finding" } },
+    "retrieval_plan": { "type": "array", "items": { "$ref": "#/definitions/retrieval_query" } },
+    "candidate_requests": { "type": "array", "items": { "$ref": "#/definitions/candidate_request" } },
+    "seed_candidates": { "type": "array", "items": { "$ref": "#/definitions/seed_candidate" } },
+    "evaluation_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metrics_to_compare", "scenarios_to_run", "hard_rejection_rules", "output_schema"],
+      "properties": {
+        "metrics_to_compare": { "type": "array", "items": { "type": "string" } },
+        "scenarios_to_run": { "type": "array", "items": { "type": "string" } },
+        "hard_rejection_rules": { "type": "array", "items": { "type": "string" } },
+        "output_schema": { "type": "string" }
+      }
+    },
+    "n8n_contract": { "type": "object" },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "provisional": { "type": "boolean" }
+  },
+  "definitions": {
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "domain", "severity", "summary", "evidence", "target_objects"],
+      "properties": {
+        "id": { "type": "string" },
+        "domain": { "type": "string" },
+        "severity": { "type": "string", "enum": ["watch", "warning", "critical"] },
+        "summary": { "type": "string" },
+        "evidence": { "type": "array", "items": { "type": "string" } },
+        "target_objects": { "type": "array", "items": { "type": "string" } },
+        "module_refs": { "type": "array", "items": { "type": "string" } },
+        "scenario_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "retrieval_query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "domain", "query", "required_context"],
+      "properties": {
+        "id": { "type": "string" },
+        "domain": { "type": "string" },
+        "query": { "type": "string" },
+        "required_context": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "candidate_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "finding_id", "prompt", "required_candidate_count", "output_kind"],
+      "properties": {
+        "id": { "type": "string" },
+        "finding_id": { "type": "string" },
+        "prompt": { "type": "string" },
+        "required_candidate_count": { "type": "integer", "minimum": 1 },
+        "output_kind": { "const": "DiscoveryCandidateIntervention" }
+      }
+    },
+    "seed_candidate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["kind", "version", "id", "source_loop_id", "focus_domain", "title", "hypothesis", "status", "provisional"],
+      "properties": {
+        "kind": { "const": "DiscoveryCandidateIntervention" },
+        "version": { "const": "v0" },
+        "id": { "type": "string" },
+        "source_loop_id": { "type": "string" },
+        "focus_domain": { "type": "string" },
+        "title": { "type": "string" },
+        "hypothesis": { "type": "string" },
+        "status": { "type": "string" },
+        "provisional": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "candidate_source": "seed_candidates",
+  "candidates_written": [
+    {
+      "id": "water_public_health_water_recovery_test_and_release_playbook_v0",
+      "path": "D:\\Projects\\CIaC\\candidate_interventions\\water_public_health_water_recovery_test_and_release_playbook_v0.json",
+      "status": "valid"
+    }
+  ],
+  "discovery_report_path": "D:\\Projects\\CIaC\\examples\\discovery\\civic_floor_730_v0_pop_730_pop_208_water_public_health_viewer_research.discovery.json",
+  "id": "research_discovery_civic_floor_730_v0_pop_730_pop_208_water_public_health_v0",
+  "kind": "ResearchLoopRun",
+  "n8n": {
+    "called": false,
+    "candidate_count": 0,
+    "context_source_ids": [],
+    "discovery_brief": null,
+    "error": null,
+    "ok": false,
+    "trace_marker": null,
+    "webhook_url": null,
+    "workflow_name": null
+  },
+  "next_actions": [
+    "Review generated PatchProposal artifacts before applying any model change.",
+    "Run scenario checks listed in each patch proposal.",
+    "Promote only proposals that reduce the triggering warning without adding hidden labor or survival-critical unmet demand."
+  ],
+  "patch_proposals_written": [
+    {
+      "id": "patch_water_public_health_water_recovery_test_and_release_playbook_v0",
+      "path": "D:\\Projects\\CIaC\\patch_proposals\\patch_water_public_health_water_recovery_test_and_release_playbook_v0.json",
+      "status": "needs_evidence"
+    }
+  ],
+  "provisional": true,
+  "source": {
+    "focus": "water_public_health",
+    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "world_manifest_path": "browser:civic_floor_730_v0_pop_730_pop_208"
+  },
+  "status": "ready_for_review",
+  "version": "v0"
+}

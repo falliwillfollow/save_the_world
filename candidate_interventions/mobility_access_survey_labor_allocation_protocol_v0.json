@@ -1,0 +1,94 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_3_labor_tracking",
+      "needs_evidence": true,
+      "statement": "Labor allocated to accessibility tasks must be recorded in commons_hours telemetry."
+    },
+    {
+      "confidence": "medium",
+      "id": "assumption_4_maintenance_backlog",
+      "needs_evidence": true,
+      "statement": "Maintenance backlog is degrading one or more systems and must not be obscured by mobility tasks."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "increase",
+      "metric": "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "rationale": "Explicit tracking of accessibility labor may reveal previously hidden burden."
+    },
+    {
+      "direction": "decrease",
+      "metric": "scenario.blocked_review_domain_count",
+      "rationale": "Proper labor allocation may unblock review domains faster than hiding labor."
+    }
+  ],
+  "focus_domain": "mobility_access",
+  "hypothesis": "Labor required for accessibility verification must be tracked against maintenance_hours to prevent untracked resident work.",
+  "id": "mobility_access_survey_labor_allocation_protocol_v0",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "mobility_access.pedestrian_first_access_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC mobility access warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "micro_commons maintenance labor tracking protocols"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_visualization_bundle.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779633997258"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Use metrics_to_compare to ensure resource_telemetry.resources.current_ratio remains stable.",
+      "risk": "Visibility of labor burden may reduce apparent efficiency metrics",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Ensure consent and privacy governance assumptions remain explicit.",
+      "risk": "Privacy risks if resident location data used for surveys",
+      "severity": "high"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_486_mobility_access_v0",
+  "status": "generated",
+  "target_objects": [],
+  "title": "Resident survey labor allocation protocol",
+  "version": "v0"
+}

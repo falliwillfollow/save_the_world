@@ -1,0 +1,85 @@
+{
+  "assumptions": [
+    {
+      "confidence": "medium",
+      "id": "assumption_3_governance",
+      "needs_evidence": true,
+      "statement": "Due process and emergency power sunset definitions must be integrated before proceeding with release protocols."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "pass",
+      "metric": "capabilities.domain_statuses.governance_anticapture.status",
+      "rationale": "Explicit definitions reduce warning status to pass."
+    },
+    {
+      "direction": "decrease",
+      "metric": "scenario.blocked_review_domain_count",
+      "rationale": "Compliance gaps identified and addressed."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Explicit governance definitions regarding public health visibility and accessibility must be audited to prevent blocked reviews due to compliance gaps.",
+  "id": "water_public_health_governance_audit_task_v0",
+  "intervention_type": "research_task",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1",
+    "governance.anticapture.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC governance anticapture due process emergency power accessibility mobility access"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779625577441"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Audit findings inform fallback protocols without halting safety-critical actions.",
+      "risk": "Audit process may delay immediate response actions",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "Due process definitions are explicit.",
+      "Emergency power sunset is defined.",
+      "Accessibility routes are verified."
+    ],
+    "metrics_to_compare": [
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count",
+      "mobility_access"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__structure_common_house",
+    "block_2__structure_common_house"
+  ],
+  "title": "Governance and accessibility audit task",
+  "version": "v0"
+}

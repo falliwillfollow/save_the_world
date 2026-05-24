@@ -1,0 +1,39 @@
+{
+  "focus_domain": "mobility_access",
+  "id": "materialize_patch_mobility_access_accessible_route_gap_survey_map_v0",
+  "kind": "PatchMaterializationReport",
+  "materialized_artifact_path": "patterns\\mobility_access\\mobility_access_accessible_route_gap_survey_map_v0.yaml",
+  "materialized_kind": "CivicPattern",
+  "next_actions": [
+    "Validate the materialized CivicPattern artifact.",
+    "Resolve local accessibility, emergency-access, engineering, safety, consent, and labor-burden assumptions.",
+    "Run simulation comparisons before selecting this pattern in an active site profile."
+  ],
+  "placement_target": {
+    "label": "Mobility Loop / Daily Route Network",
+    "object_id": "zone_mobility_loop",
+    "relationship": "attached_operating_protocol"
+  },
+  "provisional": true,
+  "source_candidate_id": "mobility_access_accessible_route_gap_survey_map_v0",
+  "source_candidate_title": "Accessible route coverage map gap survey",
+  "source_patch_proposal_id": "patch_mobility_access_accessible_route_gap_survey_map_v0",
+  "status": "materialized_draft",
+  "suggested_plan_change": {
+    "notes": [
+      "Add selected_pattern_id to a site profile only after listed external dependencies are reviewed or represented in review status.",
+      "Compile and replay illness, contamination, power-loss, and labor-burden scenarios before promotion."
+    ],
+    "resolved_external_dependencies": [
+      "accessibility_and_emergency_access_review",
+      "labor_burden_review"
+    ],
+    "selected_pattern_id": "mobility_access_accessible_route_gap_survey_map_v0"
+  },
+  "validation": {
+    "artifact_valid": true,
+    "blocking_reasons": [],
+    "warnings": []
+  },
+  "version": "v0"
+}

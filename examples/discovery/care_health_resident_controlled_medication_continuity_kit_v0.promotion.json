@@ -1,0 +1,23 @@
+{
+  "id": "promotion_impact_materialize_patch_care_health_resident_controlled_medication_continuity_kit_v0",
+  "kind": "PatchPromotionReport",
+  "next_actions": [
+    "Reload the viewer to pick up the regenerated world manifest.",
+    "Keep external health, privacy, consent, and professional-boundary review visible before treating this as validated."
+  ],
+  "pattern_id": "care_health_resident_controlled_medication_continuity_kit_v0",
+  "provisional": true,
+  "source_impact_report_id": "impact_materialize_patch_care_health_resident_controlled_medication_continuity_kit_v0",
+  "status": "promoted",
+  "summary": [
+    "Promoted care_health_resident_controlled_medication_continuity_kit_v0 into the active generated model.",
+    "Regenerated compiled plan, normal-year simulation, runtime bundle, scenario runs, and world manifest."
+  ],
+  "updated_artifacts": {
+    "compiled_plan": "examples\\generated\\micro_commons_plan.json",
+    "runtime_bundle": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "simulation": "examples\\generated\\micro_commons_simulation.json",
+    "world_manifest": "examples\\world_manifests\\civic_floor_80_v0.world.json"
+  },
+  "version": "v0"
+}

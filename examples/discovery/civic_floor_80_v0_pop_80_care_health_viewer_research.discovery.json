@@ -1,0 +1,347 @@
+{
+  "candidate_requests": [
+    {
+      "finding_id": "finding_care_health",
+      "id": "generate_care_health_candidates",
+      "output_kind": "DiscoveryCandidateIntervention",
+      "prompt": "Generate 2-4 DiscoveryCandidateIntervention JSON objects for this finding. Do not certify safety. Compare labor, energy, privacy, public-health, accessibility, governance, scenario resilience, and new risks. Use only retrieved context plus explicit assumptions.",
+      "required_candidate_count": 3
+    }
+  ],
+  "evaluation_contract": {
+    "hard_rejection_rules": [
+      "Reject candidates that create new survival-critical unmet demand.",
+      "Reject candidates that hide labor by moving it into untracked resident work.",
+      "Reject candidates that lower privacy, consent, accessibility, or public-health visibility without an explicit mitigation.",
+      "Reject candidates that require a professional license or legal authority but omit that dependency."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.resources.current_ratio",
+      "resource_telemetry.resources.net_per_day",
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.total_unmet_delta",
+      "scenario.blocked_review_domain_count"
+    ],
+    "output_schema": "schemas/discovery_candidate_intervention.schema.json",
+    "scenarios_to_run": [
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "findings": [
+    {
+      "domain": "care_health",
+      "evidence": [
+        "Care Health capability status.",
+        "Medication continuity is not yet explicitly supported.",
+        "care_health: Medication continuity is not yet explicitly supported."
+      ],
+      "id": "finding_care_health",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "scenario_ids": [
+        "scenario_illness_wave",
+        "water_contamination_response_v2"
+      ],
+      "severity": "warning",
+      "summary": "Care Health discovery loop is needed because: Medication continuity is not yet explicitly supported.",
+      "target_objects": [
+        "structure_common_house",
+        "structure_care_room"
+      ]
+    }
+  ],
+  "focus": "care_health",
+  "id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+  "kind": "DiscoveryLoopReport",
+  "n8n_contract": {
+    "artifact_outputs": [
+      "examples/discovery/*.discovery.json",
+      "candidate_interventions/*.json",
+      "examples/discovery/*_comparison.json"
+    ],
+    "local_model_provider": "Ollama",
+    "rag_role": "Retrieve local CIaC context before candidate generation.",
+    "required_nodes": [
+      "Manual Trigger or Webhook",
+      "Execute Command: ciac discovery-loop",
+      "Vector Store Retriever",
+      "Ollama Chat Model",
+      "Code: JSON repair and split",
+      "Execute Command: ciac validate candidate_interventions",
+      "Execute Command: ciac discovery-compare or simulation commands"
+    ],
+    "workflow": "n8n/workflow_specs/discovery_lab_pipeline.md"
+  },
+  "next_actions": [
+    "Run retrieval_plan queries against the local vector store.",
+    "Ask Ollama to generate DiscoveryCandidateIntervention JSON only; reject prose-only answers.",
+    "Validate each candidate with `py -3.10 -m ciac validate <candidate_dir>`.",
+    "Run candidate simulation or pressure-test commands before promotion.",
+    "Write accepted candidates to candidate_interventions/ with source_loop_id preserved."
+  ],
+  "provisional": true,
+  "retrieval_plan": [
+    {
+      "domain": "care_health",
+      "id": "retrieve_care_health",
+      "query": "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "required_context": [
+        "relevant civic patterns and capability effects",
+        "module reports and sprint plans",
+        "runtime warnings and current telemetry",
+        "scenario failure modes and recovery requirements"
+      ]
+    }
+  ],
+  "seed_candidates": [
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_1_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "increase",
+          "metric": "care_continuity_coverage",
+          "rationale": "Generated hypothesis expects care_continuity_coverage to increase."
+        },
+        {
+          "direction": "decrease",
+          "metric": "hidden_labor_risk",
+          "rationale": "Generated hypothesis expects hidden_labor_risk to decrease."
+        },
+        {
+          "direction": "neutral",
+          "metric": "privacy_exposure",
+          "rationale": "Generated hypothesis expects privacy_exposure to neutral."
+        }
+      ],
+      "focus_domain": "care_health",
+      "hypothesis": "A resident-controlled medication continuity kit plus opt-in care-room backup tracking can close continuity gaps without centralizing private health data.",
+      "id": "care_health_resident_controlled_medication_continuity_kit_v0",
+      "intervention_type": "operating_protocol",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Use opt-in refill reminders and non-diagnostic inventory checks.",
+          "risk": "Inventory drift or missed refills",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "scenario_illness_wave",
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "structure_care_room"
+      ],
+      "title": "Resident-controlled medication continuity kit",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_2_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "increase",
+          "metric": "critical_load_energy_draw",
+          "rationale": "Generated hypothesis expects critical_load_energy_draw to increase."
+        },
+        {
+          "direction": "decrease",
+          "metric": "medication_spoilage_risk",
+          "rationale": "Generated hypothesis expects medication_spoilage_risk to decrease."
+        },
+        {
+          "direction": "increase",
+          "metric": "maintenance_burden",
+          "rationale": "Generated hypothesis expects maintenance_burden to increase."
+        }
+      ],
+      "focus_domain": "care_health",
+      "hypothesis": "A small critical-load cold-chain cabinet can protect temperature-sensitive medication during outage and illness-wave scenarios.",
+      "id": "care_health_critical_load_medication_cold_chain_cabinet_v0",
+      "intervention_type": "module_candidate",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Add manual outage checklist and backup storage transfer protocol.",
+          "risk": "Battery dependency concentrates continuity risk",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "scenario_illness_wave",
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "structure_care_room"
+      ],
+      "title": "Critical-load medication cold-chain cabinet",
+      "version": "v0"
+    },
+    {
+      "assumptions": [
+        {
+          "confidence": "low",
+          "id": "assumption_3_local_fit",
+          "needs_evidence": true,
+          "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+        }
+      ],
+      "expected_effects": [
+        {
+          "direction": "increase",
+          "metric": "role_backup_coverage",
+          "rationale": "Generated hypothesis expects role_backup_coverage to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "hidden_labor_tracking",
+          "rationale": "Generated hypothesis expects hidden_labor_tracking to increase."
+        },
+        {
+          "direction": "increase",
+          "metric": "commons_labor_minutes",
+          "rationale": "Generated hypothesis expects commons_labor_minutes to increase."
+        }
+      ],
+      "focus_domain": "care_health",
+      "hypothesis": "A backup care steward rota can make medication and high-need continuity visible while preventing a single role from becoming a hidden labor sink.",
+      "id": "care_health_care_steward_continuity_rota_v0",
+      "intervention_type": "operating_protocol",
+      "kind": "DiscoveryCandidateIntervention",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "provisional": true,
+      "rag_context": {
+        "queries": [
+          "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+        ],
+        "required_sources": [
+          "patterns/",
+          "docs/module_reports/",
+          "examples/generated/micro_commons_runtime_bundle.json",
+          "examples/world_manifests/civic_floor_80_v0.world.json"
+        ],
+        "source_ids": []
+      },
+      "risk_tradeoffs": [
+        {
+          "mitigation": "Use opt-in support boundaries and resident-controlled disclosure.",
+          "risk": "Role may become coercive or privacy-invasive",
+          "severity": "medium"
+        }
+      ],
+      "simulation_hooks": {
+        "acceptance_tests": [
+          "No new survival-critical unmet demand is introduced.",
+          "No labor is shifted into untracked resident burden.",
+          "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+        ],
+        "metrics_to_compare": [
+          "resource_telemetry.labor.required_minutes_per_resident_per_day",
+          "capabilities.domain_statuses",
+          "scenario.blocked_review_domain_count"
+        ],
+        "scenarios_to_run": [
+          "scenario_illness_wave",
+          "water_contamination_response_v2"
+        ]
+      },
+      "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+      "status": "draft",
+      "target_objects": [
+        "structure_common_house",
+        "structure_care_room"
+      ],
+      "title": "Care steward continuity rota",
+      "version": "v0"
+    }
+  ],
+  "source": {
+    "population": 80,
+    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "scale_class": "village_block",
+    "world_id": "civic_floor_80_v0_pop_80",
+    "world_manifest_path": "browser:civic_floor_80_v0_pop_80"
+  },
+  "status": "ready_for_generation",
+  "version": "v0"
+}

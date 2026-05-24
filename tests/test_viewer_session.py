@@ -1,6 +1,7 @@
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from ciac.artifact_cohesion import evaluate_artifact_cohesion
@@ -9,6 +10,7 @@ from ciac.io import load_data
 from ciac.node_scaling import generate_node_scaling_report
 from ciac.viewer_cycle_pipeline import adapt_compiled_plan_for_population, adapt_search_report_for_population, regenerate_viewer_cycle_reports
 from ciac.viewer_pipeline import regenerate_viewer_population_reports
+from ciac.viewer_server import DEFAULT_LOCAL_N8N_WEBHOOK, _research_webhook
 from ciac.viewer_session import append_viewer_run_event, append_viewer_run_event_to_path, empty_viewer_run_report
 from ciac.validation import validate_data
 
@@ -18,6 +20,15 @@ GENERATED = ROOT / "examples" / "generated"
 
 
 class ViewerSessionTests(unittest.TestCase):
+    def test_research_webhook_uses_local_n8n_when_available(self) -> None:
+        with patch.dict("os.environ", {}, clear=True), patch("ciac.viewer_server._local_n8n_available", return_value=True):
+            self.assertEqual(_research_webhook({}), DEFAULT_LOCAL_N8N_WEBHOOK)
+
+    def test_research_webhook_can_be_disabled_explicitly(self) -> None:
+        with patch.dict("os.environ", {"CIAC_N8N_RESEARCH_WEBHOOK": "off"}, clear=True), patch("ciac.viewer_server._local_n8n_available", return_value=True):
+            self.assertIsNone(_research_webhook({}))
+            self.assertIsNone(_research_webhook({"n8n_webhook": "disabled"}))
+
     def test_append_viewer_run_event_records_population_and_topology(self) -> None:
         report = append_viewer_run_event(
             empty_viewer_run_report(),

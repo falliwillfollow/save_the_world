@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/patch_promotion_report.schema.json",
+  "title": "PatchPromotionReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "version",
+    "id",
+    "status",
+    "source_impact_report_id",
+    "pattern_id",
+    "updated_artifacts",
+    "summary",
+    "next_actions",
+    "provisional"
+  ],
+  "properties": {
+    "kind": { "const": "PatchPromotionReport" },
+    "version": { "const": "v0" },
+    "id": { "type": "string", "minLength": 3 },
+    "status": { "type": "string", "enum": ["promoted", "blocked"] },
+    "source_impact_report_id": { "type": "string", "minLength": 3 },
+    "pattern_id": { "type": "string", "minLength": 3 },
+    "updated_artifacts": { "type": "object", "additionalProperties": { "type": "string" } },
+    "summary": { "type": "array", "items": { "type": "string" } },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "provisional": { "type": "boolean" }
+  }
+}

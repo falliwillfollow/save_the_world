@@ -1,0 +1,61 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "Labor shifts are tracked and approved.",
+    "Governance rules regarding distribution remain explicit."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_public_health_fallback_supply_protocol_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Alternate supply mechanisms must be activated explicitly when primary reserve nodes are compromised to prevent survival-critical demand spikes."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_public_health_fallback_supply_protocol_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_public_health_fallback_supply_protocol_v0.scenario_total_unmet_delta",
+      "provisional": true,
+      "rationale": "Alternate supply reduces unmet demand during primary blockage.",
+      "to": "decrease"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_public_health_fallback_supply_protocol_v0.resource_telemetry_resources_net_per_day",
+      "provisional": true,
+      "rationale": "Net consumption fluctuates less with fallback protocols.",
+      "to": "decrease"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "resource_telemetry.resources.net_per_day",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses"
+  ],
+  "source_candidate_id": "water_public_health_fallback_supply_protocol_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/water_public_health/water_public_health_fallback_supply_protocol_v0.yaml",
+    "change_type": "add_operating_protocol"
+  },
+  "title": "Water fallback supply protocol",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_2_supply_chain"
+    ]
+  },
+  "version": "v0"
+}

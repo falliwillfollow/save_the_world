@@ -1,0 +1,100 @@
+{
+  "assumptions": [
+    {
+      "confidence": "medium",
+      "id": "assumption_labor_baseline",
+      "needs_evidence": true,
+      "statement": "Labor available for water recovery must be checked against baseline available_commons_hours and hours_per_resident from simulation data to prevent hidden burden."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_governance_check",
+      "needs_evidence": true,
+      "statement": "Release authority modeling must not assume explicit legal authority exists; dependencies must be declared pending validation."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "decrease",
+      "metric": "scenario.blocked_review_domain_count",
+      "rationale": "Explicit modeling of authority and isolation unblocks recovery review."
+    },
+    {
+      "direction": "increase",
+      "metric": "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "rationale": "Modeling authority testing requires explicit labor allocation rather than shifting to resident burden."
+    },
+    {
+      "direction": "neutral",
+      "metric": "capabilities.domain_statuses.governance_anticapture",
+      "rationale": "Does not assume emergency power sunset is defined; leaves governance warnings explicit."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Water recovery can move from blocked to testable if source isolation, alternate supply, lab testing, and release authority are modeled explicitly against baseline labor availability and governance warnings.",
+  "id": "water_public_health_recovery_playbook_v0_enriched",
+  "intervention_type": "scenario_playbook",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626673048"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Model delivered water fallback and conservative no-release default.",
+      "risk": "Testing authority may be unavailable during disruption",
+      "severity": "high"
+    },
+    {
+      "mitigation": "Enforce labor rotation and cross-training from baseline_90d_simulation.json maintenance_hours.",
+      "risk": "Labor allocation for water safety may exceed available_commons_hours",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "node_water_reserve"
+  ],
+  "title": "Water recovery test-and-release playbook with labor governance",
+  "version": "v0"
+}

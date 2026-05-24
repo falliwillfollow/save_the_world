@@ -1,0 +1,162 @@
+kind: CivicPattern
+id: water_fallback_reserve_protocol_v0
+type: Commons
+status: draft
+provisional: true
+provisional_for:
+- legal
+- health
+- labor
+- governance
+- water
+purpose: Water supply continuity is maintained by isolating reserves and redirecting
+  distribution flow away from compromised nodes.
+scale: village
+mdl_categories:
+- water
+- health
+- privacy
+- commons
+- contribution
+inputs:
+- water_reserve_register
+- sanitation_schedule
+- test_and_release_log
+- role_registry
+- review_register
+- water_resilient_water_commons_v0_1
+outputs:
+- resilient_water_fallback_reserve_protocol
+- reviewable_assumption_register
+- hidden_labor_visibility
+- explicit_water_reserve_sanitation_protocol
+- public_health_review_visibility
+- resource_telemetry_resources_current_ratio
+- labor_required_minutes_per_resident_per_day
+dependencies:
+- id: resilient_water_commons
+  kind: pattern
+  critical: false
+  rationale: Reserve sanitation protocol should attach to the modeled water source,
+    reserve, testing, and recovery layer.
+- id: water_public_health_review
+  kind: external
+  critical: true
+  rationale: Stored-water sanitation, contamination response, testing, release authority,
+    and recovery assumptions require local public-health review.
+- id: labor_burden_review
+  kind: external
+  critical: true
+  rationale: Reserve sanitation work must remain visible and must not become untracked
+    resident burden.
+constraints:
+  physical:
+  - Keep water reserve inspection, sanitation, isolation, test, release, and fallback
+    paths explicit at the water node.
+  - Separate potable reserve status from general commons notes so unsafe or unreviewed
+    water cannot appear available.
+  ecological:
+  - Prefer low-waste testing, rotation, and reserve-maintenance practices that do
+    not create avoidable discard cycles.
+  legal:
+  - Potable-water testing, contamination response, release authority, and public-health
+    assumptions require local qualified review.
+  - This draft does not certify potable water safety or authorize unlicensed public-health
+    decisions.
+  social:
+  - Sanitation and recovery labor must be scheduled, visible, and bounded so residents
+    are not silently assigned emergency burden.
+  - Reserve access rules must not privilege residents by status, role, popularity,
+    or ability to perform maintenance work.
+  safety:
+  - Contaminated, uncertain, or untested reserve water must remain isolated until
+    reviewed release criteria are met.
+  - Fallback supply, conservative no-release defaults, and escalation thresholds must
+    be explicit during contamination events.
+build_phase: 0
+lifecycle:
+  build_sequence:
+  - define reserve inspection, sanitation, isolation, testing, fallback supply, and
+    release-authority boundaries
+  - map reserve sanitation labor without assigning invisible emergency burden to residents
+  - assign primary and backup water stewardship roles with public-health escalation
+    thresholds
+  - record evidence gaps, local review dependencies, and water-contamination scenario
+    tests before promotion
+  inspection_points:
+  - reserve level and isolation state
+  - sanitation schedule and visible labor hours
+  - public-health review status
+  - test-and-release criteria
+  - fallback supply and emergency access path
+  maintenance:
+  - id: water_fallback_reserve_protocol_v0_reserve_sanitation_round
+    description: Review water reserve sanitation records, labor visibility, isolation
+      status, testing assumptions, and release thresholds.
+    interval: weekly
+    role: water_steward
+    estimated_hours: 1.5
+    provisional: true
+  expected_lifespan: ongoing protocol with monthly water public-health, labor-burden,
+    and recovery review
+  repair_procedure:
+  - classify the issue as contamination, unclear reserve status, missed sanitation,
+    labor overload, testing gap, release-authority gap, or fallback supply risk
+  - isolate uncertain reserve water, activate fallback supply, preserve minimum continuity,
+    and escalate to public-health review when needed
+  - record correction, affected assumptions, visible labor burden, scenario impact,
+    and follow-up review date
+  end_of_life_path:
+  - retire outdated sanitation records under public-health and governance rules
+  - dispose, flush, retest, or recommission reserve components under reviewed safety
+    requirements
+  - preserve non-sensitive lessons needed for future water resilience modeling
+failure_modes:
+- mode: rationing_visibility_may_be_reduced
+  likelihood: medium
+  severity: medium
+  detection_method: resident report, steward review, audit log, scenario replay, or
+    external professional handoff trigger
+  mitigation: Public updates scheduled to maintain trust without revealing sensitive
+    infrastructure status.
+governance:
+  owner: commons
+  access_rule: Reserve sanitation and release decisions are visible, review-bound,
+    and conservative by default; unsafe or untested water remains isolated.
+  stewardship_role: water_steward
+  backup_role: backup_water_steward
+  audit_frequency: monthly
+  capture_risk: Water reserve access and release authority can become coercive if
+    public-health review, labor burden, or fallback supply paths are not visible.
+metrics:
+  cost: 5000
+  build_labor_hours: 24
+  recurring_labor_hours_per_week: 1.5
+  energy_use: 0
+  water_use: 0
+  embodied_carbon: 0.1
+  maintenance_burden: 1
+  dignity_score: 9
+  autonomy_score: 8
+  resilience_score: 9
+  provisional: true
+capability_effects:
+  water_public_health:
+    reserve_sanitation_protocol_supported: true
+    public_health_review_required: true
+    recovery_labor_visibility_supported: true
+  labor_time:
+    hidden_labor_tracking_supported: true
+    water_recovery_labor_visibility_supported: true
+simulation:
+  resource_effects:
+    water_liters_per_day: 0
+    energy_kwh_per_day: 0
+    food_servings_per_day: 0
+  critical_resources:
+  - maintenance
+  - water
+  notes: Materialized from a research-loop patch proposal. Effects are provisional
+    and should be validated through illness, contamination, power-loss, and hidden-labor
+    scenarios before promotion.
+  provisional: true

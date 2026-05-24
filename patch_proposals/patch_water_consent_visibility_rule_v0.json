@@ -1,0 +1,61 @@
+{
+  "acceptance_tests": [
+    "Privacy, consent, accessibility assumptions remain explicit.",
+    "No untracked resident burden is assumed."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_consent_visibility_rule_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Explicit definition of governance processes and privacy consent requirements will reduce governance_anticapture warnings."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_consent_visibility_rule_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_consent_visibility_rule_v0.governance_anticapture_domain_statuses_status",
+      "provisional": true,
+      "rationale": "Explicit definitions reduce warning states on governance_anticapture.",
+      "to": "improve"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_consent_visibility_rule_v0.public_health_visibility",
+      "provisional": true,
+      "rationale": "Visibility increases as processes are documented rather than hidden.",
+      "to": "increase"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "baseline_90d_simulation",
+    "capabilities.domain_statuses"
+  ],
+  "source_candidate_id": "water_consent_visibility_rule_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_155_water_public_health_v0",
+  "status": "blocked",
+  "target": {
+    "artifact": "patterns/water_public_health/water_consent_visibility_rule_v0.yaml",
+    "change_type": "add_governance_rule"
+  },
+  "title": "Water system consent and visibility governance rule",
+  "validation": {
+    "blocking_reasons": [
+      "Source candidate does not satisfy DiscoveryCandidateIntervention schema."
+    ],
+    "schema_valid": false,
+    "warnings": [
+      "Assumption requires evidence: assumption_3_governance_process"
+    ]
+  },
+  "version": "v0"
+}

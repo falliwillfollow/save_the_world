@@ -1,0 +1,83 @@
+{
+  "assumptions": [
+    {
+      "confidence": "medium",
+      "id": "assumption_3_labor_visibility",
+      "needs_evidence": true,
+      "statement": "Labor hours must be tracked explicitly to avoid hidden burden on residents."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "neutral",
+      "metric": "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "rationale": "Tracking should not add hidden demand but may expose existing."
+    },
+    {
+      "direction": "increase",
+      "metric": "capabilities.domain_statuses.labor_time",
+      "rationale": "Explicit tracking resolves labor_time warnings."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Explicit labor tracking for reserve sanitation reduces hidden burden and blocks recovery review while managing water contamination risks.",
+  "id": "water_reserve_sanitation_protocol_v0",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "labor hours maintenance events water reserve sanitation protocols"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779624121647"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Prioritize critical load reserve and water reserve tasks over lower priority maintenance.",
+      "risk": "Maintenance hours may exceed available commons hours",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No labor is shifted into untracked resident burden.",
+      "Storage recovery hours do not exceed available commons hours."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2",
+      "baseline_120d_simulation"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_238_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__node_water_reserve",
+    "block_2__node_water_reserve",
+    "block_3__node_water_reserve"
+  ],
+  "title": "Labor-managed water reserve sanitation protocol",
+  "version": "v0"
+}

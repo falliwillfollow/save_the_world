@@ -1,0 +1,63 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "No labor is shifted into untracked resident burden.",
+    "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+  ],
+  "focus_domain": "mobility_access",
+  "id": "patch_mobility_access_survey_labor_allocation_protocol_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Labor required for accessibility verification must be tracked against maintenance_hours to prevent untracked resident work."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.mobility_access.tracked_interventions.mobility_access_survey_labor_allocation_protocol_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.mobility_access_survey_labor_allocation_protocol_v0.resource_telemetry_labor_required_minutes_per_resident_per_day",
+      "provisional": true,
+      "rationale": "Explicit tracking of accessibility labor may reveal previously hidden burden.",
+      "to": "increase"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.mobility_access_survey_labor_allocation_protocol_v0.scenario_blocked_review_domain_count",
+      "provisional": true,
+      "rationale": "Proper labor allocation may unblock review domains faster than hiding labor.",
+      "to": "decrease"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "scenario_illness_wave",
+    "water_contamination_response_v2",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses",
+    "scenario.blocked_review_domain_count"
+  ],
+  "source_candidate_id": "mobility_access_survey_labor_allocation_protocol_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_486_mobility_access_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/mobility_access/mobility_access_survey_labor_allocation_protocol_v0.yaml",
+    "change_type": "add_operating_protocol"
+  },
+  "title": "Resident survey labor allocation protocol",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_3_labor_tracking",
+      "Assumption requires evidence: assumption_4_maintenance_backlog"
+    ]
+  },
+  "version": "v0"
+}

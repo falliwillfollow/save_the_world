@@ -1,0 +1,101 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_1_local_fit",
+      "needs_evidence": true,
+      "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_2_governance",
+      "needs_evidence": true,
+      "statement": "Governance_anticapture messages regarding due process must be reviewed before enabling data collection for continuity tracking."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "increase",
+      "metric": "care_continuity_coverage",
+      "rationale": "Generated hypothesis expects care_continuity_coverage to increase."
+    },
+    {
+      "direction": "decrease",
+      "metric": "hidden_labor_risk",
+      "rationale": "Generated hypothesis expects hidden_labor_risk to decrease."
+    },
+    {
+      "direction": "neutral",
+      "metric": "privacy_exposure",
+      "rationale": "Generated hypothesis expects privacy_exposure to neutral."
+    }
+  ],
+  "focus_domain": "care_health",
+  "hypothesis": "A resident-controlled medication continuity kit plus opt-in care-room backup tracking can close continuity gaps without centralizing private health data.",
+  "id": "care_health_resident_controlled_medication_continuity_kit_v1",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "risk_resilience.graceful_degradation_engine.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_visualization_bundle.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779620460052"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Use opt-in refill reminders and non-diagnostic inventory checks.",
+      "risk": "Inventory drift or missed refills",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Simplify kit contents and ensure clear opt-out protocols.",
+      "risk": "Resident burden if kit management is complex",
+      "severity": "low"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "structure_care_room"
+  ],
+  "title": "Resident-controlled medication continuity kit",
+  "version": "v0"
+}

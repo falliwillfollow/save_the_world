@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/research_loop_run.schema.json",
+  "title": "ResearchLoopRun",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "version",
+    "id",
+    "status",
+    "source",
+    "discovery_report_path",
+    "candidate_source",
+    "candidates_written",
+    "patch_proposals_written",
+    "n8n",
+    "next_actions",
+    "provisional"
+  ],
+  "properties": {
+    "kind": { "const": "ResearchLoopRun" },
+    "version": { "const": "v0" },
+    "id": { "type": "string", "minLength": 3 },
+    "status": { "type": "string", "enum": ["ready_for_review", "blocked"] },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["world_manifest_path", "runtime_bundle_path", "focus"],
+      "properties": {
+        "world_manifest_path": { "type": ["string", "null"] },
+        "runtime_bundle_path": { "type": ["string", "null"] },
+        "focus": { "type": "string" }
+      }
+    },
+    "discovery_report_path": { "type": "string" },
+    "candidate_source": { "type": "string", "enum": ["seed_candidates", "n8n_webhook"] },
+    "candidates_written": { "type": "array", "items": { "$ref": "#/definitions/written_artifact" } },
+    "patch_proposals_written": { "type": "array", "items": { "$ref": "#/definitions/written_artifact" } },
+    "n8n": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["webhook_url", "called", "ok", "error"],
+      "properties": {
+        "webhook_url": { "type": ["string", "null"] },
+        "called": { "type": "boolean" },
+        "ok": { "type": "boolean" },
+        "error": { "type": ["string", "null"] },
+        "workflow_name": { "type": ["string", "null"] },
+        "trace_marker": { "type": ["string", "null"] },
+        "discovery_brief": { "type": ["object", "null"] },
+        "candidate_count": { "type": "integer", "minimum": 0 },
+        "context_source_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "next_actions": { "type": "array", "items": { "type": "string" } },
+    "provisional": { "type": "boolean" }
+  },
+  "definitions": {
+    "written_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "path": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "assumptions": [
+    {
+      "confidence": "medium",
+      "id": "assumption_3_labor_tracking",
+      "needs_evidence": true,
+      "statement": "All labor for water maintenance must be tracked in commons hours to avoid hidden labor burden and ensure maintenance_hours limits."
+    },
+    {
+      "confidence": "medium",
+      "id": "assumption_4_resident_capacity",
+      "needs_evidence": true,
+      "statement": "Resident capacity is limited by available_commons_hours and hours_per_resident metrics observed in baseline simulations."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "decrease",
+      "metric": "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "rationale": "Explicit tracking ensures burden is not shifted or hidden."
+    },
+    {
+      "direction": "neutral",
+      "metric": "labor_time",
+      "rationale": "Maintains labor visibility without creating new demand."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Labor for water reserve maintenance must be explicitly tracked to avoid hidden labor burdens and ensure maintenance_hours remain within available_commons_hours.",
+  "id": "water_public_health_sanitation_labor_protocal_v0",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "water labor telemetry baseline simulation hours per resident maintenance events storage recovery hours"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626898382"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Automated logging where possible; manual audit required only if automation unavailable.",
+      "risk": "Labor tracking adds administrative overhead",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Prioritize critical load reserves and safety checks in rotation.",
+      "risk": "Maintenance delays may affect water safety",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "resource_telemetry.resources.net_per_day",
+      "labor_time"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2",
+      "baseline_120d_simulation"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_255_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "block_1__structure_common_house",
+    "block_2__structure_common_house",
+    "block_3__structure_common_house",
+    "block_4__structure_common_house",
+    "block_1__node_water_reserve",
+    "block_2__node_water_reserve",
+    "block_3__node_water_reserve",
+    "block_4__node_water_reserve"
+  ],
+  "title": "Water Maintenance Labor Tracking Protocol",
+  "version": "v0"
+}

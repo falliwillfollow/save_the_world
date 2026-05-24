@@ -1,0 +1,101 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_2_local_fit",
+      "needs_evidence": true,
+      "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_3_energy",
+      "needs_evidence": true,
+      "statement": "Critical-load energy draw increase must not trigger resource_telemetry thresholds without mitigation."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "increase",
+      "metric": "critical_load_energy_draw",
+      "rationale": "Generated hypothesis expects critical_load_energy_draw to increase."
+    },
+    {
+      "direction": "decrease",
+      "metric": "medication_spoilage_risk",
+      "rationale": "Generated hypothesis expects medication_spoilage_risk to decrease."
+    },
+    {
+      "direction": "increase",
+      "metric": "maintenance_burden",
+      "rationale": "Generated hypothesis expects maintenance_burden to increase."
+    }
+  ],
+  "focus_domain": "care_health",
+  "hypothesis": "A small critical-load cold-chain cabinet can protect temperature-sensitive medication during outage and illness-wave scenarios.",
+  "id": "care_health_critical_load_medication_cold_chain_cabinet_v1",
+  "intervention_type": "module_candidate",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "risk_resilience.graceful_degradation_engine.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_visualization_bundle.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779620460052"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Add manual outage checklist and backup storage transfer protocol.",
+      "risk": "Battery dependency concentrates continuity risk",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Use energy-efficient components and schedule checks during low-load windows.",
+      "risk": "Energy draw increases blackout vulnerability",
+      "severity": "low"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "structure_care_room"
+  ],
+  "title": "Critical-load medication cold-chain cabinet",
+  "version": "v0"
+}

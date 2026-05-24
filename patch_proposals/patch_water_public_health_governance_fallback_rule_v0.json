@@ -1,0 +1,61 @@
+{
+  "acceptance_tests": [
+    "Due process and emergency power sunset must be explicitly defined.",
+    "No new survival-critical unmet demand is introduced.",
+    "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_public_health_governance_fallback_rule_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Water release authority requires explicit definition to avoid governance warnings such as due process or emergency power sunset issues."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_public_health_governance_fallback_rule_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_public_health_governance_fallback_rule_v0.governance_anticapture",
+      "provisional": true,
+      "rationale": "Explicit definition of emergency power sunset reduces domain warnings.",
+      "to": "unknown"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_public_health_governance_fallback_rule_v0.care_health",
+      "provisional": true,
+      "rationale": "Maintains status pass for care_health domain if safety protocols are modeled explicitly.",
+      "to": "increase"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "water_contamination_response_v2",
+    "capabilities.domain_statuses",
+    "scenario.blocked_review_domain_count"
+  ],
+  "source_candidate_id": "water_public_health_governance_fallback_rule_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_pop_255_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/water_public_health/water_public_health_governance_fallback_rule_v0.yaml",
+    "change_type": "add_governance_rule"
+  },
+  "title": "Water Authority Governance and Fallback Rule",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_5_due_process",
+      "Assumption requires evidence: assumption_6_accessibility"
+    ]
+  },
+  "version": "v0"
+}

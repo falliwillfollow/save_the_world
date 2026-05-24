@@ -44,6 +44,7 @@ SCHEMA_BY_KIND = {
     "InfrastructureNodeReport": "infrastructure_node_report.schema.json",
     "SpatialProfile": "spatial_profile.schema.json",
     "RuntimeBundle": "runtime_bundle.schema.json",
+    "CivicFloorWorldManifest": "world_manifest.schema.json",
     "FoundationGateReport": "foundation_gate_report.schema.json",
     "OptimizationProfile": "optimization_profile.schema.json",
     "OptimizationReadinessReport": "optimization_readiness_report.schema.json",
@@ -69,6 +70,14 @@ SCHEMA_BY_KIND = {
     "TopologyRecommendationReport": "topology_recommendation_report.schema.json",
     "ArtifactCohesionReport": "artifact_cohesion_report.schema.json",
     "ViewerRunReport": "viewer_run_report.schema.json",
+    "DiscoveryCandidateIntervention": "discovery_candidate_intervention.schema.json",
+    "DiscoveryLoopReport": "discovery_loop_report.schema.json",
+    "PatchProposal": "patch_proposal.schema.json",
+    "PatchMaterializationReport": "patch_materialization_report.schema.json",
+    "PatchImpactReport": "patch_impact_report.schema.json",
+    "PatchPromotionReport": "patch_promotion_report.schema.json",
+    "ResearchLoopRun": "research_loop_run.schema.json",
+    "ScalingPolicy": "scaling_policy.schema.json",
 }
 
 

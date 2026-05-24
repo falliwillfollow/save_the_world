@@ -1,0 +1,94 @@
+{
+  "assumptions": [
+    {
+      "confidence": "medium",
+      "id": "assumption_isolation_feasibility",
+      "needs_evidence": true,
+      "statement": "Physical isolation or valve closure is feasible without claiming engineering validity."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_emergency_fallback",
+      "needs_evidence": true,
+      "statement": "Emergency water_reserve dependency order must be verified against micro_commons_cycle_iteration.json."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "neutral",
+      "metric": "resource_telemetry.resources.current_ratio",
+      "rationale": "Isolation limits contamination spread; ratio changes reflect supply shift."
+    },
+    {
+      "direction": "decrease",
+      "metric": "scenario.total_unmet_delta",
+      "rationale": "Prevents health unmet demand from contaminated water."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Isolating node_water_reserve from structure_common_house supply line during risk mode reduces exposure to contamination risk without requiring new survival-critical unmet demand.",
+  "id": "water_reserve_isolation_protocol_v0",
+  "intervention_type": "module_candidate",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "water reserve isolation mechanics dependency order emergency fallback maintenance labor availability"
+    ],
+    "required_sources": [
+      "patterns/",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626673048"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Ensure fallback from emergency_water_reserve exists in dependency order.",
+      "risk": "Water access reduced during isolation",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Coordinate with community_kitchen and shared_bathhouse maintenance hours from baseline simulations.",
+      "risk": "Labor for maintenance may exceed available_commons_hours",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "Water access reduction is mitigated by alternate supply modeling."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.resources.current_ratio",
+      "scenario.total_unmet_delta",
+      "capabilities.domain_statuses"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2",
+      "drought_reserve_v2_replay_simulation"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "node_water_reserve"
+  ],
+  "title": "Water reserve source isolation protocol",
+  "version": "v0"
+}

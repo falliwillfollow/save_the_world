@@ -1,0 +1,63 @@
+{
+  "acceptance_tests": [
+    "No new survival-critical unmet demand is introduced.",
+    "Accessibility constraints remain explicit and mitigated.",
+    "Governance warnings are not ignored."
+  ],
+  "focus_domain": "water_public_health",
+  "id": "patch_water_health_labor_rotation_patch_v0",
+  "implementation_notes": [
+    "Patch proposal is an implementation intent artifact, not an automatic mutation.",
+    "Model changes should be applied through a dedicated promotion command after simulation comparison.",
+    "Rotating maintenance roles for water reserve monitoring prevents hidden labor shifts while adhering to labor_time domain status."
+  ],
+  "kind": "PatchProposal",
+  "model_changes": [
+    {
+      "from": false,
+      "path": "capabilities.water_public_health.tracked_interventions.water_health_labor_rotation_patch_v0",
+      "provisional": true,
+      "rationale": "Make the candidate intervention explicit in the capability layer before promotion.",
+      "to": true
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_health_labor_rotation_patch_v0.labor_time",
+      "provisional": true,
+      "rationale": "Maintains labor_time domain status by distributing maintenance_workload.",
+      "to": "increase"
+    },
+    {
+      "from": null,
+      "path": "candidate_effects.water_health_labor_rotation_patch_v0.scenario_blocked_review_domain_count",
+      "provisional": true,
+      "rationale": "Ensures water_public_health review is staffed without overloading specific residents.",
+      "to": "decrease"
+    }
+  ],
+  "provisional": true,
+  "simulation_checks": [
+    "resident_exit_labor_loss_replay_simulation",
+    "baseline_90d_simulation",
+    "resource_telemetry.labor.required_minutes_per_resident_per_day",
+    "capabilities.domain_statuses",
+    "labor_time"
+  ],
+  "source_candidate_id": "water_health_labor_rotation_patch_v0",
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "needs_evidence",
+  "target": {
+    "artifact": "patterns/water_public_health/water_health_labor_rotation_patch_v0.yaml",
+    "change_type": "add_operating_protocol"
+  },
+  "title": "Labor rotation patch for water health monitoring",
+  "validation": {
+    "blocking_reasons": [],
+    "schema_valid": true,
+    "warnings": [
+      "Assumption requires evidence: assumption_rotational_capacity",
+      "Assumption requires evidence: assumption_tool_stewardship"
+    ]
+  },
+  "version": "v0"
+}

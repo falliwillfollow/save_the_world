@@ -1,0 +1,102 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_3_local_fit_enriched",
+      "needs_evidence": true,
+      "statement": "Candidate is generated from CIaC warning context and must be checked against local law, safety, consent, and engineering constraints before promotion. Requires explicit labor_time domain status check."
+    },
+    {
+      "confidence": "medium",
+      "id": "assumption_4_governance",
+      "needs_evidence": true,
+      "statement": "Role may become coercive or privacy-invasive; use opt-in support boundaries and resident-controlled disclosure to mitigate governance risks."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "increase",
+      "metric": "role_backup_coverage",
+      "rationale": "Generated hypothesis expects role_backup_coverage to increase."
+    },
+    {
+      "direction": "increase",
+      "metric": "hidden_labor_tracking",
+      "rationale": "Generated hypothesis expects hidden_labor_tracking to increase as per labor_time domain warning messages."
+    },
+    {
+      "direction": "increase",
+      "metric": "commons_labor_minutes",
+      "rationale": "Generated hypothesis expects commons_labor_minutes to increase due to explicit tracking."
+    }
+  ],
+  "focus_domain": "care_health",
+  "hypothesis": "A backup care steward rota can make medication and high-need continuity visible while preventing a single role from becoming a hidden labor sink, supported by explicit labor metrics.",
+  "id": "care_health_care_steward_continuity_rota_v0_enriched",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "risk_resilience.graceful_degradation_engine.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC care health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience",
+      "labor time domain status warnings governance_anticapture"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_visualization_bundle.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779590096030"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Use opt-in support boundaries and resident-controlled disclosure. Align with governance_anticapture domain warnings regarding due process.",
+      "risk": "Role may become coercive or privacy-invasive",
+      "severity": "medium"
+    },
+    {
+      "mitigation": "Explicit consent mechanisms required. Do not claim resident consent without verification.",
+      "risk": "Resident consent violations",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "scenario_illness_wave",
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_80_v0_pop_80_care_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "structure_care_room"
+  ],
+  "title": "Care steward continuity rota with visible labor tracking",
+  "version": "v0"
+}

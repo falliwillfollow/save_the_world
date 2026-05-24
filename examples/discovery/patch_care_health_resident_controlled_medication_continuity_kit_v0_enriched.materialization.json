@@ -1,0 +1,39 @@
+{
+  "focus_domain": "care_health",
+  "id": "materialize_patch_care_health_resident_controlled_medication_continuity_kit_v0_enriched",
+  "kind": "PatchMaterializationReport",
+  "materialized_artifact_path": "patterns\\care_health\\care_health_resident_controlled_medication_continuity_kit_v0_enriched.yaml",
+  "materialized_kind": "CivicPattern",
+  "next_actions": [
+    "Validate the materialized CivicPattern artifact.",
+    "Resolve local health, privacy, consent, safety, and professional-boundary assumptions.",
+    "Run simulation comparisons before selecting this pattern in an active site profile."
+  ],
+  "placement_target": {
+    "label": "Care Room",
+    "object_id": "structure_care_room",
+    "relationship": "contained_module"
+  },
+  "provisional": true,
+  "source_candidate_id": "care_health_resident_controlled_medication_continuity_kit_v0_enriched",
+  "source_candidate_title": "Resident-controlled medication continuity kit with refill checks",
+  "source_patch_proposal_id": "patch_care_health_resident_controlled_medication_continuity_kit_v0_enriched",
+  "status": "materialized_draft",
+  "suggested_plan_change": {
+    "notes": [
+      "Add selected_pattern_id to a site profile only after listed external dependencies are reviewed or represented in review status.",
+      "Compile and replay illness, contamination, power-loss, and labor-burden scenarios before promotion."
+    ],
+    "resolved_external_dependencies": [
+      "local_health_privacy_review",
+      "professional_care_boundary_review"
+    ],
+    "selected_pattern_id": "care_health_resident_controlled_medication_continuity_kit_v0_enriched"
+  },
+  "validation": {
+    "artifact_valid": true,
+    "blocking_reasons": [],
+    "warnings": []
+  },
+  "version": "v0"
+}

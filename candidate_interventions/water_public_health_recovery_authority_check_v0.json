@@ -1,0 +1,95 @@
+{
+  "assumptions": [
+    {
+      "confidence": "low",
+      "id": "assumption_1_governance_warning",
+      "needs_evidence": true,
+      "statement": "Emergency power sunset is not explicitly defined; candidate must not assume constant utility availability."
+    },
+    {
+      "confidence": "low",
+      "id": "assumption_2_labor_check",
+      "needs_evidence": true,
+      "statement": "Labor allocation must not shift into untracked resident burden per baseline_120d_simulation.json metrics."
+    }
+  ],
+  "expected_effects": [
+    {
+      "direction": "decrease",
+      "metric": "blocked_review_domain_count",
+      "rationale": "Generated hypothesis expects blocked_review_domain_count to decrease."
+    },
+    {
+      "direction": "increase",
+      "metric": "public_health_visibility",
+      "rationale": "Generated hypothesis expects public_health_visibility to increase."
+    }
+  ],
+  "focus_domain": "water_public_health",
+  "hypothesis": "Modeling delivered water fallback and conservative no-release defaults mitigates authority availability risk during disruption without claiming validity.",
+  "id": "water_public_health_recovery_authority_check_v0",
+  "intervention_type": "operating_protocol",
+  "kind": "DiscoveryCandidateIntervention",
+  "module_refs": [
+    "water.resilient_water_commons.v0_1"
+  ],
+  "provisional": true,
+  "rag_context": {
+    "queries": [
+      "CIaC water public health warning interventions expected effects labor energy privacy public health governance accessibility scenario resilience"
+    ],
+    "required_sources": [
+      "patterns/",
+      "docs/module_reports/",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/world_manifests/civic_floor_80_v0.world.json"
+    ],
+    "source_ids": [
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json",
+      "n8n:workflow:ciac_research_loop_webhook",
+      "n8n:trace:n8n-rag-1779626446383"
+    ]
+  },
+  "risk_tradeoffs": [
+    {
+      "mitigation": "Model delivered water fallback and conservative no-release default.",
+      "risk": "Testing authority may be unavailable during disruption",
+      "severity": "high"
+    },
+    {
+      "mitigation": "Explicit mitigation required before promotion.",
+      "risk": "Privacy and consent not explicitly defined in emergency scenarios",
+      "severity": "medium"
+    }
+  ],
+  "simulation_hooks": {
+    "acceptance_tests": [
+      "No new survival-critical unmet demand is introduced.",
+      "No labor is shifted into untracked resident burden.",
+      "Privacy, consent, public-health, accessibility, and governance assumptions remain explicit."
+    ],
+    "metrics_to_compare": [
+      "resource_telemetry.labor.required_minutes_per_resident_per_day",
+      "capabilities.domain_statuses",
+      "scenario.blocked_review_domain_count"
+    ],
+    "scenarios_to_run": [
+      "water_contamination_response_v2"
+    ]
+  },
+  "source_loop_id": "discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "status": "generated",
+  "target_objects": [
+    "structure_common_house",
+    "node_water_reserve"
+  ],
+  "title": "Water recovery authority and fallback modeling",
+  "version": "v0"
+}

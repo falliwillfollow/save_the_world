@@ -1,0 +1,196 @@
+{
+  "id": "ciacResearchWebhook",
+  "name": "CIaC Research Loop Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ciac-research-loop",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "3d7d9e59-d2fd-4d42-aed6-b1191b1737b4",
+      "name": "CIaC Research Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "ciac-research-loop"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nif (!body.discovery_report) {\n  throw new Error('CIaC research loop webhook requires discovery_report');\n}\nreturn [{ json: { discovery_report: body.discovery_report } }];"
+      },
+      "id": "4af103b8-19c4-49e0-927a-6b87cad3e180",
+      "name": "Prepare Research Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8791/research-context",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "2d15a7c4-5592-4ac7-a726-2365387a208c",
+      "name": "Retrieve CIaC RAG Context",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "keypair",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "qwen3.5:9b"
+            },
+            {
+              "name": "stream",
+              "value": "={{ false }}"
+            },
+            {
+              "name": "prompt",
+              "value": "={{ $json.prompt }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "4c84c34f-57b8-4f1a-97a7-7ec5bc65db53",
+      "name": "Ask Ollama for Candidate Interventions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const context = $('Retrieve CIaC RAG Context').first().json;\nconst ollama = $input.first().json;\nconst raw = String(ollama.response || '').trim();\nconst trace = `n8n-rag-${Date.now()}`;\n\nfunction extractJson(text) {\n  if (!text) return {};\n  try { return JSON.parse(text); } catch (error) {}\n  const firstObject = text.indexOf('{');\n  const lastObject = text.lastIndexOf('}');\n  if (firstObject >= 0 && lastObject > firstObject) {\n    try { return JSON.parse(text.slice(firstObject, lastObject + 1)); } catch (error) {}\n  }\n  const firstArray = text.indexOf('[');\n  const lastArray = text.lastIndexOf(']');\n  if (firstArray >= 0 && lastArray > firstArray) {\n    try { return { candidate_interventions: JSON.parse(text.slice(firstArray, lastArray + 1)) }; } catch (error) {}\n  }\n  return { parse_error: 'Could not parse Ollama JSON response', raw_response: text.slice(0, 1200) };\n}\n\nfunction safeId(value) {\n  return String(value || 'candidate').toLowerCase().replace(/[^a-z0-9_]+/g, '_').replace(/^_+|_+$/g, '') || 'candidate';\n}\n\nfunction normalizeCandidate(candidate, index) {\n  const seed = context.seed_candidates?.[index] || context.seed_candidates?.[0] || {};\n  const merged = { ...seed, ...candidate };\n  const focus = merged.focus_domain || context.focus || 'research';\n  const id = safeId(merged.id || `${focus}_ollama_candidate_${index + 1}_v0`);\n  const sourceIds = Array.from(new Set([\n    ...(merged.rag_context?.source_ids || []),\n    ...(context.context_source_ids || []),\n    'n8n:workflow:ciac_research_loop_webhook',\n    `n8n:trace:${trace}`,\n  ].filter(Boolean).map(String)));\n  return {\n    kind: 'DiscoveryCandidateIntervention',\n    version: 'v0',\n    id,\n    source_loop_id: merged.source_loop_id || context.discovery_report_id || 'unknown_loop',\n    focus_domain: focus,\n    title: merged.title || `Ollama research candidate ${index + 1}`,\n    hypothesis: merged.hypothesis || 'Ollama generated a provisional candidate that requires CIaC validation before promotion.',\n    intervention_type: merged.intervention_type || 'research_task',\n    target_objects: Array.isArray(merged.target_objects) ? merged.target_objects : [],\n    module_refs: Array.isArray(merged.module_refs) ? merged.module_refs : [],\n    assumptions: Array.isArray(merged.assumptions) && merged.assumptions.length ? merged.assumptions : [{ id: `assumption_${index + 1}_ollama_local_fit`, statement: 'Generated from local CIaC context and requires human evidence review before promotion.', confidence: 'low', needs_evidence: true }],\n    expected_effects: Array.isArray(merged.expected_effects) && merged.expected_effects.length ? merged.expected_effects : [{ metric: 'capability_warning_specificity', direction: 'increase', rationale: 'Candidate should make the weak domain more testable.' }],\n    risk_tradeoffs: Array.isArray(merged.risk_tradeoffs) && merged.risk_tradeoffs.length ? merged.risk_tradeoffs : [{ risk: 'Generated proposal may overfit available context.', severity: 'medium', mitigation: 'Run CIaC validation, scenario checks, and human review before promotion.' }],\n    simulation_hooks: {\n      metrics_to_compare: Array.isArray(merged.simulation_hooks?.metrics_to_compare) ? merged.simulation_hooks.metrics_to_compare : ['capabilities.domain_statuses', 'scenario.blocked_review_domain_count'],\n      scenarios_to_run: Array.isArray(merged.simulation_hooks?.scenarios_to_run) ? merged.simulation_hooks.scenarios_to_run : [],\n      acceptance_tests: Array.isArray(merged.simulation_hooks?.acceptance_tests) ? merged.simulation_hooks.acceptance_tests : ['No new survival-critical unmet demand is introduced.', 'No labor is shifted into untracked resident burden.'],\n    },\n    rag_context: {\n      queries: Array.isArray(merged.rag_context?.queries) ? merged.rag_context.queries : [`CIaC ${focus} local research context`],\n      required_sources: Array.isArray(merged.rag_context?.required_sources) ? merged.rag_context.required_sources : ['patterns/', 'docs/module_reports/', 'schemas/'],\n      source_ids: sourceIds,\n    },\n    status: 'generated',\n    provisional: true,\n  };\n}\n\nconst parsed = extractJson(raw);\nconst modelCandidates = Array.isArray(parsed.candidate_interventions)\n  ? parsed.candidate_interventions\n  : Array.isArray(parsed.candidates)\n    ? parsed.candidates\n    : Array.isArray(parsed)\n      ? parsed\n      : [];\nconst fallback = context.seed_candidates || [];\nconst normalized = (modelCandidates.length ? modelCandidates : fallback).slice(0, 3).map(normalizeCandidate);\n\nreturn [{\n  json: {\n    kind: 'CIaCResearchLoopResponse',\n    version: 'v0',\n    source: 'n8n_ollama_rag',\n    workflow_name: 'CIaC Research Loop Webhook',\n    trace_marker: trace,\n    model: ollama.model || 'qwen3.5:9b',\n    focus: context.focus,\n    discovery_report_id: context.discovery_report_id,\n    context_source_ids: context.context_source_ids || [],\n    candidate_count: normalized.length,\n    candidate_interventions: normalized,\n    discovery_brief: {\n      summary: parsed.discovery_brief?.summary || parsed.summary || `n8n retrieved ${context.context_source_ids?.length || 0} local source(s), called Ollama, and returned ${normalized.length} generated candidate intervention(s).`,\n      model: ollama.model || 'qwen3.5:9b',\n      trace_marker: trace,\n      context_source_count: context.context_source_ids?.length || 0,\n      parse_error: parsed.parse_error || null,\n    },\n  },\n}];"
+      },
+      "id": "467c1c4b-b7f9-4243-9b7e-fd3e4f0f5f2b",
+      "name": "Parse and Normalize Candidates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1020,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "8e940c9a-0aa4-4d4e-a898-f1546c5ae9bd",
+      "name": "Return Candidates to CIaC",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "CIaC Research Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Research Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Research Request": {
+      "main": [
+        [
+          {
+            "node": "Retrieve CIaC RAG Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve CIaC RAG Context": {
+      "main": [
+        [
+          {
+            "node": "Ask Ollama for Candidate Interventions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Ollama for Candidate Interventions": {
+      "main": [
+        [
+          {
+            "node": "Parse and Normalize Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse and Normalize Candidates": {
+      "main": [
+        [
+          {
+            "node": "Return Candidates to CIaC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "research-webhook-v1",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

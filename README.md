@@ -110,6 +110,93 @@ When served through `ciac viewer-server`, a completed webapp year writes or refr
 
 The browser slider population is therefore not just a UI decoration. It becomes the active population context used by simulation, node scaling, topology, food labor, cycle review, and artifact-cohesion checks.
 
+## Local Web App And Research Stack
+
+The current interactive stack has several cooperating local processes. If the 3D UI is used directly through Vite, keep the Python API server running as well.
+
+| Purpose | Default URL | Start command |
+| --- | --- | --- |
+| 3D web UI | `http://127.0.0.1:5173` | `Set-Location viewer/world3d; npm run dev -- --host 127.0.0.1 --port 5173` |
+| CIaC viewer API | `http://127.0.0.1:8765` | `py -3.10 -m ciac viewer-server --host 127.0.0.1 --port 8765 --repo-root D:\Projects\CIaC` |
+| CIaC discovery bridge for Docker n8n | `http://127.0.0.1:8791` or `http://host.docker.internal:8791` | `py -3.10 -m ciac discovery-bridge --host 0.0.0.0 --port 8791 --repo-root D:\Projects\CIaC` |
+| n8n | `http://127.0.0.1:5678` | Start from your local n8n install, Desktop app, or Docker stack. |
+| Ollama | `http://127.0.0.1:11434` | `ollama serve` if it is not already running. |
+
+The UI calls `/api/*`; Vite proxies those requests to the viewer API on port `8765`. The Research Lab Run button calls `/api/research-loop`, which writes discovery, candidate, patch, materialization, and impact artifacts under `examples/discovery/`, `candidate_interventions/`, `patch_proposals/`, and `patterns/`.
+
+Recommended startup order:
+
+```powershell
+# Terminal 1: CIaC API
+py -3.10 -m ciac viewer-server --host 127.0.0.1 --port 8765 --repo-root D:\Projects\CIaC
+
+# Terminal 2: CIaC bridge for n8n Docker workflows
+py -3.10 -m ciac discovery-bridge --host 0.0.0.0 --port 8791 --repo-root D:\Projects\CIaC
+
+# Terminal 3: Vite 3D UI
+Set-Location D:\Projects\CIaC\viewer\world3d
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+Then make sure n8n is running and the workflow in `n8n/workflow_exports/ciac_research_loop_webhook.workflow.json` is imported and active. The workflow expects to call the host bridge from Docker at:
+
+```text
+http://host.docker.internal:8791/research-context
+```
+
+It calls Ollama over:
+
+```text
+http://host.docker.internal:11434/api/generate
+```
+
+The first working local model is `qwen3.5:9b`. Pull it before running the n8n workflow if needed:
+
+```powershell
+ollama pull qwen3.5:9b
+```
+
+### n8n Webhook Configuration
+
+`viewer-server` now auto-detects local n8n. If `http://127.0.0.1:5678` is reachable and no override is set, it uses:
+
+```text
+http://127.0.0.1:5678/webhook/ciac-research-loop
+```
+
+You can still set an explicit webhook:
+
+```powershell
+$env:CIAC_N8N_RESEARCH_WEBHOOK = "http://127.0.0.1:5678/webhook/ciac-research-loop"
+py -3.10 -m ciac viewer-server --host 127.0.0.1 --port 8765 --repo-root D:\Projects\CIaC
+```
+
+Disable n8n and force deterministic CIaC seed candidates with:
+
+```powershell
+$env:CIAC_N8N_RESEARCH_WEBHOOK = "off"
+```
+
+When n8n actually participates, the Research Lab panel should show `n8n ok` plus a trace marker such as `n8n-rag-...`. The run artifact should show:
+
+```text
+candidate_source: n8n_webhook
+n8n.called: true
+n8n.ok: true
+n8n.webhook_url: http://127.0.0.1:5678/webhook/ciac-research-loop
+```
+
+If the panel shows `n8n off`, the viewer API did not use a webhook. If it shows `n8n fallback`, the webhook was attempted but CIaC fell back to deterministic seed candidates.
+
+Quick process check:
+
+```powershell
+Get-NetTCPConnection -LocalPort 5173,8765,8791,5678 -ErrorAction SilentlyContinue |
+  Select-Object LocalAddress,LocalPort,State,OwningProcess
+```
+
+After changing Python server code or environment variables, restart `viewer-server`; a running process keeps old imports and old environment values.
+
 ## Resource Semantics
 
 The viewer resource cards show reserves, not magic totals. For water, food, and energy, the UI exposes:
@@ -129,6 +216,22 @@ This means a stable water number can be correct if natural source flow is coveri
 Resource simulation tracks water, food, energy, storage, and flows. Capability simulation tracks non-resource civic conditions such as governance, labor, care, access, legal-finance resilience, skill coverage, social/coercion risk, and graceful degradation.
 
 Capability outputs are provisional modeling aids. They do not satisfy professional review, legal review, resident consent, accessibility compliance, safety validation, or real-world trust. See [Capability State Layer](docs/capability_state_layer.md).
+
+## Civic Floor World MVP
+
+The project now includes an experimental web-first 3D viewer driven by a generated `world_manifest.json`. The viewer renders CIaC outputs as a stylized civic diorama with Life, Systems, Stress, and Insight modes, plus committed population scaling. It is a provisional demonstration surface only and does not prove real-world safety, legality, cost, consent, or buildability. See [Civic Floor World MVP](docs/civic_floor_world_mvp.md).
+
+## Discovery Lab
+
+CIaC can emit structured discovery-loop handoffs for local AI/RAG automation. The first implementation targets n8n + Ollama: CIaC detects warnings and bottlenecks, n8n retrieves local context, Ollama proposes structured `DiscoveryCandidateIntervention` artifacts, and CIaC validates them before simulation or promotion.
+
+Generate a discovery loop:
+
+```powershell
+py -3.10 -m ciac discovery-loop examples/world_manifests/civic_floor_80_v0.world.json --runtime examples/generated/micro_commons_runtime_bundle.json --focus all --output examples/discovery/civic_floor_80_discovery_loop_v0.discovery.json
+```
+
+Review the implementation notes in [n8n Discovery Lab Implementation](docs/n8n_discovery_lab_implementation.md). The UI-driven workflow is `n8n/workflow_exports/ciac_research_loop_webhook.workflow.json`; the older `ciac_discovery_lab_test_drive.workflow.json` is a manual test-drive workflow.
 
 ## Scaling And Topology
 

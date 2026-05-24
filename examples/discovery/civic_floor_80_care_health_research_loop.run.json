@@ -1,0 +1,59 @@
+{
+  "candidate_source": "seed_candidates",
+  "candidates_written": [
+    {
+      "id": "care_health_resident_controlled_medication_continuity_kit_v0",
+      "path": "candidate_interventions\\care_health_resident_controlled_medication_continuity_kit_v0.json",
+      "status": "valid"
+    },
+    {
+      "id": "care_health_critical_load_medication_cold_chain_cabinet_v0",
+      "path": "candidate_interventions\\care_health_critical_load_medication_cold_chain_cabinet_v0.json",
+      "status": "valid"
+    },
+    {
+      "id": "care_health_care_steward_continuity_rota_v0",
+      "path": "candidate_interventions\\care_health_care_steward_continuity_rota_v0.json",
+      "status": "valid"
+    }
+  ],
+  "discovery_report_path": "examples/discovery/civic_floor_80_care_health_research_loop.discovery.json",
+  "id": "research_discovery_civic_floor_80_v0_care_health_v0",
+  "kind": "ResearchLoopRun",
+  "n8n": {
+    "called": false,
+    "error": null,
+    "ok": false,
+    "webhook_url": null
+  },
+  "next_actions": [
+    "Review generated PatchProposal artifacts before applying any model change.",
+    "Run scenario checks listed in each patch proposal.",
+    "Promote only proposals that reduce the triggering warning without adding hidden labor or survival-critical unmet demand."
+  ],
+  "patch_proposals_written": [
+    {
+      "id": "patch_care_health_resident_controlled_medication_continuity_kit_v0",
+      "path": "patch_proposals\\patch_care_health_resident_controlled_medication_continuity_kit_v0.json",
+      "status": "needs_evidence"
+    },
+    {
+      "id": "patch_care_health_critical_load_medication_cold_chain_cabinet_v0",
+      "path": "patch_proposals\\patch_care_health_critical_load_medication_cold_chain_cabinet_v0.json",
+      "status": "needs_evidence"
+    },
+    {
+      "id": "patch_care_health_care_steward_continuity_rota_v0",
+      "path": "patch_proposals\\patch_care_health_care_steward_continuity_rota_v0.json",
+      "status": "needs_evidence"
+    }
+  ],
+  "provisional": true,
+  "source": {
+    "focus": "care_health",
+    "runtime_bundle_path": "examples/generated/micro_commons_runtime_bundle.json",
+    "world_manifest_path": "examples/world_manifests/civic_floor_80_v0.world.json"
+  },
+  "status": "ready_for_review",
+  "version": "v0"
+}

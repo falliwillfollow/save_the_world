@@ -38,6 +38,9 @@ CAPABILITY_DOMAINS = {
     },
     "mobility_access": {
         "accessible_route_coverage": 0.0,
+        "route_gap_survey_supported": False,
+        "accessible_route_status_visibility_supported": False,
+        "emergency_access_status_declared": False,
         "non_driver_access_supported": False,
         "emergency_access_supported": False,
         "transport_burden_risk_score": 5,
@@ -343,6 +346,10 @@ def _mobility_gate(domain: dict[str, Any], patterns: set[str]) -> dict[str, Any]
         failures.append("Emergency access is not explicitly supported for the active mobility module.")
     if float(domain.get("accessible_route_coverage", 0)) < 1.0:
         warnings.append("Accessible-route coverage is not complete.")
+    if not domain.get("non_driver_access_supported"):
+        warnings.append("Non-driver access is not explicitly supported.")
+    if not domain.get("emergency_access_supported"):
+        warnings.append("Emergency access is not explicitly supported.")
     return _domain_result(failures, warnings)
 
 

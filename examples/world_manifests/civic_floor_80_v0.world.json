@@ -1,0 +1,2354 @@
+{
+  "daily_events": [
+    {
+      "duration_minutes": 120,
+      "id": "event_01_artist",
+      "label": "Studio practice",
+      "location_id": "structure_quiet_studio",
+      "module_refs": [
+        "labor_time.life_burden_ledger.v0_1"
+      ],
+      "resident_id": "resident_artist_01",
+      "time": "10:00",
+      "type": "passion_time",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "studio"
+      }
+    },
+    {
+      "duration_minutes": 60,
+      "id": "event_02_elder",
+      "label": "Low-pressure common meal",
+      "location_id": "structure_common_house",
+      "module_refs": [
+        "social_cultural_commons.belonging_without_coercion.v0_1"
+      ],
+      "resident_id": "resident_elder_02",
+      "time": "11:30",
+      "type": "social",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "meal"
+      }
+    },
+    {
+      "duration_minutes": 90,
+      "id": "event_03_caregiver",
+      "label": "Care continuity check",
+      "location_id": "structure_care_room",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "resident_id": "resident_caregiver_03",
+      "time": "08:30",
+      "type": "care",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "care"
+      }
+    },
+    {
+      "duration_minutes": 90,
+      "id": "event_04_student",
+      "label": "Skill lattice practice",
+      "location_id": "structure_maintenance_shop",
+      "module_refs": [
+        "education_skill.civic_skill_lattice.v0_1"
+      ],
+      "resident_id": "resident_student_04",
+      "time": "14:00",
+      "type": "learning",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "learn"
+      }
+    },
+    {
+      "duration_minutes": 75,
+      "id": "event_05_maintenance_steward",
+      "label": "Asset registry round",
+      "location_id": "structure_maintenance_shop",
+      "module_refs": [
+        "maintenance.maintainable_commons_spine.v0_1"
+      ],
+      "resident_id": "resident_maintenance_steward_05",
+      "time": "09:00",
+      "type": "maintenance",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "tool"
+      }
+    },
+    {
+      "duration_minutes": 90,
+      "id": "event_06_food_steward",
+      "label": "Garden commons shift",
+      "location_id": "structure_food_commons",
+      "module_refs": [
+        "food.hybrid_food_commons.v0_1"
+      ],
+      "resident_id": "resident_food_steward_06",
+      "time": "09:30",
+      "type": "commons_labor",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "garden"
+      }
+    },
+    {
+      "duration_minutes": 120,
+      "id": "event_07_researcher",
+      "label": "Evidence review",
+      "location_id": "structure_quiet_studio",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "resident_id": "resident_researcher_07",
+      "time": "15:00",
+      "type": "passion_time",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "research"
+      }
+    },
+    {
+      "duration_minutes": 45,
+      "id": "event_08_child",
+      "label": "Protected play/rest",
+      "location_id": "structure_social_cultural",
+      "module_refs": [
+        "social_cultural_commons.belonging_without_coercion.v0_1"
+      ],
+      "resident_id": "resident_child_08",
+      "time": "16:00",
+      "type": "rest",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "play"
+      }
+    },
+    {
+      "duration_minutes": 45,
+      "id": "event_09_governance_steward",
+      "label": "Decision log review",
+      "location_id": "structure_common_house",
+      "module_refs": [
+        "governance.commons_stewardship_protocol.v0_1"
+      ],
+      "resident_id": "resident_governance_steward_09",
+      "time": "17:30",
+      "type": "governance",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "governance"
+      }
+    },
+    {
+      "duration_minutes": 45,
+      "id": "event_10_water_energy_steward",
+      "label": "Water and energy check",
+      "location_id": "node_solar_battery",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1",
+        "energy.critical_load_energy_commons.v0_1"
+      ],
+      "resident_id": "resident_water_energy_steward_11",
+      "time": "07:45",
+      "type": "maintenance",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "energy"
+      }
+    },
+    {
+      "duration_minutes": 120,
+      "id": "event_11_resting_resident",
+      "label": "Quiet recovery block",
+      "location_id": "structure_quiet_studio",
+      "module_refs": [
+        "labor_time.life_burden_ledger.v0_1"
+      ],
+      "resident_id": "resident_resting_resident_12",
+      "time": "13:00",
+      "type": "rest",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "rest"
+      }
+    },
+    {
+      "duration_minutes": 60,
+      "id": "event_12_visitor",
+      "label": "Hosted introduction",
+      "location_id": "structure_common_house",
+      "module_refs": [
+        "social_cultural_commons.belonging_without_coercion.v0_1"
+      ],
+      "resident_id": "resident_visitor_10",
+      "time": "12:30",
+      "type": "social",
+      "visual": {
+        "animation_hint": "walk_work_idle",
+        "icon": "visit"
+      }
+    }
+  ],
+  "evidence_cards": [
+    {
+      "assumptions": [
+        "Aggregate care state is modeled through modules attached to this room."
+      ],
+      "id": "evidence_care_room",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1",
+        "care_health.care_health_resident_controlled_medication_continuity_kit_v0.active"
+      ],
+      "review_required": [
+        "health",
+        "privacy",
+        "accessibility"
+      ],
+      "status": "provisional",
+      "summary": "Visible care continuity point without exposing personal health data.",
+      "title": "Care Room"
+    },
+    {
+      "assumptions": [
+        "Common-core geometry is proxy only."
+      ],
+      "id": "evidence_common_core",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "review_required": [
+        "building code",
+        "accessibility",
+        "fire/life safety"
+      ],
+      "status": "provisional",
+      "summary": "Shared daily-life center for meals, governance, care access, and social contact.",
+      "title": "Common Core"
+    },
+    {
+      "assumptions": [
+        "Common space ratio is provisional."
+      ],
+      "id": "evidence_common_house",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1",
+        "social_cultural_commons.belonging_without_coercion.v0_1"
+      ],
+      "review_required": [
+        "building code",
+        "accessibility",
+        "fire/life safety"
+      ],
+      "status": "provisional",
+      "summary": "Shared third place, dining, social, and governance interface.",
+      "title": "Common House"
+    },
+    {
+      "assumptions": [
+        "Food servings are not a complete nutrition plan."
+      ],
+      "id": "evidence_food_commons",
+      "module_refs": [
+        "food.hybrid_food_commons.v0_1"
+      ],
+      "review_required": [
+        "food safety",
+        "nutrition",
+        "procurement"
+      ],
+      "status": "provisional",
+      "summary": "Food hub for common meals, storage, garden coordination, and procurement visibility.",
+      "title": "Hybrid Food Commons"
+    },
+    {
+      "assumptions": [
+        "Maintenance labor is provisional."
+      ],
+      "id": "evidence_maintenance_shop",
+      "module_refs": [
+        "maintenance.maintainable_commons_spine.v0_1"
+      ],
+      "review_required": [
+        "worker safety",
+        "tool safety",
+        "professional review"
+      ],
+      "status": "provisional",
+      "summary": "Work orders, tools, spares, and professional handoff made visible.",
+      "title": "Maintenance Shop"
+    },
+    {
+      "assumptions": [
+        "Grades and surfaces are not surveyed."
+      ],
+      "id": "evidence_primary_paths",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "review_required": [
+        "civil engineering",
+        "accessibility",
+        "emergency access"
+      ],
+      "status": "provisional",
+      "summary": "Accessible loop and radial paths make daily routes visible.",
+      "title": "Primary Paths"
+    },
+    {
+      "assumptions": [
+        "Acceptance, digestibility, inputs, and safety are provisional."
+      ],
+      "id": "evidence_protein_commons",
+      "module_refs": [
+        "food.protein_commons_supplement.v0_1"
+      ],
+      "review_required": [
+        "food safety",
+        "nutrition",
+        "resident acceptance"
+      ],
+      "status": "provisional",
+      "summary": "Supplemental protein layer for duckweed, fermentation, or equivalent reviewed systems.",
+      "title": "Protein Commons"
+    },
+    {
+      "assumptions": [
+        "Passion time is represented, not guaranteed."
+      ],
+      "id": "evidence_quiet_studio",
+      "module_refs": [
+        "labor_time.life_burden_ledger.v0_1"
+      ],
+      "review_required": [
+        "privacy",
+        "labor fairness"
+      ],
+      "status": "provisional",
+      "summary": "Protected quiet, recovery, and passion-time space.",
+      "title": "Quiet Studio"
+    },
+    {
+      "assumptions": [
+        "Pods represent privacy need, not a final plan."
+      ],
+      "id": "evidence_residential_pods",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "review_required": [
+        "housing code",
+        "privacy review",
+        "accessibility"
+      ],
+      "status": "provisional",
+      "summary": "Archetypal private retreat pods around the common core.",
+      "title": "Residential Pods"
+    },
+    {
+      "assumptions": [
+        "Authority and trust are not automated."
+      ],
+      "id": "evidence_risk_governance",
+      "module_refs": [
+        "governance.commons_stewardship_protocol.v0_1",
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "review_required": [
+        "legal",
+        "governance",
+        "resident consent"
+      ],
+      "status": "provisional",
+      "summary": "Governance, anti-capture, dependency, and scenario visibility.",
+      "title": "Risk + Governance Board"
+    },
+    {
+      "assumptions": [
+        "Blackwater remains review-bound."
+      ],
+      "id": "evidence_sanitation_node",
+      "module_refs": [
+        "sanitation.hygienic_circular_commons.v0_1"
+      ],
+      "review_required": [
+        "public health",
+        "wastewater",
+        "worker safety"
+      ],
+      "status": "provisional",
+      "summary": "Conservative sanitation and waste continuity node.",
+      "title": "Sanitation + Waste"
+    },
+    {
+      "assumptions": [
+        "Service adjacency is symbolic."
+      ],
+      "id": "evidence_service_edge",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1",
+        "energy.critical_load_energy_commons.v0_1"
+      ],
+      "review_required": [
+        "engineering",
+        "public health",
+        "electrical"
+      ],
+      "status": "provisional",
+      "summary": "Water, energy, sanitation, and maintenance sit on a visible service edge.",
+      "title": "Service Edge"
+    },
+    {
+      "assumptions": [
+        "Belonging cannot be proven by a score."
+      ],
+      "id": "evidence_social_cultural",
+      "module_refs": [
+        "social_cultural_commons.belonging_without_coercion.v0_1"
+      ],
+      "review_required": [
+        "resident consent",
+        "safeguarding",
+        "accessibility"
+      ],
+      "status": "provisional",
+      "summary": "Optional cultural and social space with opt-out protection.",
+      "title": "Social Commons"
+    },
+    {
+      "assumptions": [
+        "Runtime hours are provisional."
+      ],
+      "id": "evidence_solar_battery",
+      "module_refs": [
+        "energy.critical_load_energy_commons.v0_1"
+      ],
+      "review_required": [
+        "electrical",
+        "battery/fire",
+        "interconnection"
+      ],
+      "status": "provisional",
+      "summary": "Solar and battery proxy for critical load protection.",
+      "title": "Critical Load Energy Commons"
+    },
+    {
+      "assumptions": [
+        "Water storage values are planning assumptions.",
+        "Water public-health modules attach here as aggregate operating protocols, not as certification."
+      ],
+      "id": "evidence_water_node",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1",
+        "water_public_health.water_public_health_sanitation_labor_protocal_v0.active"
+      ],
+      "review_required": [
+        "public health",
+        "plumbing",
+        "water testing"
+      ],
+      "status": "provisional",
+      "summary": "Water source, reserve, testing, and recovery assumptions.",
+      "title": "Water Node"
+    }
+  ],
+  "failures": [],
+  "generated_at": null,
+  "infrastructure_nodes": [
+    {
+      "asset_key": "proxy_water_node",
+      "evidence_card_id": "evidence_water_node",
+      "id": "node_water_reserve",
+      "label": "Water Source + Reserve",
+      "metrics": {
+        "daily_net": 23.445,
+        "status": "pass",
+        "stored": 34351.2
+      },
+      "module_refs": [
+        "water.resilient_water_commons.v0_1",
+        "water_public_health.water_public_health_sanitation_labor_protocal_v0.active"
+      ],
+      "position": {
+        "x": -24.0,
+        "y": 0.0,
+        "z": 18.0
+      },
+      "type": "water"
+    },
+    {
+      "asset_key": "proxy_solar_battery",
+      "evidence_card_id": "evidence_solar_battery",
+      "id": "node_solar_battery",
+      "label": "Solar + Critical Battery",
+      "metrics": {
+        "critical_load_runtime_hours": 72,
+        "daily_net": 1.937,
+        "status": "pass",
+        "stored": 596.535
+      },
+      "module_refs": [
+        "energy.critical_load_energy_commons.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -24.0
+      },
+      "type": "energy"
+    },
+    {
+      "asset_key": "proxy_sanitation_node",
+      "evidence_card_id": "evidence_sanitation_node",
+      "id": "node_sanitation_waste",
+      "label": "Sanitation + Waste",
+      "metrics": {
+        "status": "provisional"
+      },
+      "module_refs": [
+        "sanitation.hygienic_circular_commons.v0_1"
+      ],
+      "position": {
+        "x": 26.0,
+        "y": 0.0,
+        "z": -2.0
+      },
+      "type": "sanitation"
+    },
+    {
+      "asset_key": "proxy_risk_board",
+      "evidence_card_id": "evidence_risk_governance",
+      "id": "node_risk_governance",
+      "label": "Risk + Governance Board",
+      "metrics": {
+        "capability_status": "warn"
+      },
+      "module_refs": [
+        "governance.commons_stewardship_protocol.v0_1",
+        "risk_resilience.graceful_degradation_engine.v0_1"
+      ],
+      "position": {
+        "x": -6.0,
+        "y": 0.0,
+        "z": -8.0
+      },
+      "type": "risk"
+    }
+  ],
+  "kind": "CivicFloorWorldManifest",
+  "modules": [
+    {
+      "domain": "housing",
+      "label": "Dignified Village Block",
+      "module_id": "housing.dignified_village_block.v0_1",
+      "pattern_id": "dignified_village_block",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Housing model layer.",
+      "tier": "floor_systems"
+    },
+    {
+      "domain": "food",
+      "label": "Hybrid Food Commons",
+      "module_id": "food.hybrid_food_commons.v0_1",
+      "pattern_id": "hybrid_food_commons",
+      "placement_target_id": "structure_food_commons",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Food model layer.",
+      "tier": "floor_systems"
+    },
+    {
+      "domain": "food",
+      "label": "Protein Commons Supplement",
+      "module_id": "food.protein_commons_supplement.v0_1",
+      "pattern_id": "protein_commons_supplement",
+      "placement_target_id": "structure_food_commons",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Food model layer.",
+      "tier": "capacity_systems"
+    },
+    {
+      "domain": "water",
+      "label": "Resilient Water Commons",
+      "module_id": "water.resilient_water_commons.v0_1",
+      "pattern_id": "resilient_water_commons",
+      "placement_target_id": "node_water_reserve",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Water model layer.",
+      "tier": "floor_systems"
+    },
+    {
+      "domain": "energy",
+      "label": "Critical Load Energy Commons",
+      "module_id": "energy.critical_load_energy_commons.v0_1",
+      "pattern_id": "critical_load_energy_commons",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Energy model layer.",
+      "tier": "floor_systems"
+    },
+    {
+      "domain": "sanitation",
+      "label": "Hygienic Circular Commons",
+      "module_id": "sanitation.hygienic_circular_commons.v0_1",
+      "pattern_id": "hygienic_circular_commons",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Sanitation model layer.",
+      "tier": "floor_systems"
+    },
+    {
+      "domain": "maintenance",
+      "label": "Maintainable Commons Spine",
+      "module_id": "maintenance.maintainable_commons_spine.v0_1",
+      "pattern_id": "maintainable_commons_spine",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Maintenance model layer.",
+      "tier": "operating_systems"
+    },
+    {
+      "domain": "governance",
+      "label": "Commons Stewardship Protocol",
+      "module_id": "governance.commons_stewardship_protocol.v0_1",
+      "pattern_id": "commons_stewardship_protocol",
+      "placement_target_id": "structure_common_house",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Governance model layer.",
+      "tier": "meta_systems"
+    },
+    {
+      "domain": "labor_time",
+      "label": "Life Burden Ledger",
+      "module_id": "labor_time.life_burden_ledger.v0_1",
+      "pattern_id": "life_burden_ledger",
+      "placement_target_id": "structure_quiet_studio",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Labor Time model layer.",
+      "tier": "meta_systems"
+    },
+    {
+      "domain": "legal_land_finance",
+      "label": "Anti Speculative Civic Floor",
+      "module_id": "legal_land_finance.anti_speculative_civic_floor.v0_1",
+      "pattern_id": "anti_speculative_civic_floor",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Legal Land Finance model layer.",
+      "tier": "meta_systems"
+    },
+    {
+      "domain": "mobility",
+      "label": "Pedestrian First Access Commons",
+      "module_id": "mobility_access.pedestrian_first_access_commons.v0_1",
+      "pattern_id": "pedestrian_first_access_commons",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Mobility model layer.",
+      "tier": "operating_systems"
+    },
+    {
+      "domain": "education",
+      "label": "Civic Skill Lattice",
+      "module_id": "education_skill.civic_skill_lattice.v0_1",
+      "pattern_id": "civic_skill_lattice",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Education model layer.",
+      "tier": "operating_systems"
+    },
+    {
+      "domain": "social",
+      "label": "Belonging Without Coercion Commons",
+      "module_id": "social_cultural_commons.belonging_without_coercion.v0_1",
+      "pattern_id": "belonging_without_coercion_commons",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Social model layer.",
+      "tier": "operating_systems"
+    },
+    {
+      "domain": "risk",
+      "label": "Graceful Degradation Engine",
+      "module_id": "risk_resilience.graceful_degradation_engine.v0_1",
+      "pattern_id": "graceful_degradation_engine",
+      "placement_target_id": "",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "contract_defined",
+      "summary": "Risk model layer.",
+      "tier": "meta_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "inventory audit and checkout logs",
+          "likelihood": "medium",
+          "mitigation": "recover or replace tool, update access rules, rotate stewardship",
+          "mode": "tool_capture",
+          "pattern_id": "tool_library",
+          "severity": "medium"
+        }
+      ],
+      "label": "Tool Library",
+      "module_id": "maintenance_repair.tool_library.active",
+      "pattern_id": "tool_library",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Tool Library active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "energy",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "battery management alerts and inspection",
+          "likelihood": "low",
+          "mitigation": "isolate battery bank, use fire-safe protocol, escalate to qualified electrician",
+          "mode": "battery_fault",
+          "pattern_id": "solar_shed",
+          "severity": "catastrophic"
+        }
+      ],
+      "label": "Solar Shed",
+      "module_id": "maintenance_repair.solar_shed.active",
+      "pattern_id": "solar_shed",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Solar Shed active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "energy",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "charge logs, device alerts, heat, swelling, or failed load test",
+          "likelihood": "low",
+          "mitigation": "isolate reserve, stop charging, use backup communications plan, escalate to qualified reviewer",
+          "mode": "reserve_battery_fault",
+          "pattern_id": "critical_load_reserve",
+          "severity": "high"
+        }
+      ],
+      "label": "Critical Load Reserve",
+      "module_id": "maintenance_repair.critical_load_reserve.active",
+      "pattern_id": "critical_load_reserve",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Critical Load Reserve active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "energy",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "water testing and illness reports",
+          "likelihood": "medium",
+          "mitigation": "stop use, switch to backup, treat or remediate source, retest before reinstating",
+          "mode": "contaminated_source",
+          "pattern_id": "well_house",
+          "severity": "catastrophic"
+        }
+      ],
+      "label": "Well House",
+      "module_id": "maintenance_repair.well_house.active",
+      "pattern_id": "well_house",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Well House active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "water testing and tank inspection",
+          "likelihood": "medium",
+          "mitigation": "label nonpotable, flush or treat tank, correct catchment contamination source",
+          "mode": "stored_water_contamination",
+          "pattern_id": "rainwater_capture",
+          "severity": "high"
+        }
+      ],
+      "label": "Rainwater Capture",
+      "module_id": "maintenance_repair.rainwater_capture.active",
+      "pattern_id": "rainwater_capture",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Rainwater Capture active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "rotation log, visual inspection, and water testing",
+          "likelihood": "medium",
+          "mitigation": "isolate reserve, switch to backup source, sanitize containers, retest before use",
+          "mode": "reserve_contamination",
+          "pattern_id": "emergency_water_reserve",
+          "severity": "high"
+        }
+      ],
+      "label": "Emergency Water Reserve",
+      "module_id": "maintenance_repair.emergency_water_reserve.active",
+      "pattern_id": "emergency_water_reserve",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Emergency Water Reserve active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "sanitation",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "process logs and sanitation inspection",
+          "likelihood": "medium",
+          "mitigation": "extend processing time, restrict use, involve sanitation professional",
+          "mode": "pathogen_persistence",
+          "pattern_id": "composting_system",
+          "severity": "high"
+        }
+      ],
+      "label": "Composting System",
+      "module_id": "maintenance_repair.composting_system.active",
+      "pattern_id": "composting_system",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Composting System active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "energy",
+        "sanitation",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "inspection logs and illness reports",
+          "likelihood": "medium",
+          "mitigation": "shut down affected fixture, disinfect, test water, escalate to health professional",
+          "mode": "pathogen_exposure",
+          "pattern_id": "shared_bathhouse",
+          "severity": "catastrophic"
+        }
+      ],
+      "label": "Shared Bathhouse",
+      "module_id": "maintenance_repair.shared_bathhouse.active",
+      "pattern_id": "shared_bathhouse",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Shared Bathhouse active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "energy",
+        "sanitation",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "seasonal envelope inspection",
+          "likelihood": "medium",
+          "mitigation": "repair flashing, drainage, and ventilation before occupancy damage spreads",
+          "mode": "moisture_intrusion",
+          "pattern_id": "starter_dwelling",
+          "severity": "high"
+        }
+      ],
+      "label": "Starter Dwelling",
+      "module_id": "maintenance_repair.starter_dwelling.active",
+      "pattern_id": "starter_dwelling",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Starter Dwelling active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "energy",
+        "food",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "temperature logs and resident health reports",
+          "likelihood": "medium",
+          "mitigation": "discard suspect food, sanitize, retrain kitchen role, escalate to health professional",
+          "mode": "foodborne_illness",
+          "pattern_id": "community_kitchen",
+          "severity": "high"
+        }
+      ],
+      "label": "Community Kitchen",
+      "module_id": "maintenance_repair.community_kitchen.active",
+      "pattern_id": "community_kitchen",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Community Kitchen active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "food",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "inventory log and food storage inspection",
+          "likelihood": "medium",
+          "mitigation": "discard unsafe food, clean storage, replace staples, review moisture and pest controls",
+          "mode": "staple_spoilage",
+          "pattern_id": "staple_food_reserve",
+          "severity": "high"
+        }
+      ],
+      "label": "Staple Food Reserve",
+      "module_id": "maintenance_repair.staple_food_reserve.active",
+      "pattern_id": "staple_food_reserve",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Staple Food Reserve active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "energy",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "incident reports and safety audits",
+          "likelihood": "medium",
+          "mitigation": "stop tool use, provide care, retrain, repair guarding or workflow",
+          "mode": "tool_injury",
+          "pattern_id": "workshop",
+          "severity": "high"
+        }
+      ],
+      "label": "Workshop",
+      "module_id": "maintenance_repair.workshop.active",
+      "pattern_id": "workshop",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Workshop active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "water",
+        "food",
+        "maintenance"
+      ],
+      "domain": "maintenance_repair",
+      "failure_modes": [
+        {
+          "detection_method": "crop logs and visual inspection",
+          "likelihood": "medium",
+          "mitigation": "diagnose water, pest, heat, and soil issues; replant or substitute crops",
+          "mode": "crop_failure",
+          "pattern_id": "greenhouse",
+          "severity": "medium"
+        }
+      ],
+      "label": "Greenhouse",
+      "module_id": "maintenance_repair.greenhouse.active",
+      "pattern_id": "greenhouse",
+      "placement_target_id": "structure_maintenance_shop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Greenhouse active module.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "maintenance",
+        "energy"
+      ],
+      "domain": "care_health",
+      "failure_modes": [
+        {
+          "detection_method": "resident report, steward review, audit log, scenario replay, or external professional handoff trigger",
+          "likelihood": "medium",
+          "mitigation": "Use opt-in refill reminders and non-diagnostic inventory checks.",
+          "mode": "inventory_drift_or_missed_refills",
+          "pattern_id": "care_health_resident_controlled_medication_continuity_kit_v0",
+          "severity": "medium"
+        }
+      ],
+      "label": "Care Health Resident Controlled Medication Continuity Kit V0",
+      "module_id": "care_health.care_health_resident_controlled_medication_continuity_kit_v0.active",
+      "pattern_id": "care_health_resident_controlled_medication_continuity_kit_v0",
+      "placement_target_id": "structure_care_room",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Care continuity operating module attached to the Care Room.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "maintenance",
+        "water"
+      ],
+      "domain": "water_public_health",
+      "failure_modes": [
+        {
+          "detection_method": "resident report, steward review, audit log, scenario replay, or external professional handoff trigger",
+          "likelihood": "medium",
+          "mitigation": "Automated logging where possible; manual audit required only if automation unavailable.",
+          "mode": "labor_tracking_adds_administrative_overhead",
+          "pattern_id": "water_public_health_sanitation_labor_protocal_v0",
+          "severity": "medium"
+        },
+        {
+          "detection_method": "resident report, steward review, audit log, scenario replay, or external professional handoff trigger",
+          "likelihood": "medium",
+          "mitigation": "Prioritize critical load reserves and safety checks in rotation.",
+          "mode": "maintenance_delays_may_affect_water_safety",
+          "pattern_id": "water_public_health_sanitation_labor_protocal_v0",
+          "severity": "medium"
+        }
+      ],
+      "label": "Water Public Health Sanitation Labor Protocal V0",
+      "module_id": "water_public_health.water_public_health_sanitation_labor_protocal_v0.active",
+      "pattern_id": "water_public_health_sanitation_labor_protocal_v0",
+      "placement_target_id": "node_water_reserve",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Water reserve sanitation and recovery protocol attached to the water node.",
+      "tier": "operating_systems"
+    },
+    {
+      "active_failure_count": 0,
+      "critical_resources": [
+        "maintenance"
+      ],
+      "domain": "mobility_access",
+      "failure_modes": [
+        {
+          "detection_method": "resident report, steward review, audit log, scenario replay, or external professional handoff trigger",
+          "likelihood": "medium",
+          "mitigation": "Mark all route claims provisional until surveyed.",
+          "mode": "proxy_geometry_may_imply_false_compliance",
+          "pattern_id": "mobility_access_accessible_route_gap_survey_map_v0",
+          "severity": "high"
+        },
+        {
+          "detection_method": "resident report, steward review, audit log, scenario replay, or external professional handoff trigger",
+          "likelihood": "medium",
+          "mitigation": "Monitor resource_telemetry.labor.required_minutes_per_resident_per_day.",
+          "mode": "labor_burden_on_residents_may_increase_if_not_tracked",
+          "pattern_id": "mobility_access_accessible_route_gap_survey_map_v0",
+          "severity": "medium"
+        }
+      ],
+      "label": "Mobility Access Accessible Route Gap Survey Map V0",
+      "module_id": "mobility_access.mobility_access_accessible_route_gap_survey_map_v0.active",
+      "pattern_id": "mobility_access_accessible_route_gap_survey_map_v0",
+      "placement_target_id": "zone_mobility_loop",
+      "provisional": true,
+      "review_status": "review_required",
+      "status": "simulation_connected",
+      "summary": "Accessible route survey and daily-need mobility visibility module.",
+      "tier": "operating_systems"
+    }
+  ],
+  "overlays": {
+    "care_health": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Care Health capability status."
+    },
+    "energy": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Critical-load supply and storage state."
+    },
+    "food": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Food commons and reserve state."
+    },
+    "governance_anticapture": {
+      "enabled": true,
+      "provisional": true,
+      "status": "warn",
+      "summary": "Governance Anticapture capability status."
+    },
+    "labor_time": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Labor Time capability status."
+    },
+    "legal_land_finance": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Legal Land Finance capability status."
+    },
+    "mobility_access": {
+      "enabled": true,
+      "provisional": true,
+      "status": "warn",
+      "summary": "Mobility Access capability status."
+    },
+    "risk_resilience": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Risk Resilience capability status."
+    },
+    "sanitation": {
+      "enabled": true,
+      "provisional": true,
+      "status": "provisional",
+      "summary": "Sanitation and waste continuity."
+    },
+    "water": {
+      "enabled": true,
+      "provisional": true,
+      "status": "pass",
+      "summary": "Water source, storage, and recovery state."
+    }
+  },
+  "paths": [
+    {
+      "accessibility": {
+        "accessible": true,
+        "grade_status": "review_required"
+      },
+      "evidence_card_id": "evidence_primary_paths",
+      "id": "path_primary_ring",
+      "label": "Residential Ring",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "points": [
+        {
+          "x": -24.0,
+          "y": 0.0,
+          "z": 10.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 18.0
+        },
+        {
+          "x": 24.0,
+          "y": 0.0,
+          "z": 10.0
+        },
+        {
+          "x": 18.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": 24.0,
+          "y": 0.0,
+          "z": -12.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -18.0
+        },
+        {
+          "x": -24.0,
+          "y": 0.0,
+          "z": -12.0
+        },
+        {
+          "x": -18.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": -24.0,
+          "y": 0.0,
+          "z": 10.0
+        }
+      ],
+      "type": "primary_access"
+    },
+    {
+      "accessibility": {
+        "accessible": true,
+        "grade_status": "review_required"
+      },
+      "evidence_card_id": "evidence_primary_paths",
+      "id": "path_daily_spine",
+      "label": "Daily Life Spine",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "points": [
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -18.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 15.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 28.0
+        }
+      ],
+      "type": "primary_access"
+    },
+    {
+      "accessibility": {
+        "accessible": true,
+        "grade_status": "review_required"
+      },
+      "evidence_card_id": "evidence_primary_paths",
+      "id": "path_common_services",
+      "label": "Service Spine",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "points": [
+        {
+          "x": -24.0,
+          "y": 0.0,
+          "z": 18.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -24.0
+        },
+        {
+          "x": 20.0,
+          "y": 0.0,
+          "z": -20.0
+        },
+        {
+          "x": 26.0,
+          "y": 0.0,
+          "z": -2.0
+        }
+      ],
+      "type": "service"
+    },
+    {
+      "accessibility": {
+        "accessible": true,
+        "grade_status": "review_required"
+      },
+      "evidence_card_id": "evidence_primary_paths",
+      "id": "path_care_quiet",
+      "label": "Care + Quiet Link",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "points": [
+        {
+          "x": -14.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": -12.0,
+          "y": 0.0,
+          "z": -18.0
+        }
+      ],
+      "type": "secondary_social"
+    },
+    {
+      "accessibility": {
+        "accessible": true,
+        "grade_status": "review_required"
+      },
+      "evidence_card_id": "evidence_primary_paths",
+      "id": "path_social_loop",
+      "label": "Social Link",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "points": [
+        {
+          "x": 14.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 15.0
+        },
+        {
+          "x": 16.0,
+          "y": 0.0,
+          "z": 20.0
+        }
+      ],
+      "type": "secondary_social"
+    }
+  ],
+  "population": {
+    "active_scale_slider_value": 730,
+    "households": 365,
+    "residents": 730
+  },
+  "residents": [
+    {
+      "archetype": "artist",
+      "daily_profile_id": "day_artist_balanced",
+      "home_structure_id": "structure_residential_pod_1",
+      "id": "resident_artist_01",
+      "label": "Artist",
+      "position": {
+        "x": -26.0,
+        "y": 0.0,
+        "z": 12.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "elder",
+      "daily_profile_id": "day_elder_balanced",
+      "home_structure_id": "structure_residential_pod_1",
+      "id": "resident_elder_02",
+      "label": "Elder",
+      "position": {
+        "x": -22.0,
+        "y": 0.0,
+        "z": 8.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "caregiver",
+      "daily_profile_id": "day_caregiver_balanced",
+      "home_structure_id": "structure_residential_pod_2",
+      "id": "resident_caregiver_03",
+      "label": "Caregiver",
+      "position": {
+        "x": 22.0,
+        "y": 0.0,
+        "z": 12.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "student",
+      "daily_profile_id": "day_student_balanced",
+      "home_structure_id": "structure_residential_pod_2",
+      "id": "resident_student_04",
+      "label": "Apprentice",
+      "position": {
+        "x": 26.0,
+        "y": 0.0,
+        "z": 8.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "maintenance_steward",
+      "daily_profile_id": "day_maintenance_steward_balanced",
+      "home_structure_id": "structure_residential_pod_3",
+      "id": "resident_maintenance_steward_05",
+      "label": "Maintenance Steward",
+      "position": {
+        "x": -26.0,
+        "y": 0.0,
+        "z": -14.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "food_steward",
+      "daily_profile_id": "day_food_steward_balanced",
+      "home_structure_id": "structure_residential_pod_4",
+      "id": "resident_food_steward_06",
+      "label": "Food Steward",
+      "position": {
+        "x": 22.0,
+        "y": 0.0,
+        "z": -10.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "researcher",
+      "daily_profile_id": "day_researcher_balanced",
+      "home_structure_id": "structure_residential_pod_3",
+      "id": "resident_researcher_07",
+      "label": "Researcher",
+      "position": {
+        "x": -22.0,
+        "y": 0.0,
+        "z": -10.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "child",
+      "daily_profile_id": "day_child_balanced",
+      "home_structure_id": "structure_residential_pod_2",
+      "id": "resident_child_08",
+      "label": "Child",
+      "position": {
+        "x": 27.0,
+        "y": 0.0,
+        "z": 14.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "governance_steward",
+      "daily_profile_id": "day_governance_steward_balanced",
+      "home_structure_id": "structure_residential_pod_1",
+      "id": "resident_governance_steward_09",
+      "label": "Governance Steward",
+      "position": {
+        "x": -20.0,
+        "y": 0.0,
+        "z": 12.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "visitor",
+      "daily_profile_id": "day_visitor_balanced",
+      "home_structure_id": "structure_common_house",
+      "id": "resident_visitor_10",
+      "label": "Visitor",
+      "position": {
+        "x": 5.0,
+        "y": 0.0,
+        "z": 8.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "water_energy_steward",
+      "daily_profile_id": "day_water_energy_steward_balanced",
+      "home_structure_id": "structure_residential_pod_4",
+      "id": "resident_water_energy_steward_11",
+      "label": "Water/Energy Steward",
+      "position": {
+        "x": 26.0,
+        "y": 0.0,
+        "z": -14.0
+      },
+      "privacy": "archetype_only"
+    },
+    {
+      "archetype": "resting_resident",
+      "daily_profile_id": "day_resting_resident_balanced",
+      "home_structure_id": "structure_residential_pod_3",
+      "id": "resident_resting_resident_12",
+      "label": "Resting Resident",
+      "position": {
+        "x": -20.0,
+        "y": 0.0,
+        "z": -14.0
+      },
+      "privacy": "archetype_only"
+    }
+  ],
+  "resource_telemetry": {
+    "horizon_days": 365.001,
+    "labor": {
+      "available_hours_per_resident_per_day": 1.0,
+      "basis": "Modeled infrastructure upkeep required to keep dignity-floor systems operating. Food preparation, sleep, education, outside work, private household labor, and voluntary social contribution are intentionally unstated.",
+      "care_hours_per_week": 41.0,
+      "maintenance_hours_per_week": 24.337,
+      "required_minutes_per_resident_per_day": 17.384,
+      "status": "pass",
+      "utilization": 0.29
+    },
+    "provisional": true,
+    "resources": [
+      {
+        "capacity": 60000.0,
+        "current": 34351.2,
+        "current_ratio": 0.573,
+        "drawdown": 31631.8,
+        "id": "water",
+        "label": "Water",
+        "minimum": 28368.2,
+        "minimum_ratio": 0.473,
+        "net_per_day": 23.445,
+        "provisional": true,
+        "quality_status": "pass",
+        "reserve_floor": 12000.0,
+        "reserve_floor_ratio": 0.2,
+        "status": "pass",
+        "total_curtailed": 34206.3,
+        "total_refilled": 16315.0,
+        "total_released": 41963.8,
+        "unit": "liters"
+      },
+      {
+        "capacity": 24000.0,
+        "current": 12812.8,
+        "current_ratio": 0.534,
+        "drawdown": 11187.2,
+        "id": "food",
+        "label": "Food",
+        "minimum": 12812.8,
+        "minimum_ratio": 0.534,
+        "net_per_day": -25.17,
+        "provisional": true,
+        "quality_status": "pass",
+        "reserve_floor": 6000.0,
+        "reserve_floor_ratio": 0.25,
+        "status": "pass",
+        "total_curtailed": 0.0,
+        "total_refilled": 0.0,
+        "total_released": 9187.2,
+        "unit": "servings"
+      },
+      {
+        "capacity": 1000.0,
+        "current": 596.535,
+        "current_ratio": 0.597,
+        "drawdown": 767.919,
+        "id": "energy",
+        "label": "Energy",
+        "minimum": 232.081,
+        "minimum_ratio": 0.232,
+        "net_per_day": 1.937,
+        "provisional": true,
+        "quality_status": "pass",
+        "reserve_floor": 150.0,
+        "reserve_floor_ratio": 0.15,
+        "status": "pass",
+        "total_curtailed": 1110.527,
+        "total_refilled": 767.918,
+        "total_released": 1171.385,
+        "unit": "kWh"
+      }
+    ]
+  },
+  "scale": {
+    "active_layers": [
+      "village_block",
+      "district_capability"
+    ],
+    "implied_village_blocks": 5,
+    "recommended_unit_size": 80,
+    "scale_class": "multi_block_district",
+    "scaling_mode": "mixed_topology",
+    "topology_counts": {
+      "care_rooms": 8,
+      "common_houses": 8,
+      "food_commons": 8,
+      "local_tool_caches": 5,
+      "protein_commons": 5,
+      "quiet_rooms": 10,
+      "residential_pods": 37,
+      "sanitation_cells": 5,
+      "village_blocks": 5,
+      "water_reserves": 5
+    },
+    "topology_policy_id": "ciac_scaling_policy_v0"
+  },
+  "scenario_states": [
+    {
+      "id": "scenario_normal_day",
+      "label": "Normal Day",
+      "status": "modeled",
+      "timeline": [
+        {
+          "affected_objects": [],
+          "label": "Normal operations",
+          "overlays": {},
+          "timestep": 0,
+          "warnings": []
+        }
+      ],
+      "type": "normal"
+    },
+    {
+      "id": "scenario_water_contamination_response_v2",
+      "label": "Water Contamination Response V2",
+      "status": "modeled",
+      "timeline": [
+        {
+          "affected_objects": [
+            "node_water_reserve",
+            "structure_common_house",
+            "structure_food_commons"
+          ],
+          "label": "Scenario begins",
+          "overlays": {
+            "water_liters": {
+              "status": "pass"
+            }
+          },
+          "timestep": 0,
+          "warnings": []
+        }
+      ],
+      "type": "water_contamination_response_v2"
+    },
+    {
+      "id": "scenario_crop_failure",
+      "label": "Crop Failure",
+      "status": "modeled",
+      "timeline": [
+        {
+          "affected_objects": [
+            "structure_food_commons",
+            "structure_protein_commons",
+            "zone_food_garden"
+          ],
+          "label": "Scenario begins",
+          "overlays": {
+            "food_servings": {
+              "status": "pass"
+            }
+          },
+          "timestep": 0,
+          "warnings": []
+        }
+      ],
+      "type": "crop_failure"
+    },
+    {
+      "id": "scenario_energy_outage_reserve_v2",
+      "label": "Energy Outage Reserve V2",
+      "status": "modeled",
+      "timeline": [
+        {
+          "affected_objects": [
+            "node_solar_battery",
+            "structure_common_house",
+            "structure_care_room"
+          ],
+          "label": "Scenario begins",
+          "overlays": {
+            "energy_kwh": {
+              "status": "pass"
+            },
+            "water_liters": {
+              "status": "pass"
+            }
+          },
+          "timestep": 0,
+          "warnings": []
+        }
+      ],
+      "type": "energy_outage_reserve_v2"
+    },
+    {
+      "id": "scenario_illness_wave",
+      "label": "Illness Wave",
+      "status": "placeholder",
+      "timeline": [
+        {
+          "affected_objects": [
+            "structure_care_room",
+            "structure_common_house"
+          ],
+          "label": "Illness Wave placeholder",
+          "overlays": {},
+          "timestep": 0,
+          "warnings": [
+            "Scenario state placeholder; future exports should connect this to simulation output."
+          ]
+        }
+      ],
+      "type": "illness_wave"
+    },
+    {
+      "id": "scenario_financial_shock",
+      "label": "Financial Shock",
+      "status": "placeholder",
+      "timeline": [
+        {
+          "affected_objects": [
+            "node_risk_governance",
+            "structure_common_house"
+          ],
+          "label": "Financial Shock placeholder",
+          "overlays": {},
+          "timestep": 0,
+          "warnings": [
+            "Scenario state placeholder; future exports should connect this to simulation output."
+          ]
+        }
+      ],
+      "type": "financial_shock"
+    }
+  ],
+  "source": {
+    "profile_id": "micro_commons_5_households_compiled_v0",
+    "provisional": true,
+    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "simulation_id": "micro_commons_5_households_compiled_v0_normal_year_365d"
+  },
+  "structures": [
+    {
+      "asset_key": "proxy_common_house",
+      "evidence_card_id": "evidence_common_house",
+      "id": "structure_common_house",
+      "label": "Common House",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1",
+        "social_cultural_commons.belonging_without_coercion.v0_1",
+        "governance.commons_stewardship_protocol.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 13.0,
+        "y": 4.0,
+        "z": 9.0
+      },
+      "state": {
+        "occupancy": 18,
+        "status": "normal"
+      },
+      "systems": [
+        "food",
+        "social",
+        "governance"
+      ],
+      "type": "common_house"
+    },
+    {
+      "asset_key": "proxy_food_commons",
+      "evidence_card_id": "evidence_food_commons",
+      "id": "structure_food_commons",
+      "label": "Hybrid Food Commons",
+      "module_refs": [
+        "food.hybrid_food_commons.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 15.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 12.0,
+        "y": 3.5,
+        "z": 7.0
+      },
+      "state": {
+        "occupancy": 10,
+        "status": "normal"
+      },
+      "systems": [
+        "food",
+        "labor_time"
+      ],
+      "type": "food_commons"
+    },
+    {
+      "asset_key": "proxy_protein_commons",
+      "evidence_card_id": "evidence_protein_commons",
+      "id": "structure_protein_commons",
+      "label": "Protein Commons",
+      "module_refs": [
+        "food.protein_commons_supplement.v0_1"
+      ],
+      "position": {
+        "x": 16.0,
+        "y": 0.0,
+        "z": 20.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 9.0,
+        "y": 3.0,
+        "z": 6.0
+      },
+      "state": {
+        "occupancy": 3,
+        "status": "warning"
+      },
+      "systems": [
+        "food"
+      ],
+      "type": "protein_commons"
+    },
+    {
+      "asset_key": "proxy_care_room",
+      "evidence_card_id": "evidence_care_room",
+      "id": "structure_care_room",
+      "label": "Care Room",
+      "module_refs": [
+        "risk_resilience.graceful_degradation_engine.v0_1",
+        "care_health.care_health_resident_controlled_medication_continuity_kit_v0.active"
+      ],
+      "position": {
+        "x": -14.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 7.0,
+        "y": 3.0,
+        "z": 6.0
+      },
+      "state": {
+        "occupancy": 2,
+        "status": "normal"
+      },
+      "systems": [
+        "care",
+        "risk_resilience"
+      ],
+      "type": "care_room"
+    },
+    {
+      "asset_key": "proxy_social_cultural",
+      "evidence_card_id": "evidence_social_cultural",
+      "id": "structure_social_cultural",
+      "label": "Social Commons",
+      "module_refs": [
+        "social_cultural_commons.belonging_without_coercion.v0_1"
+      ],
+      "position": {
+        "x": 14.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 10.0,
+        "y": 3.0,
+        "z": 6.0
+      },
+      "state": {
+        "occupancy": 8,
+        "status": "normal"
+      },
+      "systems": [
+        "social"
+      ],
+      "type": "social_cultural"
+    },
+    {
+      "asset_key": "proxy_maintenance_shop",
+      "evidence_card_id": "evidence_maintenance_shop",
+      "id": "structure_maintenance_shop",
+      "label": "Maintenance Shop",
+      "module_refs": [
+        "maintenance.maintainable_commons_spine.v0_1",
+        "maintenance_repair.community_kitchen.active",
+        "maintenance_repair.composting_system.active",
+        "maintenance_repair.critical_load_reserve.active",
+        "maintenance_repair.emergency_water_reserve.active",
+        "maintenance_repair.greenhouse.active",
+        "maintenance_repair.rainwater_capture.active",
+        "maintenance_repair.shared_bathhouse.active",
+        "maintenance_repair.solar_shed.active",
+        "maintenance_repair.staple_food_reserve.active",
+        "maintenance_repair.starter_dwelling.active",
+        "maintenance_repair.tool_library.active",
+        "maintenance_repair.well_house.active",
+        "maintenance_repair.workshop.active"
+      ],
+      "position": {
+        "x": 20.0,
+        "y": 0.0,
+        "z": -20.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 11.0,
+        "y": 3.0,
+        "z": 7.0
+      },
+      "state": {
+        "occupancy": 3,
+        "status": "normal"
+      },
+      "systems": [
+        "maintenance"
+      ],
+      "type": "maintenance_shop"
+    },
+    {
+      "asset_key": "proxy_quiet_studio",
+      "evidence_card_id": "evidence_quiet_studio",
+      "id": "structure_quiet_studio",
+      "label": "Quiet Studio",
+      "module_refs": [
+        "labor_time.life_burden_ledger.v0_1"
+      ],
+      "position": {
+        "x": -12.0,
+        "y": 0.0,
+        "z": -18.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 8.0,
+        "y": 3.0,
+        "z": 6.0
+      },
+      "state": {
+        "occupancy": 3,
+        "status": "normal"
+      },
+      "systems": [
+        "labor_time",
+        "dignity_privacy"
+      ],
+      "type": "quiet_studio"
+    },
+    {
+      "asset_key": "proxy_residential_pod",
+      "evidence_card_id": "evidence_residential_pods",
+      "id": "structure_residential_pod_1",
+      "label": "Residential Pod 1",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "position": {
+        "x": -24.0,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 10.0,
+        "y": 3.2,
+        "z": 8.0
+      },
+      "state": {
+        "occupancy": 12,
+        "status": "normal"
+      },
+      "systems": [
+        "housing",
+        "dignity_privacy"
+      ],
+      "type": "residential_pod"
+    },
+    {
+      "asset_key": "proxy_residential_pod",
+      "evidence_card_id": "evidence_residential_pods",
+      "id": "structure_residential_pod_2",
+      "label": "Residential Pod 2",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "position": {
+        "x": 24.0,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 10.0,
+        "y": 3.2,
+        "z": 8.0
+      },
+      "state": {
+        "occupancy": 12,
+        "status": "normal"
+      },
+      "systems": [
+        "housing",
+        "dignity_privacy"
+      ],
+      "type": "residential_pod"
+    },
+    {
+      "asset_key": "proxy_residential_pod",
+      "evidence_card_id": "evidence_residential_pods",
+      "id": "structure_residential_pod_3",
+      "label": "Residential Pod 3",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "position": {
+        "x": -24.0,
+        "y": 0.0,
+        "z": -12.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 10.0,
+        "y": 3.2,
+        "z": 8.0
+      },
+      "state": {
+        "occupancy": 12,
+        "status": "normal"
+      },
+      "systems": [
+        "housing",
+        "dignity_privacy"
+      ],
+      "type": "residential_pod"
+    },
+    {
+      "asset_key": "proxy_residential_pod",
+      "evidence_card_id": "evidence_residential_pods",
+      "id": "structure_residential_pod_4",
+      "label": "Residential Pod 4",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "position": {
+        "x": 24.0,
+        "y": 0.0,
+        "z": -12.0
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "size": {
+        "x": 10.0,
+        "y": 3.2,
+        "z": 8.0
+      },
+      "state": {
+        "occupancy": 12,
+        "status": "normal"
+      },
+      "systems": [
+        "housing",
+        "dignity_privacy"
+      ],
+      "type": "residential_pod"
+    }
+  ],
+  "unknowns": [
+    "All resource effects are provisional seed assumptions from pattern data.",
+    "Daily state uses deterministic provisional flows; no stochastic failure model exists.",
+    "Food servings are not nutrition, crop diversity, preservation, or procurement plans.",
+    "Household labor and demand profiles are provisional examples, not resident commitments.",
+    "Later visual buildout must not infer real-world buildability from this layout graph.",
+    "Maintenance degradation is a provisional penalty model, not measured equipment reliability.",
+    "No jurisdiction-specific legal, engineering, health, or building code validation exists.",
+    "Provisional crop failure scenario exposes that Sprint 2 servings are not a nutrition model.",
+    "Provisional v2 contamination scenario; represents response assumptions rather than proof of water safety.",
+    "Provisional v2 outage scenario; represents redesigned reserve and backup assumptions rather than electrical proof.",
+    "Proxy geometry is deterministic and symbolic; it is not a site plan or architectural design.",
+    "Runtime bundle is a visualization contract, not a safety, legal, engineering, or consent artifact.",
+    "Scenario modifiers are provisional and deterministic.",
+    "Scenario output identifies design pressure points; it is not a real-world safety certification.",
+    "Scenario review context is a stress input, not an actual professional review or legal determination.",
+    "Scenario storage use is a simple linear drawdown/refill approximation; no weather sequence, contamination transport, medical outcome, or behavior model is included.",
+    "Seasonal multipliers are authored planning assumptions, not site-specific weather or crop calendars.",
+    "Setbacks, slopes, drainage, flood risk, fire access, utilities, easements, and code paths are not verified.",
+    "Spatial data is not a survey, site plan, permit drawing, or accessibility review.",
+    "Storage capacities, reserve floors, release rates, refill rates, and quality clocks are provisional planning assumptions, not engineered tank, battery, pantry, public-health, or sanitation designs."
+  ],
+  "version": "v0",
+  "warnings": [
+    "Accessible-route coverage is not complete.",
+    "Capability defaults are conservative placeholders until patterns declare explicit capability effects.",
+    "Capability scores are provisional modeling aids. They do not prove real-world dignity, safety, legal validity, health outcomes, consent, accessibility compliance, resident trust, or anti-capture success. They expose assumptions and blockers for review.",
+    "Due process is not explicitly defined.",
+    "Emergency access is not explicitly supported.",
+    "Emergency power sunset is not explicitly defined.",
+    "Non-driver access is not explicitly supported.",
+    "Spatial profile is provisional; survey, accessibility, emergency, utility, drainage, and code review remain unresolved.",
+    "This is a provisional civic simulation. It visualizes model assumptions and stress tests. It does not certify real-world safety, legality, affordability, engineering, public health, accessibility, resident consent, or buildability.",
+    "crop_failure:5 risk mode(s) require explicit response planning",
+    "energy_outage_reserve_v2:4 risk mode(s) require explicit response planning",
+    "food model is partial: greenhouse output is not a complete nutrition plan",
+    "maintenance backlog is degrading one or more systems",
+    "water_contamination_response_v2:4 risk mode(s) require explicit response planning",
+    "water_contamination_response_v2:water_contamination_response_v2 blocks recovery review for water_public_health",
+    "water_public_health_sanitation_labor_protocal_v0 declared provisional unknown capability domain: water_public_health."
+  ],
+  "world_id": "civic_floor_730_v0",
+  "zones": [
+    {
+      "color_token": "common_core",
+      "evidence_card_id": "evidence_common_core",
+      "id": "zone_common_core",
+      "label": "Common Core",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1",
+        "governance.commons_stewardship_protocol.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": -0.03,
+        "z": 0.0
+      },
+      "size": {
+        "x": 32.0,
+        "y": 0.05,
+        "z": 22.0
+      },
+      "type": "common_core"
+    },
+    {
+      "color_token": "housing",
+      "evidence_card_id": "evidence_residential_pods",
+      "id": "zone_residential_ring",
+      "label": "Residential Ring",
+      "module_refs": [
+        "housing.dignified_village_block.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": -0.04,
+        "z": 0.0
+      },
+      "size": {
+        "x": 62.0,
+        "y": 0.05,
+        "z": 42.0
+      },
+      "type": "residential"
+    },
+    {
+      "color_token": "food",
+      "evidence_card_id": "evidence_food_commons",
+      "id": "zone_food_garden",
+      "label": "Food Garden",
+      "module_refs": [
+        "food.hybrid_food_commons.v0_1",
+        "food.protein_commons_supplement.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": -0.05,
+        "z": 25.0
+      },
+      "size": {
+        "x": 42.0,
+        "y": 0.05,
+        "z": 22.0
+      },
+      "type": "food"
+    },
+    {
+      "color_token": "service_edge",
+      "evidence_card_id": "evidence_service_edge",
+      "id": "zone_service_edge",
+      "label": "Service Edge",
+      "module_refs": [
+        "water.resilient_water_commons.v0_1",
+        "energy.critical_load_energy_commons.v0_1",
+        "sanitation.hygienic_circular_commons.v0_1"
+      ],
+      "position": {
+        "x": 4.0,
+        "y": -0.06,
+        "z": -20.0
+      },
+      "size": {
+        "x": 54.0,
+        "y": 0.05,
+        "z": 18.0
+      },
+      "type": "service_edge"
+    },
+    {
+      "color_token": "mobility",
+      "evidence_card_id": "evidence_primary_paths",
+      "id": "zone_mobility_loop",
+      "label": "Mobility Loop",
+      "module_refs": [
+        "mobility_access.pedestrian_first_access_commons.v0_1"
+      ],
+      "position": {
+        "x": 0.0,
+        "y": -0.07,
+        "z": 0.0
+      },
+      "size": {
+        "x": 68.0,
+        "y": 0.04,
+        "z": 58.0
+      },
+      "type": "mobility"
+    }
+  ]
+}

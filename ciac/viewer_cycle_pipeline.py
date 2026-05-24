@@ -243,6 +243,8 @@ def _materialize_active_patterns(plan: dict[str, Any], active_patterns: list[str
             )
         plan.setdefault("simulation_inputs", {}).setdefault("resource_effects_by_pattern", {})[pattern_id] = copy.deepcopy(pattern["simulation"]["resource_effects"])
         plan.setdefault("simulation_inputs", {}).setdefault("critical_resources_by_pattern", {})[pattern_id] = copy.deepcopy(pattern["simulation"]["critical_resources"])
+        if pattern.get("capability_effects"):
+            plan.setdefault("simulation_inputs", {}).setdefault("capability_effects_by_pattern", {})[pattern_id] = copy.deepcopy(pattern["capability_effects"])
         if pattern["simulation"].get("storage"):
             plan.setdefault("simulation_inputs", {}).setdefault("storage_by_pattern", {})[pattern_id] = copy.deepcopy(pattern["simulation"]["storage"])
     plan["selected_patterns"] = selected

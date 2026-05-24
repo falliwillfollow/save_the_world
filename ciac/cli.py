@@ -12,6 +12,8 @@ from .compiler import CompileError, compile_plan, load_patterns
 from .complexity import generate_complexity_report
 from .cycle import materialize_search_candidate
 from .dossier import generate_dossier
+from .discovery import build_discovery_loop
+from .discovery_bridge import serve_discovery_bridge
 from .energy import evaluate_energy
 from .export_md import render_review_packet, write_review_packet
 from .food_labor import generate_food_labor_report
@@ -24,9 +26,11 @@ from .nutrition import evaluate_nutrition
 from .node_scaling import generate_node_scaling_report
 from .objective_calibration import evaluate_objective_calibration
 from .optimization import evaluate_optimization_readiness
+from .patch_materialization import materialize_patch_proposal
 from .optimizer import optimize_candidates
 from .redesign import generate_redesign
 from .research import evaluate_scalability_gate, generate_research_needs
+from .research_loop import run_research_loop
 from .replay_matrix import build_replay_matrix
 from .review import evaluate_review_status
 from .roles import evaluate_roles
@@ -43,6 +47,7 @@ from .viewer_server import serve_viewer
 from .visualization_bundle import build_visualization_bundle
 from .water import evaluate_water
 from .weight_governance import evaluate_weight_governance
+from .world_manifest import build_world_manifest
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -218,6 +223,44 @@ def main(argv: list[str] | None = None) -> int:
     viz_parser.add_argument("optimizer_report")
     viz_parser.add_argument("--output", "-o", required=True)
 
+    world_parser = subparsers.add_parser("export-world", help="Export a manifest-driven 3D civic floor world")
+    world_parser.add_argument("--runtime", required=True)
+    world_parser.add_argument("--output", "-o", required=True)
+    world_parser.add_argument("--population", type=int)
+    world_parser.add_argument("--world-id")
+
+    validate_world_parser = subparsers.add_parser("validate-world", help="Validate a CivicFloorWorldManifest JSON file")
+    validate_world_parser.add_argument("manifest")
+
+    discovery_parser = subparsers.add_parser("discovery-loop", help="Build an AI/RAG discovery-loop handoff report from a world manifest")
+    discovery_parser.add_argument("world_manifest")
+    discovery_parser.add_argument("--runtime")
+    discovery_parser.add_argument("--focus", default="all")
+    discovery_parser.add_argument("--output", "-o")
+
+    discovery_bridge_parser = subparsers.add_parser("discovery-bridge", help="Serve a local HTTP bridge for n8n discovery-loop calls")
+    discovery_bridge_parser.add_argument("--host", default="127.0.0.1")
+    discovery_bridge_parser.add_argument("--port", type=int, default=8791)
+    discovery_bridge_parser.add_argument("--repo-root", default=".")
+
+    research_loop_parser = subparsers.add_parser("research-loop", help="Run a discovery-to-patch-proposal research loop")
+    research_loop_parser.add_argument("world_manifest")
+    research_loop_parser.add_argument("--runtime")
+    research_loop_parser.add_argument("--focus", default="all")
+    research_loop_parser.add_argument("--n8n-webhook")
+    research_loop_parser.add_argument("--no-seed-fallback", action="store_true")
+    research_loop_parser.add_argument("--discovery-output", default="examples/discovery/research_loop.discovery.json")
+    research_loop_parser.add_argument("--candidate-output-dir", default="candidate_interventions")
+    research_loop_parser.add_argument("--patch-output-dir", default="patch_proposals")
+    research_loop_parser.add_argument("--output", "-o")
+
+    materialize_patch_parser = subparsers.add_parser("materialize-patch", help="Materialize a PatchProposal into a provisional model artifact")
+    materialize_patch_parser.add_argument("patch_proposal")
+    materialize_patch_parser.add_argument("--candidate")
+    materialize_patch_parser.add_argument("--repo-root", default=".")
+    materialize_patch_parser.add_argument("--overwrite", action="store_true")
+    materialize_patch_parser.add_argument("--output", "-o")
+
     search_parser = subparsers.add_parser("optimize-search", help="Run bounded family-level optimization search")
     search_parser.add_argument("compiled_plan")
     search_parser.add_argument("pattern_dir")
@@ -356,6 +399,18 @@ def main(argv: list[str] | None = None) -> int:
         return _optimize(args)
     if args.command == "export-visualization":
         return _export_visualization(args)
+    if args.command == "export-world":
+        return _export_world(args)
+    if args.command == "validate-world":
+        return _validate_world(args.manifest)
+    if args.command == "discovery-loop":
+        return _discovery_loop(args)
+    if args.command == "discovery-bridge":
+        return _discovery_bridge(args.host, args.port, args.repo_root)
+    if args.command == "research-loop":
+        return _research_loop(args)
+    if args.command == "materialize-patch":
+        return _materialize_patch(args)
     if args.command == "optimize-search":
         return _optimize_search(args)
     if args.command == "objective-calibration":
@@ -990,6 +1045,163 @@ def _module_compatibility(
     else:
         print(dump_json(report), end="")
     return 0
+
+
+def _export_world(args: argparse.Namespace) -> int:
+    runtime_bundle = load_data(args.runtime)
+    manifest = build_world_manifest(
+        runtime_bundle,
+        population=args.population,
+        runtime_bundle_path=args.runtime,
+        world_id=args.world_id,
+    )
+    report = validate_data(manifest, args.output)
+    if not report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in report.issues)
+        print(f"ERROR: Invalid world manifest: {details}", file=sys.stderr)
+        return 2
+    write_json(args.output, manifest)
+    print(f"Wrote {Path(args.output)}")
+    return 0
+
+
+def _validate_world(manifest_path: str) -> int:
+    manifest = load_data(manifest_path)
+    report = validate_data(manifest, manifest_path)
+    if report.ok:
+        print(f"OK {manifest_path}")
+        return 0
+    print(f"ERROR {manifest_path}")
+    for issue in report.issues:
+        print(f"  {issue.severity.upper()} {issue.path}: {issue.message}")
+    return 1
+
+
+def _discovery_loop(args: argparse.Namespace) -> int:
+    world_manifest = load_data(args.world_manifest)
+    world_report = validate_data(world_manifest, args.world_manifest)
+    if not world_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in world_report.issues)
+        print(f"ERROR: Invalid world manifest: {details}", file=sys.stderr)
+        return 2
+    runtime_bundle = load_data(args.runtime) if args.runtime else None
+    if runtime_bundle is not None:
+        runtime_report = validate_data(runtime_bundle, args.runtime or "<runtime>")
+        if not runtime_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in runtime_report.issues)
+            print(f"ERROR: Invalid runtime bundle: {details}", file=sys.stderr)
+            return 2
+    report = build_discovery_loop(
+        world_manifest,
+        runtime_bundle=runtime_bundle,
+        focus=args.focus,
+        source_paths={
+            "world_manifest": args.world_manifest,
+            "runtime_bundle": args.runtime,
+        },
+    )
+    validation = validate_data(report, args.output or "<discovery-loop>")
+    if not validation.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in validation.issues)
+        print(f"ERROR: Invalid discovery loop report: {details}", file=sys.stderr)
+        return 2
+    for candidate in report.get("seed_candidates", []):
+        candidate_validation = validate_data(candidate, candidate.get("id", "<candidate>"))
+        if not candidate_validation.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in candidate_validation.issues)
+            print(f"ERROR: Invalid seed candidate: {details}", file=sys.stderr)
+            return 2
+    if args.output:
+        write_json(args.output, report)
+        print(f"Wrote {Path(args.output)}")
+    else:
+        print(dump_json(report), end="")
+    return 0 if report["status"] != "blocked" else 1
+
+
+def _discovery_bridge(host: str, port: int, repo_root: str) -> int:
+    try:
+        serve_discovery_bridge(host, port, repo_root)
+    except KeyboardInterrupt:
+        return 0
+    return 0
+
+
+def _research_loop(args: argparse.Namespace) -> int:
+    world_manifest = load_data(args.world_manifest)
+    world_report = validate_data(world_manifest, args.world_manifest)
+    if not world_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in world_report.issues)
+        print(f"ERROR: Invalid world manifest: {details}", file=sys.stderr)
+        return 2
+    runtime_bundle = load_data(args.runtime) if args.runtime else None
+    if runtime_bundle is not None:
+        runtime_report = validate_data(runtime_bundle, args.runtime or "<runtime>")
+        if not runtime_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in runtime_report.issues)
+            print(f"ERROR: Invalid runtime bundle: {details}", file=sys.stderr)
+            return 2
+    try:
+        report = run_research_loop(
+            world_manifest,
+            runtime_bundle,
+            focus=args.focus,
+            source_paths={
+                "world_manifest": args.world_manifest,
+                "runtime_bundle": args.runtime,
+            },
+            discovery_report_path=args.discovery_output,
+            candidate_output_dir=args.candidate_output_dir,
+            patch_output_dir=args.patch_output_dir,
+            n8n_webhook=args.n8n_webhook,
+            allow_seed_fallback=not args.no_seed_fallback,
+        )
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    validation = validate_data(report, args.output or "<research-loop>")
+    if not validation.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in validation.issues)
+        print(f"ERROR: Invalid research loop report: {details}", file=sys.stderr)
+        return 2
+    if args.output:
+        write_json(args.output, report)
+        print(f"Wrote {Path(args.output)}")
+    else:
+        print(dump_json(report), end="")
+    return 0 if report["status"] != "blocked" else 1
+
+
+def _materialize_patch(args: argparse.Namespace) -> int:
+    patch_proposal = load_data(args.patch_proposal)
+    patch_report = validate_data(patch_proposal, args.patch_proposal)
+    if not patch_report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in patch_report.issues)
+        print(f"ERROR: Invalid patch proposal: {details}", file=sys.stderr)
+        return 2
+    candidate = load_data(args.candidate) if args.candidate else None
+    if candidate is not None:
+        candidate_report = validate_data(candidate, args.candidate or "<candidate>")
+        if not candidate_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in candidate_report.issues)
+            print(f"ERROR: Invalid discovery candidate: {details}", file=sys.stderr)
+            return 2
+    try:
+        report = materialize_patch_proposal(
+            patch_proposal,
+            candidate,
+            repo_root=args.repo_root,
+            overwrite=args.overwrite,
+            report_output=args.output,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    if args.output:
+        print(f"Wrote {Path(args.output)}")
+    else:
+        print(dump_json(report), end="")
+    return 1 if report["status"] == "blocked" else 0
 
 
 def _research_needs(

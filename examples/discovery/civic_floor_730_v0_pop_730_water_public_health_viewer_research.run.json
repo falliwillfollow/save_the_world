@@ -1,0 +1,79 @@
+{
+  "candidate_source": "n8n_webhook",
+  "candidates_written": [
+    {
+      "id": "water_public_health_recovery_playbook_v0_enriched",
+      "path": "D:\\Projects\\CIaC\\candidate_interventions\\water_public_health_recovery_playbook_v0_enriched.json",
+      "status": "valid"
+    },
+    {
+      "id": "water_reserve_isolation_protocol_v0",
+      "path": "D:\\Projects\\CIaC\\candidate_interventions\\water_reserve_isolation_protocol_v0.json",
+      "status": "valid"
+    },
+    {
+      "id": "water_health_labor_rotation_patch_v0",
+      "path": "D:\\Projects\\CIaC\\candidate_interventions\\water_health_labor_rotation_patch_v0.json",
+      "status": "valid"
+    }
+  ],
+  "discovery_report_path": "D:\\Projects\\CIaC\\examples\\discovery\\civic_floor_730_v0_pop_730_water_public_health_viewer_research.discovery.json",
+  "id": "research_discovery_civic_floor_730_v0_pop_730_water_public_health_v0",
+  "kind": "ResearchLoopRun",
+  "n8n": {
+    "called": true,
+    "candidate_count": 3,
+    "context_source_ids": [
+      "examples/generated/micro_commons_cycle_iteration.json",
+      "examples/generated/micro_commons_simulation.json",
+      "examples/generated/crop_failure_replay_simulation.json",
+      "examples/generated/baseline_120d_simulation.json",
+      "examples/generated/drought_reserve_v2_replay_simulation.json",
+      "examples/generated/baseline_90d_simulation.json",
+      "examples/generated/micro_commons_runtime_bundle.json",
+      "examples/generated/resident_exit_labor_loss_replay_simulation.json"
+    ],
+    "discovery_brief": {
+      "context_source_count": 8,
+      "model": "qwen3.5:9b",
+      "parse_error": null,
+      "summary": "n8n retrieved 8 local source(s), called Ollama, and returned 3 generated candidate intervention(s).",
+      "trace_marker": "n8n-rag-1779626673048"
+    },
+    "error": null,
+    "ok": true,
+    "trace_marker": "n8n-rag-1779626673048",
+    "webhook_url": "http://127.0.0.1:5678/webhook/ciac-research-loop",
+    "workflow_name": "CIaC Research Loop Webhook"
+  },
+  "next_actions": [
+    "Review generated PatchProposal artifacts before applying any model change.",
+    "Run scenario checks listed in each patch proposal.",
+    "Promote only proposals that reduce the triggering warning without adding hidden labor or survival-critical unmet demand."
+  ],
+  "patch_proposals_written": [
+    {
+      "id": "patch_water_public_health_recovery_playbook_v0_enriched",
+      "path": "D:\\Projects\\CIaC\\patch_proposals\\patch_water_public_health_recovery_playbook_v0_enriched.json",
+      "status": "needs_evidence"
+    },
+    {
+      "id": "patch_water_reserve_isolation_protocol_v0",
+      "path": "D:\\Projects\\CIaC\\patch_proposals\\patch_water_reserve_isolation_protocol_v0.json",
+      "status": "needs_evidence"
+    },
+    {
+      "id": "patch_water_health_labor_rotation_patch_v0",
+      "path": "D:\\Projects\\CIaC\\patch_proposals\\patch_water_health_labor_rotation_patch_v0.json",
+      "status": "needs_evidence"
+    }
+  ],
+  "provisional": true,
+  "source": {
+    "focus": "water_public_health",
+    "runtime_bundle_path": "examples\\generated\\micro_commons_runtime_bundle.json",
+    "world_manifest_path": "browser:civic_floor_730_v0_pop_730"
+  },
+  "status": "ready_for_review",
+  "version": "v0"
+}
