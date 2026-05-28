@@ -81,6 +81,9 @@ SCHEMA_BY_KIND = {
     "CapabilityPolicy": "capability_policy.schema.json",
     "CapabilityPolicyGateReport": "capability_policy_gate_report.schema.json",
     "CapabilityScenario": "capability_scenario.schema.json",
+    "ResearchRegistry": "research_registry.schema.json",
+    "LifeManifest": "life_manifest.schema.json",
+    "AutomationManifest": "automation_manifest.schema.json",
 }
 
 

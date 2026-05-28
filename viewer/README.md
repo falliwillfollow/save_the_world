@@ -27,6 +27,7 @@ Current inspection features:
 - day scrubber and playback
 - persisted webapp year-run log when served with `ciac viewer-server`
 - layout zones and access routes
+- walk mode for first-person inspection of structures and infrastructure nodes
 - system selection and details
 - scenario failure overlays
 - resource, maintenance, and unmet-need panels
@@ -34,5 +35,16 @@ Current inspection features:
 - abundance-first topology summary across micro, village, town, and city scopes
 - compact failure-reason and warning panels
 - foundation gate status and check evidence
+
+The web 3D viewer lives in `viewer/world3d`. For local Vite development:
+
+```powershell
+cd viewer/world3d
+npm run dev
+```
+
+Its Walk mode uses the existing CIaC world manifest rather than a separate engine project. Click the world to capture the mouse, use `WASD` to move, `Shift` to move faster, `Esc` to release the mouse, and `E` to inspect the targeted structure or infrastructure node.
+
+An experimental Godot walking-view adaptation copied from the local Liminal project lives in `viewer/liminal_ciac`. Open `viewer/liminal_ciac/project.godot` in Godot 4.2+ to run the first-person CIaC walkthrough. It reads `viewer/liminal_ciac/assets/data/civic_floor_80_v0.world.json`, which can be refreshed from `examples/world_manifests/civic_floor_80_v0.world.json`.
 
 This is an inspection surface only. It must not be used as evidence of legal permission, engineering safety, public-health safety, resident consent, accessibility compliance, or construction readiness.

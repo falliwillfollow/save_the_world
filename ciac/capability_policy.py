@@ -113,6 +113,7 @@ def evaluate_policy_gates(
         "promotion_blockers": sorted(set(promotion_blockers)),
         "unknowns": sorted(set([*unknowns, *policy.get("unknowns", [])])),
         "source_ids": sorted(source_ids),
+        "source_registry": policy.get("source_registry", []),
     }
     validation = validate_data(report, report["id"])
     if not validation.ok:

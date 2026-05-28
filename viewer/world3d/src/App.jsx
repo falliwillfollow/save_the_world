@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import AbundanceMode from "./components/AbundanceMode.jsx";
 import InfoCard from "./components/InfoCard.jsx";
 import Legend from "./components/Legend.jsx";
 import ModeSwitcher from "./components/ModeSwitcher.jsx";
@@ -7,8 +8,9 @@ import PopulationCommitControl from "./components/PopulationCommitControl.jsx";
 import ResearchLoopPanel from "./components/ResearchLoopPanel.jsx";
 import ResourceDashboard from "./components/ResourceDashboard.jsx";
 import TimelineScrubber from "./components/TimelineScrubber.jsx";
+import WalkModeHud from "./components/WalkModeHud.jsx";
 import WorldScene from "./world/WorldScene.jsx";
-import { evidenceCardFor, loadDefaultWorldManifest } from "./world/WorldManifestLoader.js";
+import { evidenceCardFor, loadDefaultAutomationManifest, loadDefaultLifeManifest, loadDefaultWorldManifest } from "./world/WorldManifestLoader.js";
 import { inferScale, scaleWorldManifest } from "./world/scaleManifest.js";
 
 const PROVISIONALITY = "This is a provisional civic simulation. It visualizes model assumptions and stress tests. It does not certify real-world safety, legality, affordability, engineering, public health, accessibility, resident consent, or buildability.";
@@ -16,6 +18,8 @@ const PROVISIONALITY = "This is a provisional civic simulation. It visualizes mo
 export default function App() {
   const [baseManifest, setBaseManifest] = useState(null);
   const [manifest, setManifest] = useState(null);
+  const [lifeManifest, setLifeManifest] = useState(null);
+  const [automationManifest, setAutomationManifest] = useState(null);
   const [mode, setMode] = useState("life");
   const [selectedObject, setSelectedObject] = useState(null);
   const [selectedSystem, setSelectedSystem] = useState("food");
@@ -36,14 +40,17 @@ export default function App() {
   const [materializationReports, setMaterializationReports] = useState({});
   const [impactReports, setImpactReports] = useState({});
   const [promotionReports, setPromotionReports] = useState({});
+  const [walkTarget, setWalkTarget] = useState(null);
   const demoFrameTimeRef = useRef(null);
   const { timePercent, elapsedDays } = demoClock;
 
   useEffect(() => {
-    loadDefaultWorldManifest().then(world => {
+    Promise.all([loadDefaultWorldManifest(), loadDefaultLifeManifest(), loadDefaultAutomationManifest()]).then(([world, life, automation]) => {
       const population = Number(world.population?.residents || 80);
       setBaseManifest(world);
       setManifest(scaleWorldManifest(world, population));
+      setLifeManifest(life);
+      setAutomationManifest(automation);
       setDraftPopulation(population);
       setCommittedPopulation(population);
       setSelectedScenarioId(world.scenario_states?.[0]?.id || "scenario_normal_day");
@@ -83,6 +90,12 @@ export default function App() {
   const evidenceCard = useMemo(() => evidenceCardFor(manifest || {}, selectedObject), [manifest, selectedObject]);
   const draftScale = useMemo(() => inferScale(draftPopulation), [draftPopulation]);
   const activeResearchResponse = researchResponses[researchFocus] || null;
+
+  useEffect(() => {
+    const handleWalkTarget = event => setWalkTarget(event.detail || null);
+    window.addEventListener("ciac-walk-target", handleWalkTarget);
+    return () => window.removeEventListener("ciac-walk-target", handleWalkTarget);
+  }, []);
 
   function commitPopulation() {
     if (!baseManifest) return;
@@ -304,6 +317,14 @@ export default function App() {
           promotionReports={promotionReports}
         />
       ) : null}
+      {mode === "abundance" ? (
+        <AbundanceMode
+          lifeManifest={lifeManifest}
+          automationManifest={automationManifest}
+          onHighlightObjects={setHighlightedObjectIds}
+        />
+      ) : null}
+      {mode === "walk" ? <WalkModeHud target={walkTarget} /> : null}
       <InfoCard object={selectedObject} evidenceCard={evidenceCard} manifest={manifest} mode={mode} scenario={selectedScenario} />
       <TimelineScrubber
         value={timePercent}

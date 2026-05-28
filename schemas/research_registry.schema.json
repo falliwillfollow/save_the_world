@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/research_registry.schema.json",
+  "title": "ResearchRegistry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["kind", "version", "registry_id", "status", "source_documents", "entries", "warnings"],
+  "properties": {
+    "kind": { "const": "ResearchRegistry" },
+    "version": { "const": "v0" },
+    "registry_id": { "type": "string", "minLength": 3 },
+    "status": { "type": "string", "enum": ["provisional", "reviewed", "deprecated"] },
+    "source_documents": { "type": "array", "items": { "type": "string" } },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/entry" }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "definitions": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source_type",
+        "title",
+        "organization",
+        "url",
+        "evidence_quality",
+        "supports",
+        "domains",
+        "claims_supported",
+        "model_fields",
+        "used_by",
+        "notes"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 },
+        "source_type": {
+          "type": "string",
+          "enum": ["dataset", "official_guidance", "legal_or_policy_reference", "research_summary", "reference"]
+        },
+        "title": { "type": "string" },
+        "organization": { "type": "string" },
+        "url": { "type": "string" },
+        "evidence_quality": { "type": "string", "enum": ["high", "moderate", "low", "mixed"] },
+        "supports": { "type": "array", "items": { "type": "string" } },
+        "domains": { "type": "array", "items": { "type": "string" } },
+        "claims_supported": { "type": "array", "items": { "type": "string" } },
+        "model_fields": { "type": "array", "items": { "type": "string" } },
+        "used_by": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

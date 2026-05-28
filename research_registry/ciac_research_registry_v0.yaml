@@ -1,0 +1,1657 @@
+kind: ResearchRegistry
+version: v0
+registry_id: ciac_research_registry_v0
+status: provisional
+source_documents:
+- docs\module_reports\ciac_education_skill_module_civic_skill_lattice.md
+- docs\module_reports\ciac_energy_module_critical_load_energy_commons.md
+- docs\module_reports\ciac_food_module_hybrid_food_commons.md
+- docs\module_reports\ciac_food_module_supplement_protein_commons.md
+- docs\module_reports\ciac_governance_anticapture_module_commons_stewardship_protocol.md
+- docs\module_reports\ciac_housing_module_dignified_village_block.md
+- docs\module_reports\ciac_labor_time_module_life_burden_ledger.md
+- docs\module_reports\ciac_legal_land_finance_module_anti_speculative_civic_floor.md
+- docs\module_reports\ciac_maintenance_repair_module_maintainable_commons_spine.md
+- docs\module_reports\ciac_materials_fabrication_module_standardized_low_burden_build_system.md
+- docs\module_reports\ciac_mobility_access_module_pedestrian_first_access_commons.md
+- docs\module_reports\ciac_risk_resilience_module_graceful_degradation_engine.md
+- docs\module_reports\ciac_sanitation_waste_module_hygienic_circular_commons.md
+- docs\module_reports\ciac_social_cultural_commons_module_belonging_without_coercion.md
+- docs\module_reports\ciac_water_module_resilient_water_commons.md
+- docs\research\ciac_capability_thresholds_research_pack_part_1_v0_1.md
+- docs\research\ciac_capability_thresholds_research_pack_part_2_v0_1.md
+- docs\research\ciac_capability_thresholds_research_pack_part_3_v0_1.md
+- docs\research\water_public_health_governance_audit_task_v0.md
+- docs\scaling_research\ciac_deep_research_scaling_thresholds_part_1.md
+- docs\scaling_research\ciac_deep_research_scaling_thresholds_part_1_v0_2.md
+- docs\scaling_research\ciac_deep_research_scaling_thresholds_part_2_v0_2.md
+- docs\scaling_research\ciac_deep_research_scaling_thresholds_part_3_v0_1.md
+- docs\scaling_research\ciac_deep_research_scaling_thresholds_part_4_v0_1.md
+- docs\scaling_research\ciac_scaling_policy_v0_implementation.md
+- patterns\anti_speculative_civic_floor.yaml
+- patterns\belonging_without_coercion_commons.yaml
+- patterns\care_health\care_health_care_steward_continuity_rota_v1.yaml
+- patterns\care_health\care_health_high_need_meal_illness_support_v0.yaml
+- patterns\care_health\care_health_resident_controlled_medication_continuity_kit_v0.yaml
+- patterns\care_health\care_health_resident_controlled_medication_continuity_kit_v0_enriched.yaml
+- patterns\care_health\care_health_resident_controlled_medication_continuity_kit_v1.yaml
+- patterns\civic_skill_lattice.yaml
+- patterns\commons_stewardship_protocol.yaml
+- patterns\community_kitchen.yaml
+- patterns\composting_system.yaml
+- patterns\critical_load_energy_commons.yaml
+- patterns\critical_load_reserve.yaml
+- patterns\dignified_village_block.yaml
+- patterns\emergency_water_reserve.yaml
+- patterns\graceful_degradation_engine.yaml
+- patterns\greenhouse.yaml
+- patterns\hybrid_food_commons.yaml
+- patterns\hygienic_circular_commons.yaml
+- patterns\life_burden_ledger.yaml
+- patterns\maintainable_commons_spine.yaml
+- patterns\mobility_access\mobility_access_accessible_route_gap_survey_map_v0.yaml
+- patterns\pedestrian_first_access_commons.yaml
+- patterns\protein_commons_supplement.yaml
+- patterns\rainwater_capture.yaml
+- patterns\resilient_water_commons.yaml
+- patterns\seasonal_food_smoothing_commons.yaml
+- patterns\shared_bathhouse.yaml
+- patterns\solar_shed.yaml
+- patterns\standardized_low_burden_build_system.yaml
+- patterns\staple_food_reserve.yaml
+- patterns\starter_dwelling.yaml
+- patterns\tool_library.yaml
+- patterns\water_public_health\water_consent_visibility_rule_v0.yaml
+- patterns\water_public_health\water_fallback_reserve_protocol_v0.yaml
+- patterns\water_public_health\water_governance_authority_rule_v0.yaml
+- patterns\water_public_health\water_public_health_fallback_supply_protocol_v0.yaml
+- patterns\water_public_health\water_public_health_sanitation_labor_protocal_v0.yaml
+- patterns\water_public_health\water_reserve_sanitation_protocol_v0.yaml
+- patterns\well_house.yaml
+- patterns\workshop.yaml
+entries:
+- id: ACCESS_BOARD_ACCESSIBLE_ROUTES
+  source_type: official_guidance
+  title: ADA Guide, Accessible Routes
+  organization: U.S. Access Board
+  url: https://www.access-board.gov/ada/guides/chapter-4-accessible-routes/
+  evidence_quality: high
+  supports:
+  - accessibility_route_design_minimum
+  - accessible_route_clear_width_36_inches_minimum_with_limited_exceptions
+  - accessible_route_requirements
+  - route_width_and_clearance_logic
+  domains:
+  - mobility_access
+  - scaling
+  claims_supported: []
+  model_fields:
+  - mobility_access.accessible_route_coverage
+  - mobility_access.non_driver_access_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:accessible_route_coverage
+  - capability_policy_gate:non_driver_access
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:161
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:342
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:175
+  notes: Supports accessibility_route_design_minimum, accessible_route_clear_width_36_inches_minimum_with_limited_exceptions,
+    accessible_route_requirements, route_width_and_clearance_logic; currently mapped
+    to mobility_access, scaling, unmapped.
+- id: ACCESS_BOARD_ADA_STANDARDS
+  source_type: official_guidance
+  title: ADA Accessibility Standards
+  organization: U.S. Access Board
+  url: https://www.access-board.gov/ada/
+  evidence_quality: mixed
+  supports:
+  - accessibility_minimums
+  - accessible_routes
+  - play_area_route_clearances
+  - ramps
+  - route_widths
+  - turning_clearances
+  domains:
+  - mobility_access
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:270
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:183
+  notes: Supports accessibility_minimums, accessible_routes, play_area_route_clearances,
+    ramps; currently mapped to mobility_access, scaling.
+- id: BLS_ATUS_2024
+  source_type: dataset
+  title: American Time Use Survey, 2024 Results
+  organization: Bureau of Labor Statistics
+  url: https://www.bls.gov/news.release/atus.nr0.htm
+  evidence_quality: high
+  supports:
+  - care_activities
+  - care_labor
+  - gender_distribution_of_household_labor
+  - household_activities
+  - household_labor
+  - leisure_time
+  - paid_work
+  - work_time
+  domains:
+  - care_health
+  - labor_time
+  claims_supported: []
+  model_fields:
+  - labor_time.commons_labor_hours_per_resident_per_week
+  - labor_time.free_time_increase_supported
+  - labor_time.hidden_labor_tracking_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:commons_labor_upper_bound
+  - capability_policy_gate:free_time_improvement
+  - capability_policy_gate:hidden_labor_tracking
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:168
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:369
+  notes: Supports care_activities, care_labor, gender_distribution_of_household_labor,
+    household_activities; currently mapped to care_health, labor_time, unmapped.
+- id: CDC_CHW_CHRONIC_CARE
+  source_type: official_guidance
+  title: Emerging Model for Community Health Worker-Based Chronic Care Management
+  organization: CDC
+  url: https://www.cdc.gov/pcd/issues/2020/19_0316.htm
+  evidence_quality: mixed
+  supports:
+  - community_health_worker_support
+  - nonclinical_care_navigation
+  domains:
+  - care_health
+  - labor_time
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:58
+  notes: Supports community_health_worker_support, nonclinical_care_navigation; currently
+    mapped to care_health, labor_time, unmapped.
+- id: CDC_CHW_PREVENTING_CHRONIC_DISEASE
+  source_type: official_guidance
+  title: Emerging Model for Community Health Worker-Based Chronic Care Management
+  organization: CDC / Preventing Chronic Disease
+  url: https://www.cdc.gov/pcd/issues/2020/19_0316.htm
+  evidence_quality: mixed
+  supports:
+  - community_health_workers_can_provide_behavioral_support_and_care_navigation
+  domains:
+  - care_health
+  - labor_time
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:255
+  notes: Supports community_health_workers_can_provide_behavioral_support_and_care_navigation;
+    currently mapped to care_health, labor_time, scaling.
+- id: CDC_DISABILITY_EMERGENCY_KIT
+  source_type: official_guidance
+  title: Building an Emergency Kit for People with Disabilities
+  organization: CDC
+  url: https://www.cdc.gov/disability-emergency-preparedness/people-with-disabilities/build-a-kit.html
+  evidence_quality: high
+  supports:
+  - assistive_device_power
+  - batteries_and_chargers_for_assistive_devices
+  - batteries_chargers_assistive_devices
+  - cooler_for_refrigerated_medications
+  - emergency_health_documents
+  - high_need_support
+  - medication_continuity
+  - mobility_devices_and_health_documents
+  - one_week_prescription_medication_supply
+  - refrigerated_medication_backup
+  domains:
+  - care_health
+  - mobility_access
+  - scaling
+  claims_supported: []
+  model_fields:
+  - care_health.care_continuity_protocol_supported
+  - care_health.care_meal_protocol_supported
+  - care_health.high_need_support_coverage
+  - care_health.illness_wave_protocol_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:care_continuity_protocol
+  - capability_policy_gate:care_meal_protocol
+  - capability_policy_gate:high_need_support_coverage
+  - capability_policy_gate:illness_wave_protocol
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:33
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:321
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:237
+  notes: Supports assistive_device_power, batteries_and_chargers_for_assistive_devices,
+    batteries_chargers_assistive_devices, cooler_for_refrigerated_medications; currently
+    mapped to care_health, mobility_access, scaling, unmapped.
+- id: CDC_EMERGENCY_WATER
+  source_type: reference
+  title: How to Create an Emergency Water Supply
+  organization: U.S. Centers for Disease Control and Prevention
+  url: https://www.cdc.gov/water-emergency/about/how-to-create-and-store-an-emergency-water-supply.html
+  evidence_quality: mixed
+  supports:
+  - higher_need_profiles_need_more_water
+  - one_gallon_per_person_per_day
+  - three_day_minimum
+  - two_week_preferred_if_possible
+  - two_week_supply_if_possible
+  domains:
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:191
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:145
+  notes: Supports higher_need_profiles_need_more_water, one_gallon_per_person_per_day,
+    three_day_minimum, two_week_preferred_if_possible; currently mapped to scaling,
+    water.
+- id: CDC_HUMAN_WASTE_WORKER_SAFETY
+  source_type: official_guidance
+  title: Guidance for Reducing Health Risks to Workers Handling Human Waste or Sewage
+  organization: CDC
+  url: https://www.cdc.gov/healthywater/emergency/sanitation-wastewater/workers_handlingwaste.html
+  evidence_quality: high
+  supports:
+  - PPE_training_handwashing_for_human_waste_handling
+  - ppe_training
+  - sanitation_worker_safety
+  - worker_exposure_controls
+  domains:
+  - labor_time
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields:
+  - sanitation.blackwater_path_defined
+  - sanitation.emergency_sanitation_fallback_supported
+  - sanitation.toilet_hygiene_access_supported
+  - sanitation.waste_stream_separation_supported
+  - sanitation.worker_safety_training_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:emergency_sanitation_fallback
+  - capability_policy_gate:toilet_hygiene_access
+  - capability_policy_gate:waste_stream_separation
+  - capability_policy_gate:wastewater_path
+  - capability_policy_gate:worker_safety_and_labor_visibility
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:213
+  notes: Supports PPE_training_handwashing_for_human_waste_handling, ppe_training,
+    sanitation_worker_safety, worker_exposure_controls; currently mapped to labor_time,
+    sanitation, scaling, water.
+- id: CDC_RESPIRATORY_PREVENTION
+  source_type: official_guidance
+  title: Preventing Respiratory Illnesses
+  organization: CDC
+  url: https://www.cdc.gov/respiratory-viruses/prevention/index.html
+  evidence_quality: high
+  supports:
+  - cleaner_air
+  - hygiene
+  - illness_wave_protocol
+  - masks_as_layered_protection
+  - stay_home_when_sick
+  domains:
+  - care_health
+  - sanitation
+  claims_supported: []
+  model_fields:
+  - care_health.illness_wave_protocol_supported
+  - sanitation.toilet_hygiene_access_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:illness_wave_protocol
+  - capability_policy_gate:toilet_hygiene_access
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:42
+  notes: Supports cleaner_air, hygiene, illness_wave_protocol, masks_as_layered_protection;
+    currently mapped to care_health, sanitation, unmapped.
+- id: CDC_WELL_TESTING
+  source_type: reference
+  title: Guidelines for Testing Well Water
+  organization: U.S. Centers for Disease Control and Prevention
+  url: https://www.cdc.gov/drinking-water/safety/guidelines-for-testing-well-water.html
+  evidence_quality: mixed
+  supports:
+  - annual_well_testing_total_coliform_nitrates_TDS_pH
+  - local_health_department_guidance
+  - state_certified_lab
+  domains:
+  - care_health
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:136
+  notes: Supports annual_well_testing_total_coliform_nitrates_TDS_pH, local_health_department_guidance,
+    state_certified_lab; currently mapped to care_health, scaling, water.
+- id: CITIZENS_JURY_INVOLVE
+  source_type: reference
+  title: Citizens' Jury
+  organization: Involve
+  url: https://www.involve.org.uk/resource/citizens-jury
+  evidence_quality: mixed
+  supports:
+  - citizens_jury_12_to_24_participants
+  - small_deliberative_group_for_common_ground
+  domains:
+  - governance_anticapture
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:74
+  notes: Supports citizens_jury_12_to_24_participants, small_deliberative_group_for_common_ground;
+    currently mapped to governance_anticapture, scaling.
+- id: COHOUSING_ASSOCIATION
+  source_type: reference
+  title: What is Cohousing
+  organization: Cohousing Association of the United States
+  url: https://www.cohousing.org/what-cohousing/cohousing/
+  evidence_quality: mixed
+  supports:
+  - community_interaction_plus_privacy
+  - privacy_and_community_balance
+  - private_homes_plus_shared_spaces
+  domains:
+  - housing
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:309
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:78
+  notes: Supports community_interaction_plus_privacy, privacy_and_community_balance,
+    private_homes_plus_shared_spaces; currently mapped to housing, scaling.
+- id: COHOUSING_HEALTH_SCOPING
+  source_type: reference
+  title: Cohousing, health and wellbeing scoping review
+  organization: peer_reviewed_literature
+  url: https://www.sciencedirect.com/science/article/pii/S0272494420306850
+  evidence_quality: mixed
+  supports:
+  - cohousing_as_health_and_wellbeing_relevant
+  - evidence_is_promising_but_contextual
+  domains:
+  - care_health
+  - housing
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:86
+  notes: Supports cohousing_as_health_and_wellbeing_relevant, evidence_is_promising_but_contextual;
+    currently mapped to care_health, housing, scaling, water.
+- id: CORNELL_PROCEDURAL_DUE_PROCESS
+  source_type: legal_or_policy_reference
+  title: Procedural Due Process
+  organization: Cornell Legal Information Institute
+  url: https://www.law.cornell.edu/wex/procedural_due_process
+  evidence_quality: moderate
+  supports:
+  - evidence_access
+  - impartial_review
+  - neutral_review
+  - neutral_tribunal
+  - notice
+  - opportunity_to_respond
+  - right_to_present_evidence
+  domains:
+  - governance_anticapture
+  claims_supported: []
+  model_fields:
+  - governance_anticapture.due_process_defined
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:due_process_minimum
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:79
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:332
+  notes: Supports evidence_access, impartial_review, neutral_review, neutral_tribunal;
+    currently mapped to governance_anticapture, unmapped.
+- id: DOCSOURCE_JSON_SCHEMA_ORG_FCBD7642
+  source_type: reference
+  title: json-schema.org
+  organization: json-schema.org
+  url: https://json-schema.org/draft/2020-12/schema
+  evidence_quality: mixed
+  supports: []
+  domains:
+  - unmapped
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:140
+  notes: Currently mapped to unmapped.
+- id: DOE_FEMP_OM_BEST_PRACTICES
+  source_type: reference
+  title: Operations & Maintenance Best Practices Guide
+  organization: U.S. Department of Energy, Federal Energy Management Program
+  url: https://www.energy.gov/sites/prod/files/2020/04/f74/omguide_complete-w-eo-disclaimer.pdf
+  evidence_quality: mixed
+  supports:
+  - operations_and_maintenance_as_efficiency_and_reliability_practice
+  - preventive_predictive_reliability_centered_maintenance_logic
+  domains:
+  - energy
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:117
+  notes: Supports operations_and_maintenance_as_efficiency_and_reliability_practice,
+    preventive_predictive_reliability_centered_maintenance_logic; currently mapped
+    to energy, scaling.
+- id: DOE_FEMP_OM_FEDERAL_FACILITIES
+  source_type: reference
+  title: Operations and Maintenance in Federal Facilities
+  organization: U.S. Department of Energy
+  url: https://www.energy.gov/cmei/femp/operations-and-maintenance-federal-facilities
+  evidence_quality: mixed
+  supports:
+  - O_and_M_cost_effective_for_reliability_safety_energy_water_efficiency
+  - inadequate_maintenance_causes_waste
+  domains:
+  - energy
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:125
+  notes: Supports O_and_M_cost_effective_for_reliability_safety_energy_water_efficiency,
+    inadequate_maintenance_causes_waste; currently mapped to energy, sanitation, scaling,
+    water.
+- id: DOL_REGISTERED_APPRENTICESHIP
+  source_type: reference
+  title: Registered Apprenticeship Program
+  organization: U.S. Department of Labor / Apprenticeship.gov
+  url: https://www.apprenticeship.gov/employers/registered-apprenticeship-program
+  evidence_quality: mixed
+  supports:
+  - classroom_instruction
+  - mentorship
+  - paid_work_experience
+  - portable_nationally_recognized_credentials
+  - progressive_wage_increases
+  domains:
+  - education_skill
+  - labor_time
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:203
+  notes: Supports classroom_instruction, mentorship, paid_work_experience, portable_nationally_recognized_credentials;
+    currently mapped to education_skill, labor_time, scaling.
+- id: DUNBAR_SOCIAL_LAYERS
+  source_type: reference
+  title: Dunbar social brain / social-layer research
+  organization: research_literature
+  url: https://royalsocietypublishing.org/doi/10.1098/rstb.2015.0093
+  evidence_quality: mixed
+  supports:
+  - nested_social_scale
+  - social_layers_5_15_50_150_500_1500
+  domains:
+  - scaling
+  - social_cultural
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:294
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:63
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:99
+  notes: Supports nested_social_scale, social_layers_5_15_50_150_500_1500; currently
+    mapped to scaling, social_cultural.
+- id: EPA_ASSET_MANAGEMENT_WATER_WASTEWATER
+  source_type: reference
+  title: Asset Management for Water and Wastewater Utilities
+  organization: U.S. Environmental Protection Agency
+  url: https://19january2021snapshot.epa.gov/sustainable-water-infrastructure/asset-management-water-and-wastewater-utilities_.html
+  evidence_quality: mixed
+  supports:
+  - assets_repaired_replaced_upgraded_on_time
+  - enough_money_to_pay_for_repair_replacement
+  - planned_maintenance
+  domains:
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:133
+  notes: Supports assets_repaired_replaced_upgraded_on_time, enough_money_to_pay_for_repair_replacement,
+    planned_maintenance; currently mapped to sanitation, scaling, water.
+- id: EPA_ONSITE_NONPOTABLE_REUSE
+  source_type: reference
+  title: Onsite Non-Potable Water Reuse Research
+  organization: U.S. Environmental Protection Agency
+  url: https://www.epa.gov/water-research/onsite-non-potable-water-reuse-research
+  evidence_quality: mixed
+  supports:
+  - need_for_risk_based_treatment
+  - non_drinking_reuse
+  - onsite_reuse_sources_wastewater_greywater_stormwater_roof_rainwater
+  domains:
+  - risk_resilience
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:162
+  notes: Supports need_for_risk_based_treatment, non_drinking_reuse, onsite_reuse_sources_wastewater_greywater_stormwater_roof_rainwater;
+    currently mapped to risk_resilience, sanitation, scaling, water.
+- id: EPA_PRIVATE_WELLS
+  source_type: reference
+  title: Protect Your Home's Water
+  organization: U.S. Environmental Protection Agency
+  url: https://www.epa.gov/privatewells/protect-your-homes-water
+  evidence_quality: mixed
+  supports:
+  - annual_private_well_testing_total_coliform_nitrates_TDS_pH
+  - local_contaminant_testing
+  - owner_responsibility_for_private_well_safety
+  domains:
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:127
+  notes: Supports annual_private_well_testing_total_coliform_nitrates_TDS_pH, local_contaminant_testing,
+    owner_responsibility_for_private_well_safety; currently mapped to scaling, water.
+- id: EPA_PUBLIC_PARTICIPATION_CITIZEN_JURIES
+  source_type: reference
+  title: Public Participation Guide, Citizen Juries
+  organization: U.S. Environmental Protection Agency
+  url: https://www.epa.gov/international-cooperation/public-participation-guide-citizen-juries
+  evidence_quality: mixed
+  supports:
+  - deliberative_recommendation_process
+  - paid_juror_time_commitment
+  - representative_jury_approximately_8_to_12_people
+  domains:
+  - governance_anticapture
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:90
+  notes: Supports deliberative_recommendation_process, paid_juror_time_commitment,
+    representative_jury_approximately_8_to_12_people; currently mapped to governance_anticapture,
+    scaling.
+- id: EPA_PUBLIC_WATER_SYSTEM
+  source_type: reference
+  title: Information about Public Water Systems
+  organization: U.S. Environmental Protection Agency
+  url: https://www.epa.gov/dwreginfo/information-about-public-water-systems
+  evidence_quality: mixed
+  supports:
+  - public_or_private_ownership_does_not_avoid_PWS_category
+  - public_water_system_15_connections_or_25_people_60_days
+  domains:
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:184
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:119
+  notes: Supports public_or_private_ownership_does_not_avoid_PWS_category, public_water_system_15_connections_or_25_people_60_days;
+    currently mapped to scaling, water.
+- id: EPA_SEPTIC
+  source_type: reference
+  title: Septic Systems Overview
+  organization: U.S. Environmental Protection Agency
+  url: https://www.epa.gov/septic
+  evidence_quality: mixed
+  supports:
+  - onsite_wastewater_requires_design_maintenance_public_health_protection
+  domains:
+  - care_health
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:221
+  notes: Supports onsite_wastewater_requires_design_maintenance_public_health_protection;
+    currently mapped to care_health, sanitation, scaling, water.
+- id: EVANS_BUILT_ENVIRONMENT_MENTAL_HEALTH
+  source_type: reference
+  title: Built environment and mental health research
+  organization: peer_reviewed_literature
+  url: https://pubmed.ncbi.nlm.nih.gov/14709704/
+  evidence_quality: mixed
+  supports:
+  - environmental_control_and_privacy_matter
+  - housing_design_and_crowding_affect_stress
+  domains:
+  - care_health
+  - housing
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:94
+  notes: Supports environmental_control_and_privacy_matter, housing_design_and_crowding_affect_stress;
+    currently mapped to care_health, housing, scaling.
+- id: FDA_FOOD_CODE_2022
+  source_type: official_guidance
+  title: FDA Food Code 2022
+  organization: U.S. Food and Drug Administration
+  url: https://www.fda.gov/food/fda-food-code/food-code-2022
+  evidence_quality: mixed
+  supports:
+  - allergen_and_cleaning_controls
+  - allergen_and_food_safety_controls
+  - cleaning_sanitizing
+  - date_marking
+  - food_safety_logs
+  - food_service_public_health_model
+  - shared_food_operations_need_time_temperature_controls
+  - time_temperature_control
+  domains:
+  - care_health
+  - food
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:208
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:73
+  notes: Supports allergen_and_cleaning_controls, allergen_and_food_safety_controls,
+    cleaning_sanitizing, date_marking; currently mapped to care_health, food, scaling.
+- id: FDA_FOOD_CODE_CHANGES_2022
+  source_type: official_guidance
+  title: Summary of Changes in the 2022 FDA Food Code
+  organization: U.S. Food and Drug Administration
+  url: https://www.fda.gov/food/fda-food-code/summary-changes-2022-fda-food-code
+  evidence_quality: mixed
+  supports:
+  - ready_to_eat_TCS_date_marking
+  - records_and_disposition_logic
+  domains:
+  - food
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:84
+  notes: Supports ready_to_eat_TCS_date_marking, records_and_disposition_logic; currently
+    mapped to food, scaling.
+- id: FEMA_ICS_SPAN_CONTROL
+  source_type: official_guidance
+  title: ICS Principle, Manageable Span of Control
+  organization: FEMA
+  url: https://emilms.fema.gov/is_0362a/groups/103.html
+  evidence_quality: moderate
+  supports:
+  - emergency_operations
+  - five_as_operational_rule_of_thumb
+  - incident_supervisor_span_3_to_7
+  - role_backup
+  domains:
+  - governance_anticapture
+  claims_supported: []
+  model_fields:
+  - governance_anticapture.emergency_power_sunset_defined
+  - governance_anticapture.role_backup_coverage
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:emergency_power_sunset
+  - capability_policy_gate:role_backup_coverage
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:72
+  notes: Supports emergency_operations, five_as_operational_rule_of_thumb, incident_supervisor_span_3_to_7,
+    role_backup; currently mapped to governance_anticapture, unmapped.
+- id: FEMA_NATIONAL_RESILIENCE_GUIDANCE
+  source_type: official_guidance
+  title: National Resilience Guidance
+  organization: FEMA
+  url: https://www.fema.gov/emergency-managers/national-preparedness/plan/resilience-guidance
+  evidence_quality: high
+  supports:
+  - cross_sector_resilience
+  - emergency_access
+  - maturity_model
+  - resilience_planning
+  - resilience_planning_process
+  - resilience_principles_and_steps
+  - whole_community_resilience
+  domains:
+  - care_health
+  - governance_anticapture
+  - mobility_access
+  - risk_resilience
+  - sanitation
+  - scaling
+  claims_supported: []
+  model_fields:
+  - care_health.high_need_support_coverage
+  - governance_anticapture.emergency_power_sunset_defined
+  - mobility_access.emergency_access_supported
+  - risk_resilience.hazard_register_supported
+  - risk_resilience.recovery_playbook_count
+  - sanitation.emergency_sanitation_fallback_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:emergency_access
+  - capability_policy_gate:emergency_power_sunset
+  - capability_policy_gate:emergency_sanitation_fallback
+  - capability_policy_gate:hazard_register
+  - capability_policy_gate:high_need_support_coverage
+  - capability_policy_gate:recovery_playbooks
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:139
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:243
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:231
+  notes: Supports cross_sector_resilience, emergency_access, maturity_model, resilience_planning;
+    currently mapped to care_health, governance_anticapture, mobility_access, risk_resilience,
+    sanitation, scaling, unmapped.
+- id: FEMA_NATIONAL_RESILIENCE_GUIDANCE_PDF
+  source_type: official_guidance
+  title: National Resilience Guidance PDF
+  organization: FEMA
+  url: https://www.fema.gov/sites/default/files/documents/fema_national-resilience-guidance_august2024.pdf
+  evidence_quality: mixed
+  supports:
+  - resilience_across_sectors
+  - resilience_planning_process
+  - whole_community_approach
+  domains:
+  - risk_resilience
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:240
+  notes: Supports resilience_across_sectors, resilience_planning_process, whole_community_approach;
+    currently mapped to risk_resilience, scaling.
+- id: GREEN_HOUSE_MODEL
+  source_type: reference
+  title: The Green House Model of Nursing Home Care in Design and Implementation
+  organization: peer_reviewed_literature / PMC
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5338211/
+  evidence_quality: mixed
+  supports:
+  - green_house_homes_house_10_to_12_elders
+  - private_room_and_attached_bath
+  - shared_central_living_space_and_open_kitchen
+  domains:
+  - care_health
+  - food
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:228
+  notes: Supports green_house_homes_house_10_to_12_elders, private_room_and_attached_bath,
+    shared_central_living_space_and_open_kitchen; currently mapped to care_health,
+    food, scaling.
+- id: GREEN_HOUSE_SMALL_HOUSE
+  source_type: reference
+  title: Green House / small-house elder-care model
+  organization: Green House Project / long-term-care research
+  url: https://thegreenhouseproject.org/
+  evidence_quality: mixed
+  supports:
+  - high_care_small_house_10_to_12_residents
+  - private_room_bath_homelike_care_logic
+  - private_room_bath_homelike_living
+  - small_house_elder_care_10_to_12_residents
+  domains:
+  - care_health
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:301
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:70
+  notes: Supports high_care_small_house_10_to_12_residents, private_room_bath_homelike_care_logic,
+    private_room_bath_homelike_living, small_house_elder_care_10_to_12_residents;
+    currently mapped to care_health, scaling.
+- id: GSN_CLT
+  source_type: reference
+  title: Community Land Trusts
+  organization: Grounded Solutions Network
+  url: https://groundedsolutions.org/strengthening-neighborhoods/community-land-trusts/
+  evidence_quality: moderate
+  supports:
+  - community_land_stewardship
+  - land_stewardship
+  - permanent_affordability
+  - resale_restriction
+  domains:
+  - legal_land_finance
+  claims_supported: []
+  model_fields:
+  - legal_land_finance.land_security_status
+  - legal_land_finance.resident_rights_defined
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:resident_rights
+  - capability_policy_gate:tenure_security
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:96
+  notes: Supports community_land_stewardship, land_stewardship, permanent_affordability,
+    resale_restriction; currently mapped to legal_land_finance, unmapped.
+- id: GSN_RESALE_FORMULAS
+  source_type: reference
+  title: Affordable Pricing and Resale Formulas
+  organization: groundedsolutions.org
+  url: https://groundedsolutions.org/resources/affordable-pricing-and-resale-formulas/
+  evidence_quality: mixed
+  supports:
+  - resale_formula_preserves_affordability
+  domains:
+  - unmapped
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:104
+  notes: Supports resale_formula_preserves_affordability; currently mapped to unmapped.
+- id: HRSA_HEALTH_CENTER_PROGRAM
+  source_type: reference
+  title: About the Health Center Program
+  organization: HRSA
+  url: https://bphc.hrsa.gov/about-health-center-program
+  evidence_quality: moderate
+  supports:
+  - community_based_health_care_access
+  - community_based_medical_dental_behavioral_vision_services
+  - external_professional_care_interface
+  - health_centers_provide_access_to_medical_dental_behavioral_vision_services
+  domains:
+  - care_health
+  - scaling
+  claims_supported: []
+  model_fields:
+  - care_health.care_continuity_protocol_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:care_continuity_protocol
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:51
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:247
+  notes: Supports community_based_health_care_access, community_based_medical_dental_behavioral_vision_services,
+    external_professional_care_interface, health_centers_provide_access_to_medical_dental_behavioral_vision_services;
+    currently mapped to care_health, scaling, unmapped.
+- id: HUD_CHAS_COST_BURDEN
+  source_type: legal_or_policy_reference
+  title: CHAS Background
+  organization: HUD User
+  url: https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html
+  evidence_quality: high
+  supports:
+  - cost_burden_30_percent
+  - housing_cost_burden_30_percent
+  - housing_cost_burden_above_30_percent_income
+  - severe_cost_burden_50_percent
+  - severe_cost_burden_above_50_percent_income
+  domains:
+  - housing
+  - legal_land_finance
+  claims_supported: []
+  model_fields:
+  - legal_land_finance.reserve_modeling_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:reserve_modeling
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:117
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:350
+  notes: Supports cost_burden_30_percent, housing_cost_burden_30_percent, housing_cost_burden_above_30_percent_income,
+    severe_cost_burden_50_percent; currently mapped to housing, legal_land_finance,
+    unmapped.
+- id: IMPACT_CHW_RCT
+  source_type: reference
+  title: Evidence-Based Community Health Worker Program Addresses Unmet Social Needs
+  organization: NCBI
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8564553/
+  evidence_quality: mixed
+  supports:
+  - structured_CHW_programs_can_improve_outcomes_and_return_on_investment
+  - structured_CHW_support
+  - unmet_social_needs_support
+  domains:
+  - care_health
+  - labor_time
+  - scaling
+  - social_cultural
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:65
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:262
+  notes: Supports structured_CHW_programs_can_improve_outcomes_and_return_on_investment,
+    structured_CHW_support, unmet_social_needs_support; currently mapped to care_health,
+    labor_time, scaling, social_cultural, unmapped.
+- id: IRS_501C3_ORGANIZATIONAL_TEST
+  source_type: legal_or_policy_reference
+  title: Organizational Test, IRC Section 501(c)(3)
+  organization: IRS
+  url: https://www.irs.gov/charities-non-profits/charitable-organizations/organizational-test-internal-revenue-code-section-501c3
+  evidence_quality: moderate
+  supports:
+  - asset_lock
+  - assets_permanently_dedicated_to_exempt_purpose
+  - dissolution_assets_not_private_distribution
+  - exempt_purpose_assets
+  domains:
+  - legal_land_finance
+  claims_supported: []
+  model_fields:
+  - legal_land_finance.resident_rights_defined
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:resident_rights
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:124
+  notes: Supports asset_lock, assets_permanently_dedicated_to_exempt_purpose, dissolution_assets_not_private_distribution,
+    exempt_purpose_assets; currently mapped to legal_land_finance, unmapped.
+- id: ITDP_TOD_STANDARD
+  source_type: reference
+  title: TOD Standard
+  organization: Institute for Transportation and Development Policy
+  url: https://tod.itdp.org/tod-standard/tod-standard-framework.html
+  evidence_quality: moderate
+  supports:
+  - 500_meter_frequent_transit_reference
+  - accessibility_to_strollers_and_disabilities
+  - daily_need_access_distance
+  - frequent_transit_stop_within_500_m
+  - non_driver_access
+  - rapid_transit_within_1000_m
+  - walk_cycle_connect_transit_logic
+  - walk_cycle_connect_transit_mix_densify_compact_shift
+  - walkability_distance_logic
+  domains:
+  - labor_time
+  - mobility_access
+  - scaling
+  claims_supported: []
+  model_fields:
+  - mobility_access.non_driver_access_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:non_driver_access
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:154
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:262
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:158
+  notes: Supports 500_meter_frequent_transit_reference, accessibility_to_strollers_and_disabilities,
+    daily_need_access_distance, frequent_transit_stop_within_500_m; currently mapped
+    to labor_time, mobility_access, scaling, unmapped.
+- id: ITDP_TOD_STANDARD_PDF
+  source_type: reference
+  title: TOD Standard PDF
+  organization: Institute for Transportation and Development Policy
+  url: https://itdp.org/wp-content/uploads/2017/06/TOD_Standard_EN.pdf
+  evidence_quality: mixed
+  supports:
+  - 1000_meters_about_20_minute_walk
+  - 500_meters_about_10_minute_walk
+  domains:
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:167
+  notes: Supports 1000_meters_about_20_minute_walk, 500_meters_about_10_minute_walk;
+    currently mapped to scaling.
+- id: LOCAL_HOUSING_SOLUTIONS_LEC
+  source_type: reference
+  title: Limited Equity Cooperatives
+  organization: Local Housing Solutions
+  url: https://www.localhousingsolutions.org/housing-policy-library/limited-equity-cooperatives/
+  evidence_quality: moderate
+  supports:
+  - affordability_preservation
+  - limited_equity_coop
+  - limited_equity_coop_resale_formula
+  - resident_rights
+  domains:
+  - housing
+  - legal_land_finance
+  claims_supported: []
+  model_fields:
+  - legal_land_finance.land_security_status
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:tenure_security
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:110
+  notes: Supports affordability_preservation, limited_equity_coop, limited_equity_coop_resale_formula,
+    resident_rights; currently mapped to housing, legal_land_finance, unmapped.
+- id: NAEYC_RATIOS_GROUP_SIZE
+  source_type: reference
+  title: Staff-to-child ratio and class size recommendations
+  organization: NAEYC
+  url: https://www.naeyc.org/
+  evidence_quality: mixed
+  supports:
+  - child_group_size_and_ratio_reference
+  - child_group_size_reference_where_children_are_modeled
+  domains:
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:279
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:118
+  notes: Supports child_group_size_and_ratio_reference, child_group_size_reference_where_children_are_modeled;
+    currently mapped to scaling.
+- id: NAEYC_RATIO_GROUP_SIZE
+  source_type: reference
+  title: Staff-to-Child Ratio and Class Size
+  organization: NAEYC
+  url: https://www.naeyc.org/sites/default/files/globally-shared/downloads/PDFs/accreditation/early-learning/staff_child_ratio_0.pdf
+  evidence_quality: mixed
+  supports:
+  - infant_ratio_1_to_4_max_group_8
+  - kindergarten_ratio_1_to_12_max_group_24
+  - preschool_ratio_1_to_10_max_group_20
+  - toddler_ratio_1_to_6_max_group_12
+  domains:
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:193
+  notes: Supports infant_ratio_1_to_4_max_group_8, kindergarten_ratio_1_to_12_max_group_24,
+    preschool_ratio_1_to_10_max_group_20, toddler_ratio_1_to_6_max_group_12; currently
+    mapped to scaling.
+- id: NIST_COMMUNITY_RESILIENCE_GUIDE
+  source_type: official_guidance
+  title: Community Resilience Planning Guide
+  organization: NIST
+  url: https://www.nist.gov/community-resilience/planning-guide
+  evidence_quality: high
+  supports:
+  - community_resilience_planning
+  - critical_functions
+  - critical_social_functions
+  - dependencies_and_recovery_goals
+  - dependency_graph
+  - hazard_register
+  - infrastructure_dependencies
+  - recovery_goals
+  - recovery_goals_and_dependencies
+  - resilience_planning
+  - social_and_economic_functions_linked_to_infrastructure
+  domains:
+  - risk_resilience
+  - scaling
+  - social_cultural
+  claims_supported: []
+  model_fields:
+  - risk_resilience.dependency_graph_supported
+  - risk_resilience.graceful_degradation_supported
+  - risk_resilience.hazard_register_supported
+  - risk_resilience.recovery_playbook_count
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:dependency_graph
+  - capability_policy_gate:graceful_degradation
+  - capability_policy_gate:hazard_register
+  - capability_policy_gate:recovery_playbooks
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:131
+  - docs/research/ciac_capability_thresholds_research_pack_part_3_v0_1.md:359
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:234
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:222
+  notes: Supports community_resilience_planning, critical_functions, critical_social_functions,
+    dependencies_and_recovery_goals; currently mapped to risk_resilience, scaling,
+    social_cultural, unmapped.
+- id: NIST_NICE_FRAMEWORK
+  source_type: official_guidance
+  title: NICE Framework
+  organization: NIST / CISA NICCS
+  url: https://niccs.cisa.gov/tools/nice-framework
+  evidence_quality: mixed
+  supports:
+  - competency_mapping
+  - task_knowledge_skill_structure
+  domains:
+  - education_skill
+  - labor_time
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:214
+  notes: Supports competency_mapping, task_knowledge_skill_structure; currently mapped
+    to education_skill, labor_time, scaling.
+- id: NIST_PRIVACY_FRAMEWORK
+  source_type: official_guidance
+  title: NIST Privacy Framework
+  organization: NIST
+  url: https://www.nist.gov/privacy-framework
+  evidence_quality: high
+  supports:
+  - privacy_risk_management
+  - role_based_access
+  - role_based_data_governance
+  domains:
+  - governance_anticapture
+  - labor_time
+  - risk_resilience
+  claims_supported: []
+  model_fields:
+  - governance_anticapture.role_backup_coverage
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:role_backup_coverage
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:89
+  notes: Supports privacy_risk_management, role_based_access, role_based_data_governance;
+    currently mapped to governance_anticapture, labor_time, risk_resilience, unmapped.
+- id: NSF_ANSI_350_REUSE
+  source_type: reference
+  title: NSF/ANSI 350 Onsite Residential and Commercial Water Reuse Treatment Systems
+  organization: NSF / Water Quality Association summary
+  url: https://wqa.org/wp-content/uploads/2022/09/2014_WaterReuse.pdf
+  evidence_quality: mixed
+  supports:
+  - onsite_reuse_systems_need_evaluation
+  - reuse_treatment_standard_reference
+  domains:
+  - housing
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:171
+  notes: Supports onsite_reuse_systems_need_evaluation, reuse_treatment_standard_reference;
+    currently mapped to housing, scaling, water.
+- id: OECD_WORK_LIFE_BALANCE
+  source_type: research_summary
+  title: OECD Better Life Index, Work-Life Balance
+  organization: OECD
+  url: https://oecd-better-life-index.truth-and-beauty.net/topics/work-life-balance/
+  evidence_quality: moderate
+  supports:
+  - leisure_and_personal_care
+  - leisure_and_personal_care_as_wellbeing_metrics
+  domains:
+  - care_health
+  - labor_time
+  - water
+  claims_supported: []
+  model_fields:
+  - labor_time.commons_labor_hours_per_resident_per_week
+  - labor_time.hidden_labor_tracking_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:commons_labor_upper_bound
+  - capability_policy_gate:hidden_labor_tracking
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:185
+  notes: Supports leisure_and_personal_care, leisure_and_personal_care_as_wellbeing_metrics;
+    currently mapped to care_health, labor_time, unmapped, water.
+- id: OLDENBURG_THIRD_PLACE
+  source_type: reference
+  title: Third place concept
+  organization: theory/practice literature
+  url: https://www.pps.org/article/roldenburg
+  evidence_quality: mixed
+  supports:
+  - informal_voluntary_places_beyond_home_and_work
+  - social_comfort_requires_low_pressure_access
+  domains:
+  - labor_time
+  - scaling
+  - social_cultural
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:110
+  notes: Supports informal_voluntary_places_beyond_home_and_work, social_comfort_requires_low_pressure_access;
+    currently mapped to labor_time, scaling, social_cultural.
+- id: OSHA_LOCKOUT_TAGOUT
+  source_type: official_guidance
+  title: Control of Hazardous Energy
+  organization: OSHA
+  url: https://www.osha.gov/control-hazardous-energy
+  evidence_quality: high
+  supports:
+  - hazardous_energy_control_during_servicing_and_maintenance
+  - hazardous_energy_training
+  - professional_safety_boundary_for_dangerous_tasks
+  - safety_critical_tasks
+  domains:
+  - energy
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:142
+  notes: Supports hazardous_energy_control_during_servicing_and_maintenance, hazardous_energy_training,
+    professional_safety_boundary_for_dangerous_tasks, safety_critical_tasks; currently
+    mapped to energy, scaling.
+- id: OSHA_TRAINING_UNDERSTANDABLE
+  source_type: official_guidance
+  title: Training Requirements in OSHA Standards
+  organization: OSHA
+  url: https://www.osha.gov/publications/osha2254
+  evidence_quality: high
+  supports:
+  - safety_training_legibility
+  - training_must_use_language_and_vocabulary_workers_understand
+  - understandable_training
+  - worker_training
+  domains:
+  - labor_time
+  - sanitation
+  - scaling
+  claims_supported: []
+  model_fields:
+  - sanitation.waste_stream_separation_supported
+  - sanitation.worker_safety_training_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:waste_stream_separation
+  - capability_policy_gate:worker_safety_and_labor_visibility
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:150
+  notes: Supports safety_training_legibility, training_must_use_language_and_vocabulary_workers_understand,
+    understandable_training, worker_training; currently mapped to labor_time, sanitation,
+    scaling.
+- id: PARTICIPEDIA_CITIZENS_JURY
+  source_type: reference
+  title: Citizens' Jury
+  organization: Participedia
+  url: https://participedia.net/method/155
+  evidence_quality: mixed
+  supports:
+  - citizens_jury_12_to_25_participants
+  - small_size_supports_quality_deliberation_and_trust
+  domains:
+  - governance_anticapture
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:82
+  notes: Supports citizens_jury_12_to_25_participants, small_size_supports_quality_deliberation_and_trust;
+    currently mapped to governance_anticapture, scaling.
+- id: ROLLINGS_EVANS_CROWDING_DESIGN
+  source_type: reference
+  title: Perceived crowding, design moderators, and mental health
+  organization: peer_reviewed_literature
+  url: https://pubmed.ncbi.nlm.nih.gov/24962309/
+  evidence_quality: mixed
+  supports:
+  - design_features_moderate_crowding
+  - perceived_crowding_differs_from_density
+  domains:
+  - care_health
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:102
+  notes: Supports design_features_moderate_crowding, perceived_crowding_differs_from_density;
+    currently mapped to care_health, scaling.
+- id: SENDAI_FRAMEWORK
+  source_type: reference
+  title: Sendai Framework for Disaster Risk Reduction 2015-2030
+  organization: UNDRR
+  url: https://www.undrr.org/publication/sendai-framework-disaster-risk-reduction-2015-2030
+  evidence_quality: high
+  supports:
+  - enhance_preparedness_response_recovery
+  - invest_in_risk_reduction
+  - preparedness_response_recovery
+  - recovery_preparedness
+  - risk_governance
+  - strengthen_risk_governance
+  - understand_disaster_risk
+  domains:
+  - governance_anticapture
+  - labor_time
+  - risk_resilience
+  - scaling
+  claims_supported: []
+  model_fields:
+  - risk_resilience.graceful_degradation_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:graceful_degradation
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:146
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:252
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:249
+  notes: Supports enhance_preparedness_response_recovery, invest_in_risk_reduction,
+    preparedness_response_recovery, recovery_preparedness; currently mapped to governance_anticapture,
+    labor_time, risk_resilience, scaling, unmapped.
+- id: SHARED_KITCHEN_HAZARDS_2024
+  source_type: reference
+  title: Assessment of Hygiene Management Practices and Microbial/Chemical Hazards
+    in Shared Kitchen Facilities
+  organization: peer_reviewed_literature
+  url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10969530/
+  evidence_quality: mixed
+  supports:
+  - need_for_monitoring_and_food_safety_controls
+  - shared_kitchen_hygiene_management_risk
+  domains:
+  - food
+  - risk_resilience
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:110
+  notes: Supports need_for_monitoring_and_food_safety_controls, shared_kitchen_hygiene_management_risk;
+    currently mapped to food, risk_resilience, scaling.
+- id: SOCIOCRACY_FOR_ALL
+  source_type: reference
+  title: Sociocracy overview
+  organization: Sociocracy for All
+  url: https://www.sociocracyforall.org/sociocracy/
+  evidence_quality: mixed
+  supports:
+  - circles
+  - consent_decision_making
+  - double_linking
+  - roles
+  domains:
+  - governance_anticapture
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_4_v0_1.md:107
+  notes: Supports circles, consent_decision_making, double_linking, roles; currently
+    mapped to governance_anticapture, scaling.
+- id: SPHERE_TOILET_20_50
+  source_type: reference
+  title: Sphere WASH guidance, toilet ratio and distance
+  organization: Sphere / humanitarian WASH references
+  url: https://ec.europa.eu/echo/files/evaluation/watsan2005/annex_files/Sphere/SPHERE2%20-%20chapter%202%20-%20Min%20standards%20in%20water%2C%20sanitation%20and%20hygiene%20prom.pdf
+  evidence_quality: mixed
+  supports:
+  - emergency_minimum_not_normal_dignity
+  - maximum_20_people_per_toilet
+  - toilets_no_more_than_50_m_from_dwellings
+  domains:
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:187
+  notes: Supports emergency_minimum_not_normal_dignity, maximum_20_people_per_toilet,
+    toilets_no_more_than_50_m_from_dwellings; currently mapped to sanitation, scaling,
+    water.
+- id: SPHERE_WASH
+  source_type: reference
+  title: Sphere Handbook, WASH Standards
+  organization: Sphere Association
+  url: https://handbook.spherestandards.org/
+  evidence_quality: mixed
+  supports:
+  - emergency_WASH_minimums
+  - emergency_standards_not_normal_dignity
+  - toilet_access_emergency_reference
+  domains:
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:217
+  notes: Supports emergency_WASH_minimums, emergency_standards_not_normal_dignity,
+    toilet_access_emergency_reference; currently mapped to scaling, water.
+- id: SPHERE_WASH_2018
+  source_type: reference
+  title: Sphere Handbook 2018, WASH Standards
+  organization: Sphere Association
+  url: https://spherestandards.org/wp-content/uploads/Sphere-Handbook-2018-EN.pdf
+  evidence_quality: mixed
+  supports:
+  - WASH_minimum_standards
+  - emergency_toilet_ratio_and_access_context
+  domains:
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:179
+  notes: Supports WASH_minimum_standards, emergency_toilet_ratio_and_access_context;
+    currently mapped to scaling, water.
+- id: SURGEON_GENERAL_SOCIAL_CONNECTION
+  source_type: reference
+  title: Our Epidemic of Loneliness and Isolation
+  organization: U.S. Surgeon General / HHS
+  url: https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf
+  evidence_quality: mixed
+  supports:
+  - built_environment_affects_social_connection
+  - housing_transport_green_space_and_local_institutions_matter
+  - social_connection_is_public_health_issue
+  domains:
+  - care_health
+  - housing
+  - mobility_access
+  - scaling
+  - social_cultural
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:286
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:55
+  notes: Supports built_environment_affects_social_connection, housing_transport_green_space_and_local_institutions_matter,
+    social_connection_is_public_health_issue; currently mapped to care_health, housing,
+    mobility_access, scaling, social_cultural.
+- id: UKRI_FOUR_DAY_WEEK
+  source_type: research_summary
+  title: Four-day working week improves mental and physical health
+  organization: UKRI
+  url: https://www.ukri.org/who-we-are/how-we-are-doing/research-outcomes-and-impact/esrc/a-four-day-working-week-improves-mental-and-physical-health/
+  evidence_quality: moderate
+  supports:
+  - reduced_hours_lower_burnout
+  - reduced_hours_lower_stress_burnout
+  - reduced_work_time_can_preserve_productivity
+  domains:
+  - care_health
+  - labor_time
+  claims_supported: []
+  model_fields:
+  - labor_time.free_time_increase_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:free_time_improvement
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:191
+  notes: Supports reduced_hours_lower_burnout, reduced_hours_lower_stress_burnout,
+    reduced_work_time_can_preserve_productivity; currently mapped to care_health,
+    labor_time, unmapped.
+- id: UNHCR_WATSAN_20_LATRINE
+  source_type: reference
+  title: UNHCR Water and Sanitation Guidelines
+  organization: UNHCR
+  url: https://www.unhcr.org/sites/default/files/legacy-pdf/49d080df2.pdf
+  evidence_quality: mixed
+  supports:
+  - maximum_20_people_per_communal_latrine
+  - sanitation_emergency_access_guidance
+  domains:
+  - sanitation
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:196
+  notes: Supports maximum_20_people_per_communal_latrine, sanitation_emergency_access_guidance;
+    currently mapped to sanitation, scaling, water.
+- id: USDA_LOCAL_REGIONAL_RESOURCES
+  source_type: reference
+  title: Local and Regional Food System Resources
+  organization: USDA Agricultural Marketing Service
+  url: https://www.ams.usda.gov/services/local-regional/research-publications/resources
+  evidence_quality: mixed
+  supports:
+  - food_hubs
+  - local_regional_food_system_resilience
+  - regional_supply_chains
+  - shared_kitchens
+  domains:
+  - food
+  - risk_resilience
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:100
+  notes: Supports food_hubs, local_regional_food_system_resilience, regional_supply_chains,
+    shared_kitchens; currently mapped to food, risk_resilience, scaling.
+- id: USDA_SHARED_KITCHENS
+  source_type: reference
+  title: Shared Kitchens and Food Startups
+  organization: USDA Agricultural Marketing Service
+  url: https://www.ams.usda.gov/services/local-regional/research-publications/shared-kitchens-and-food-startups
+  evidence_quality: mixed
+  supports:
+  - shared_kitchens_as_local_food_infrastructure
+  - shared_kitchens_reduce_barriers_to_facilities_and_capital
+  domains:
+  - food
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:92
+  notes: Supports shared_kitchens_as_local_food_infrastructure, shared_kitchens_reduce_barriers_to_facilities_and_capital;
+    currently mapped to food, scaling.
+- id: WHO_EMERGENCY_WATER_20L
+  source_type: reference
+  title: How much water is needed in emergencies
+  organization: World Health Organization
+  url: https://cdn.who.int/media/docs/default-source/wash-documents/who-tn-09-how-much-water-is-needed.pdf
+  evidence_quality: mixed
+  supports:
+  - twenty_liters_per_person_per_day_essential_health_reference
+  - twenty_liters_per_person_per_day_for_minimum_essential_health_and_hygiene
+  domains:
+  - care_health
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:201
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:155
+  notes: Supports twenty_liters_per_person_per_day_essential_health_reference, twenty_liters_per_person_per_day_for_minimum_essential_health_and_hygiene;
+    currently mapped to care_health, scaling, water.
+- id: WHO_HOUSING_2018
+  source_type: reference
+  title: WHO Housing and Health Guidelines
+  organization: World Health Organization
+  url: https://www.who.int/publications/i/item/9789241550376
+  evidence_quality: mixed
+  supports:
+  - accessibility
+  - accessibility_and_temperature_are_housing_health_issues
+  - crowding
+  - household_crowding_is_health_relevant
+  - inadequate_living_space
+  - inadequate_living_space_is_housing_health_issue
+  - indoor_environmental_quality
+  domains:
+  - care_health
+  - housing
+  - mobility_access
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:165
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:35
+  notes: Supports accessibility, accessibility_and_temperature_are_housing_health_issues,
+    crowding, household_crowding_is_health_relevant; currently mapped to care_health,
+    housing, mobility_access, scaling.
+- id: WHO_HOUSING_CROWDING_NCBI
+  source_type: research_summary
+  title: Household crowding, WHO Housing and Health Guidelines chapter
+  organization: WHO / NCBI Bookshelf
+  url: https://www.ncbi.nlm.nih.gov/books/NBK535289/
+  evidence_quality: mixed
+  supports:
+  - crowding_affects_physical_and_mental_health
+  - crowding_as_mismatch_between_dwelling_and_household
+  - crowding_depends_on_design_and_household_needs
+  - crowding_is_mismatch_between_dwelling_and_household
+  - mental_and_physical_health_impacts
+  domains:
+  - care_health
+  - housing
+  - scaling
+  - water
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:175
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_2_v0_2.md:46
+  notes: Supports crowding_affects_physical_and_mental_health, crowding_as_mismatch_between_dwelling_and_household,
+    crowding_depends_on_design_and_household_needs, crowding_is_mismatch_between_dwelling_and_household;
+    currently mapped to care_health, housing, scaling, water.
+- id: WHO_ILO_LONG_WORKING_HOURS
+  source_type: research_summary
+  title: Long working hours increasing deaths from heart disease and stroke
+  organization: WHO and ILO
+  url: https://www.who.int/news/item/17-05-2021-long-working-hours-increasing-deaths-from-heart-disease-and-stroke-who-ilo
+  evidence_quality: high
+  supports:
+  - 55_plus_hours_per_week_health_risk
+  - long_working_hours_risk
+  - long_working_hours_stroke_heart_disease_burden
+  domains:
+  - care_health
+  - labor_time
+  - risk_resilience
+  claims_supported: []
+  model_fields:
+  - labor_time.commons_labor_hours_per_resident_per_week
+  - labor_time.free_time_increase_supported
+  used_by:
+  - capability_policies/ciac_capability_policy_v0.yaml
+  - capability_policy_gate:commons_labor_upper_bound
+  - capability_policy_gate:free_time_improvement
+  - docs/research/ciac_capability_thresholds_research_pack_part_1_v0_1.md:178
+  notes: Supports 55_plus_hours_per_week_health_risk, long_working_hours_risk, long_working_hours_stroke_heart_disease_burden;
+    currently mapped to care_health, labor_time, risk_resilience, unmapped.
+- id: WHO_SANITATION_SAFETY_PLANNING
+  source_type: reference
+  title: Sanitation Safety Planning
+  organization: World Health Organization
+  url: https://www.who.int/publications/i/item/9789241549240
+  evidence_quality: mixed
+  supports:
+  - containment_conveyance_treatment_reuse_disposal
+  - health_risk_based_sanitation_management
+  - sanitation_chain_risk_management
+  domains:
+  - care_health
+  - risk_resilience
+  - sanitation
+  - scaling
+  claims_supported: []
+  model_fields: []
+  used_by:
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_1_v0_2.md:226
+  - docs/scaling_research/ciac_deep_research_scaling_thresholds_part_3_v0_1.md:204
+  notes: Supports containment_conveyance_treatment_reuse_disposal, health_risk_based_sanitation_management,
+    sanitation_chain_risk_management; currently mapped to care_health, risk_resilience,
+    sanitation, scaling.
+warnings:
+- This registry tracks CIaC model provenance. It does not independently verify legal,
+  engineering, clinical, public-health, accessibility, or resident-consent sufficiency.
+- Sources are attached to model claims and gates; they are not approvals to build
+  or operate real infrastructure.

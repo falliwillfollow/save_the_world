@@ -6,6 +6,7 @@ import Path from "../components/Path.jsx";
 import ResidentAgent from "../components/ResidentAgent.jsx";
 import Structure from "../components/Structure.jsx";
 import Zone from "../components/Zone.jsx";
+import FirstPersonController from "./FirstPersonController.jsx";
 import { worldBounds } from "./scaleManifest.js";
 
 export default function WorldScene({
@@ -35,6 +36,7 @@ export default function WorldScene({
     >
       <PerspectiveCamera makeDefault position={[bounds.center[0] + cameraDistance, cameraHeight, bounds.center[2] + cameraDistance]} fov={45} />
       <color attach="background" args={["#eef3f4"]} />
+      {mode === "walk" ? <fog attach="fog" args={["#dfe7e7", 38, Math.max(130, bounds.radius * 1.15)]} /> : null}
       <ambientLight intensity={0.62} />
       <directionalLight position={[20, 38, 16]} intensity={1.9} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
       <hemisphereLight args={["#dbe8f1", "#9a8f7a", 0.48]} />
@@ -85,7 +87,16 @@ export default function WorldScene({
         />
       ))}
       <Environment preset="city" />
-      <OrbitControls target={bounds.center} minDistance={28} maxDistance={Math.max(105, bounds.radius * 1.6)} maxPolarAngle={Math.PI / 2.25} enableDamping={!reducedMotion} />
+      {mode === "walk" ? (
+        <FirstPersonController
+          manifest={manifest}
+          active={mode === "walk"}
+          selectedObject={selectedObject}
+          onSelectObject={onSelectObject}
+        />
+      ) : (
+        <OrbitControls target={bounds.center} minDistance={28} maxDistance={Math.max(105, bounds.radius * 1.6)} maxPolarAngle={Math.PI / 2.25} enableDamping={!reducedMotion} />
+      )}
     </Canvas>
   );
 }

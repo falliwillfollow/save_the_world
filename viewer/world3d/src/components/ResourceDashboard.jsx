@@ -39,7 +39,7 @@ export default function ResourceDashboard({ telemetry, timePercent, elapsedDays 
       })}
       <article className="resource-card labor-card">
         <div className="resource-card-head">
-          <h2>Labor</h2>
+          <h2 title="Modeled civic operations labor, not total resident work or life burden.">Commons labor</h2>
           <span className={`status-pill status-${labor.status}`}>{labor.status || "provisional"}</span>
         </div>
         <div className="resource-value">
@@ -57,6 +57,7 @@ export default function ResourceDashboard({ telemetry, timePercent, elapsedDays 
           <dt>Care/wk</dt>
           <dd>{formatAmount(labor.care_hours_per_week)} h</dd>
         </dl>
+        <p className="resource-note">Visible civic operations only.</p>
       </article>
     </aside>
   );

@@ -38,6 +38,7 @@ class WorldManifestExportTests(unittest.TestCase):
                 "overlays",
                 "resource_telemetry",
                 "evidence_cards",
+                "linked_manifests",
                 "warnings",
                 "failures",
                 "unknowns",

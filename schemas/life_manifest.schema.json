@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ciac.local/schemas/life_manifest.schema.json",
+  "title": "LifeManifest",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kind",
+    "version",
+    "manifest_id",
+    "source",
+    "population",
+    "scale",
+    "public_thesis",
+    "metrics",
+    "resident_archetypes",
+    "baseline_model",
+    "civic_floor_model",
+    "life_returned",
+    "scenes",
+    "scenario_story_beats",
+    "warnings",
+    "promotion_blockers",
+    "provisionality"
+  ],
+  "properties": {
+    "kind": { "const": "LifeManifest" },
+    "version": { "const": "v0" },
+    "manifest_id": { "type": "string", "minLength": 3 },
+    "source": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["runtime_bundle_path", "world_manifest_path", "capability_policy_id", "generated_at", "provisional"],
+      "properties": {
+        "runtime_bundle_path": { "type": ["string", "null"] },
+        "world_manifest_path": { "type": ["string", "null"] },
+        "capability_policy_id": { "type": ["string", "null"] },
+        "generated_at": { "type": ["string", "null"] },
+        "provisional": { "type": "boolean" }
+      }
+    },
+    "population": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["residents", "households"],
+      "properties": {
+        "residents": { "type": "integer", "minimum": 1 },
+        "households": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "scale": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["scale_class", "active_layers", "implied_village_blocks"],
+      "properties": {
+        "scale_class": { "type": "string", "enum": ["micro_commons", "village_block", "multi_block_district", "town_city_layer", "regional_membrane"] },
+        "active_layers": { "type": "array", "items": { "type": "string" } },
+        "implied_village_blocks": { "type": "number", "minimum": 1 }
+      }
+    },
+    "public_thesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tagline", "short", "long"],
+      "properties": {
+        "tagline": { "type": "string" },
+        "short": { "type": "string" },
+        "long": { "type": "string" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "life_returned_hours_per_week",
+        "required_wage_hours_reduction_percent",
+        "free_time_increase_hours_per_week",
+        "passion_time_increase_hours_per_week",
+        "commons_labor_hours_per_resident_per_week",
+        "hidden_labor_status",
+        "capability_gate_status"
+      ],
+      "properties": {
+        "life_returned_hours_per_week": { "type": "number" },
+        "required_wage_hours_reduction_percent": { "type": "number" },
+        "free_time_increase_hours_per_week": { "type": "number" },
+        "passion_time_increase_hours_per_week": { "type": "number" },
+        "commons_labor_hours_per_resident_per_week": { "type": "number" },
+        "hidden_labor_status": { "type": "string", "enum": ["pass", "warn", "fail", "unknown"] },
+        "capability_gate_status": { "type": "string", "enum": ["pass", "warn", "fail", "promotion_blocked", "unknown"] }
+      }
+    },
+    "resident_archetypes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/resident_archetype" }
+    },
+    "baseline_model": { "type": "object" },
+    "civic_floor_model": { "type": "object" },
+    "life_returned": { "type": "object" },
+    "scenes": { "type": "array", "items": { "type": "object" } },
+    "scenario_story_beats": { "type": "array", "items": { "type": "object" } },
+    "warnings": { "type": "array", "items": { "type": "object" } },
+    "promotion_blockers": { "type": "array", "items": { "type": "object" } },
+    "provisionality": { "type": "object" }
+  },
+  "definitions": {
+    "resident_archetype": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "label", "archetype", "baseline_life", "civic_floor_life", "life_returned", "narrative_beats", "warnings"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "archetype": { "type": "string" },
+        "baseline_life": { "type": "object" },
+        "civic_floor_life": { "type": "object" },
+        "life_returned": { "type": "object" },
+        "narrative_beats": { "type": "array", "items": { "type": "object" } },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

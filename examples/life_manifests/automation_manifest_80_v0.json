@@ -1,0 +1,313 @@
+{
+  "allowed_automation_domains": [
+    "scheduling",
+    "monitoring",
+    "inventory",
+    "route_planning",
+    "routine_inspection",
+    "task_reminders",
+    "scenario_testing",
+    "hidden_burden_detection",
+    "logistics_support",
+    "maintenance_queueing"
+  ],
+  "automation_thesis": {
+    "description": "Automation in CIaC is treated as a review-gated coordination substrate. It may schedule, monitor, summarize, queue, remind, and test scenarios, but it may not decide resident worth, rights, consent, legal validity, diagnosis, punishment, or governance legitimacy.",
+    "tagline": "Machines handle the repeating burden. Humans keep the non-repeatable life."
+  },
+  "blocked_automation_domains": [
+    "resident_consent",
+    "expulsion_or_loss_of_access",
+    "clinical_diagnosis",
+    "legal_judgment",
+    "punishment",
+    "emotional_coercion",
+    "private_life_inference",
+    "governance_legitimacy",
+    "determining_human_worth"
+  ],
+  "blocked_automation_tasks": [
+    "decide_expulsion_or_loss_of_access",
+    "diagnose_resident_health",
+    "determine_legal_validity",
+    "determine_human_worth_or_contribution_value",
+    "override_resident_consent",
+    "infer_private_life_or_social_status_without_consent",
+    "punish_or_rank_residents",
+    "make_final_governance_decision"
+  ],
+  "human_sovereignty_boundaries": [
+    {
+      "id": "no_automated_expulsion",
+      "rule": "Automation may flag a governance issue, but may not remove housing or access rights."
+    },
+    {
+      "id": "no_automated_consent",
+      "rule": "Automation may request review, but may not infer or override resident consent."
+    },
+    {
+      "id": "no_clinical_or_legal_finality",
+      "rule": "Automation may prepare evidence summaries, but may not diagnose or determine legal validity."
+    },
+    {
+      "id": "no_private_life_inference",
+      "rule": "Automation may use archetypal public stories, but may not infer private life or social status without consent."
+    }
+  ],
+  "kind": "AutomationManifest",
+  "manifest_id": "automation_manifest_80_v0",
+  "review_gates": [
+    {
+      "domain": "care_health",
+      "id": "clinical_boundary_review",
+      "required_for": [
+        "medication_continuity",
+        "care_plan_suggestions"
+      ]
+    },
+    {
+      "domain": "labor_time",
+      "id": "privacy_review",
+      "required_for": [
+        "hidden_labor_detection",
+        "care_meal_route"
+      ]
+    },
+    {
+      "domain": "water",
+      "id": "public_health_review",
+      "required_for": [
+        "water_quality_check_schedule",
+        "sanitation_hygiene_round_schedule"
+      ]
+    },
+    {
+      "domain": "governance_anticapture",
+      "id": "governance_review",
+      "required_for": [
+        "automation_policy_changes"
+      ]
+    },
+    {
+      "domain": "care_health",
+      "id": "care_health_external_review",
+      "required_for": [
+        "clinical_boundary_review",
+        "privacy_review",
+        "liability_review",
+        "public_health_review_for_illness_wave"
+      ]
+    },
+    {
+      "domain": "governance_anticapture",
+      "id": "governance_anticapture_external_review",
+      "required_for": [
+        "loss_of_access_or_expulsion_legal_review",
+        "privacy_review"
+      ]
+    },
+    {
+      "domain": "labor_time",
+      "id": "labor_time_external_review",
+      "required_for": [
+        "employment_labor_review_if_work_is_required_or_paid",
+        "disability_accommodation_review",
+        "privacy_review_for_labor_data"
+      ]
+    },
+    {
+      "domain": "legal_land_finance",
+      "id": "legal_land_finance_external_review",
+      "required_for": [
+        "entity_structure",
+        "land_control",
+        "occupancy_agreements",
+        "tax_status",
+        "insurance",
+        "zoning_permitting"
+      ]
+    },
+    {
+      "domain": "mobility_access",
+      "id": "mobility_access_external_review",
+      "required_for": [
+        "accessibility_code_review",
+        "fire_EMS_access_review",
+        "shared_vehicle_insurance_review"
+      ]
+    },
+    {
+      "domain": "risk_resilience",
+      "id": "risk_resilience_external_review",
+      "required_for": [
+        "emergency_management_review",
+        "fire_EMS_review",
+        "public_health_review",
+        "insurance_review"
+      ]
+    },
+    {
+      "domain": "sanitation",
+      "id": "sanitation_external_review",
+      "required_for": [
+        "local_sanitation_code_review",
+        "wastewater_professional_review",
+        "worker_safety_training_review",
+        "hazardous_waste_dropoff_plan",
+        "public_health_review"
+      ]
+    }
+  ],
+  "source": {
+    "generated_at": null,
+    "provisional": true,
+    "runtime_bundle_path": "examples/generated/micro_commons_runtime_bundle.json",
+    "world_manifest_path": "examples/world_manifests/civic_floor_80_v0.world.json"
+  },
+  "tasks": [
+    {
+      "actor": "AI_scheduler",
+      "domain": "water",
+      "failure_mode": "missed testing interval or stale reserve status",
+      "human_review_required": true,
+      "id": "water_quality_check_schedule",
+      "input_data": [
+        "water_public_health_protocol",
+        "water_reserve_status",
+        "testing_calendar"
+      ],
+      "output": "water_testing_task",
+      "privacy_level": "member_visible",
+      "review_gate": "public_health",
+      "trigger": "weekly",
+      "visible_in_world": true
+    },
+    {
+      "actor": "AI_scheduler",
+      "domain": "food",
+      "failure_mode": "inventory recommendation hides shortage or dietary risk",
+      "human_review_required": true,
+      "id": "food_inventory_balance",
+      "input_data": [
+        "food_inventory",
+        "meal_demand_forecast",
+        "dietary_constraints_summary"
+      ],
+      "output": "food_inventory_warning",
+      "privacy_level": "role_limited",
+      "review_gate": "food_safety",
+      "trigger": "daily",
+      "visible_in_world": true
+    },
+    {
+      "actor": "human_reviewed_AI",
+      "domain": "care_health",
+      "failure_mode": "route exposes private health or care information",
+      "human_review_required": true,
+      "id": "care_meal_route",
+      "input_data": [
+        "care_meal_requests",
+        "accessible_route_status",
+        "privacy_limited_delivery_window"
+      ],
+      "output": "delivery_schedule",
+      "privacy_level": "role_limited",
+      "review_gate": "privacy",
+      "trigger": "care_meal_request",
+      "visible_in_world": true
+    },
+    {
+      "actor": "AI_scheduler",
+      "domain": "maintenance_repair",
+      "failure_mode": "priority queue defers safety-critical repair",
+      "human_review_required": true,
+      "id": "maintenance_queue_prioritization",
+      "input_data": [
+        "work_orders",
+        "asset_criticality",
+        "safety_flags"
+      ],
+      "output": "prioritized_work_queue",
+      "privacy_level": "member_visible",
+      "review_gate": "safety",
+      "trigger": "work_order_created",
+      "visible_in_world": true
+    },
+    {
+      "actor": "human_reviewed_AI",
+      "domain": "labor_time",
+      "failure_mode": "hidden labor pattern is missed or privacy is overexposed",
+      "human_review_required": true,
+      "id": "hidden_labor_detection",
+      "input_data": [
+        "labor_ledger",
+        "anonymous_time_burden_reports",
+        "role_rotation_schedule"
+      ],
+      "output": "labor_burden_warning",
+      "privacy_level": "anonymized_or_role_limited",
+      "review_gate": "labor_fairness",
+      "trigger": "weekly",
+      "visible_in_world": true
+    },
+    {
+      "actor": "AI_simulation_runner",
+      "domain": "risk_resilience",
+      "failure_mode": "scenario confidence is overstated",
+      "human_review_required": true,
+      "id": "scenario_stress_test",
+      "input_data": [
+        "runtime_bundle",
+        "scenario_library",
+        "resource_telemetry"
+      ],
+      "output": "scenario_report",
+      "privacy_level": "member_visible",
+      "review_gate": "resilience_review",
+      "trigger": "manual_or_scheduled",
+      "visible_in_world": true
+    },
+    {
+      "actor": "AI_narrative_compiler",
+      "domain": "social_cultural",
+      "failure_mode": "story is mistaken for a real resident profile",
+      "human_review_required": true,
+      "id": "resident_story_projection",
+      "input_data": [
+        "life_manifest",
+        "public_archetype_library",
+        "provisionality_statement"
+      ],
+      "output": "archetype_story",
+      "privacy_level": "public_archetype_only",
+      "review_gate": "public_demo_review",
+      "trigger": "manifest_generation",
+      "visible_in_world": true
+    },
+    {
+      "actor": "AI_scheduler",
+      "domain": "sanitation",
+      "failure_mode": "dirty labor is hidden or worker safety review is skipped",
+      "human_review_required": true,
+      "id": "sanitation_hygiene_round_schedule",
+      "input_data": [
+        "sanitation_protocol",
+        "ppe_station_status",
+        "cleaning_schedule"
+      ],
+      "output": "sanitation_round_task",
+      "privacy_level": "member_visible",
+      "review_gate": "worker_safety",
+      "trigger": "daily",
+      "visible_in_world": true
+    }
+  ],
+  "version": "v0",
+  "warnings": [
+    {
+      "id": "provisional_automation",
+      "message": "Automation tasks are design contracts and require privacy, safety, labor, and governance review before real deployment.",
+      "severity": "info"
+    }
+  ]
+}

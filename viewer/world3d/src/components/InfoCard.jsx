@@ -13,6 +13,7 @@ export default function InfoCard({ object, evidenceCard, manifest, mode, scenari
   const modules = modulesForObject(manifest, object, card);
   const reviewItems = reviewItemsForModules(modules, card);
   const operatingNotes = operatingNotesForObject(object, card, modules);
+  const sources = sourcesForCard(card);
   const status = displayStatus(object, card);
   const scalingPolicy = object.scaling_policy || null;
   return (
@@ -90,6 +91,22 @@ export default function InfoCard({ object, evidenceCard, manifest, mode, scenari
           </ul>
         </section>
       ) : null}
+      {sources.length ? (
+        <section>
+          <h3>Research Sources</h3>
+          <div className="source-list">
+            {sources.map(source => (
+              <article className="source-item" key={source.id}>
+                <strong>{source.title || source.id}</strong>
+                <span>{source.organization || "unknown"} | {label(source.evidence_quality || "mixed")}</span>
+                {source.supports?.length ? <small>Supports: {source.supports.map(label).slice(0, 4).join(", ")}</small> : null}
+                {source.url ? <a href={source.url} target="_blank" rel="noreferrer">Open source</a> : null}
+              </article>
+            ))}
+          </div>
+          {card.source_note ? <p>{card.source_note}</p> : null}
+        </section>
+      ) : null}
       {scalingPolicy ? (
         <section>
           <h3>Scaling Policy</h3>
@@ -103,6 +120,18 @@ export default function InfoCard({ object, evidenceCard, manifest, mode, scenari
       ) : null}
     </aside>
   );
+}
+
+function sourcesForCard(card = {}) {
+  if (Array.isArray(card.sources) && card.sources.length) {
+    return card.sources;
+  }
+  return (card.source_ids || []).map(sourceId => ({
+    id: sourceId,
+    title: sourceId,
+    organization: "source registry",
+    evidence_quality: "mixed",
+  }));
 }
 
 function modulesForObject(manifest = {}, object = {}, card = {}) {

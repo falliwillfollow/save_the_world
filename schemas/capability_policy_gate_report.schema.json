@@ -19,7 +19,8 @@
     "failures",
     "promotion_blockers",
     "unknowns",
-    "source_ids"
+    "source_ids",
+    "source_registry"
   ],
   "properties": {
     "kind": { "const": "CapabilityPolicyGateReport" },
@@ -36,6 +37,7 @@
     "failures": { "type": "array", "items": { "type": "string" } },
     "promotion_blockers": { "type": "array", "items": { "type": "string" } },
     "unknowns": { "type": "array", "items": { "type": "string" } },
-    "source_ids": { "type": "array", "items": { "type": "string" } }
+    "source_ids": { "type": "array", "items": { "type": "string" } },
+    "source_registry": { "type": "array", "items": { "type": "object" } }
   }
 }

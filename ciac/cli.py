@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .artifact_cohesion import evaluate_artifact_cohesion
 from .audit import evaluate_audit
+from .automation_manifest import build_automation_manifest, write_automation_manifest
 from .candidates import generate_candidate_matrix
 from .compare import compare_audits
 from .compiler import CompileError, compile_plan, load_patterns
@@ -20,6 +21,7 @@ from .food_labor import generate_food_labor_report
 from .foundation import evaluate_foundation_gate
 from .gates import evaluate_gates
 from .io import dump_json, load_data, write_json
+from .life_manifest import build_life_manifest, write_life_manifest
 from .matrix_redesign import generate_matrix_redesign
 from .module_implementation import implement_technology_module
 from .nutrition import evaluate_nutrition
@@ -30,6 +32,7 @@ from .patch_materialization import materialize_patch_proposal
 from .optimizer import optimize_candidates
 from .redesign import generate_redesign
 from .research import evaluate_scalability_gate, generate_research_needs
+from .research_registry import build_research_registry, write_research_registry
 from .research_loop import run_research_loop
 from .replay_matrix import build_replay_matrix
 from .review import evaluate_review_status
@@ -228,6 +231,19 @@ def main(argv: list[str] | None = None) -> int:
     world_parser.add_argument("--output", "-o", required=True)
     world_parser.add_argument("--population", type=int)
     world_parser.add_argument("--world-id")
+    world_parser.add_argument("--research-registry")
+
+    life_parser = subparsers.add_parser("export-life-manifest", help="Export a human-facing Life Manifest for Abundance Mode")
+    life_parser.add_argument("--runtime", required=True)
+    life_parser.add_argument("--world")
+    life_parser.add_argument("--output", "-o", required=True)
+    life_parser.add_argument("--population", type=int)
+    life_parser.add_argument("--baseline-profile", default="default_renter_creator")
+
+    automation_parser = subparsers.add_parser("export-automation-manifest", help="Export an automation substrate manifest with human review gates")
+    automation_parser.add_argument("--runtime", required=True)
+    automation_parser.add_argument("--world")
+    automation_parser.add_argument("--output", "-o", required=True)
 
     validate_world_parser = subparsers.add_parser("validate-world", help="Validate a CivicFloorWorldManifest JSON file")
     validate_world_parser.add_argument("manifest")
@@ -313,6 +329,12 @@ def main(argv: list[str] | None = None) -> int:
     research_parser.add_argument("simulation")
     research_parser.add_argument("--module-registry")
     research_parser.add_argument("--output", "-o")
+
+    research_registry_parser = subparsers.add_parser("export-research-registry", help="Export the project-wide research source registry")
+    research_registry_parser.add_argument("--capability-policy", default="capability_policies/ciac_capability_policy_v0.yaml")
+    research_registry_parser.add_argument("--research-input", action="append", default=[])
+    research_registry_parser.add_argument("--scan-path", action="append", default=[])
+    research_registry_parser.add_argument("--output", "-o", required=True)
 
     scalability_parser = subparsers.add_parser("scalability-gate", help="Evaluate whether a technology module is ready to scale in simulation")
     scalability_parser.add_argument("compiled_plan")
@@ -401,6 +423,10 @@ def main(argv: list[str] | None = None) -> int:
         return _export_visualization(args)
     if args.command == "export-world":
         return _export_world(args)
+    if args.command == "export-life-manifest":
+        return _export_life_manifest(args)
+    if args.command == "export-automation-manifest":
+        return _export_automation_manifest(args)
     if args.command == "validate-world":
         return _validate_world(args.manifest)
     if args.command == "discovery-loop":
@@ -425,6 +451,8 @@ def main(argv: list[str] | None = None) -> int:
         return _module_compatibility(args.compiled_plan, args.module_registry, args.technology_module, args.output)
     if args.command == "research-needs":
         return _research_needs(args.compiled_plan, args.simulation, args.module_registry, args.output)
+    if args.command == "export-research-registry":
+        return _export_research_registry(args)
     if args.command == "scalability-gate":
         return _scalability_gate(args.compiled_plan, args.technology_module, args.module_registry, args.output)
     if args.command == "implement-module":
@@ -1049,11 +1077,19 @@ def _module_compatibility(
 
 def _export_world(args: argparse.Namespace) -> int:
     runtime_bundle = load_data(args.runtime)
+    research_registry = load_data(args.research_registry) if args.research_registry else None
+    if research_registry is not None:
+        registry_report = validate_data(research_registry, args.research_registry or "<research-registry>")
+        if not registry_report.ok:
+            details = "; ".join(f"{issue.path}: {issue.message}" for issue in registry_report.issues)
+            print(f"ERROR: Invalid research registry: {details}", file=sys.stderr)
+            return 2
     manifest = build_world_manifest(
         runtime_bundle,
         population=args.population,
         runtime_bundle_path=args.runtime,
         world_id=args.world_id,
+        research_registry=research_registry,
     )
     report = validate_data(manifest, args.output)
     if not report.ok:
@@ -1061,6 +1097,44 @@ def _export_world(args: argparse.Namespace) -> int:
         print(f"ERROR: Invalid world manifest: {details}", file=sys.stderr)
         return 2
     write_json(args.output, manifest)
+    print(f"Wrote {Path(args.output)}")
+    return 0
+
+
+def _export_life_manifest(args: argparse.Namespace) -> int:
+    runtime_bundle = load_data(args.runtime)
+    world_manifest = load_data(args.world) if args.world else None
+    manifest = build_life_manifest(
+        runtime_bundle,
+        world_manifest,
+        population=args.population,
+        baseline_profile=args.baseline_profile,
+        runtime_bundle_path=args.runtime,
+        world_manifest_path=args.world,
+    )
+    try:
+        write_life_manifest(manifest, args.output)
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    print(f"Wrote {Path(args.output)}")
+    return 0
+
+
+def _export_automation_manifest(args: argparse.Namespace) -> int:
+    runtime_bundle = load_data(args.runtime)
+    world_manifest = load_data(args.world) if args.world else None
+    manifest = build_automation_manifest(
+        runtime_bundle,
+        world_manifest,
+        runtime_bundle_path=args.runtime,
+        world_manifest_path=args.world,
+    )
+    try:
+        write_automation_manifest(manifest, args.output)
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
     print(f"Wrote {Path(args.output)}")
     return 0
 
@@ -1223,6 +1297,28 @@ def _research_needs(
         print(f"Wrote {Path(output)}")
     else:
         print(dump_json(report), end="")
+    return 0
+
+
+def _export_research_registry(args: argparse.Namespace) -> int:
+    capability_policy = load_data(args.capability_policy)
+    report = validate_data(capability_policy, args.capability_policy)
+    if not report.ok:
+        details = "; ".join(f"{issue.path}: {issue.message}" for issue in report.issues)
+        print(f"ERROR: Invalid capability policy: {details}", file=sys.stderr)
+        return 2
+    registry = build_research_registry(
+        capability_policy,
+        source_path=args.capability_policy,
+        extra_research_inputs=args.research_input,
+        scan_paths=args.scan_path,
+    )
+    try:
+        write_research_registry(registry, args.output)
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    print(f"Wrote {Path(args.output)}")
     return 0
 
 

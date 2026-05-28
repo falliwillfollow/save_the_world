@@ -89,6 +89,22 @@ CIaC includes a provisional capability policy layer at `capability_policies/ciac
 
 A green simulation result does not certify real-world safety, legality, accessibility, clinical validity, affordability, labor compliance, engineering validity, public-health compliance, resident consent, or buildability. Policy output is a modeling aid for surfacing missing structures, protocols, and external reviews.
 
+## Research Source Governance
+
+CIaC can export a project-wide research registry from the capability policy source registry. The registry maps each source to supported claims, model fields, capability domains, and files or gates that use it.
+
+```powershell
+py -3.10 -m ciac export-research-registry --capability-policy capability_policies/ciac_capability_policy_v0.yaml --scan-path docs/research --scan-path docs/scaling_research --scan-path docs/module_reports --scan-path patterns --output research_registry/ciac_research_registry_v0.yaml
+```
+
+Generated world evidence cards can carry resolved `source_ids` and source details from the registry:
+
+```powershell
+py -3.10 -m ciac export-world --runtime examples/generated/micro_commons_runtime_bundle.json --research-registry research_registry/ciac_research_registry_v0.yaml --output examples/world_manifests/civic_floor_80_v0.world.json --population 80
+```
+
+In the 3D viewer, selecting a structure or infrastructure node shows a `Research Sources` section for the object when sources are available.
+
 ## Viewer Loop
 
 Start the CIaC viewer server:
@@ -227,7 +243,20 @@ Capability outputs are provisional modeling aids. They do not satisfy profession
 
 ## Civic Floor World MVP
 
-The project now includes an experimental web-first 3D viewer driven by a generated `world_manifest.json`. The viewer renders CIaC outputs as a stylized civic diorama with Life, Systems, Stress, and Insight modes, plus committed population scaling. It is a provisional demonstration surface only and does not prove real-world safety, legality, cost, consent, or buildability. See [Civic Floor World MVP](docs/civic_floor_world_mvp.md).
+The project now includes an experimental web-first 3D viewer driven by a generated `world_manifest.json`. The viewer renders CIaC outputs as a stylized civic diorama with Life, Systems, Stress, Insight, and Abundance modes, plus committed population scaling. It is a provisional demonstration surface only and does not prove real-world safety, legality, cost, consent, or buildability. See [Civic Floor World MVP](docs/civic_floor_world_mvp.md).
+
+## Life Manifest And Abundance Mode
+
+CIaC now includes an experimental Life Manifest and Automation Manifest layer. These translate machine-readable civic infrastructure into human-visible narratives of life burden reduction, time returned, and automation support. Abundance Mode in the 3D viewer shows what recurring infrastructure work can be made legible to automation while preserving human-sovereign domains such as consent, governance legitimacy, care meaning, privacy, and creative purpose.
+
+Generate the sample manifests:
+
+```powershell
+py -3.10 -m ciac export-life-manifest --runtime examples/generated/micro_commons_runtime_bundle.json --world examples/world_manifests/civic_floor_80_v0.world.json --output examples/life_manifests/life_manifest_80_v0.json --population 80
+py -3.10 -m ciac export-automation-manifest --runtime examples/generated/micro_commons_runtime_bundle.json --world examples/world_manifests/civic_floor_80_v0.world.json --output examples/life_manifests/automation_manifest_80_v0.json
+```
+
+See [Life Manifest And Abundance Mode](docs/life_manifest_abundance_mode.md).
 
 ## Discovery Lab
 

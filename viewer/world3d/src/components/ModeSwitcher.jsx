@@ -1,10 +1,12 @@
-import { Activity, Route, SearchCheck, Users } from "lucide-react";
+import { Activity, Footprints, Route, SearchCheck, Sparkles, Users } from "lucide-react";
 
 const MODES = [
   { id: "life", label: "Life", Icon: Users },
+  { id: "walk", label: "Walk", Icon: Footprints },
   { id: "systems", label: "Systems", Icon: Route },
   { id: "stress", label: "Stress", Icon: Activity },
   { id: "insight", label: "Insight", Icon: SearchCheck },
+  { id: "abundance", label: "Abundance", Icon: Sparkles },
 ];
 
 export default function ModeSwitcher({ mode, onChange }) {

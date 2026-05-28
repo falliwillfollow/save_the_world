@@ -113,6 +113,14 @@
       "type": "array",
       "items": { "$ref": "#/definitions/evidence_card" }
     },
+    "linked_manifests": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "life_manifest": { "type": "string" },
+        "automation_manifest": { "type": "string" }
+      }
+    },
     "warnings": { "type": "array", "items": { "type": "string" } },
     "failures": { "type": "array", "items": { "type": "string" } },
     "unknowns": { "type": "array", "items": { "type": "string" } }

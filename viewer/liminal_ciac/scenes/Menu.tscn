@@ -1,0 +1,101 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/Menu.gd" id="1_j0n7m"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j0n7m")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.07, 0.08, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+custom_minimum_size = Vector2(460, 390)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -160.0
+offset_right = 180.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "CIaC Simulator"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Walking civic infrastructure model"
+horizontal_alignment = 1
+
+[node name="PopulationLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Population"
+
+[node name="PopulationSpinBox" type="SpinBox" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+min_value = 12.0
+max_value = 1500.0
+step = 1.0
+value = 80.0
+rounded = true
+allow_greater = false
+allow_lesser = false
+
+[node name="PopulationSlider" type="HSlider" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+min_value = 12.0
+max_value = 1500.0
+step = 1.0
+value = 80.0
+
+[node name="ScaleSummary" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "1 block | 7 pods | village block"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StartButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Build and Start"
+
+[node name="ExitButton" type="Button" parent="CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Exit"

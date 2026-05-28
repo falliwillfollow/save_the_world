@@ -1,0 +1,713 @@
+{
+  "baseline_model": {
+    "assumptions": [
+      "The baseline is illustrative and should be replaced with local survey data before planning decisions.",
+      "Weekly hours are rounded and intentionally low precision.",
+      "The model treats time returned as a signal for review, not as proof of real-world wellbeing."
+    ],
+    "conventional_life_burdens": [
+      "rent pressure",
+      "commute dependency",
+      "duplicated private domestic work",
+      "food procurement and preparation volatility",
+      "transport dependency",
+      "manual errand burden",
+      "maintenance uncertainty"
+    ],
+    "description": "A conventional scarcity baseline with wage dependence, transport dependency, fragmented errands, and private household survival work.",
+    "profile_id": "default_renter_creator"
+  },
+  "civic_floor_model": {
+    "automation_assists": [
+      "water quality check scheduling",
+      "food inventory balancing",
+      "goods delivery coordination",
+      "maintenance queueing",
+      "hidden labor detection",
+      "scenario stress testing"
+    ],
+    "description": "A civic floor with shared capability layers, visible commons labor, local walkable life, delivered goods, and review-gated automation support.",
+    "human_sovereignty_boundaries": [
+      "resident consent",
+      "housing and access rights",
+      "clinical diagnosis",
+      "legal judgment",
+      "governance legitimacy",
+      "private life inference",
+      "creative purpose"
+    ],
+    "support_systems": [
+      "Tool Library",
+      "Solar Shed",
+      "Critical Load Reserve",
+      "Well House",
+      "Rainwater Capture",
+      "Emergency Water Reserve",
+      "Composting System",
+      "Shared Bathhouse",
+      "Starter Dwelling",
+      "Community Kitchen",
+      "Staple Food Reserve",
+      "Workshop"
+    ]
+  },
+  "kind": "LifeManifest",
+  "life_returned": {
+    "assumptions": [
+      "The estimate compares a conventional scarcity reference life with a civic-floor abundance hypothesis.",
+      "Required external wage work is zero inside the civic-floor hypothesis.",
+      "Rent pressure is not modeled as a resident burden inside the civic-floor hypothesis.",
+      "Commons labor is visible and counted as compulsory civic burden.",
+      "Commute and errands are modeled as structurally absent civic-floor burdens, not as optimized modern obligations.",
+      "Automation assists reduce coordination burden only after human review gates are satisfied."
+    ],
+    "confidence": "provisional",
+    "hours_per_week": 49.643,
+    "meaningful_uses": [
+      "art",
+      "study",
+      "care",
+      "rest",
+      "nature",
+      "invention",
+      "friendship"
+    ],
+    "summary": "Average weekly hours shifted from wage/rent scarcity burden into recovery, learning, care, art, friendship, and invention."
+  },
+  "manifest_id": "life_manifest_80_v0",
+  "metrics": {
+    "capability_gate_status": "pass",
+    "capability_policy_wage_reduction_signal_percent": 25.0,
+    "civic_floor_external_wage_hours_per_week": 0.0,
+    "commons_labor_hours_per_resident_per_week": 5.157,
+    "free_time_increase_hours_per_week": 49.643,
+    "hidden_labor_status": "pass",
+    "life_returned_hours_per_week": 49.643,
+    "passion_time_increase_hours_per_week": 29.627,
+    "required_wage_hours_reduction_percent": 100.0,
+    "scarcity_reference_wage_hours_per_week": 33.2
+  },
+  "population": {
+    "households": 40,
+    "residents": 80
+  },
+  "promotion_blockers": [],
+  "provisionality": {
+    "external_reviews_required": [
+      "public health",
+      "building and fire code",
+      "accessibility",
+      "labor and employment",
+      "privacy and consent",
+      "local governance"
+    ],
+    "statement": "This is a provisional civic simulation. It visualizes model assumptions and stress tests. It does not certify real-world safety, legality, affordability, engineering, public health, accessibility, resident consent, or buildability."
+  },
+  "public_thesis": {
+    "long": "CIaC models housing, food, water, energy, sanitation, care, mobility, governance, and labor visibility as a coordinated substrate for post-labor abundance. This manifest shows the human-facing promise in cautious, reviewable terms: no required external wage burden inside the model, no rent pressure, fewer hidden chores, structurally absent commute and errand burden, more protected recovery, and more meaningful time.",
+    "short": "The civic floor translates shared systems into visible reductions in compulsory burden without treating commute and errands as civic-floor defaults.",
+    "tagline": "Infrastructure should return life, not merely optimize scarcity."
+  },
+  "resident_archetypes": [
+    {
+      "archetype": "creator",
+      "baseline_life": {
+        "anxiety_sources": [
+          "rent insecurity",
+          "unplanned maintenance costs",
+          "food price volatility",
+          "health interruption risk",
+          "transport dependency",
+          "errand and supply-chain burden"
+        ],
+        "description": "Conventional scarcity-reference life budget before civic-floor support.",
+        "profile_id": "default_renter_creator",
+        "weekly_hours": {
+          "commute_hours": 6.0,
+          "domestic_survival": 12.0,
+          "errands_admin": 5.0,
+          "passion_time": 4.0,
+          "recovery": 7.0,
+          "required_care": 2.0,
+          "wage_hours": 42.0
+        }
+      },
+      "civic_floor_life": {
+        "automation_handled_burdens": [
+          "goods delivery coordination",
+          "inventory balancing",
+          "routine supply checks",
+          "maintenance queueing"
+        ],
+        "description": "Civic-floor abundance budget with visible commons labor, no required external wage work, no rent pressure, no required commute, no manual errand burden, and shared support systems.",
+        "reclaimed_time_allocation": {
+          "hours_per_week": 57.843,
+          "passion_share": 0.6,
+          "recovery_share": 0.4,
+          "source": "scarcity_burden_removed"
+        },
+        "structurally_absent_burdens": [
+          "required commute",
+          "routine consumer errands",
+          "rent payment pressure",
+          "required external wage job"
+        ],
+        "support_locations": [
+          "structure_common_house",
+          "structure_food_commons",
+          "structure_protein_commons",
+          "structure_care_room",
+          "structure_social_cultural",
+          "structure_maintenance_shop",
+          "structure_quiet_studio",
+          "structure_residential_pod_1"
+        ],
+        "weekly_hours": {
+          "commons_labor": 5.157,
+          "commute_hours": 0.0,
+          "domestic_survival": 3.0,
+          "errands_admin": 0.0,
+          "passion_time": 38.706,
+          "recovery": 30.137,
+          "required_care": 1.0,
+          "wage_hours": 0.0
+        }
+      },
+      "id": "resident_artist_01",
+      "label": "Artist",
+      "life_returned": {
+        "assumptions": [
+          "The baseline is an outside scarcity reference, not an assumption about residents in the civic-floor world.",
+          "Civic-floor residents do not have required jobs, rent payments, commutes, or routine errands in this hypothesis.",
+          "Commons labor is included in civic compulsory burden.",
+          "Commute and errands are modeled as absent from civic-floor burden because the design intent is local walkable life plus automation-supported logistics."
+        ],
+        "compulsory_burden_baseline_hours": 67.0,
+        "compulsory_burden_civic_hours": 9.157,
+        "confidence": "hypothesis",
+        "free_time_increase_hours_per_week": 57.843,
+        "hours_per_week": 57.843,
+        "passion_time_increase_hours_per_week": 34.706,
+        "required_wage_hours_reduction_percent": 100.0
+      },
+      "narrative_beats": [
+        {
+          "location_id": "structure_common_house",
+          "subject": "Artist",
+          "text": "Artist begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Artist",
+          "text": "57.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        }
+      ],
+      "population_share": 0.2,
+      "warnings": [
+        "Archetype is public and synthetic; it is not a resident profile."
+      ]
+    },
+    {
+      "archetype": "elder",
+      "baseline_life": {
+        "anxiety_sources": [
+          "rent insecurity",
+          "unplanned maintenance costs",
+          "food price volatility",
+          "health interruption risk",
+          "transport dependency",
+          "errand and supply-chain burden"
+        ],
+        "description": "Conventional scarcity-reference life budget before civic-floor support.",
+        "profile_id": "default_renter_creator",
+        "weekly_hours": {
+          "commute_hours": 6.0,
+          "domestic_survival": 12.0,
+          "errands_admin": 5.0,
+          "passion_time": 4.0,
+          "recovery": 10.0,
+          "required_care": 6.0,
+          "wage_hours": 18.0
+        }
+      },
+      "civic_floor_life": {
+        "automation_handled_burdens": [
+          "goods delivery coordination",
+          "inventory balancing",
+          "routine supply checks",
+          "maintenance queueing"
+        ],
+        "description": "Civic-floor abundance budget with visible commons labor, no required external wage work, no rent pressure, no required commute, no manual errand burden, and shared support systems.",
+        "reclaimed_time_allocation": {
+          "hours_per_week": 35.843,
+          "passion_share": 0.45,
+          "recovery_share": 0.55,
+          "source": "scarcity_burden_removed"
+        },
+        "structurally_absent_burdens": [
+          "required commute",
+          "routine consumer errands",
+          "rent payment pressure",
+          "required external wage job"
+        ],
+        "support_locations": [
+          "structure_common_house",
+          "structure_food_commons",
+          "structure_protein_commons",
+          "structure_care_room",
+          "structure_social_cultural",
+          "structure_maintenance_shop",
+          "structure_quiet_studio",
+          "structure_residential_pod_1"
+        ],
+        "weekly_hours": {
+          "commons_labor": 5.157,
+          "commute_hours": 0.0,
+          "domestic_survival": 3.0,
+          "errands_admin": 0.0,
+          "passion_time": 20.129,
+          "recovery": 29.714,
+          "required_care": 3.0,
+          "wage_hours": 0.0
+        }
+      },
+      "id": "resident_elder_02",
+      "label": "Elder",
+      "life_returned": {
+        "assumptions": [
+          "The baseline is an outside scarcity reference, not an assumption about residents in the civic-floor world.",
+          "Civic-floor residents do not have required jobs, rent payments, commutes, or routine errands in this hypothesis.",
+          "Commons labor is included in civic compulsory burden.",
+          "Commute and errands are modeled as absent from civic-floor burden because the design intent is local walkable life plus automation-supported logistics."
+        ],
+        "compulsory_burden_baseline_hours": 47.0,
+        "compulsory_burden_civic_hours": 11.157,
+        "confidence": "hypothesis",
+        "free_time_increase_hours_per_week": 35.843,
+        "hours_per_week": 35.843,
+        "passion_time_increase_hours_per_week": 16.129,
+        "required_wage_hours_reduction_percent": 100.0
+      },
+      "narrative_beats": [
+        {
+          "location_id": "structure_common_house",
+          "subject": "Elder",
+          "text": "Elder begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Elder",
+          "text": "35.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        }
+      ],
+      "population_share": 0.2,
+      "warnings": [
+        "Archetype is public and synthetic; it is not a resident profile."
+      ]
+    },
+    {
+      "archetype": "caregiver",
+      "baseline_life": {
+        "anxiety_sources": [
+          "rent insecurity",
+          "unplanned maintenance costs",
+          "food price volatility",
+          "health interruption risk",
+          "transport dependency",
+          "errand and supply-chain burden"
+        ],
+        "description": "Conventional scarcity-reference life budget before civic-floor support.",
+        "profile_id": "default_renter_creator",
+        "weekly_hours": {
+          "commute_hours": 6.0,
+          "domestic_survival": 12.0,
+          "errands_admin": 5.0,
+          "passion_time": 3.0,
+          "recovery": 7.0,
+          "required_care": 7.0,
+          "wage_hours": 42.0
+        }
+      },
+      "civic_floor_life": {
+        "automation_handled_burdens": [
+          "goods delivery coordination",
+          "inventory balancing",
+          "routine supply checks",
+          "maintenance queueing"
+        ],
+        "description": "Civic-floor abundance budget with visible commons labor, no required external wage work, no rent pressure, no required commute, no manual errand burden, and shared support systems.",
+        "reclaimed_time_allocation": {
+          "hours_per_week": 57.843,
+          "passion_share": 0.6,
+          "recovery_share": 0.4,
+          "source": "scarcity_burden_removed"
+        },
+        "structurally_absent_burdens": [
+          "required commute",
+          "routine consumer errands",
+          "rent payment pressure",
+          "required external wage job"
+        ],
+        "support_locations": [
+          "structure_common_house",
+          "structure_food_commons",
+          "structure_protein_commons",
+          "structure_care_room",
+          "structure_social_cultural",
+          "structure_maintenance_shop",
+          "structure_quiet_studio",
+          "structure_residential_pod_1"
+        ],
+        "weekly_hours": {
+          "commons_labor": 5.157,
+          "commute_hours": 0.0,
+          "domestic_survival": 3.0,
+          "errands_admin": 0.0,
+          "passion_time": 37.706,
+          "recovery": 30.137,
+          "required_care": 6.0,
+          "wage_hours": 0.0
+        }
+      },
+      "id": "resident_caregiver_03",
+      "label": "Caregiver",
+      "life_returned": {
+        "assumptions": [
+          "The baseline is an outside scarcity reference, not an assumption about residents in the civic-floor world.",
+          "Civic-floor residents do not have required jobs, rent payments, commutes, or routine errands in this hypothesis.",
+          "Commons labor is included in civic compulsory burden.",
+          "Commute and errands are modeled as absent from civic-floor burden because the design intent is local walkable life plus automation-supported logistics."
+        ],
+        "compulsory_burden_baseline_hours": 72.0,
+        "compulsory_burden_civic_hours": 14.157,
+        "confidence": "hypothesis",
+        "free_time_increase_hours_per_week": 57.843,
+        "hours_per_week": 57.843,
+        "passion_time_increase_hours_per_week": 34.706,
+        "required_wage_hours_reduction_percent": 100.0
+      },
+      "narrative_beats": [
+        {
+          "location_id": "structure_common_house",
+          "subject": "Caregiver",
+          "text": "Caregiver begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Caregiver",
+          "text": "57.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        }
+      ],
+      "population_share": 0.2,
+      "warnings": [
+        "Archetype is public and synthetic; it is not a resident profile."
+      ]
+    },
+    {
+      "archetype": "student",
+      "baseline_life": {
+        "anxiety_sources": [
+          "rent insecurity",
+          "unplanned maintenance costs",
+          "food price volatility",
+          "health interruption risk",
+          "transport dependency",
+          "errand and supply-chain burden"
+        ],
+        "description": "Conventional scarcity-reference life budget before civic-floor support.",
+        "profile_id": "default_renter_creator",
+        "weekly_hours": {
+          "commute_hours": 6.0,
+          "domestic_survival": 12.0,
+          "errands_admin": 7.0,
+          "passion_time": 7.0,
+          "recovery": 7.0,
+          "required_care": 2.0,
+          "wage_hours": 28.0
+        }
+      },
+      "civic_floor_life": {
+        "automation_handled_burdens": [
+          "goods delivery coordination",
+          "inventory balancing",
+          "routine supply checks",
+          "maintenance queueing"
+        ],
+        "description": "Civic-floor abundance budget with visible commons labor, no required external wage work, no rent pressure, no required commute, no manual errand burden, and shared support systems.",
+        "reclaimed_time_allocation": {
+          "hours_per_week": 45.843,
+          "passion_share": 0.7,
+          "recovery_share": 0.3,
+          "source": "scarcity_burden_removed"
+        },
+        "structurally_absent_burdens": [
+          "required commute",
+          "routine consumer errands",
+          "rent payment pressure",
+          "required external wage job"
+        ],
+        "support_locations": [
+          "structure_common_house",
+          "structure_food_commons",
+          "structure_protein_commons",
+          "structure_care_room",
+          "structure_social_cultural",
+          "structure_maintenance_shop",
+          "structure_quiet_studio",
+          "structure_residential_pod_1"
+        ],
+        "weekly_hours": {
+          "commons_labor": 5.157,
+          "commute_hours": 0.0,
+          "domestic_survival": 3.0,
+          "errands_admin": 0.0,
+          "passion_time": 39.09,
+          "recovery": 20.753,
+          "required_care": 1.0,
+          "wage_hours": 0.0
+        }
+      },
+      "id": "resident_student_04",
+      "label": "Student",
+      "life_returned": {
+        "assumptions": [
+          "The baseline is an outside scarcity reference, not an assumption about residents in the civic-floor world.",
+          "Civic-floor residents do not have required jobs, rent payments, commutes, or routine errands in this hypothesis.",
+          "Commons labor is included in civic compulsory burden.",
+          "Commute and errands are modeled as absent from civic-floor burden because the design intent is local walkable life plus automation-supported logistics."
+        ],
+        "compulsory_burden_baseline_hours": 55.0,
+        "compulsory_burden_civic_hours": 9.157,
+        "confidence": "hypothesis",
+        "free_time_increase_hours_per_week": 45.843,
+        "hours_per_week": 45.843,
+        "passion_time_increase_hours_per_week": 32.09,
+        "required_wage_hours_reduction_percent": 100.0
+      },
+      "narrative_beats": [
+        {
+          "location_id": "structure_common_house",
+          "subject": "Student",
+          "text": "Student begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Student",
+          "text": "45.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        }
+      ],
+      "population_share": 0.2,
+      "warnings": [
+        "Archetype is public and synthetic; it is not a resident profile."
+      ]
+    },
+    {
+      "archetype": "steward",
+      "baseline_life": {
+        "anxiety_sources": [
+          "rent insecurity",
+          "unplanned maintenance costs",
+          "food price volatility",
+          "health interruption risk",
+          "transport dependency",
+          "errand and supply-chain burden"
+        ],
+        "description": "Conventional scarcity-reference life budget before civic-floor support.",
+        "profile_id": "default_renter_creator",
+        "weekly_hours": {
+          "commute_hours": 6.0,
+          "domestic_survival": 14.0,
+          "errands_admin": 5.0,
+          "passion_time": 4.0,
+          "recovery": 7.0,
+          "required_care": 2.0,
+          "wage_hours": 36.0
+        }
+      },
+      "civic_floor_life": {
+        "automation_handled_burdens": [
+          "goods delivery coordination",
+          "inventory balancing",
+          "routine supply checks",
+          "maintenance queueing"
+        ],
+        "description": "Civic-floor abundance budget with visible commons labor, no required external wage work, no rent pressure, no required commute, no manual errand burden, and shared support systems.",
+        "reclaimed_time_allocation": {
+          "hours_per_week": 50.843,
+          "passion_share": 0.6,
+          "recovery_share": 0.4,
+          "source": "scarcity_burden_removed"
+        },
+        "structurally_absent_burdens": [
+          "required commute",
+          "routine consumer errands",
+          "rent payment pressure",
+          "required external wage job"
+        ],
+        "support_locations": [
+          "structure_common_house",
+          "structure_food_commons",
+          "structure_protein_commons",
+          "structure_care_room",
+          "structure_social_cultural",
+          "structure_maintenance_shop",
+          "structure_quiet_studio",
+          "structure_residential_pod_1"
+        ],
+        "weekly_hours": {
+          "commons_labor": 6.157,
+          "commute_hours": 0.0,
+          "domestic_survival": 5.0,
+          "errands_admin": 0.0,
+          "passion_time": 34.506,
+          "recovery": 27.337,
+          "required_care": 1.0,
+          "wage_hours": 0.0
+        }
+      },
+      "id": "resident_maintenance_steward_05",
+      "label": "Maintenance steward",
+      "life_returned": {
+        "assumptions": [
+          "The baseline is an outside scarcity reference, not an assumption about residents in the civic-floor world.",
+          "Civic-floor residents do not have required jobs, rent payments, commutes, or routine errands in this hypothesis.",
+          "Commons labor is included in civic compulsory burden.",
+          "Commute and errands are modeled as absent from civic-floor burden because the design intent is local walkable life plus automation-supported logistics."
+        ],
+        "compulsory_burden_baseline_hours": 63.0,
+        "compulsory_burden_civic_hours": 12.157,
+        "confidence": "hypothesis",
+        "free_time_increase_hours_per_week": 50.843,
+        "hours_per_week": 50.843,
+        "passion_time_increase_hours_per_week": 30.506,
+        "required_wage_hours_reduction_percent": 100.0
+      },
+      "narrative_beats": [
+        {
+          "location_id": "structure_common_house",
+          "subject": "Maintenance steward",
+          "text": "Maintenance steward begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Maintenance steward",
+          "text": "50.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        }
+      ],
+      "population_share": 0.2,
+      "warnings": [
+        "Archetype is public and synthetic; it is not a resident profile."
+      ]
+    }
+  ],
+  "scale": {
+    "active_layers": [
+      "village_block"
+    ],
+    "implied_village_blocks": 1,
+    "scale_class": "village_block"
+  },
+  "scenario_story_beats": [],
+  "scenes": [
+    {
+      "beats": [
+        {
+          "location_id": "structure_common_house",
+          "subject": "Artist",
+          "text": "Artist begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Artist",
+          "text": "57.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        },
+        {
+          "location_id": "structure_common_house",
+          "subject": "Elder",
+          "text": "Elder begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Elder",
+          "text": "35.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        },
+        {
+          "location_id": "structure_common_house",
+          "subject": "Caregiver",
+          "text": "Caregiver begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Caregiver",
+          "text": "57.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        },
+        {
+          "location_id": "structure_common_house",
+          "subject": "Student",
+          "text": "Student begins the day with fewer compulsory tasks in queue.",
+          "time": "morning"
+        },
+        {
+          "location_id": "structure_quiet_studio",
+          "subject": "Student",
+          "text": "45.843 weekly hours are modeled as shifted toward recovery, study, care, or creation.",
+          "time": "afternoon"
+        }
+      ],
+      "id": "normal_day",
+      "mode": "life",
+      "title": "Normal Day"
+    }
+  ],
+  "source": {
+    "capability_policy_id": "ciac_capability_policy_v0",
+    "generated_at": null,
+    "provisional": true,
+    "runtime_bundle_path": "examples/generated/micro_commons_runtime_bundle.json",
+    "world_manifest_path": "examples/world_manifests/civic_floor_80_v0.world.json"
+  },
+  "version": "v0",
+  "warnings": [
+    {
+      "id": "provisionality",
+      "message": "This is a provisional civic simulation. It visualizes model assumptions and stress tests. It does not certify real-world safety, legality, affordability, engineering, public health, accessibility, resident consent, or buildability.",
+      "severity": "info"
+    },
+    {
+      "id": "runtime_warning_1",
+      "message": "Spatial profile is provisional; survey, accessibility, emergency, utility, drainage, and code review remain unresolved.",
+      "severity": "warn"
+    },
+    {
+      "id": "runtime_warning_2",
+      "message": "food model is partial: greenhouse output is not a complete nutrition plan",
+      "severity": "warn"
+    },
+    {
+      "id": "runtime_warning_3",
+      "message": "maintenance backlog is degrading one or more systems",
+      "severity": "warn"
+    },
+    {
+      "id": "runtime_warning_4",
+      "message": "maintenance labor burden exceeds fair-work threshold",
+      "severity": "warn"
+    }
+  ]
+}
